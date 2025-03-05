@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class BoneMonster : MonsterAI
 {
-    protected override void MonsterDmged(float damage) // need to add -> revive
+    private float reviveHealth;
+    protected override void Start()
+    {
+        base.Start();
+        reviveHealth = monsterInfo.health;
+    }
+    protected override void MonsterDmged(float damage)
     {
         if (!photonView.IsMine) return;
 
         monsterInfo.health -= damage;
         Debug.Log("health: " + monsterInfo.health);
-        if (monsterInfo.health <= 0)
+        if (monsterInfo.health <= 0) // need to add -> revive animation
         {
-            //PhotonNetwork.Destroy(gameObject);
+            if (reviveHealth > 0)
+            {
+                monsterInfo.health += reviveHealth;
+            }
+            else
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
     }
 }

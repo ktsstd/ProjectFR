@@ -51,27 +51,24 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 else
                 { 
-                    agent.ResetPath();
+                    agent.ResetPath(); // need to add -> Idle animation
                 }
             }
             else
             {
-                agent.SetDestination(target.position);
+                agent.SetDestination(target.position); // need to add -> moving animation
+            }
+
+            if (monsterInfo.attackTimer > 0)
+            {
+                monsterInfo.attackTimer -= Time.deltaTime;
             }
         }
         else
         {
-            agent.ResetPath();
-        }
-
-        if (monsterInfo.attackTimer > 0)
-        {
-            monsterInfo.attackTimer -= Time.deltaTime;
-        }
-        else
-        {
-            //
-        }        
+            agent.ResetPath(); // need to add -> Idle animation
+            Debug.Log("No target");
+        }    
     }
 
     protected Transform GetClosestTarget()
@@ -100,7 +97,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         return closestTarget;
     }
 
-    protected virtual void Attack()
+    protected virtual void Attack() // need to add -> attacking animation
     {
         // normal attack
         canMove = true;
