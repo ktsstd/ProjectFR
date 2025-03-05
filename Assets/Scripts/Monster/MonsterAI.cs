@@ -30,9 +30,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     protected void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = monsterInfo.speed;    
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
     }
-    protected void Update()
+    protected virtual void Update()
     {
         target = GetClosestTarget();
 
@@ -47,7 +48,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                     Attack();
                 }
                 else
-                {
+                { 
                     monsterInfo.attackTimer -= Time.deltaTime;
                     agent.ResetPath();
                 }
@@ -72,7 +73,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             GameObject[] possibleTargets = GameObject.FindGameObjectsWithTag(targetTag);
 
-            if (possibleTargets.Length == 0) continue;
+            if (possibleTargets.Length == 0 || possibleTargets == null) continue;
 
             foreach (GameObject possibleTarget in possibleTargets)
             {
@@ -84,8 +85,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                     closestTarget = possibleTarget.transform;
                 }
             }
-
-            if (closestTarget != null) break;
         }
 
         return closestTarget;
