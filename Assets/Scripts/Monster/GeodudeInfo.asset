@@ -17,8 +17,8 @@ MonoBehaviour:
   health: 0
   attackRange: 2
   attackSpeed: 0
-  attackCooldown: 0
-  attackTimer: 0
+  attackCooldown: 50
+  attackTimer: 99998.69
   priTarget:
   - TestObject
   - Player

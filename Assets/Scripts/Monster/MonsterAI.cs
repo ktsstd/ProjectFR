@@ -26,8 +26,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public Transform target;
 
     private NavMeshAgent agent;
+    protected bool canMove = true;
 
-    protected void Start()
+    protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = monsterInfo.speed;    
@@ -37,7 +38,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     {
         target = GetClosestTarget();
 
-        if (target != null)
+        if (target != null && canMove)
         {
             float distance = Vector3.Distance(transform.position, target.position);
 
@@ -46,10 +47,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 if (monsterInfo.attackTimer <= 0)
                 {
                     Attack();
+                    canMove = false;
                 }
                 else
                 { 
-                    monsterInfo.attackTimer -= Time.deltaTime;
                     agent.ResetPath();
                 }
             }
@@ -62,6 +63,15 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             agent.ResetPath();
         }
+
+        if (monsterInfo.attackTimer > 0)
+        {
+            monsterInfo.attackTimer -= Time.deltaTime;
+        }
+        else
+        {
+            //
+        }        
     }
 
     protected Transform GetClosestTarget()
@@ -93,9 +103,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void Attack()
     {
         // normal attack
+        canMove = true;
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
     }
-    protected void MonsterDmged(float damage)
+    protected virtual void MonsterDmged(float damage)
     {
         if (!photonView.IsMine) return;
 

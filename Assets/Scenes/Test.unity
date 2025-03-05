@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 335082058}
   - component: {fileID: 335082057}
   - component: {fileID: 335082056}
-  - component: {fileID: 335082055}
+  - component: {fileID: 335082061}
   m_Layer: 0
   m_Name: TestMonster
   m_TagString: Enemy
@@ -232,20 +232,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &335082055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335082054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bde95cb04546d64586f09373e0e16d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterInfo: {fileID: 11400000, guid: 4899c58d37de26644b2dbc9dfe28e1ca, type: 2}
-  target: {fileID: 0}
 --- !u!195 &335082056
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -356,6 +342,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &335082061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335082054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1fc6d15c6aa9842a87cd8213f2cc98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterInfo: {fileID: 11400000, guid: 4899c58d37de26644b2dbc9dfe28e1ca, type: 2}
+  target: {fileID: 0}
 --- !u!1 &860631919
 GameObject:
   m_ObjectHideFlags: 0
