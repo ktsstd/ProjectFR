@@ -67,6 +67,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         else
         {
             agent.ResetPath(); // need to add -> Idle animation
+            target = GetClosestTarget();
             Debug.Log("No target");
         }    
     }

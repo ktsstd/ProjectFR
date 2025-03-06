@@ -123,6 +123,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         string roomName = $"ROOM_{Random.Range(1, 101):000}";
         Debug.Log($"룸 이름: {roomName}");
         PhotonNetwork.CreateRoom(roomName, ro);
+        PhotonNetwork.LoadLevel("Lobby");
     }
 
     #endregion
