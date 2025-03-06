@@ -11,20 +11,19 @@ using UnityEngine.PlayerLoop;
 [CreateAssetMenu(fileName = "PlayerStat", menuName = "Player")]
 public class PlayerInfo : ScriptableObject
 {
-    public float playerMaxHp;
-    public float playerHp;
-    public float playerAtk;
-    public float defaultAtk;
-    public float defaultSpped;
-    public float playerSpeed;
-    public float skillMaxCooltimeA;
-    public float skillMaxCooltimeB;
-    public float skillMaxCooltimeC;
+    public float hp;
+    public float atk;
+    public float speed;
+    public float skillA;
+    public float skillB;
+    public float skillC;
     public int shield;
 }
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public PlayerInfo playerInfo;
+
     public Rigidbody rigidbody;
 
     public PhotonView pv;
@@ -38,22 +37,64 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public bool isMoving = false;
 
+    public enum States
+    {
+        Idle, // run, idle
+        Attack,
+        Dash,
+        Die
+    }
+    public States currentStates;
+
     public virtual void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         pv = GetComponent<PhotonView>();
+
+        currentStates = States.Idle;
     }
 
     public virtual void Update()
     {
         if (pv.IsMine)
         {
-            Move();
+            switch (currentStates)
+            {
+                case States.Idle:
+                    Move();
+                    break;
+                case States.Attack:
+                    // 조작 불가능, 모션 끝날때 Idle로 전환
+                    break;
+                case States.Dash:
+                    // 캐릭터마다 이동기능
+                    break;
+                case States.Die:
+                    // 카메라 조작
+                    break;
+            }
         }
         else
         {
             transform.position = Vector3.Lerp(transform.position, receivePos, Time.deltaTime * 10);
             transform.rotation = Quaternion.Slerp(transform.rotation, receiveRot, Time.deltaTime * 10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            currentStates = States.Idle;
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            currentStates = States.Attack;
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            currentStates = States.Dash;
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            currentStates = States.Die;
         }
     }
 
@@ -67,17 +108,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             if (Physics.Raycast(ray, out hit, 100f, 1 << LayerMask.NameToLayer("ground")))
             {
                 targetPos = hit.point;
-                targetPos.y = 0.25f;
                 isMoving = true;
             }
         }
         if (isMoving)
         {
+            targetPos.y = transform.position.y;
             Vector3 direction = (targetPos - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 0.1f);
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, 3 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, playerInfo.speed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, targetPos) < 0.1f)
             {
