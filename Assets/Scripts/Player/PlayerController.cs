@@ -25,15 +25,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public PlayerInfo playerInfo;
 
     public Rigidbody rigidbody;
+    public BoxCollider collider;
 
     public PhotonView pv;
     private CinemachineVirtualCamera virtualCamera;
 
     private Vector3 receivePos;
     private Quaternion receiveRot;
-
-    public Ray ray;
-    public Vector3 mousePosition;
 
     public bool isMoving = false;
 
@@ -49,6 +47,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public virtual void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        collider = GetComponent<BoxCollider>();
         pv = GetComponent<PhotonView>();
 
         currentStates = States.Idle;
@@ -62,11 +61,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 case States.Idle:
                     Move();
+
+                    if (Input.GetKeyDown(KeyCode.Space)) // dash start
+                    {
+                        targetPos = transform.position;
+                        isMoving = false;
+                        collider.isTrigger = true;
+                        dashPos = GetSkillRange(5);
+                        currentStates = States.Dash;
+                    }
                     break;
                 case States.Attack:
                     // 조작 불가능, 모션 끝날때 Idle로 전환
                     break;
                 case States.Dash:
+                    Dash();
                     // 캐릭터마다 이동기능
                     break;
                 case States.Die:
@@ -98,6 +107,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    Ray ray;
     Vector3 targetPos;
     void Move()
     {
@@ -126,6 +136,27 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
     }
+
+    Vector3 dashPos;
+    void Dash()
+    {
+        if (dashPos != null)
+        {
+            dashPos.y = transform.position.y;
+            Vector3 direction = (dashPos - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 0.1f);
+            transform.position = Vector3.MoveTowards(transform.position, dashPos, 30 * Time.deltaTime);
+
+            if (Vector3.Distance(transform.position, dashPos) < 0.1f)
+            {
+                collider.isTrigger = false;
+                currentStates = States.Idle;
+            }
+        }
+    }
+
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -152,5 +183,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             return ray.GetPoint(distance);
         }
         else { return Vector3.zero; }
+    }
+
+    public Vector3 GetSkillRange(float _range)
+    {
+        Vector3 direction = GetMousePosition() - transform.position;
+        float distance = direction.magnitude;
+
+        if (distance > _range)
+        {
+            direction = direction.normalized;
+            return transform.position + direction * _range;
+        }
+        else
+            return GetMousePosition();
     }
 }
