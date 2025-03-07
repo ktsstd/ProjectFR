@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
     private Dictionary<string, GameObject> rooms = new Dictionary<string, GameObject>();
+    public TMP_InputField userIF;
 
     private GameObject roomItemPrefab;
     public Transform scrollContent;
@@ -30,6 +31,23 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("Photon Network에 이미 연결되었습니다.");
         }
+    }
+
+    public void OnChangeNickname()
+    {
+        string userId = userIF.text.Trim();  // 새 닉네임 입력값
+
+        if (string.IsNullOrEmpty(userIF.text))
+        {
+            userId = $"USER_{Random.Range(1, 21):00}";
+        }
+        else
+        {
+            userId = userIF.text;
+        }
+
+        // Photon 네트워크에 새 닉네임 설정
+        PhotonNetwork.NickName = userId;
     }
 
     public override void OnConnectedToMaster()
@@ -66,6 +84,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("현재 마스터 클라이언트입니다.");
+            PhotonNetwork.LoadLevel("Lobby");
         }
     }
 
@@ -123,7 +142,17 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         string roomName = $"ROOM_{Random.Range(1, 101):000}";
         Debug.Log($"룸 이름: {roomName}");
         PhotonNetwork.CreateRoom(roomName, ro);
-        PhotonNetwork.LoadLevel("Lobby");
+    }
+
+    public void OnRoomRefresh()
+    {
+        Debug.Log("룸 목록 새로고침 버튼 클릭됨.");
+        foreach (var room in rooms)
+        {
+            Destroy(room.Value);
+        }
+        rooms.Clear();
+        PhotonNetwork.GetCustomRoomList(TypedLobby.Default, null);
     }
 
     #endregion
