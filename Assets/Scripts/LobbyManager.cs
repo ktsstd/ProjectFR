@@ -11,6 +11,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private List<Player> playerList = new List<Player>(); // 방에 있는 플레이어 리스트
     public GameObject[] ReadyObj; // 플레이어의 준비 상태를 표시할 게임 오브젝트 배열
+    public GameObject StartObj;
     private bool isReady;
 
     // 시작할 때 실행되는 메서드
@@ -81,6 +82,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 break; // 해당 플레이어를 찾았으면 더 이상 순회할 필요 없음
             }
         }
+
+        if (isAllPlayerReady())
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                StartObj.SetActive(true);
+            }
+        }
+    }
+
+    public void OnClickGameStart()
+    {
+        PhotonNetwork.LoadLevel("Test");
     }
 
     // 새로운 플레이어가 방에 입장했을 때 호출되는 콜백
@@ -92,38 +106,35 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         bool playerIsReady = newPlayer.CustomProperties.ContainsKey("isReady") && (bool)newPlayer.CustomProperties["isReady"];
         SetReadyState(newPlayer.ActorNumber, playerIsReady);  // 준비 상태를 갱신
 
+        StartObj.SetActive(false);
         UpdatePlayerListUI();       // UI 갱신
     }
 
     // 플레이어가 방을 떠났을 때 호출되는 콜백
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        playerList.Remove(otherPlayer);  // 플레이어 리스트에서 퇴장한 플레이어 제거
+        int indexToRemove = -1;
 
-        // 퇴장한 플레이어의 준비 상태 UI 초기화
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        for (int i = 0; i < playerList.Count; i++)
         {
-            // 퇴장한 플레이어를 찾고 해당 플레이어의 ReadyObj를 비활성화
-            if (PhotonNetwork.PlayerList[i].ActorNumber == otherPlayer.ActorNumber)
+            if (playerList[i].ActorNumber == otherPlayer.ActorNumber)
             {
-                // ReadyObj[i]가 null이 아닌 경우에만 비활성화
-                if (ReadyObj[i] != null)
-                {
-                    SetReadyState(i, false);
-                    ReadyObj[i].SetActive(false); // 퇴장한 플레이어의 준비 오브젝트 비활성화
-                }
-
-                // 퇴장한 플레이어의 준비 상태를 false로 설정
-                ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
-                properties["isReady"] = false;  // 준비 상태 false로 설정
-                PhotonNetwork.PlayerList[i].SetCustomProperties(properties);
-
+                indexToRemove = i;
                 break;
             }
         }
 
-        // UI 갱신
-        UpdatePlayerListUI();  // 플레이어 목록 UI 갱신
+        if (indexToRemove != -1)
+        {
+            playerList.RemoveAt(indexToRemove);
+
+            if (ReadyObj[indexToRemove] != null)
+            {
+                ReadyObj[indexToRemove].SetActive(false);
+            }
+        }
+
+        UpdatePlayerListUI();
     }
 
     // 해당 플레이어의 준비 상태를 업데이트
@@ -140,6 +151,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 break;
             }
         }
+    }
+
+    private bool isAllPlayerReady()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (!player.CustomProperties.ContainsKey("isReady") || !(bool)player.CustomProperties["isReady"])
+            {
+                return false; // 하나라도 준비되지 않은 플레이어가 있으면 false 반환
+            }
+        }
+        return true; // 모든 플레이어가 준비된 상태
     }
 
 
