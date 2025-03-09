@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9f0edda985010848b363fb487eebf85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInfo: {fileID: 11400000, guid: 106275aafb314b44fbb8d6de14b9ae2b, type: 2}
+  playerInfo: {fileID: 11400000, guid: 482947dc0f8d55e4c9a6bb904471cd81, type: 2}
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
   pv: {fileID: 0}
