@@ -6,50 +6,40 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    public TMP_Text roomNameText;  // 현재 방 이름을 표시할 텍스트
-    public TMP_Text[] playerTexts; // 플레이어들의 이름을 표시할 텍스트 배열
-
-    private List<Player> playerList = new List<Player>(); // 방에 있는 플레이어 리스트
-    public GameObject[] ReadyObj; // 플레이어의 준비 상태를 표시할 게임 오브젝트 배열
+    public TMP_Text roomNameText;
+    public TMP_Text[] playerTexts;
+    private List<Player> playerList = new List<Player>();
+    public GameObject[] ReadyObj;
     public GameObject StartObj;
     private bool isReady;
 
-    // 시작할 때 실행되는 메서드
     private void Start()
     {
         isReady = false;
 
-        // 방 이름을 표시
         if (roomNameText != null)
         {
-            roomNameText.text = PhotonNetwork.CurrentRoom.Name; // 현재 방 이름을 표시
+            roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         }
 
-        // 방에 있는 모든 플레이어들의 정보를 playerList에 추가
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             playerList.Add(player);
-
-            // 각 플레이어의 준비 상태를 가져옴
-            bool playerIsReady = player.CustomProperties.ContainsKey("isReady") && (bool)player.CustomProperties["isReady"];
-            SetReadyState(player.ActorNumber, playerIsReady); // 준비 상태를 반영
+            bool playerIsReady = player.CustomProperties.TryGetValue("isReady", out object readyState) && (bool)readyState;
+            SetReadyState(player.ActorNumber, playerIsReady);
         }
 
-        // UI 초기화 (플레이어 이름 업데이트)
         UpdatePlayerListUI();
     }
 
-    // 준비 버튼 클릭 시 호출되는 메서드
     public void OnClickReadybutton()
     {
         isReady = !isReady;
 
-        // RPC를 통해 모든 클라이언트에게 준비 상태 변경을 전달
-        photonView.RPC("ReadyRPC", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, isReady);
-
-        // 로컬 플레이어의 준비 상태를 CustomProperties로 저장
-        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
-        properties["isReady"] = isReady;
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        {
+            { "isReady", isReady }
+        };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 
@@ -58,37 +48,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    // RPC로 준비 상태를 변경하는 메서드
-    [PunRPC]
-    public void ReadyRPC(int playerActorNumber, bool isReady)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        // 모든 플레이어를 순회하면서 해당 플레이어의 준비 상태를 업데이트
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        if (changedProps.ContainsKey("isReady"))
         {
-            // 해당 플레이어의 ActorNumber가 일치하면, 해당 플레이어의 준비 상태에 맞게 오브젝트 활성화/비활성화
-            if (PhotonNetwork.PlayerList[i].ActorNumber == playerActorNumber)
-            {
-                // ReadyObj[i]는 플레이어의 준비 상태를 표시하는 게임 오브젝트
-                if (ReadyObj[i] != null)
-                {
-                    ReadyObj[i].SetActive(isReady); // isReady에 따라 오브젝트 활성화 또는 비활성화
-                }
-
-                // 플레이어의 준비 상태를 CustomProperties로 저장
-                ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
-                properties["isReady"] = isReady;
-                PhotonNetwork.PlayerList[i].SetCustomProperties(properties);
-
-                break; // 해당 플레이어를 찾았으면 더 이상 순회할 필요 없음
-            }
+            bool playerIsReady = (bool)changedProps["isReady"];
+            SetReadyState(targetPlayer.ActorNumber, playerIsReady);
         }
 
-        if (isAllPlayerReady())
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                StartObj.SetActive(true);
-            }
+            photonView.RPC("UpdateStartButton", RpcTarget.All, isAllPlayerReady());
+        }
+    }
+
+    [PunRPC]
+    public void UpdateStartButton(bool state)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartObj.SetActive(state);
         }
     }
 
@@ -97,32 +76,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("Test");
     }
 
-    // 새로운 플레이어가 방에 입장했을 때 호출되는 콜백
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        playerList.Add(newPlayer);  // 플레이어 리스트에 새로 입장한 플레이어 추가
+        playerList.Add(newPlayer);
+        bool playerIsReady = newPlayer.CustomProperties.TryGetValue("isReady", out object readyState) && (bool)readyState;
+        SetReadyState(newPlayer.ActorNumber, playerIsReady);
 
-        // 새로 입장한 플레이어의 준비 상태를 CustomProperties에서 가져오기
-        bool playerIsReady = newPlayer.CustomProperties.ContainsKey("isReady") && (bool)newPlayer.CustomProperties["isReady"];
-        SetReadyState(newPlayer.ActorNumber, playerIsReady);  // 준비 상태를 갱신
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("UpdateStartButton", RpcTarget.All, false);
+        }
 
-        StartObj.SetActive(false);
-        UpdatePlayerListUI();       // UI 갱신
+        UpdatePlayerListUI();
     }
 
-    // 플레이어가 방을 떠났을 때 호출되는 콜백
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        int indexToRemove = -1;
-
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            if (playerList[i].ActorNumber == otherPlayer.ActorNumber)
-            {
-                indexToRemove = i;
-                break;
-            }
-        }
+        int indexToRemove = playerList.FindIndex(p => p.ActorNumber == otherPlayer.ActorNumber);
 
         if (indexToRemove != -1)
         {
@@ -134,10 +104,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
 
+        SetReadyState(otherPlayer.ActorNumber, false);
         UpdatePlayerListUI();
     }
 
-    // 해당 플레이어의 준비 상태를 업데이트
     private void SetReadyState(int playerActorNumber, bool isReady)
     {
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
@@ -146,7 +116,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 if (ReadyObj[i] != null)
                 {
-                    ReadyObj[i].SetActive(isReady); // isReady에 따라 오브젝트 활성화 또는 비활성화
+                    ReadyObj[i].SetActive(isReady);
                 }
                 break;
             }
@@ -157,28 +127,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if (!player.CustomProperties.ContainsKey("isReady") || !(bool)player.CustomProperties["isReady"])
+            if (!player.CustomProperties.TryGetValue("isReady", out object isReady) || !(bool)isReady)
             {
-                return false; // 하나라도 준비되지 않은 플레이어가 있으면 false 반환
+                return false;
             }
         }
-        return true; // 모든 플레이어가 준비된 상태
+        return true;
     }
 
-
-    // 플레이어 목록 UI를 갱신하는 메서드
     void UpdatePlayerListUI()
     {
-        // 플레이어 목록 UI 초기화
         for (int i = 0; i < playerTexts.Length; i++)
         {
-            playerTexts[i].text = ""; // 텍스트 초기화
+            playerTexts[i].text = "";
         }
 
-        // 방에 있는 플레이어들의 정보를 UI에 표시
         for (int i = 0; i < playerList.Count && i < playerTexts.Length; i++)
         {
-            playerTexts[i].text = playerList[i].NickName; // 플레이어의 이름을 표시
+            playerTexts[i].text = playerList[i].NickName;
         }
     }
 }
