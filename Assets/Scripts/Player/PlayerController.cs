@@ -38,14 +38,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<BoxCollider>();
         pv = GetComponent<PhotonView>();
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 
         currentStates = States.Idle;
+
+        virtualCamera.Follow = transform;
+        virtualCamera.LookAt = transform;
     }
 
     public virtual void Update()
     {
         if (pv.IsMine)
         {
+            CameraMove();
+
             switch (currentStates)
             {
                 case States.Idle:
@@ -71,6 +77,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     // 카메라 조작
                     break;
             }
+
+            
         }
         else
         {
@@ -186,5 +194,36 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
             return GetMousePosition();
+    }
+
+    bool cameraMoving = false;
+    public void CameraMove()
+    {
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            cameraMoving = !cameraMoving;
+            if (cameraMoving)
+            {
+                virtualCamera.Follow = null;
+                virtualCamera.LookAt = null;
+            }
+            else
+            {
+                virtualCamera.Follow = transform;
+                virtualCamera.LookAt = transform;
+            }
+        }
+
+        if (cameraMoving)
+        {
+            if (Input.GetKey(KeyCode.UpArrow))
+                virtualCamera.transform.Translate(Vector3.forward * 20f * Time.deltaTime, Space.World);
+            if (Input.GetKey(KeyCode.LeftArrow))
+                virtualCamera.transform.Translate(Vector3.left * 20f * Time.deltaTime, Space.World);
+            if (Input.GetKey(KeyCode.RightArrow))
+                virtualCamera.transform.Translate(Vector3.right * 20f * Time.deltaTime, Space.World);
+            if (Input.GetKey(KeyCode.DownArrow))
+                virtualCamera.transform.Translate(Vector3.back * 20f * Time.deltaTime, Space.World);
+        }
     }
 }
