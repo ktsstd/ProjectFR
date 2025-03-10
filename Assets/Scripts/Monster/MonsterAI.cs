@@ -11,7 +11,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public Transform target;
 
     private NavMeshAgent agent;
-    protected bool canMove = true;
+    public bool canMove = true;
 
     protected virtual void Start()
     {
@@ -49,7 +49,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 monsterInfo.attackTimer -= Time.deltaTime;
             }
         }
-        else
+        else if (!canMove)
         {
             agent.ResetPath(); // todo -> Idle animation
             target = GetClosestTarget();
@@ -82,13 +82,21 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
     protected virtual void Attack() // todo -> attacking animation
     {
-
+        string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
+        Vector3 directionToTarget = GetClosestTarget().position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 0.6f);
+        Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
+        GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);
+        AttackObj.transform.SetParent(this.transform);
     }
-    public virtual void AttackSuccess()
+
+    public virtual void AttackSuccess(GameObject Obj)
     {
-
-    }
-
+        Debug.Log("attack success: " + Obj);
+        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        canMove = true;
+    } 
 
     protected virtual void MonsterDmged(float damage)
     {

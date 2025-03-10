@@ -7,7 +7,7 @@ public class Geodude : MonsterAI
     protected override void Start()
     {
         base.Start();
-        monsterInfo.attackTimer = 99999f;
+        //monsterInfo.attackTimer = 99999f;
         StartCoroutine(StartMove());
     }
     protected override void Update()

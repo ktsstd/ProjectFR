@@ -2,30 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Unity.VisualScripting;
 
 public class Attackboundary : MonoBehaviour
 {
     GameObject attackboundaryObj;
     bool isFadeIn = false;
+    MonsterAI monsterAIScript;
     // Start is called before the first frame update
     void Start()
     {
         attackboundaryObj = gameObject;
+        monsterAIScript = GetComponentInParent<MonsterAI>();
         StartCoroutine(FadeIn());
     }
 
     IEnumerator FadeIn()
     {
         float elapsedTime = 0f; // 누적 경과 시간
-        float fadedTime = 5f; // 총 소요 시간
+        float fadedTime = 3f; // 총 소요 시간
 
         while (elapsedTime <= fadedTime)
         {
-            attackboundaryObj.GetComponent<CanvasRenderer>().SetAlpha(Mathf.Lerp(0f, 1f, elapsedTime / fadedTime));
-            
+            attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, Mathf.Lerp(0, 1, elapsedTime / fadedTime));
+
             elapsedTime += Time.deltaTime;
             yield return null;
+            Debug.Log(attackboundaryObj.GetComponent<MeshRenderer>().material.color);
         }
+        isFadeIn = true;
+        Invoke("DestroyBoundary", 0.2f);
         yield break;
     }
 
@@ -34,12 +40,16 @@ public class Attackboundary : MonoBehaviour
         if (isFadeIn && other.CompareTag("Player"))
         {
             MonsterAI monsterAIScript = GetComponentInParent<MonsterAI>();
-            monsterAIScript.AttackSuccess();
-            PhotonNetwork.Destroy(gameObject);
+            monsterAIScript.AttackSuccess(other.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
-        else if (isFadeIn)
-        {
-            PhotonNetwork.Destroy(gameObject);
-        }
+    }
+
+    void DestroyBoundary()
+    {
+        monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
+        monsterAIScript.canMove = true;
+        Debug.Log("attack failed");
+        PhotonNetwork.Destroy(this.gameObject);
     }
 }
