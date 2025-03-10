@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1fc6d15c6aa9842a87cd8213f2cc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterInfo: {fileID: 11400000, guid: 4899c58d37de26644b2dbc9dfe28e1ca, type: 2}
+  monsterInfo: {fileID: 11400000, guid: e10a7fee1bc5fb14199a82bb1e19aa86, type: 2}
   target: {fileID: 0}
 --- !u!114 &-3403403082528912326
 MonoBehaviour:
