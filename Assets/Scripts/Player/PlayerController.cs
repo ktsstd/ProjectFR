@@ -8,23 +8,12 @@ using Cinemachine;
 using System.ComponentModel;
 using UnityEngine.PlayerLoop;
 
-[CreateAssetMenu(fileName = "PlayerStat", menuName = "Player")]
-public class PlayerInfo : ScriptableObject
-{
-    public float hp;
-    public float atk;
-    public float speed;
-    public float skillA;
-    public float skillB;
-    public float skillC;
-    public int shield;
-}
-
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PlayerInfo playerInfo;
 
     public Rigidbody rigidbody;
+
     public BoxCollider collider;
 
     public PhotonView pv;
