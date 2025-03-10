@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8367348810993584727}
   - component: {fileID: 208212491252126893}
   - component: {fileID: 6351791932323573178}
+  - component: {fileID: -3403403082528912326}
   m_Layer: 0
   m_Name: TestMonsterG
   m_TagString: Enemy
@@ -145,3 +146,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterInfo: {fileID: 11400000, guid: 4899c58d37de26644b2dbc9dfe28e1ca, type: 2}
   target: {fileID: 0}
+--- !u!114 &-3403403082528912326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8830410638721599135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
