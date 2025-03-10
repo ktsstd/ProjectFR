@@ -36,12 +36,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 else
                 { 
-                    agent.ResetPath(); // need to add -> Idle animation
+                    agent.ResetPath(); // todo -> Idle animation
                 }
             }
             else
             {
-                agent.SetDestination(target.position); // need to add -> moving animation
+                agent.SetDestination(target.position); // todo -> moving animation
             }
 
             if (monsterInfo.attackTimer > 0)
@@ -51,12 +51,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            agent.ResetPath(); // need to add -> Idle animation
+            agent.ResetPath(); // todo -> Idle animation
             target = GetClosestTarget();
-            Debug.Log("No target");
         }    
     }
-
     protected Transform GetClosestTarget()
     {
         Transform closestTarget = null;
@@ -82,13 +80,16 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
         return closestTarget;
     }
-
-    protected virtual void Attack() // need to add -> attacking animation
+    protected virtual void Attack() // todo -> attacking animation
     {
-        // normal attack
-        canMove = true;
-        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+
     }
+    public virtual void AttackSuccess()
+    {
+
+    }
+
+
     protected virtual void MonsterDmged(float damage)
     {
         if (!photonView.IsMine) return;
@@ -116,7 +117,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             transform.rotation = (Quaternion)stream.ReceiveNext();
             monsterInfo.health = (float)stream.ReceiveNext();
             monsterInfo.attackTimer = (float)stream.ReceiveNext();
-
         }
     }
 }

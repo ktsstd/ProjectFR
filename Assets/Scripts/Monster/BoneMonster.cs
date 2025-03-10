@@ -17,7 +17,7 @@ public class BoneMonster : MonsterAI
 
         monsterInfo.health -= damage;
         Debug.Log("health: " + monsterInfo.health);
-        if (monsterInfo.health <= 0) // need to add -> revive animation
+        if (monsterInfo.health <= 0) // todo -> revive animation
         {
             if (reviveHealth > 0)
             {

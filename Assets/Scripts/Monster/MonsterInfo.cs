@@ -9,7 +9,8 @@ public class MonsterInfo : ScriptableObject
     public float damage;
     public float health; 
 
-    public float attackRange; 
+    public float attackRange;
+    public GameObject[] attackboundary;
     public float attackSpeed; 
     public float attackCooldown; 
     public float attackTimer; 

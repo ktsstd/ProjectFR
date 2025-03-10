@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterInfo: {fileID: 11400000, guid: e10a7fee1bc5fb14199a82bb1e19aa86, type: 2}
   target: {fileID: 0}
+  Boundary_A: {fileID: 0}
 --- !u!114 &-3403403082528912326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +165,12 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 0
+<<<<<<< Updated upstream
   ObservedComponents: []
+=======
+  ObservedComponents:
+  - {fileID: 0}
+>>>>>>> Stashed changes
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

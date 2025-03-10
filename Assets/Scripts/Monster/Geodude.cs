@@ -15,19 +15,19 @@ public class Geodude : MonsterAI
         base.Update();
     }
 
-    private IEnumerator StartMove() // need to add -> speedup, rolling animationStart, speedup -> damageup
+    private IEnumerator StartMove() // todo -> speedup, rolling animationStart, speedup -> damageup
     {
         yield break; 
     }
 
     private void OnCollisionEnter(Collision other) 
     {
-        if (other.gameObject.tag == "Player") // need to add -> hit with player: both stun, few sec rerolling
+        if (other.gameObject.tag == "Player") // todo -> hit with player: both stun, few sec rerolling
         {
             StopCoroutine(StartMove());
         }
 
-        else if (other.gameObject.tag == "TestObject") // need to add -> hit with object: Stop rolling, attackTimer reset
+        else if (other.gameObject.tag == "TestObject") // todo -> hit with object: Stop rolling, attackTimer reset
         {
             StopCoroutine(StartMove());
         }
