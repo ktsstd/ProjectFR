@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public MonsterInfo monsterInfoScript;
     public MonsterInfo monsterInfo;
 
     public Transform target;
@@ -16,6 +17,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        MonsterInfo monsterInfo = Instantiate(monsterInfoScript);
         agent.speed = monsterInfo.speed;    
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
     }

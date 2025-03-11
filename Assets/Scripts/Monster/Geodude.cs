@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Geodude : MonsterAI
 {
+    
     protected override void Start()
     {
         base.Start();
