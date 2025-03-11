@@ -972,6 +972,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterInfo: {fileID: 11400000, guid: e10a7fee1bc5fb14199a82bb1e19aa86, type: 2}
   target: {fileID: 0}
+  canMove: 1
 --- !u!65 &1724578553
 BoxCollider:
   m_ObjectHideFlags: 0
