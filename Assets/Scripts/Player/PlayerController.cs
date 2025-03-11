@@ -11,6 +11,7 @@ using UnityEngine.PlayerLoop;
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PlayerInfo playerInfo;
+    public PlayerInfo basicPlayerInfo;
 
     public Rigidbody rigidbody;
 
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private Vector3 receivePos;
     private Quaternion receiveRot;
+
+    public float DashCoolTime;
 
     public bool isMoving = false;
 
@@ -41,9 +44,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 
         currentStates = States.Idle;
+        basicPlayerInfo = playerInfo;
 
-        virtualCamera.Follow = transform;
-        virtualCamera.LookAt = transform;
+        if (pv.IsMine)
+        {
+            virtualCamera.Follow = transform;
+            virtualCamera.LookAt = transform;
+        }
     }
 
     public virtual void Update()
@@ -154,6 +161,43 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public void OnHitPlayer(float _damage)
+    {
+        if ()
+    }
+
+
+    bool cameraMoving = false;
+    public void CameraMove()
+    {
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            cameraMoving = !cameraMoving;
+            if (cameraMoving)
+            {
+                virtualCamera.Follow = null;
+                virtualCamera.LookAt = null;
+            }
+            else
+            {
+                virtualCamera.Follow = transform;
+                virtualCamera.LookAt = transform;
+            }
+        }
+
+        if (cameraMoving)
+        {
+            if (Input.GetKey(KeyCode.UpArrow))
+                virtualCamera.transform.Translate(Vector3.forward * 20f * Time.deltaTime, Space.World);
+            if (Input.GetKey(KeyCode.LeftArrow))
+                virtualCamera.transform.Translate(Vector3.left * 20f * Time.deltaTime, Space.World);
+            if (Input.GetKey(KeyCode.RightArrow))
+                virtualCamera.transform.Translate(Vector3.right * 20f * Time.deltaTime, Space.World);
+            if (Input.GetKey(KeyCode.DownArrow))
+                virtualCamera.transform.Translate(Vector3.back * 20f * Time.deltaTime, Space.World);
+        }
+    }
+
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -194,36 +238,5 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
             return GetMousePosition();
-    }
-
-    bool cameraMoving = false;
-    public void CameraMove()
-    {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            cameraMoving = !cameraMoving;
-            if (cameraMoving)
-            {
-                virtualCamera.Follow = null;
-                virtualCamera.LookAt = null;
-            }
-            else
-            {
-                virtualCamera.Follow = transform;
-                virtualCamera.LookAt = transform;
-            }
-        }
-
-        if (cameraMoving)
-        {
-            if (Input.GetKey(KeyCode.UpArrow))
-                virtualCamera.transform.Translate(Vector3.forward * 20f * Time.deltaTime, Space.World);
-            if (Input.GetKey(KeyCode.LeftArrow))
-                virtualCamera.transform.Translate(Vector3.left * 20f * Time.deltaTime, Space.World);
-            if (Input.GetKey(KeyCode.RightArrow))
-                virtualCamera.transform.Translate(Vector3.right * 20f * Time.deltaTime, Space.World);
-            if (Input.GetKey(KeyCode.DownArrow))
-                virtualCamera.transform.Translate(Vector3.back * 20f * Time.deltaTime, Space.World);
-        }
     }
 }

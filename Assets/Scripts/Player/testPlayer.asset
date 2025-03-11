@@ -18,4 +18,5 @@ MonoBehaviour:
   skillA: 0
   skillB: 0
   skillC: 0
+  dashCoolTime: 7
   shield: 0

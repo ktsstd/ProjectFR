@@ -12,5 +12,6 @@ public class PlayerInfo : ScriptableObject
     public float skillA;
     public float skillB;
     public float skillC;
-    public int shield;
+    public float dashCoolTime;
+    public float shield;
 }
