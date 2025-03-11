@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerInfo : ScriptableObject
 {
     public float hp;
+    public float maxHp;
     public float atk;
     public float speed;
     public float skillA;

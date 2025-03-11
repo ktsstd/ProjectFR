@@ -176,5 +176,6 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
   pv: {fileID: 0}
+  DashCoolTime: 0
   isMoving: 0
   currentStates: 0

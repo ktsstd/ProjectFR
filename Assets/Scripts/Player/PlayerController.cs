@@ -11,7 +11,6 @@ using UnityEngine.PlayerLoop;
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PlayerInfo playerInfo;
-    public PlayerInfo basicPlayerInfo;
 
     public Rigidbody rigidbody;
 
@@ -44,7 +43,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 
         currentStates = States.Idle;
-        basicPlayerInfo = playerInfo;
 
         if (pv.IsMine)
         {
@@ -91,23 +89,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             transform.position = Vector3.Lerp(transform.position, receivePos, Time.deltaTime * 10);
             transform.rotation = Quaternion.Slerp(transform.rotation, receiveRot, Time.deltaTime * 10);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            currentStates = States.Idle;
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            currentStates = States.Attack;
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            currentStates = States.Dash;
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            currentStates = States.Die;
         }
     }
 
@@ -163,7 +144,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OnHitPlayer(float _damage)
     {
-        if ()
+        
     }
 
 
