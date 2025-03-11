@@ -48,6 +48,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             {
                 monsterInfo.attackTimer -= Time.deltaTime;
             }
+            Vector3 directionToTarget = target.position - transform.position;
+            if (directionToTarget != Vector3.zero) 
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            }
         }
         else if (!canMove)
         {
@@ -83,9 +89,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void Attack() // todo -> attacking animation
     {
         string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
-        Vector3 directionToTarget = GetClosestTarget().position - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 0.6f);
+        // Vector3 directionToTarget = GetClosestTarget().position - transform.position;
+        // Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+        // transform.rotation = Quaternion.Slerp(transform.localRotation, lookRotation, 80);
         Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
         GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);
         AttackObj.transform.SetParent(this.transform);

@@ -28,7 +28,6 @@ public class Attackboundary : MonoBehaviour
 
             elapsedTime += Time.deltaTime;
             yield return null;
-            Debug.Log(attackboundaryObj.GetComponent<MeshRenderer>().material.color);
         }
         isFadeIn = true;
         Invoke("DestroyBoundary", 0.2f);
