@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Boss : MonsterAI
 {
     private float FirPatternbreakupHealth;
     private Transform BossMouthPos;
     private int BossPhase;
-    private float[] BossMonsterSkillCooldowns = { 7f, 30f, 20f };
-    private float[] BossMonsterSkillTimers = new float[3];
+    private float[] BossMonsterSkillCooldowns = { 1f, 7f, 30f, 20f };
+    private float[] BossMonsterSkillTimers = new float[4];
 
     protected override void Start()
     {
@@ -29,13 +30,35 @@ public class Boss : MonsterAI
             }
         }
     }
-    protected override void Attack() // todo -> attacking animation
+    protected override void Attack() 
     {
-        // string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
-        // Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
-        // GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);
-        // AttackObj.transform.SetParent(this.transform);
-        
+        int randomskill = GetRandomSkill();
+        string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[randomskill].name; 
+        switch(randomskill)
+        {
+            case 0:
+                // todo -> attacking animation
+                Vector3 attackFowardPos1 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
+                GameObject AttackObj1 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos1, Quaternion.identity);
+                AttackObj1.transform.SetParent(this.transform);
+                break;
+            case 1:
+                // todo -> jumping animation, jumppos tp (thinkabout)
+                Vector3 attackFowardPos2 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
+                GameObject AttackObj2 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos2, Quaternion.identity);
+                AttackObj2.transform.SetParent(this.transform);
+                break;
+            case 2:
+                // todo -> Eat (thinkabout)
+                break;
+            case 3:
+                // todo -> poision (thinkabout)
+                break;
+            default:
+                canMove = true;
+                break;    
+            
+        }
     }
 
     private int GetRandomSkill()
@@ -44,9 +67,20 @@ public class Boss : MonsterAI
 
         for (int i = 0; i < BossMonsterSkillTimers.Length; i++)
         {
-            if (BossMonsterSkillTimers[i] <= 0f) 
+            if (BossMonsterSkillTimers[i] <= 0f)
             {
-                availableSkills.Add(i);
+                if (i == 2 || i == 3)
+                {
+                    if (BossPhase >= 2)
+                    {
+                        availableSkills.Add(i);
+                    }
+                }
+                else
+                {
+                    availableSkills.Add(i);
+                }
+                
             }
         }
 
@@ -57,8 +91,7 @@ public class Boss : MonsterAI
 
         else
         {
-            // AllSkillCooldownTimer = AllSkillCooldown;
-            // isBossPatern = false;
+            monsterInfo.attackTimer = monsterInfo.attackCooldown;
         }
         return -1;  
     }

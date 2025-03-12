@@ -17,7 +17,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        MonsterInfo monsterInfo = Instantiate(monsterInfoScript);
+        monsterInfo = Instantiate(monsterInfoScript);
         agent.speed = monsterInfo.speed;    
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
     }

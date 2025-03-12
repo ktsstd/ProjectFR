@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     {
         string prefabName = "TestPlayer";
         PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);
-        string prefabName2 = "TestMonsterG";
+        string prefabName2 = "TestMonster";
         PhotonNetwork.Instantiate(prefabName2, SpawnPos.position, Quaternion.identity);
     }
 }
