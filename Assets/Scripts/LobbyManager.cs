@@ -26,6 +26,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             playerList.Add(player);
             bool playerIsReady = player.CustomProperties.TryGetValue("isReady", out object readyState) && (bool)readyState;
+            
             SetReadyState(player.ActorNumber, playerIsReady);
         }
 

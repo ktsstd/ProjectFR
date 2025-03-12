@@ -91,17 +91,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void Attack() // todo -> attacking animation
     {
         string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
-        // Vector3 directionToTarget = GetClosestTarget().position - transform.position;
-        // Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-        // transform.rotation = Quaternion.Slerp(transform.localRotation, lookRotation, 80);
         Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
         GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);
         AttackObj.transform.SetParent(this.transform);
     }
 
-    public virtual void AttackSuccess(GameObject Obj)
+    public virtual void AttackSuccess(GameObject Obj, int damage)
     {
-        Debug.Log("attack success: " + Obj);
+        Debug.Log("attack success: " + Obj + ":" + damage);
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
         canMove = true;
     } 

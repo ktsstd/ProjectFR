@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 public class Attackboundary : MonoBehaviour
 {
     GameObject attackboundaryObj;
+    public int damage;
     bool isFadeIn = false;
     MonsterAI monsterAIScript;
     // Start is called before the first frame update
@@ -39,7 +40,7 @@ public class Attackboundary : MonoBehaviour
         if (isFadeIn && other.CompareTag("Player"))
         {
             MonsterAI monsterAIScript = GetComponentInParent<MonsterAI>();
-            monsterAIScript.AttackSuccess(other.gameObject);
+            monsterAIScript.AttackSuccess(other.gameObject, damage);
             PhotonNetwork.Destroy(this.gameObject);
         }
     }
