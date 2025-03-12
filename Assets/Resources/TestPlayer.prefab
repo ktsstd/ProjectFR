@@ -178,4 +178,12 @@ MonoBehaviour:
   pv: {fileID: 0}
   DashCoolTime: 0
   isMoving: 0
+  playerHp: 0
+  playerMaxHp: 0
+  playerAtk: 0
+  playerSpeed: 0
+  currentDashCoolTime: 0
+  dashCoolTime: 0
+  currentSkillsCoolTime: []
+  skillsCoolTime: []
   currentStates: 0

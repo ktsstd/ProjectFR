@@ -26,7 +26,30 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public bool isMoving = false;
 
-    public enum States
+    public float playerHp;
+    public float playerMaxHp;
+    public float playerAtk;
+    public float playerSpeed;
+    public float currentDashCoolTime;
+    public float dashCoolTime;
+    public float[] currentSkillsCoolTime;
+    public float[] skillsCoolTime;
+
+    void StartStatSet()
+    {
+        playerHp = playerInfo.hp;
+        playerMaxHp = playerInfo.hp;
+        playerAtk = playerInfo.atk;
+        playerSpeed = playerInfo.speed;
+        currentDashCoolTime = 0f;
+        dashCoolTime = playerInfo.dashCoolTime;
+        currentSkillsCoolTime = playerInfo.skillsCoolTime;
+        for (int i = 0; i < currentSkillsCoolTime.Length; i++)
+            currentSkillsCoolTime[i] = 0;
+        skillsCoolTime = playerInfo.skillsCoolTime;
+    }
+
+    public enum States // Idle, Attack, Dash, Die
     {
         Idle, // run, idle
         Attack,
@@ -43,6 +66,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 
         currentStates = States.Idle;
+        StartStatSet();
 
         if (pv.IsMine)
         {
@@ -56,20 +80,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (pv.IsMine)
         {
             CameraMove();
+            if (currentDashCoolTime > 0)
+                currentDashCoolTime -= Time.deltaTime;
+            if (damageDelayTime > 0)
+                damageDelayTime -= Time.deltaTime;
 
             switch (currentStates)
             {
                 case States.Idle:
                     Move();
-
-                    if (Input.GetKeyDown(KeyCode.Space)) // dash start
-                    {
-                        targetPos = transform.position;
-                        isMoving = false;
-                        collider.isTrigger = true;
-                        dashPos = GetSkillRange(5);
-                        currentStates = States.Dash;
-                    }
+                    Dash();
                     break;
                 case States.Attack:
                     // 조작 불가능, 모션 끝날때 Idle로 전환
@@ -79,11 +99,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     // 캐릭터마다 이동기능
                     break;
                 case States.Die:
-                    // 카메라 조작
+                    // 카메라 조작(관전기능)
                     break;
             }
-
-            
         }
         else
         {
@@ -113,7 +131,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             Quaternion lookRotation = Quaternion.LookRotation(direction);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 0.1f);
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, playerInfo.speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, playerSpeed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, targetPos) < 0.1f)
             {
@@ -125,26 +143,58 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     Vector3 dashPos;
     void Dash()
     {
-        if (dashPos != null)
+        if (currentStates == States.Dash)
         {
-            dashPos.y = transform.position.y;
-            Vector3 direction = (dashPos - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 0.1f);
-            transform.position = Vector3.MoveTowards(transform.position, dashPos, 30 * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, dashPos) < 0.1f)
+            if (dashPos != null)
             {
-                collider.isTrigger = false;
-                currentStates = States.Idle;
+                dashPos.y = transform.position.y;
+                Vector3 direction = (dashPos - transform.position).normalized;
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 0.1f);
+                transform.position = Vector3.MoveTowards(transform.position, dashPos, 30 * Time.deltaTime);
+
+                if (Vector3.Distance(transform.position, dashPos) < 0.1f)
+                {
+                    collider.isTrigger = false;
+                    currentStates = States.Idle;
+                }
             }
         }
+        else
+        {
+            if(currentDashCoolTime <= 0)
+            {
+                if (Input.GetKeyDown(KeyCode.Space)) // dash start
+                {
+                    currentDashCoolTime = dashCoolTime;
+                    targetPos = transform.position;
+                    isMoving = false;
+                    collider.isTrigger = true;
+                    dashPos = GetSkillRange(5);
+                    currentStates = States.Dash;
+                }
+            }
+        }
+        
     }
 
+    float damageDelayTime;
     public void OnHitPlayer(float _damage)
     {
-        
+        if (currentStates != States.Die)
+        {
+            if (damageDelayTime <= 0)
+            {
+                damageDelayTime = 0.2f;
+                playerHp -= _damage;
+                if (playerHp <= 0)
+                {
+                    currentStates = States.Die;
+                    playerHp = 0;
+                }
+            }
+        }
     }
 
 

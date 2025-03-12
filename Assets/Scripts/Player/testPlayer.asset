@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 100
   atk: 10
-  speed: 3.5
-  skillA: 0
-  skillB: 0
-  skillC: 0
-  dashCoolTime: 7
-  shield: 0
+  speed: 6.5
+  dashCoolTime: 2
+  skillsCoolTime:
+  - 0
+  - 0
+  - 0
