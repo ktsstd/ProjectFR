@@ -148,6 +148,16 @@ MonoBehaviour:
   monsterInfo: {fileID: 0}
   target: {fileID: 0}
   canMove: 1
+  BossMonsterSkillCooldowns:
+  - 3
+  - 10
+  - 33
+  - 23
+  BossMonsterSkillTimers:
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!114 &9013207923515224079
 MonoBehaviour:
   m_ObjectHideFlags: 0

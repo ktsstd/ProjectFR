@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<BoxCollider>();
         pv = GetComponent<PhotonView>();
-        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
 
         currentStates = States.Idle;
         StartStatSet();
@@ -185,7 +185,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void OnHitPlayer(float _damage, bool _isNoDelay)
     {
-        Debug.Log(playerHp + "   " + _damage + "  " + _isNoDelay);
         if (currentStates != States.Die)
         {
             if (_isNoDelay)
@@ -194,7 +193,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             }
             else
             {
-                Debug.Log(damageDelayTime);
                 if (damageDelayTime <= 0)
                 {
                     playerHp -= _damage;
@@ -210,9 +208,59 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    private List<GameObject> playerInRange = new List<GameObject>();
+    private float respawnCoolTime;
     public void OnPlayerRespawn()
     {
+        if (playerInRange.Count != 0)
+        {
+            if (respawnCoolTime > 0)
+            {
+                respawnCoolTime -= Time.deltaTime;
+                Debug.Log(respawnCoolTime);
+            }
+            if (respawnCoolTime <= 0)
+            {
+                // 부활 애니메이션 넣기
+                pv.RPC("PlayerRespawn", RpcTarget.All, null);
+            }
+        }
+        else
+        {
+            respawnCoolTime = 10;
+        }
+    }
 
+    [PunRPC]
+    private void PlayerRespawn()
+    {
+        PlayerController targetPlayer = playerInRange[0].GetComponent<PlayerController>();
+        playerHp = targetPlayer.playerHp * 0.5f;
+        targetPlayer.OnHitPlayer(targetPlayer.playerHp * 0.5f, true);
+        playerInRange.Clear();
+        currentStates = States.Idle;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (currentStates == States.Die)
+        {
+            if (other.tag == "Player")
+            {
+                playerInRange.Add(other.gameObject);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (currentStates == States.Die)
+        {
+            if (other.tag == "Player")
+            {
+                playerInRange.Remove(other.gameObject);
+            }
+        }
     }
 
     bool cameraMoving = false;
