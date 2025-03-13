@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using Photon.Pun;
 
 public class Boss : MonsterAI
@@ -8,8 +9,8 @@ public class Boss : MonsterAI
     private float FirPatternbreakupHealth;
     private Transform BossMouthPos;
     private int BossPhase;
-    private float[] BossMonsterSkillCooldowns = { 1f, 7f, 30f, 20f };
-    private float[] BossMonsterSkillTimers = new float[4];
+    public float[] BossMonsterSkillCooldowns = { 3f, 10f, 33f, 23f };
+    public float[] BossMonsterSkillTimers = new float[4];
 
     protected override void Start()
     {
@@ -34,6 +35,7 @@ public class Boss : MonsterAI
     {
         int randomskill = GetRandomSkill();
         string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[randomskill].name; 
+        BossMonsterSkillTimers[randomskill] = BossMonsterSkillCooldowns[randomskill];
         switch(randomskill)
         {
             case 0:
@@ -44,15 +46,20 @@ public class Boss : MonsterAI
                 break;
             case 1:
                 // todo -> jumping animation, jumppos tp (thinkabout)
-                Vector3 attackFowardPos2 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
+                Vector3 attackFowardPos2 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 6;
+                transform.position = attackFowardPos2;
                 GameObject AttackObj2 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos2, Quaternion.identity);
                 AttackObj2.transform.SetParent(this.transform);
                 break;
             case 2:
-                // todo -> Eat (thinkabout)
+                Vector3 attackFowardPos3 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
+                GameObject AttackObj3 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos3, Quaternion.identity);
+                AttackObj3.transform.SetParent(this.transform);
                 break;
             case 3:
-                // todo -> poision (thinkabout)
+                Vector3 attackFowardPos4 = new Vector3(transform.position.x, 0.1f, transform.position.z);
+                GameObject AttackObj4 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos4, Quaternion.identity);
+                AttackObj4.transform.SetParent(this.transform);
                 break;
             default:
                 canMove = true;
@@ -60,6 +67,27 @@ public class Boss : MonsterAI
             
         }
     }
+
+    // public void Skill0Success(other.gameObject, damage)
+    // {
+    //     Debug.Log("attack success: " + Obj + ":" + damage);
+    //     monsterInfo.attackTimer = monsterInfo.attackCooldown;
+    //     canMove = true;
+    // }
+    
+    public void Skill2Success(GameObject Obj, int damage)
+    {
+        Debug.Log("attack success: " + Obj + ":" + damage);
+        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        canMove = true;
+    }
+
+    // public void Skill3Success(other.gameObject, damage)
+    // {
+    //     Debug.Log("attack success: " + Obj + ":" + damage);
+    //     monsterInfo.attackTimer = monsterInfo.attackCooldown;
+    //     canMove = true;
+    // }
 
     private int GetRandomSkill()
     {

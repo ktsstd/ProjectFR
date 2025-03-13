@@ -16,8 +16,11 @@ MonoBehaviour:
   damage: 80
   health: 6000
   attackRange: 3
-  attackboundary: []
-  attackSpeed: 0
-  attackCooldown: 0
+  attackboundary:
+  - {fileID: 1104074487764874493, guid: 11973fd44c2a6794095890cef91164da, type: 3}
+  - {fileID: 1104074487764874493, guid: 11973fd44c2a6794095890cef91164da, type: 3}
+  attackSpeed: 15
+  attackCooldown: 3
   attackTimer: 0
-  priTarget: []
+  priTarget:
+  - Player

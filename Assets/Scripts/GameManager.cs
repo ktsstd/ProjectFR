@@ -5,13 +5,16 @@ using Photon.Pun;
 
 public class GameManager : MonoBehaviour
 {
-    public Transform SpawnPos;
+    [SerializeField]
+    private Transform SpawnPos;
+    [SerializeField]
+    private Transform SpawnPos2;
     // Start is called before the first frame update
     void Start()
     {
         string prefabName = "TestPlayer";
         PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);
-        string prefabName2 = "TestMonster";
-        PhotonNetwork.Instantiate(prefabName2, SpawnPos.position, Quaternion.identity);
+        string prefabName2 = "TestBoss";
+        PhotonNetwork.Instantiate(prefabName2, SpawnPos2.position, Quaternion.identity);
     }
 }
