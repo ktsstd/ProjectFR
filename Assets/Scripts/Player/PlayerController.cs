@@ -10,21 +10,16 @@ using UnityEngine.PlayerLoop;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public GameObject playerRespawnZone;
     public PlayerInfo playerInfo;
 
     public Rigidbody rigidbody;
-
     public BoxCollider collider;
-
     public PhotonView pv;
     private CinemachineVirtualCamera virtualCamera;
 
     private Vector3 receivePos;
     private Quaternion receiveRot;
-
-    public float DashCoolTime;
-
-    public bool isMoving = false;
 
     public float playerHp;
     public float playerMaxHp;
@@ -77,13 +72,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Update()
     {
+        if (currentDashCoolTime > 0)
+            currentDashCoolTime -= Time.deltaTime;
+        if (damageDelayTime > 0)
+            damageDelayTime -= Time.deltaTime;
+
         if (pv.IsMine)
         {
             CameraMove();
-            if (currentDashCoolTime > 0)
-                currentDashCoolTime -= Time.deltaTime;
-            if (damageDelayTime > 0)
-                damageDelayTime -= Time.deltaTime;
 
             switch (currentStates)
             {
@@ -99,8 +95,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     // 캐릭터마다 이동기능
                     break;
                 case States.Die:
+                    OnPlayerRespawn(); // 부활기능 넣기
                     // 카메라 조작(관전기능)
                     break;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Keypad0))
+            {
+                pv.RPC("OnHitPlayer", RpcTarget.All, 10f, false);
             }
         }
         else
@@ -112,6 +114,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     Ray ray;
     Vector3 targetPos;
+    private bool isMoving = false;
     void Move()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -176,27 +179,41 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
         }
-        
     }
 
     float damageDelayTime;
-    public void OnHitPlayer(float _damage)
+    [PunRPC]
+    public void OnHitPlayer(float _damage, bool _isNoDelay)
     {
+        Debug.Log(playerHp + "   " + _damage + "  " + _isNoDelay);
         if (currentStates != States.Die)
         {
-            if (damageDelayTime <= 0)
+            if (_isNoDelay)
             {
-                damageDelayTime = 0.2f;
                 playerHp -= _damage;
-                if (playerHp <= 0)
+            }
+            else
+            {
+                Debug.Log(damageDelayTime);
+                if (damageDelayTime <= 0)
                 {
-                    currentStates = States.Die;
-                    playerHp = 0;
+                    playerHp -= _damage;
+                    damageDelayTime = 0.2f;
                 }
+            }
+            if (playerHp <= 0) // 플레이어 죽음 애니메이션 실행 등
+            {
+                currentStates = States.Die;
+                playerRespawnZone.SetActive(true);
+                playerHp = 0;
             }
         }
     }
 
+    public void OnPlayerRespawn()
+    {
+
+    }
 
     bool cameraMoving = false;
     public void CameraMove()
