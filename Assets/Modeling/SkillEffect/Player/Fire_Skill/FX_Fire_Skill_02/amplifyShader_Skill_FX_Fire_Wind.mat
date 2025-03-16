@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: amplifyShader_Skill_FX_Fire_Wind
+  m_Shader: {fileID: 4800000, guid: ccc8435dc5827ef4c9325e81f2cd2590, type: 3}
+  m_ShaderKeywords: _USE_CUSTOM_ON _USE_GRADATION_TEX_ON
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Gradation_Tex:
+        m_Texture: {fileID: 2800000, guid: a7ed44f5af8ebd347a113a44faa83a70, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask_Tex:
+        m_Texture: {fileID: 2800000, guid: 3555dabf9ed89c449b2013eb45ee9cff, type: 3}
+        m_Scale: {x: 3.71, y: 1}
+        m_Offset: {x: 2, y: 0}
+    - _Noise_Tex:
+        m_Texture: {fileID: 2800000, guid: d4520f472d9a4244d850920047c66349, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Tex:
+        m_Texture: {fileID: 2800000, guid: f200615d594ab2d4c982c844dd3d4d57, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Color_Offset: 3.06
+    - _Color_Range: 1.35
+    - _Distortion: 0.216
+    - _Noise_INs: 1
+    - _Noise_Power: 1
+    - _Noise_Upanner: 0
+    - _Noise_VPanner: 0
+    - _Normal_UPanner: -1.5
+    - _Normal_VPanner: 0
+    - _USE_CUSTOM: 1
+    - _USE_Gradation_Tex: 1
+    - __dirty: 0
+    m_Colors:
+    - _Color_A: {r: 1, g: 0.1593346, b: 0, a: 0}
+    - _Color_B: {r: 1, g: 0.7666305, b: 0.1792453, a: 0}
+    - _Noise_Color: {r: 1, g: 1, b: 1, a: 0}

@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: amplifyShader_Skill_FX_Water_Tornado
+  m_Shader: {fileID: 4800000, guid: 28d5284df1787db40a528e65165c76a1, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Main_Tex:
+        m_Texture: {fileID: 2800000, guid: 0e04cf5c552ce7b499c19e62417298d0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Vertex_Normal_Tex:
+        m_Texture: {fileID: 2800000, guid: e9e8770e955a8b54f91e123f4a1905b2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Base_Range: 0.65
+    - _Depth_Fade: 0
+    - _Fresnel_Power: 2.364706
+    - _Fresnel_Range: 0.018
+    - _Fresnel_Scale: 1
+    - _High_Range: 0.93
+    - _Main_Rot: -1.01
+    - _Main_UPanner: 0
+    - _Main_VPanner: -1
+    - _OutSide_Fresnel_Power: 2.364706
+    - _OutSide_Fresnel_Scale: 1
+    - _OutSide_Frsnel_Range: 0.3529411
+    - _Smooth: 0
+    - _Vertex_Normal_Str: 0.5
+    - __dirty: 0
+    m_Colors:
+    - _Base_Color: {r: 0.9716981, g: 0.5851152, b: 0, a: 0}
+    - _Color_A: {r: 6.964404, g: 0.68278474, b: 0, a: 0}
+    - _Color_B: {r: 0.745283, g: 0.14613393, b: 0, a: 0}
+    - _Fresnel_Color: {r: 0.7490196, g: 0.047058824, b: 0, a: 0}
+    - _High_Color: {r: 1, g: 1, b: 1, a: 0}

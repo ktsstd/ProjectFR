@@ -43,6 +43,8 @@ MonoBehaviour:
   - UpdateStartButton
   - OnHitPlayer
   - PlayerRespawn
+  - OnPlayerHit
+  - OnPlayerHeal
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

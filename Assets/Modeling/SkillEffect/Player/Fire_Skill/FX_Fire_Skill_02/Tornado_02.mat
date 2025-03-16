@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Tornado_02
+  m_Shader: {fileID: 4800000, guid: 9d460da5ad6d03b4fb8646474f2564b3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Main_Tex:
+        m_Texture: {fileID: 2800000, guid: 954dd04b98e325340a3ce7042b70807a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask_TEx:
+        m_Texture: {fileID: 2800000, guid: c25c2ae19bcc01843976329156a6c63a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Tex:
+        m_Texture: {fileID: 2800000, guid: d4520f472d9a4244d850920047c66349, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_VerTEX:
+        m_Texture: {fileID: 2800000, guid: 0cebb7d41933fee40b7742085899fb56, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Color_Offset: 4.12
+    - _Color_Range: 9.93
+    - _Depth_Fade: 2.81
+    - _Dissovle: 1
+    - _Distortion: 0
+    - _Float2: 2.364706
+    - _Float3: 1
+    - _Float4: 0.3529411
+    - _Float5: 0
+    - _Fresnel_Power: 2.364706
+    - _Fresnel_Range: 0.03159646
+    - _Fresnel_Scale: 1
+    - _Main_Rot: 1.83
+    - _Main_Upanner: 0
+    - _Main_Vpanner: -1
+    - _Mask_UPanner: 0
+    - _Mask_VPanner: 0
+    - _Normal_Upanner: 0
+    - _Normal_Vpanner: 0
+    - _Opacity: 1
+    - _Rot: -1.01
+    - _Ver_Normal_Str: 0.18
+    - __dirty: 0
+    m_Colors:
+    - _Color_A: {r: 1.1122178, g: 0.3726803, b: 0, a: 0}
+    - _Color_B: {r: 1, g: 0.9633075, b: 0.7264151, a: 0}
+    - _Fresnel_Color: {r: 1, g: 0.48253974, b: 0.13207549, a: 0}
