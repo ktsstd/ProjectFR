@@ -10,9 +10,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public TMP_Text[] playerTexts;
     private List<Player> playerList = new List<Player>();
     public GameObject[] ReadyObj;
+    public GameObject[] CharacterImg;
     public GameObject StartObj;
     private bool isReady;
-    private int SetCharacter;
+    public int selectedCharacterIndex = 0; 
 
     private void Start()
     {
@@ -27,20 +28,66 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             playerList.Add(player);
             bool playerIsReady = player.CustomProperties.TryGetValue("isReady", out object readyState) && (bool)readyState;
-            
             SetReadyState(player.ActorNumber, playerIsReady);
         }
 
         UpdatePlayerListUI();
     }
 
-    public void OnClickReadybutton(int SetCharacter)
+    public void OnClickReadyButton()
     {
         isReady = !isReady;
 
+        if (isReady)
+        {
+            SetCharacterSelection(selectedCharacterIndex, true);
+        }
+        else
+        {
+            selectedCharacterIndex = 0;
+        }
+
+        UpdatePlayerProperties();
+    }
+    public void OnClickCharacterSelect()
+    {
+        if (selectedCharacterIndex < 3)
+        {
+            selectedCharacterIndex += 1;
+            for (int i = 0; i <= 3; i++)
+            {
+                if (CharacterImg[i] != null)
+                {
+                    CharacterImg[i].SetActive(false);
+                }
+            }
+            CharacterImg[selectedCharacterIndex].SetActive(true);
+        }
+        else
+        {
+            selectedCharacterIndex = 0;
+            for (int i = 0; i <= 3; i++)
+            {
+                if (CharacterImg[i] != null)
+                {
+                    CharacterImg[i].SetActive(false);
+                }
+            }
+            CharacterImg[selectedCharacterIndex].SetActive(true);
+        }        
+    }
+
+    private void SetCharacterSelection(int characterIndex, bool isSelected)
+    {
+
+    }
+
+    private void UpdatePlayerProperties()
+    {
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
-            { "isReady", isReady }
+            { "isReady", isReady },
+            { "selectedCharacterIndex", selectedCharacterIndex }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
@@ -56,6 +103,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             bool playerIsReady = (bool)changedProps["isReady"];
             SetReadyState(targetPlayer.ActorNumber, playerIsReady);
+        }
+
+        if (changedProps.ContainsKey("selectedCharacterIndex"))
+        {
+            int playerCharacterIndex = (int)changedProps["selectedCharacterIndex"];
         }
 
         if (PhotonNetwork.IsMasterClient)
