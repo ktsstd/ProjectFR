@@ -38,8 +38,8 @@ public class Attackboundary : MonoBehaviour
     {
         if (isFadeIn && other.CompareTag("Player"))
         {
-            monsterAIScript.AttackSuccess(other.gameObject, damage); // todo -> change playerdamage
-            Destroy(this.gameObject);
+            PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
+            playerS.OnPlayerHit(damage, false);
         }
     }
 

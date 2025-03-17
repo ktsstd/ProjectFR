@@ -37,7 +37,8 @@ public class BossSkill1Script : MonoBehaviour
     {
         if (isFadeIn && other.CompareTag("Player"))
         {
-            bossScript.Skill1Success(other.gameObject, damage);
+            PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
+            playerS.OnPlayerHit(damage, false);
         }
     }
 
@@ -45,7 +46,6 @@ public class BossSkill1Script : MonoBehaviour
     {
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = PhotonNetwork.Instantiate("Boss_Skill_01_Prefab", transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-        // Skill1Obj.transform.SetParent(this.transform);
         bossScript.BossMonsterSkillTimers[0] = bossScript.BossMonsterSkillCooldowns[0];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
         bossScript.canMove = true;

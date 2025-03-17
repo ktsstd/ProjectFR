@@ -12,6 +12,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject[] ReadyObj;
     public GameObject StartObj;
     private bool isReady;
+    private int selectedCharacterIndex = -1; // -1은 캐릭터 미선택 상태를 의미
 
     private void Start()
     {
@@ -26,20 +27,47 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             playerList.Add(player);
             bool playerIsReady = player.CustomProperties.TryGetValue("isReady", out object readyState) && (bool)readyState;
-            
             SetReadyState(player.ActorNumber, playerIsReady);
         }
 
         UpdatePlayerListUI();
     }
 
-    public void OnClickReadybutton()
+    public void OnClickReadyButton(int characterIndex)
     {
+        if (selectedCharacterIndex != -1)
+        {
+            // 이미 캐릭터를 선택한 상태에서 다른 캐릭터를 선택하려는 경우
+            // 이전에 선택한 캐릭터의 선택 상태를 해제
+            SetCharacterSelection(selectedCharacterIndex, false);
+        }
+
         isReady = !isReady;
 
+        if (isReady)
+        {
+            selectedCharacterIndex = characterIndex;
+            SetCharacterSelection(selectedCharacterIndex, true);
+        }
+        else
+        {
+            selectedCharacterIndex = -1;
+        }
+
+        UpdatePlayerProperties();
+    }
+
+    private void SetCharacterSelection(int characterIndex, bool isSelected)
+    {
+        
+    }
+
+    private void UpdatePlayerProperties()
+    {
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
-            { "isReady", isReady }
+            { "isReady", isReady },
+            { "selectedCharacterIndex", selectedCharacterIndex }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
@@ -55,6 +83,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             bool playerIsReady = (bool)changedProps["isReady"];
             SetReadyState(targetPlayer.ActorNumber, playerIsReady);
+        }
+
+        if (changedProps.ContainsKey("selectedCharacterIndex"))
+        {
+            int playerCharacterIndex = (int)changedProps["selectedCharacterIndex"];
+            // 다른 플레이어의 캐릭터 선택 상태를 업데이트하는 로직 구현
+            // 예: 캐릭터 선택 UI의 시각적 표시를 업데이트
         }
 
         if (PhotonNetwork.IsMasterClient)
