@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 case States.Idle:
                     Move();
                     Dash();
+                    Attack();
                     break;
                 case States.Attack:
                     // 조작 불가능, 모션 끝날때 Idle로 전환
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
             if (Input.GetKeyDown(KeyCode.Keypad0))
             {
-                pv.RPC("OnPlayerHit", RpcTarget.All, 10f, false);
+                OnPlayerHit(100f, false);
             }
         }
         else
@@ -181,8 +182,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public virtual void Attack() { }
+
     float damageDelayTime;
-    [PunRPC]
     public void OnPlayerHit(float _damage, bool _isNoDelay)
     {
         if (currentStates != States.Die)
@@ -200,18 +202,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
 
-            
-
             if (playerHp <= 0) // 플레이어 죽음 애니메이션 실행 등
             {
-                currentStates = States.Die;
                 playerRespawnZone.SetActive(true);
                 playerHp = 0;
+                currentStates = States.Die;
             }
         }
     }
 
-    [PunRPC]
     public void OnPlayerHeal(float _heal)
     {
         if (currentStates != States.Die)
@@ -231,12 +230,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             if (respawnCoolTime > 0)
             {
                 respawnCoolTime -= Time.deltaTime;
-                Debug.Log(respawnCoolTime);
             }
             if (respawnCoolTime <= 0)
             {
                 // 부활 애니메이션 넣기
-                pv.RPC("PlayerRespawn", RpcTarget.All, null);
+                PlayerController targetPlayer = playerInRange[0].GetComponent<PlayerController>();
+                pv.RPC("PlayerRespawn", RpcTarget.All, targetPlayer);
             }
         }
         else
@@ -246,11 +245,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    private void PlayerRespawn()
+    public void PlayerRespawn(PlayerController _targetPlayer)
     {
-        PlayerController targetPlayer = playerInRange[0].GetComponent<PlayerController>();
-        playerHp = targetPlayer.playerHp * 0.5f;
-        targetPlayer.OnPlayerHit(targetPlayer.playerHp * 0.5f, true);
+        playerHp = _targetPlayer.playerHp * 0.5f;
+        _targetPlayer.OnPlayerHit(_targetPlayer.playerHp * 0.5f, true);
         playerInRange.Clear();
         currentStates = States.Idle;
     }
@@ -314,11 +312,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(playerHp);
+            stream.SendNext(currentStates);
         }
         else
         {
             receivePos = (Vector3)stream.ReceiveNext();
             receiveRot = (Quaternion)stream.ReceiveNext();
+            playerHp = (float)stream.ReceiveNext();
+            currentStates = (States)stream.ReceiveNext();
         }
     }
 

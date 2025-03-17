@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class Water : PlayerController
 {
-    public GameObject repellingWaveEF;
+    public GameObject repellingWave;
 
     public override void OnTriggerEnter(Collider other)
     {
@@ -19,8 +19,22 @@ public class Water : PlayerController
         }
     }
 
-    public override void Dash() // 대쉬 애니메이션 추가하기
+    public override void Dash() // 대쉬 애니메이션, 이펙트 추가하기
     {
         base.Dash();
     }
+
+    public override void Attack()
+    {
+        if (!Input.GetKey(KeyCode.E))
+        {
+            
+        }
+    }
+
+    void UseRepellingWave()
+    {
+
+    }
+
 }
