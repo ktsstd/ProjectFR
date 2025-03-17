@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public float[] currentSkillsCoolTime;
     public float[] skillsCoolTime;
 
+    public GameObject[] skillRanges;
+
     void StartStatSet()
     {
         playerHp = playerInfo.hp;
@@ -76,10 +78,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             currentDashCoolTime -= Time.deltaTime;
         if (damageDelayTime > 0)
             damageDelayTime -= Time.deltaTime;
+        if (currentSkillsCoolTime[0] > 0)
+            currentSkillsCoolTime[0] -= Time.deltaTime;
+        if (currentSkillsCoolTime[1] > 0)
+            currentSkillsCoolTime[1] -= Time.deltaTime;
+        if (currentSkillsCoolTime[2] > 0)
+            currentSkillsCoolTime[3] -= Time.deltaTime;
 
         if (pv.IsMine)
         {
             CameraMove();
+            if (currentStates != States.Idle)
+            {
+                skillRanges[0].SetActive(false);
+                skillRanges[1].SetActive(false);
+                skillRanges[2].SetActive(false);
+            }
 
             switch (currentStates)
             {
@@ -89,6 +103,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     Attack();
                     break;
                 case States.Attack:
+                    isMoving = false;
+                    targetPos = transform.position;
                     // 조작 불가능, 모션 끝날때 Idle로 전환
                     break;
                 case States.Dash:
@@ -109,7 +125,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         else
         {
             transform.position = Vector3.Lerp(transform.position, receivePos, Time.deltaTime * 10);
-            transform.rotation = Quaternion.Slerp(transform.rotation, receiveRot, Time.deltaTime * 10);
+            transform.rotation = Quaternion.Slerp(transform.rotation, receiveRot, Time.deltaTime * 20);
         }
     }
 
@@ -155,7 +171,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 Vector3 direction = (dashPos - transform.position).normalized;
                 Quaternion lookRotation = Quaternion.LookRotation(direction);
 
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 0.1f);
+                transform.rotation = lookRotation;
                 transform.position = Vector3.MoveTowards(transform.position, dashPos, 30 * Time.deltaTime);
 
                 if (Vector3.Distance(transform.position, dashPos) < 0.1f)
@@ -202,15 +218,23 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
 
-            if (playerHp <= 0) // 플레이어 죽음 애니메이션 실행 등
+            if (playerHp <= 0)
             {
-                playerRespawnZone.SetActive(true);
                 playerHp = 0;
                 currentStates = States.Die;
+                pv.RPC("OnPlayerDie", RpcTarget.All, null);
             }
         }
     }
 
+    [PunRPC]
+    public void OnPlayerDie()
+    {
+        playerRespawnZone.SetActive(true);
+        // 플레이어 죽음 애니메이션 실행 등
+    }
+
+    [PunRPC]
     public void OnPlayerHeal(float _heal)
     {
         if (currentStates != States.Die)
@@ -234,8 +258,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             if (respawnCoolTime <= 0)
             {
                 // 부활 애니메이션 넣기
-                PlayerController targetPlayer = playerInRange[0].GetComponent<PlayerController>();
-                pv.RPC("PlayerRespawn", RpcTarget.All, targetPlayer);
+                GameObject targetPlayer = playerInRange[0];
+                pv.RPC("PlayerRespawn", RpcTarget.All, null);
             }
         }
         else
@@ -245,10 +269,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void PlayerRespawn(PlayerController _targetPlayer)
+    public void PlayerRespawn()
     {
-        playerHp = _targetPlayer.playerHp * 0.5f;
-        _targetPlayer.OnPlayerHit(_targetPlayer.playerHp * 0.5f, true);
+        playerRespawnZone.SetActive(false);
+        PlayerController playerController = playerInRange[0].GetComponent<PlayerController>();
+        playerHp = playerController.playerHp * 0.5f;
+        playerController.OnPlayerHit(playerController.playerHp * 0.5f, true);
         playerInRange.Clear();
         currentStates = States.Idle;
     }

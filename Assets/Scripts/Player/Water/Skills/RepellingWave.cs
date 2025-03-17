@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class RepellingWave : MonoBehaviour
 {
-    
+    public Vector3 targetPos;
     public float damage;
 
     private bool isSizeDown = false;
     private BoxCollider boxCollider;
-    private Vector3 targetPos;
-
-    
 
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
-        targetPos = transform.position + new Vector3(transform.position.x, transform.position.y, transform.position.z + 20f);
         Invoke("SizeDown", 0.6f);
     }
 

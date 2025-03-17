@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 4587128987938529183}
   - component: {fileID: 3152413790835779008}
   m_Layer: 0
-  m_Name: Repelling Wave
+  m_Name: Repelling Wave Range
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7566404301646223259
 Transform:
   m_ObjectHideFlags: 0
@@ -325,5 +325,9 @@ MonoBehaviour:
   dashCoolTime: 0
   currentSkillsCoolTime: []
   skillsCoolTime: []
+  skillRanges:
+  - {fileID: 4338692620753491719}
+  - {fileID: 4338692620753491719}
+  - {fileID: 4338692620753491719}
   currentStates: 0
-  repellingWave: {fileID: 0}
+  repellingWave: {fileID: 740383764054113988, guid: c432efb040748764db23394ad1fa3a0a, type: 3}
