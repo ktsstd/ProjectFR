@@ -1140,13 +1140,7 @@ MonoBehaviour:
   - {fileID: 1225682974}
   - {fileID: 1837981698}
   - {fileID: 1614021372}
-  CharacterImg:
-  - {fileID: 395211095}
-  - {fileID: 1358727707}
-  - {fileID: 956302096}
-  - {fileID: 657071350}
   StartObj: {fileID: 1951223596}
-  selectedCharacterIndex: 0
 --- !u!114 &518890394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3104,8 +3098,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 518890393}
         m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
-        m_MethodName: OnClickReadyButton
-        m_Mode: 1
+        m_MethodName: OnClickReadybutton
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

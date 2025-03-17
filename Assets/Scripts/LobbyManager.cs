@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using ExitGames.Client.Photon;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -12,11 +13,25 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject[] ReadyObj;
     public GameObject StartObj;
     private bool isReady;
+    //private bool isWater;
+    //private bool isThunder;
+    //private bool isFire;
+    //private bool isGround;
 
     private void Start()
     {
         isReady = false;
 
+        Hashtable properties = new Hashtable
+        {
+            { "isReady", isReady },
+            //{ "Water", isWater },
+            //{ "Thunder", isThunder },
+            //{ "Fire", isFire },
+            //{ "Ground", isGround }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
         if (roomNameText != null)
         {
             roomNameText.text = PhotonNetwork.CurrentRoom.Name;
@@ -36,12 +51,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnClickReadybutton(int SetCharacter)
     {
         isReady = !isReady;
-
-        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
-        {
-            { "isReady", isReady }
-        };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 
     public void OnClickLeaveRoom()
@@ -49,7 +58,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         if (changedProps.ContainsKey("isReady"))
         {
