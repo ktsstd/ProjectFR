@@ -38,9 +38,8 @@ public class Attackboundary : MonoBehaviour
     {
         if (isFadeIn && other.CompareTag("Player"))
         {
-            MonsterAI monsterAIScript = GetComponentInParent<MonsterAI>();
-            monsterAIScript.AttackSuccess(other.gameObject, damage);
-            PhotonNetwork.Destroy(this.gameObject);
+            monsterAIScript.AttackSuccess(other.gameObject, damage); // todo -> change playerdamage
+            Destroy(this.gameObject);
         }
     }
 
@@ -49,6 +48,6 @@ public class Attackboundary : MonoBehaviour
         monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
         monsterAIScript.canMove = true;
         Debug.Log("attack failed");
-        PhotonNetwork.Destroy(this.gameObject);
+        Destroy(this.gameObject);
     }
 }

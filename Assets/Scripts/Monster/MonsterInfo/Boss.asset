@@ -15,9 +15,9 @@ MonoBehaviour:
   speed: 2
   damage: 80
   health: 6000
-  attackRange: 3
+  attackRange: 8
   attackboundary:
-  - {fileID: 1104074487764874493, guid: 11973fd44c2a6794095890cef91164da, type: 3}
+  - {fileID: 95736695149742261, guid: 026da11826be46142a7d986bc4b49965, type: 3}
   - {fileID: 1104074487764874493, guid: 11973fd44c2a6794095890cef91164da, type: 3}
   attackSpeed: 15
   attackCooldown: 3

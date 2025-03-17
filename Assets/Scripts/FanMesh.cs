@@ -64,7 +64,7 @@ public class FanMesh : MonoBehaviour {
         if (isFadeIn && other.CompareTag("Player"))
         {
             bossScript = GetComponentInParent<Boss>();
-            bossScript.Skill2Success(other.gameObject, damage);
+            bossScript.Skill3Success(other.gameObject, damage);
             PhotonNetwork.Destroy(this.gameObject);
         }
     }
