@@ -226,7 +226,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 989d5dc7813475c43b63d61648b9d1a0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 40a08ddb184d50d4e8e96712d3f90078, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2813,7 +2813,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC548\uB3CC\uB824\uC904\uAC74\uB370"
+  m_text: G.O.A.T GPT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c16532d08082bd64291b0e4209f6b90e, type: 2}
   m_sharedMaterial: {fileID: -5283300883188771937, guid: c16532d08082bd64291b0e4209f6b90e, type: 2}
