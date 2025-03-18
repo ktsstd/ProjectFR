@@ -18,5 +18,5 @@ MonoBehaviour:
   dashCoolTime: 4
   skillsCoolTime:
   - 2
-  - 12
-  - 40
+  - 20
+  - 30

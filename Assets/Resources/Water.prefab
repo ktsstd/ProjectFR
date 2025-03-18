@@ -499,9 +499,14 @@ MonoBehaviour:
   playerSpeed: 0
   currentDashCoolTime: 0
   dashCoolTime: 0
-  currentSkillsCoolTime: []
-  skillsCoolTime: []
-  shield: 0
+  currentSkillsCoolTime:
+  - 0
+  - 0
+  - 0
+  skillsCoolTime:
+  - 0
+  - 0
+  - 0
   recoveryShield: 0
   skillRanges:
   - {fileID: 4338692620753491719}
@@ -677,13 +682,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7355673220199176225, guid: 277b1a6672cb9f5499af78c5aea4a9e8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9016341748249561843}
   m_SourcePrefab: {fileID: 100100000, guid: 277b1a6672cb9f5499af78c5aea4a9e8, type: 3}
 --- !u!1 &9198044210310424177 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7355673220199176225, guid: 277b1a6672cb9f5499af78c5aea4a9e8, type: 3}
   m_PrefabInstance: {fileID: 1851715756886556240}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9016341748249561843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198044210310424177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06acb7bdc07c63b4a90e6520bc4e1c74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9198044210310424190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7355673220199176238, guid: 277b1a6672cb9f5499af78c5aea4a9e8, type: 3}

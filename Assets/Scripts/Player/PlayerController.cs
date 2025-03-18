@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public float[] currentSkillsCoolTime;
     public float[] skillsCoolTime;
 
-    public float shield;
     public float recoveryShield;
 
     public GameObject[] skillRanges;
@@ -46,11 +45,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         playerSpeed = playerInfo.speed;
         currentDashCoolTime = 0f;
         dashCoolTime = playerInfo.dashCoolTime;
-        currentSkillsCoolTime = playerInfo.skillsCoolTime;
-        for (int i = 0; i < currentSkillsCoolTime.Length; i++)
-            currentSkillsCoolTime[i] = 0;
-        skillsCoolTime = playerInfo.skillsCoolTime;
-        shield = 0;
+        currentSkillsCoolTime[0] = 0f;
+        currentSkillsCoolTime[1] = 0f;
+        currentSkillsCoolTime[2] = 0f;
+        skillsCoolTime[0] = playerInfo.skillsCoolTime[0];
+        skillsCoolTime[1] = playerInfo.skillsCoolTime[1];
+        skillsCoolTime[2] = playerInfo.skillsCoolTime[2];
         recoveryShield = 0;
     }
 
@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
             if (Input.GetKeyDown(KeyCode.Keypad0))
             {
-                OnPlayerHit(100f, false);
+                pv.RPC("OnPlayerHit", RpcTarget.All, 100f);
             }
         }
         else
@@ -209,71 +209,51 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public virtual void Attack() { }
 
     float damageDelayTime;
-    public virtual void OnPlayerHit(float _damage, bool _isNoDelay)
+    [PunRPC]
+    public virtual void OnPlayerHit(float _damage)
     {
-        if (currentStates != States.Die)
+        if (pv.IsMine)
         {
-            float currentDamage = _damage;
-            if (_isNoDelay)
+            if (currentStates != States.Die)
             {
-                //if (shield < currentDamage)
-                //{
-                //    currentDamage = currentDamage - shield;
-                //    shield = 0;
-                //}
-                //else
-                //{
-                //    shield -= currentDamage;
-                //    currentDamage = 0;
-                //} // 바위법사에 추가하기
-
-                if (recoveryShield < currentDamage)
-                {
-                    currentDamage = currentDamage - recoveryShield;
-                    recoveryShileObject.SetActive(false);
-                    recoveryShileDestroy.SetActive(true);
-                    recoveryShield = 0;
-                }
-                else
-                {
-                    recoveryShield -= currentDamage;
-                    currentDamage = 0;
-                }
-
-                playerHp -= currentDamage;
-            }
-            else
-            {
+                float currentDamage = _damage;
                 if (damageDelayTime <= 0)
                 {
-                    //if (shield < currentDamage)
-                    //{
-                    //    currentDamage = currentDamage - shield;
-                    //    shield = 0;
-                    //}
-                    //else
-                    //{
-                    //    shield -= currentDamage;
-                    //    currentDamage = 0;
-                    //} // 바위법사에 추가하기
-
-                    if (recoveryShield < currentDamage)
+                    if (recoveryShield != 0)
                     {
-                        currentDamage = currentDamage - recoveryShield;
-                        recoveryShileObject.SetActive(false);
-                        recoveryShileDestroy.SetActive(true);
-                        recoveryShield = 0;
-                    }
-                    else
-                    {
-                        recoveryShield -= currentDamage;
-                        currentDamage = 0;
+                        if (recoveryShield < currentDamage)
+                        {
+                            currentDamage = currentDamage - recoveryShield;
+                            pv.RPC("OnShieldBreak", RpcTarget.All, null);
+                            recoveryShield = 0;
+                        }
+                        else
+                        {
+                            recoveryShield -= currentDamage;
+                            currentDamage = 0;
+                        }
                     }
 
                     playerHp -= currentDamage;
                     damageDelayTime = 0.2f;
                 }
+
+                if (playerHp <= 0)
+                {
+                    playerHp = 0;
+                    currentStates = States.Die;
+                    pv.RPC("OnPlayerDie", RpcTarget.All, null);
+                }
             }
+        }
+    }
+
+    [PunRPC]
+    public void OnPlayerTrueDamage(float _damage)
+    {
+        if (pv.IsMine)
+        {
+            playerHp -= _damage;
 
             if (playerHp <= 0)
             {
@@ -282,6 +262,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 pv.RPC("OnPlayerDie", RpcTarget.All, null);
             }
         }
+    }
+
+    [PunRPC]
+    public void OnShieldBreak()
+    {
+        recoveryShileObject.SetActive(false);
+        recoveryShileDestroy.SetActive(true);
     }
 
     [PunRPC]
@@ -294,11 +281,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void OnPlayerRecovery(float _heal)
     {
-        if (currentStates != States.Die)
+        if (pv.IsMine)
         {
-            playerHp += _heal;
-            if (playerHp > playerMaxHp)
-                playerHp = playerMaxHp;
+            if (currentStates != States.Die)
+            {
+                playerHp += _heal;
+                if (playerHp > playerMaxHp)
+                    playerHp = playerMaxHp;
+            }
         }
     }
 
@@ -329,11 +319,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public void PlayerRespawn()
     {
         playerRespawnZone.SetActive(false);
-        PlayerController playerController = playerInRange[0].GetComponent<PlayerController>();
-        playerHp = playerController.playerHp * 0.5f;
-        playerController.OnPlayerHit(playerController.playerHp * 0.5f, true);
+        if (pv.IsMine)
+        {
+            PlayerController playerController = playerInRange[0].GetComponent<PlayerController>();
+            playerHp = playerController.playerHp * 0.5f;
+            playerController.pv.RPC("OnPlayerTrueDamage", RpcTarget.All, playerController.playerHp * 0.5f);
+            currentStates = States.Idle;
+        }
         playerInRange.Clear();
-        currentStates = States.Idle;
     }
 
     public virtual void OnTriggerEnter(Collider other)
@@ -366,7 +359,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(10f);
         if (!(recoveryShield <= 0))
         {
-            pv.RPC("OnPlayerRecovery", RpcTarget.All, recoveryShield);
+            OnPlayerRecovery(recoveryShield);
             recoveryShield = 0;
             yield return new WaitForSeconds(2f);
             recoveryShileObject.SetActive(false);
@@ -412,6 +405,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(transform.rotation);
             stream.SendNext(playerHp);
             stream.SendNext(currentStates);
+            stream.SendNext(recoveryShield);
         }
         else
         {
@@ -419,6 +413,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             receiveRot = (Quaternion)stream.ReceiveNext();
             playerHp = (float)stream.ReceiveNext();
             currentStates = (States)stream.ReceiveNext();
+            recoveryShield = (float)stream.ReceiveNext();
         }
     }
 

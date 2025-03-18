@@ -38,7 +38,7 @@ public class BossSkill2Script : MonoBehaviour
         if (isFadeIn && other.CompareTag("Player"))
         {
             PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
-            playerS.OnPlayerHit(damage, false);
+            playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
         }
     }
 

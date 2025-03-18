@@ -77,6 +77,7 @@ public class Water : PlayerController
                     if (Input.GetKeyUp(KeyCode.W))
                     {
                         skillRanges[1].SetActive(false);
+                        currentSkillsCoolTime[1] = skillsCoolTime[1];
                         currentStates = States.Attack;
                         // 애니메이션 실행
                         Invoke("UseHealingBubble", 1f);
