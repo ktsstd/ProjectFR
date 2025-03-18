@@ -16,4 +16,7 @@ public class MonsterInfo : ScriptableObject
     public float attackTimer; 
 
     public string[] priTarget;
+
+    public bool isBoss;
+    public float redistance;
 }

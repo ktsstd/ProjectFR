@@ -9,18 +9,38 @@ public class Attackboundary : MonoBehaviour
     public int damage;
     bool isFadeIn = false;
     MonsterAI monsterAIScript;
+    float attackDuration = 4f;
     // Start is called before the first frame update
     void Start()
     {
         attackboundaryObj = gameObject;
         monsterAIScript = GetComponentInParent<MonsterAI>();
+
+        // 부모의 Animator에서 "Attack" 애니메이션 클립의 길이 구하기
+        Animator animator = monsterAIScript.animator;
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
+            {
+                if (clip.name == "Attack")
+                {
+                    attackDuration = clip.length - 0.5f;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("NO Animator");
+        }
+
         StartCoroutine(FadeIn());
     }
 
     IEnumerator FadeIn()
     {
         float elapsedTime = 0f; // 누적 경과 시간
-        float fadedTime = 3f; // 총 소요 시간
+        float fadedTime = attackDuration; // 총 소요 시간
 
         while (elapsedTime <= fadedTime)
         {

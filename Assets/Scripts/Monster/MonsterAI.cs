@@ -11,8 +11,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public Transform target;
 
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     public bool canMove = true;
+    public Animator animator;
 
     protected virtual void Start()
     {
@@ -20,6 +21,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         monsterInfo = Instantiate(monsterInfoScript);
         agent.speed = monsterInfo.speed;    
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        animator = GetComponent<Animator>();  
     }
     protected virtual void Update()
     {
@@ -66,7 +68,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     protected Transform GetClosestTarget()
     {
         Transform closestTarget = null;
-        float closestDistance = Mathf.Infinity;
+        float closestDistance = monsterInfo.redistance;
 
         foreach (string targetTag in monsterInfo.priTarget)
         {
@@ -83,6 +85,19 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                     closestDistance = distance;
                     closestTarget = possibleTarget.transform;
                 }
+                else
+                {
+                    if (!monsterInfo.isBoss)
+                    {
+                        GameObject objectTarget = GameObject.FindGameObjectWithTag("TestObject");
+                        return objectTarget.transform;
+                    }
+                    else
+                    {
+                        GameObject objectTarget = GameObject.FindGameObjectWithTag("monsterInfo.priTarget[0]");
+                        return objectTarget.transform;
+                    }
+                }
             }
         }
 
@@ -91,8 +106,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void Attack() // todo -> attacking animation
     {
         string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
-        Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
-        GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);
+        Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1.5f;
+        animator.SetTrigger("StartAttack");
+        GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);        
         AttackObj.transform.SetParent(this.transform);
     }
 
