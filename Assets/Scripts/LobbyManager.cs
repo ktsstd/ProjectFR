@@ -13,23 +13,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject[] ReadyObj;
     public GameObject StartObj;
     private bool isReady;
-    //private bool isWater;
-    //private bool isThunder;
-    //private bool isFire;
-    //private bool isGround;
+    public int CharacterIndex;
 
     private void Start()
     {
+        CharacterIndex = -1;
         isReady = false;
-
-        //Hashtable properties = new Hashtable
-        //{
-            //{ "isReady", isReady },
-            //{ "Water", isWater },
-            //{ "Thunder", isThunder },
-            //{ "Fire", isFire },
-            //{ "Ground", isGround }
-        //};
         
         if (roomNameText != null)
         {
@@ -47,14 +36,38 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         UpdatePlayerListUI();
     }
 
-    public void OnClickReadybutton()
+    public void OnClickCharacterSelectButton()
     {
-        isReady = !isReady;
-        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        if (CharacterIndex < 3)
         {
-            { "isReady", isReady }
-        };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+            CharacterIndex++;
+        }
+        else
+        {
+            CharacterIndex = 0;
+        }
+    }
+
+    public void OnClickReadybutton(int CharacterIndex)
+    {
+        if (CharacterIndex == -1)
+        {
+            Debug.Log("WarningText 1 / No Character");
+        }
+        else
+        {
+            isReady = !isReady;
+            Hashtable properties = new Hashtable
+            {
+                { "isReady", isReady }
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+
+            Hashtable playerProps = new Hashtable();
+            playerProps.Add("selectedCharacter", CharacterIndex);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
+        }
+        
     }
 
     public void OnClickLeaveRoom()
