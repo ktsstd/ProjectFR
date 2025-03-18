@@ -54,10 +54,10 @@ public class Boss : MonsterAI
                 AttackObj1.transform.SetParent(this.transform);
                 break;
             case 1:
-                // todo -> jumping animation, jumppos tp (thinkabout)
+                // todo -> jumping animation, jumppos tp (think)
                 Vector3 attackFowardPos2 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 6;
-                transform.position = attackFowardPos2;
                 GameObject AttackObj2 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos2, Quaternion.identity);
+                // transform.position = attackFowardPos2;
                 AttackObj2.transform.SetParent(this.transform);
                 break;
             case 2:

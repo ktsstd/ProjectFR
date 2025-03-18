@@ -47,7 +47,6 @@ public class Attackboundary : MonoBehaviour
     {
         monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
         monsterAIScript.canMove = true;
-        Debug.Log("attack failed");
         Destroy(this.gameObject);
     }
 }

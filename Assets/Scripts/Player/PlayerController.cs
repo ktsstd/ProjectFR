@@ -105,15 +105,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 case States.Attack:
                     isMoving = false;
                     targetPos = transform.position;
-                    // Á¶ÀÛ ºÒ°¡´É, ¸ð¼Ç ³¡³¯¶§ Idle·Î ÀüÈ¯
+                    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Idleï¿½ï¿½ ï¿½ï¿½È¯
                     break;
                 case States.Dash:
                     Dash();
-                    // Ä³¸¯ÅÍ¸¶´Ù ÀÌµ¿±â´É
+                    // Ä³ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½
                     break;
                 case States.Die:
-                    OnPlayerRespawn(); // ºÎÈ°±â´É ³Ö±â
-                    // Ä«¸Þ¶ó Á¶ÀÛ(°üÀü±â´É)
+                    OnPlayerRespawn(); // ï¿½ï¿½È°ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
+                    // Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
                     break;
             }
 
@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public void OnPlayerDie()
     {
         playerRespawnZone.SetActive(true);
-        // ÇÃ·¹ÀÌ¾î Á×À½ ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà µî
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     }
 
     [PunRPC]
@@ -257,7 +257,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             }
             if (respawnCoolTime <= 0)
             {
-                // ºÎÈ° ¾Ö´Ï¸ÞÀÌ¼Ç ³Ö±â
+                // ï¿½ï¿½È° ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ö±ï¿½
                 GameObject targetPlayer = playerInRange[0];
                 pv.RPC("PlayerRespawn", RpcTarget.All, null);
             }

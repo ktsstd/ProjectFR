@@ -22,16 +22,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         isReady = false;
 
-        Hashtable properties = new Hashtable
-        {
-            { "isReady", isReady },
+        //Hashtable properties = new Hashtable
+        //{
+            //{ "isReady", isReady },
             //{ "Water", isWater },
             //{ "Thunder", isThunder },
             //{ "Fire", isFire },
             //{ "Ground", isGround }
-        };
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+        //};
+        
         if (roomNameText != null)
         {
             roomNameText.text = PhotonNetwork.CurrentRoom.Name;
@@ -48,9 +47,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         UpdatePlayerListUI();
     }
 
-    public void OnClickReadybutton(int SetCharacter)
+    public void OnClickReadybutton()
     {
         isReady = !isReady;
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        {
+            { "isReady", isReady }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 
     public void OnClickLeaveRoom()
