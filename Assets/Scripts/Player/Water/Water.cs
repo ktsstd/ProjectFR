@@ -5,7 +5,16 @@ using Photon.Pun;
 
 public class Water : PlayerController
 {
+    public PlayerController[] AllPlayers;
     public GameObject repellingWave;
+
+    private Vector3[] skillsPos = new Vector3[2];
+
+    public override void StartStatSet()
+    {
+        base.StartStatSet();
+        AllPlayers = FindObjectsOfType<PlayerController>();
+    }
 
     public override void OnTriggerEnter(Collider other)
     {
@@ -14,7 +23,7 @@ public class Water : PlayerController
         {
             if (other.tag == "Player")
             {
-                other.GetComponent<PlayerController>().pv.RPC("OnPlayerHeal", RpcTarget.All, (playerMaxHp * 0.02f));
+                other.GetComponent<PlayerController>().pv.RPC("OnPlayerRecovery", RpcTarget.All, (playerMaxHp * 0.02f));
             }
         }
     }
@@ -28,26 +37,50 @@ public class Water : PlayerController
     {
         if (pv.IsMine && currentStates == States.Idle)
         {
-            if (!Input.GetKey(KeyCode.E) && currentSkillsCoolTime[0] <= 0)
+            if (!skillRanges[1].activeSelf && !skillRanges[2].activeSelf)
             {
-                if (Input.GetKey(KeyCode.Q))
+                if (currentSkillsCoolTime[0] <= 0)
                 {
-                    skillRanges[0].SetActive(true);
-                    Vector3 direction = GetMousePosition() - transform.position;
-                    float distance = direction.magnitude;
-                    direction = direction.normalized;
+                    if (Input.GetKey(KeyCode.Q))
+                    {
+                        skillRanges[0].SetActive(true);
+                        Vector3 direction = GetMousePosition() - transform.position;
+                        float distance = direction.magnitude;
+                        direction = direction.normalized;
 
-                    skillRanges[0].transform.position = transform.position + direction * 10;
-                    skillRanges[0].transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
+                        skillRanges[0].transform.position = transform.position + direction * 10;
+                        skillRanges[0].transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
+                    }
+                    if (Input.GetKeyUp(KeyCode.Q))
+                    {
+                        Vector3 direction = GetMousePosition() - transform.position;
+                        float distance = direction.magnitude;
+                        direction = direction.normalized;
+                        skillsPos[0] = transform.position + direction * 20;
+                        transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
+                        currentSkillsCoolTime[0] = skillsCoolTime[0];
+                        skillRanges[0].SetActive(false);
+                        currentStates = States.Attack;
+                        // 애니메이션 실행
+                        Invoke("UseRepellingWave", 1f); // 원래는 애니메이션 이벤트로 실행시키기
+                    }
                 }
-                if (Input.GetKeyUp(KeyCode.Q))
+            }
+            if (!skillRanges[0].activeSelf && !skillRanges[2].activeSelf)
+            {
+                if (currentSkillsCoolTime[1] <= 0)
                 {
-                    transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
-                    currentSkillsCoolTime[0] = skillsCoolTime[0];
-                    skillRanges[0].SetActive(false);
-                    currentStates = States.Attack;
-                    // 애니메이션 실행
-                    Invoke("UseRepellingWave", 1f); // 원래는 애니메이션 이벤트로 실행시키기
+                    if (Input.GetKey(KeyCode.W))
+                    {
+                        skillRanges[1].SetActive(true);
+                    }
+                    if (Input.GetKeyUp(KeyCode.W))
+                    {
+                        skillRanges[1].SetActive(false);
+                        currentStates = States.Attack;
+                        // 애니메이션 실행
+                        Invoke("UseHealingBubble", 1f);
+                    }
                 }
             }
         }
@@ -60,14 +93,50 @@ public class Water : PlayerController
 
     public void UseRepellingWave() // 애니메이션 이벤트로 실행시킬 함수
     {
-        pv.RPC("RepellingWave", RpcTarget.All, skillRanges[0].transform.position * 2);
+        pv.RPC("RepellingWave", RpcTarget.All, skillsPos[0]);
+        StopAnimation(); // 애니메이션 추가하면 빼기
+    }
+
+    public void UseHealingBubble() // 애니메이션 이벤트로 실행시킬 함수
+    {
+
+        pv.RPC("HealingBubble", RpcTarget.All, null);
         StopAnimation(); // 애니메이션 추가하면 빼기
     }
 
     [PunRPC]
     public void RepellingWave(Vector3 _targetPos)
     {
-        GameObject skill = Instantiate(repellingWave, transform.position, repellingWave.transform.rotation);
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 180));
+        GameObject skill = Instantiate(repellingWave, transform.position, fireRot);
         skill.GetComponent<RepellingWave>().targetPos = _targetPos;
+        skill.GetComponent<RepellingWave>().damage = playerAtk;
+    }
+
+    [PunRPC]
+    public void HealingBubble()
+    {
+        foreach (PlayerController player in AllPlayers)
+        {
+            if (Vector3.Distance(player.transform.position, transform.position) <= 7.5)
+            {
+                player.pv.RPC("RecoveryShield", RpcTarget.All, playerMaxHp * 0.1f);
+            }
+        }
+    }
+
+    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        base.OnPhotonSerializeView(stream, info);
+        if (stream.IsWriting)
+        {
+            stream.SendNext(skillsPos[0]);
+            stream.SendNext(skillsPos[1]);
+        }
+        else
+        {
+            skillsPos[0] = (Vector3)stream.ReceiveNext();
+            skillsPos[1] = (Vector3)stream.ReceiveNext();
+        }
     }
 }

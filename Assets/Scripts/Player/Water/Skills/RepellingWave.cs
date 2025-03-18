@@ -7,22 +7,10 @@ public class RepellingWave : MonoBehaviour
     public Vector3 targetPos;
     public float damage;
 
-    private bool isSizeDown = false;
-    private BoxCollider boxCollider;
-
-    private void Start()
-    {
-        boxCollider = GetComponent<BoxCollider>();
-        Invoke("SizeDown", 0.6f);
-    }
 
     private void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPos, 13f * Time.deltaTime);
-
-        if (isSizeDown)
-            if (boxCollider.size.x > 0.1)
-            boxCollider.size = new Vector3(boxCollider.size.x - Time.deltaTime * 5, boxCollider.size.y, boxCollider.size.z);
 
         if (transform.position == targetPos)
         {
@@ -30,16 +18,11 @@ public class RepellingWave : MonoBehaviour
         }
     }
 
-    void SizeDown()
-    {
-        isSizeDown = true;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Enemy")
         {
-            Debug.Log("몬스터 맞음");
+            Debug.Log(120 + (damage * 0.25) + " 피해 입힘 + 슬로우 필요");
         }
         // 데미지 주기 + 슬로우
     }

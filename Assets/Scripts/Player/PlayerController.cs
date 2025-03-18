@@ -7,10 +7,13 @@ using Photon.Realtime;
 using Cinemachine;
 using System.ComponentModel;
 using UnityEngine.PlayerLoop;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public GameObject playerRespawnZone;
+    public GameObject recoveryShileObject;
+    public GameObject recoveryShileDestroy;
     public PlayerInfo playerInfo;
 
     public Rigidbody rigidbody;
@@ -30,9 +33,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public float[] currentSkillsCoolTime;
     public float[] skillsCoolTime;
 
+    public float shield;
+    public float recoveryShield;
+
     public GameObject[] skillRanges;
 
-    void StartStatSet()
+    public virtual void StartStatSet()
     {
         playerHp = playerInfo.hp;
         playerMaxHp = playerInfo.hp;
@@ -44,6 +50,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         for (int i = 0; i < currentSkillsCoolTime.Length; i++)
             currentSkillsCoolTime[i] = 0;
         skillsCoolTime = playerInfo.skillsCoolTime;
+        shield = 0;
+        recoveryShield = 0;
     }
 
     public enum States // Idle, Attack, Dash, Die
@@ -201,19 +209,68 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public virtual void Attack() { }
 
     float damageDelayTime;
-    public void OnPlayerHit(float _damage, bool _isNoDelay)
+    public virtual void OnPlayerHit(float _damage, bool _isNoDelay)
     {
         if (currentStates != States.Die)
         {
+            float currentDamage = _damage;
             if (_isNoDelay)
             {
-                playerHp -= _damage;
+                //if (shield < currentDamage)
+                //{
+                //    currentDamage = currentDamage - shield;
+                //    shield = 0;
+                //}
+                //else
+                //{
+                //    shield -= currentDamage;
+                //    currentDamage = 0;
+                //} // 바위법사에 추가하기
+
+                if (recoveryShield < currentDamage)
+                {
+                    currentDamage = currentDamage - recoveryShield;
+                    recoveryShileObject.SetActive(false);
+                    recoveryShileDestroy.SetActive(true);
+                    recoveryShield = 0;
+                }
+                else
+                {
+                    recoveryShield -= currentDamage;
+                    currentDamage = 0;
+                }
+
+                playerHp -= currentDamage;
             }
             else
             {
                 if (damageDelayTime <= 0)
                 {
-                    playerHp -= _damage;
+                    //if (shield < currentDamage)
+                    //{
+                    //    currentDamage = currentDamage - shield;
+                    //    shield = 0;
+                    //}
+                    //else
+                    //{
+                    //    shield -= currentDamage;
+                    //    currentDamage = 0;
+                    //} // 바위법사에 추가하기
+
+                    if (recoveryShield < currentDamage)
+                    {
+                        currentDamage = currentDamage - recoveryShield;
+                        recoveryShileObject.SetActive(false);
+                        recoveryShileDestroy.SetActive(true);
+                        recoveryShield = 0;
+                    }
+                    else
+                    {
+                        recoveryShield -= currentDamage;
+                        currentDamage = 0;
+                    }
+
+                    playerHp -= currentDamage;
                     damageDelayTime = 0.2f;
                 }
             }
@@ -235,7 +292,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void OnPlayerHeal(float _heal)
+    public void OnPlayerRecovery(float _heal)
     {
         if (currentStates != States.Die)
         {
@@ -298,6 +355,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 playerInRange.Remove(other.gameObject);
             }
+        }
+    }
+
+    [PunRPC]
+    public IEnumerator RecoveryShield(float _shield)
+    {
+        recoveryShileObject.SetActive(true);
+        recoveryShield = _shield;
+        yield return new WaitForSeconds(10f);
+        if (!(recoveryShield <= 0))
+        {
+            pv.RPC("OnPlayerRecovery", RpcTarget.All, recoveryShield);
+            recoveryShield = 0;
+            yield return new WaitForSeconds(2f);
+            recoveryShileObject.SetActive(false);
         }
     }
 
