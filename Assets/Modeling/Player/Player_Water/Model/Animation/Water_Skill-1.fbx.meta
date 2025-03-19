@@ -62,6 +62,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.9997451
+        functionName: StopAnimation
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 9db12644cc4ef5748ac1049f01726496, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

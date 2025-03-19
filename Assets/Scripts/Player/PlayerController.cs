@@ -84,8 +84,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Update()
     {
-        animator.SetBool("isRun", isMoving);
-
         if (currentDashCoolTime > 0)
             currentDashCoolTime -= Time.deltaTime;
         if (damageDelayTime > 0)
@@ -99,6 +97,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (pv.IsMine)
         {
+            animator.SetBool("isRun", isMoving);
             CameraMove();
             if (currentStates != States.Idle)
             {
@@ -403,7 +402,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    bool previousIsMoving;
+    // bool previousIsMoving;
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -413,12 +412,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(playerHp);
             stream.SendNext(currentStates);
             stream.SendNext(recoveryShield);
-            stream.SendNext(animator.GetBool("isDash"));
-            if (isMoving != previousIsMoving)
-            {
-                stream.SendNext(isMoving);
-                previousIsMoving = isMoving;
-            }
         }
         else
         {
@@ -427,8 +420,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             playerHp = (float)stream.ReceiveNext();
             currentStates = (States)stream.ReceiveNext();
             recoveryShield = (float)stream.ReceiveNext();
-            animator.SetBool("isDash", (bool)stream.ReceiveNext());
-            isMoving = (bool)stream.ReceiveNext();
         }
     }
 

@@ -61,8 +61,7 @@ public class Water : PlayerController
                         currentSkillsCoolTime[0] = skillsCoolTime[0];
                         skillRanges[0].SetActive(false);
                         currentStates = States.Attack;
-                        // 애니메이션 실행
-                        Invoke("UseRepellingWave", 1f); // 원래는 애니메이션 이벤트로 실행시키기
+                        animator.SetTrigger("skill1");
                     }
                 }
             }
@@ -79,8 +78,26 @@ public class Water : PlayerController
                         skillRanges[1].SetActive(false);
                         currentSkillsCoolTime[1] = skillsCoolTime[1];
                         currentStates = States.Attack;
-                        // 애니메이션 실행
-                        Invoke("UseHealingBubble", 1f);
+                        animator.SetTrigger("skill2");
+                    }
+                }
+            }
+            if (!skillRanges[0].activeSelf && !skillRanges[1].activeSelf)
+            {
+                if (currentSkillsCoolTime[2] <= 0)
+                {
+                    if (Input.GetKey(KeyCode.E))
+                    {
+                        skillRanges[2].SetActive(true);
+                        skillRanges[2].transform.position = new Vector3(GetSkillRange(10).x, 0.1f, GetSkillRange(10).z);
+                    }
+                    if (Input.GetKeyUp(KeyCode.E))
+                    {
+                        skillRanges[2].SetActive(false);
+                        skillsPos[2] = new Vector3(GetSkillRange(10).x, 0.1f, GetSkillRange(10).z);
+                        transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
+                        currentSkillsCoolTime[2] = skillsCoolTime[2];
+                        animator.SetTrigger("skill3");
                     }
                 }
             }
@@ -92,17 +109,22 @@ public class Water : PlayerController
         currentStates = States.Idle;
     }
 
-    public void UseRepellingWave() // 애니메이션 이벤트로 실행시킬 함수
+    public void UseRepellingWave()
     {
-        pv.RPC("RepellingWave", RpcTarget.All, skillsPos[0]);
-        StopAnimation(); // 애니메이션 추가하면 빼기
+        if (pv.IsMine)
+            pv.RPC("RepellingWave", RpcTarget.All, skillsPos[0]);
     }
 
     public void UseHealingBubble() // 애니메이션 이벤트로 실행시킬 함수
     {
+        if (pv.IsMine)
+            pv.RPC("HealingBubble", RpcTarget.All, null);
+    }
 
-        pv.RPC("HealingBubble", RpcTarget.All, null);
-        StopAnimation(); // 애니메이션 추가하면 빼기
+    public void UseCalOfTheSea()
+    {
+        if (pv.IsMine)
+            pv.RPC("CallOfTheSea", RpcTarget.All, null);
     }
 
     [PunRPC]
@@ -124,6 +146,12 @@ public class Water : PlayerController
                 player.pv.RPC("RecoveryShield", RpcTarget.All, playerMaxHp * 0.1f);
             }
         }
+    }
+
+    [PunRPC]
+    public void CallOfTheSea()
+    {
+
     }
 
     public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
