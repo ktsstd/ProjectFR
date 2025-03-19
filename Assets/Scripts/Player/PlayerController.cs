@@ -16,9 +16,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject recoveryShileDestroy;
     public PlayerInfo playerInfo;
 
-    public Rigidbody rigidbody;
-    public BoxCollider collider;
     public PhotonView pv;
+    public Animator animator;
+    private Rigidbody rigidbody;
+    private CapsuleCollider collider;
     private CinemachineVirtualCamera virtualCamera;
 
     private Vector3 receivePos;
@@ -66,7 +67,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public virtual void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        collider = GetComponent<BoxCollider>();
+        collider = GetComponent<CapsuleCollider>();
+        animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
 
@@ -82,6 +84,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Update()
     {
+        animator.SetBool("isRun", isMoving);
+
         if (currentDashCoolTime > 0)
             currentDashCoolTime -= Time.deltaTime;
         if (damageDelayTime > 0)
@@ -184,6 +188,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (Vector3.Distance(transform.position, dashPos) < 0.1f)
                 {
+                    animator.SetBool("isDash", false);
                     collider.isTrigger = false;
                     currentStates = States.Idle;
                 }
@@ -195,6 +200,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (Input.GetKeyDown(KeyCode.Space)) // dash start
                 {
+                    animator.SetBool("isDash", true);
                     currentDashCoolTime = dashCoolTime;
                     targetPos = transform.position;
                     isMoving = false;
@@ -397,6 +403,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    bool previousIsMoving;
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -406,6 +413,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(playerHp);
             stream.SendNext(currentStates);
             stream.SendNext(recoveryShield);
+            stream.SendNext(animator.GetBool("isDash"));
+            if (isMoving != previousIsMoving)
+            {
+                stream.SendNext(isMoving);
+                previousIsMoving = isMoving;
+            }
         }
         else
         {
@@ -414,6 +427,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             playerHp = (float)stream.ReceiveNext();
             currentStates = (States)stream.ReceiveNext();
             recoveryShield = (float)stream.ReceiveNext();
+            animator.SetBool("isDash", (bool)stream.ReceiveNext());
+            isMoving = (bool)stream.ReceiveNext();
         }
     }
 
