@@ -8,7 +8,7 @@ public class Boss : MonsterAI
     private float FirPatternbreakupHealth;
     private Transform BossMouthPos;
     private int BossPhase;
-    public float[] BossMonsterSkillCooldowns = { 3f, 10f, 33f, 23f };
+    public float[] BossMonsterSkillCooldowns = { 9999f, 10f, 9999f, 0f };
     public float[] BossMonsterSkillTimers = new float[4];
 
     protected override void Start()
@@ -54,7 +54,7 @@ public class Boss : MonsterAI
                 AttackObj1.transform.SetParent(this.transform);
                 break;
             case 1:
-                // todo -> jumping animation, jumppos tp (think)
+                // todo -> jumping animation
                 PhotonNetwork.Instantiate("Boss_Skill_02_Jump", transform.position, Quaternion.identity);
                 Vector3 attackFowardPos2 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 6;
                 GameObject AttackObj2 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos2, Quaternion.identity);
@@ -62,11 +62,13 @@ public class Boss : MonsterAI
                 AttackObj2.transform.SetParent(this.transform);
                 break;
             case 2:
+                //todo -> make
                 Vector3 attackFowardPos3 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
                 GameObject AttackObj3 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos3, Quaternion.identity);
                 AttackObj3.transform.SetParent(this.transform);
                 break;
             case 3:
+                //todo -> poision animation
                 Vector3 attackFowardPos4 = new Vector3(transform.position.x, 0.1f, transform.position.z);
                 GameObject AttackObj4 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos4, Quaternion.identity);
                 AttackObj4.transform.SetParent(this.transform);
@@ -106,7 +108,7 @@ public class Boss : MonsterAI
         {
             if (BossMonsterSkillTimers[i] <= 0f)
             {
-                if (i == 2 || i == 3)
+                if (i == 2) //|| i == 3)
                 {
                     if (BossPhase >= 2)
                     {

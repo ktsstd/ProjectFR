@@ -46,7 +46,7 @@ public class BossSkill2Script : MonoBehaviour
     {
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = PhotonNetwork.Instantiate("Boss_Skill_02_Land", transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-        bossScript.BossMonsterSkillTimers[0] = bossScript.BossMonsterSkillCooldowns[0];
+        bossScript.BossMonsterSkillTimers[1] = bossScript.BossMonsterSkillCooldowns[1];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
         bossScript.canMove = true;
         Destroy(gameObject);

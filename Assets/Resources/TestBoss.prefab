@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 9013207923515224079}
   m_Layer: 0
   m_Name: TestBoss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,9 @@ MonoBehaviour:
   monsterInfoScript: {fileID: 11400000, guid: 6ab545d18cc72714aa725d7d5112ce8b, type: 2}
   monsterInfo: {fileID: 0}
   target: {fileID: 0}
+  agent: {fileID: 0}
   canMove: 1
+  animator: {fileID: 0}
   BossMonsterSkillCooldowns:
   - 3
   - 10
