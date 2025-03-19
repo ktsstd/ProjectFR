@@ -1,9 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
-using ExitGames.Client.Photon;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -17,6 +17,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject[] CharacterImg;
     public GameObject CharacterImgParent;
     public Transform[] CharacterPos;
+    public TextMeshProUGUI WarningText;
 
     private void Start()
     {
@@ -43,17 +44,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             CharacterImgParent.transform.position = CharacterPos[localPlayerIndex].position;
         }
-        else
-        {
-            Debug.LogError("유효하지 않은 플레이어 인덱스입니다.");
-        }
     }
 
     public void OnClickCharacterSelectRightButton()
     {
         if (isReady)
         {
-            Debug.Log("WarningText 3 / alreadyReady");
+            WarningTexts(3);
             return;
         }
         if (CharacterIndex < 3)
@@ -78,7 +75,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (isReady)
         {
-            Debug.Log("WarningText 3 / alreadyReady");
+            WarningTexts(3);
             return;
         }
         if (CharacterIndex > 0)
@@ -103,11 +100,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (CharacterIndex == -1)
         {
-            Debug.Log("WarningText 1 / No Character");
+            WarningTexts(2);
             return;
         }
 
-        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+        foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
                 continue;
@@ -116,14 +113,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 selectedChar is int selectedCharIndex &&
                 selectedCharIndex == CharacterIndex)
             {
-                Debug.Log("WarningText 2 / Can't Select");
+                WarningTexts(1);
                 return;
             }
         }
 
         isReady = !isReady;
 
-        Hashtable properties = new Hashtable
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
             { "isReady", isReady },
             { "selectedCharacter", CharacterIndex }
@@ -131,6 +128,38 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 
+    private void WarningTexts(int ErrorCode)
+    {
+        if (isFadeOut) return;
+        Color color = WarningText.color;
+        color.a = 1f;
+        WarningText.color = color;
+
+        if (ErrorCode == 1)
+            WarningText.text = "이미 선택된 캐릭터입니다.";
+        else if (ErrorCode == 2)
+            WarningText.text = "캐릭터를 선택해주세요.";
+        else if (ErrorCode == 3)
+            WarningText.text = "이미 준비 완료 상태입니다.";
+        else
+            WarningText.text = "알 수 없는 오류입니다.";
+
+        StartCoroutine(FadeOutText());
+    }
+
+    bool isFadeOut = false;
+    private IEnumerator FadeOutText()
+    {
+        isFadeOut = true;
+        Color color = WarningText.color;
+        while (color.a > 0f)
+        {
+            color.a -= Time.deltaTime / 2f;
+            WarningText.color = color;
+            yield return null;
+        }
+        isFadeOut = false;
+    }
 
 
     public void OnClickLeaveRoom()
@@ -138,7 +167,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (changedProps.ContainsKey("isReady"))
         {
