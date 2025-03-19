@@ -21,16 +21,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
 
-        roomItemPrefab = Resources.Load<GameObject>("RoomItem");
-
-        if (roomItemPrefab == null)
-        {
-            Debug.LogError("RoomItem prefab이 Resources에 없습니다.");
-        }
-        else
-        {
-            Debug.Log("Photon Network에 이미 연결되었습니다.");
-        }
+        roomItemPrefab = Resources.Load<GameObject>("Lobby/RoomItem");
     }
 
     public void OnChangeNickname()
@@ -70,7 +61,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("룸이 성공적으로 생성되었습니다.");
 
-        // 룸 생성 후 RoomItem을 추가
         GameObject roomPrefab = Instantiate(roomItemPrefab, scrollContent);
         roomPrefab.GetComponent<RoomData>().RoomInfo = PhotonNetwork.CurrentRoom;
         rooms.Add(PhotonNetwork.CurrentRoom.Name, roomPrefab);

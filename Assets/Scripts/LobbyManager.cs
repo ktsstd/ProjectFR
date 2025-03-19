@@ -14,6 +14,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject StartObj;
     private bool isReady;
     public int CharacterIndex;
+    public GameObject[] CharacterImg;
+    public GameObject CharacterImgParent;
+    public Transform[] CharacterPos;
 
     private void Start()
     {
@@ -34,41 +37,101 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
         UpdatePlayerListUI();
+        int localPlayerIndex = System.Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.LocalPlayer);
+
+        if(localPlayerIndex >= 0 && localPlayerIndex < CharacterPos.Length)
+        {
+            CharacterImgParent.transform.position = CharacterPos[localPlayerIndex].position;
+        }
+        else
+        {
+            Debug.LogError("유효하지 않은 플레이어 인덱스입니다.");
+        }
     }
 
-    public void OnClickCharacterSelectButton()
+    public void OnClickCharacterSelectRightButton()
     {
+        if (isReady)
+        {
+            Debug.Log("WarningText 3 / alreadyReady");
+            return;
+        }
         if (CharacterIndex < 3)
         {
-            CharacterIndex++;
+            CharacterIndex += 1;
         }
         else
         {
             CharacterIndex = 0;
         }
+        for (int i = 0; i <= 3; i++)
+            {
+                if (CharacterImg[i] != null)
+                {
+                    CharacterImg[i].SetActive(false);
+                }
+            }
+            CharacterImg[CharacterIndex].SetActive(true);
     }
 
-    public void OnClickReadybutton(int CharacterIndex)
+    public void OnClickCharacterSelectLeftButton()
+    {
+        if (isReady)
+        {
+            Debug.Log("WarningText 3 / alreadyReady");
+            return;
+        }
+        if (CharacterIndex > 0)
+        {
+            CharacterIndex -= 1;
+        }
+        else
+        {
+            CharacterIndex = 3;
+        }
+        for (int i = 0; i <= 3; i++)
+            {
+                if (CharacterImg[i] != null)
+                {
+                    CharacterImg[i].SetActive(false);
+                }
+            }
+            CharacterImg[CharacterIndex].SetActive(true);
+    }
+
+    public void OnClickReadybutton()
     {
         if (CharacterIndex == -1)
         {
             Debug.Log("WarningText 1 / No Character");
+            return;
         }
-        else
-        {
-            isReady = !isReady;
-            Hashtable properties = new Hashtable
-            {
-                { "isReady", isReady }
-            };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
 
-            Hashtable playerProps = new Hashtable();
-            playerProps.Add("selectedCharacter", CharacterIndex);
-            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
+        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+                continue;
+
+            if (player.CustomProperties.TryGetValue("selectedCharacter", out object selectedChar) &&
+                selectedChar is int selectedCharIndex &&
+                selectedCharIndex == CharacterIndex)
+            {
+                Debug.Log("WarningText 2 / Can't Select");
+                return;
+            }
         }
-        
+
+        isReady = !isReady;
+
+        Hashtable properties = new Hashtable
+        {
+            { "isReady", isReady },
+            { "selectedCharacter", CharacterIndex }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
+
+
 
     public void OnClickLeaveRoom()
     {
@@ -88,6 +151,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             photonView.RPC("UpdateStartButton", RpcTarget.All, isAllPlayerReady());
         }
     }
+
 
     [PunRPC]
     public void UpdateStartButton(bool state)
@@ -119,8 +183,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        int indexToRemove = playerList.FindIndex(p => p.ActorNumber == otherPlayer.ActorNumber);
-
+        int indexToRemove = otherPlayer.ActorNumber; // playerList.FindIndex(p => p.ActorNumber == otherPlayer.ActorNumber);
+        
         if (indexToRemove != -1)
         {
             playerList.RemoveAt(indexToRemove);
@@ -129,6 +193,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 ReadyObj[indexToRemove].SetActive(false);
             }
+        }
+
+        int localPlayerIndex = System.Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.LocalPlayer);
+
+        if(localPlayerIndex >= 0 && localPlayerIndex < CharacterPos.Length)
+        {
+            CharacterImgParent.transform.position = CharacterPos[localPlayerIndex].position;
+        }
+        else
+        {
+            Debug.LogError("유효하지 않은 플레이어 인덱스입니다.");
         }
 
         SetReadyState(otherPlayer.ActorNumber, false);
