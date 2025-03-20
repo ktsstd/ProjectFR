@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (currentSkillsCoolTime[1] > 0)
             currentSkillsCoolTime[1] -= Time.deltaTime;
         if (currentSkillsCoolTime[2] > 0)
-            currentSkillsCoolTime[3] -= Time.deltaTime;
+            currentSkillsCoolTime[2] -= Time.deltaTime;
 
         if (pv.IsMine)
         {

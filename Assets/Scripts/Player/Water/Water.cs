@@ -6,9 +6,13 @@ using Photon.Pun;
 public class Water : PlayerController
 {
     public PlayerController[] AllPlayers;
-    public GameObject repellingWave;
 
-    private Vector3[] skillsPos = new Vector3[2];
+    public GameObject repellingWave;
+    public GameObject repellingWavePlayerEF;
+
+    public GameObject callOfTheSea;
+
+    private Vector3[] skillsPos = new Vector3[3];
 
     public override void StartStatSet()
     {
@@ -97,6 +101,7 @@ public class Water : PlayerController
                         skillsPos[2] = new Vector3(GetSkillRange(10).x, 0.1f, GetSkillRange(10).z);
                         transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
                         currentSkillsCoolTime[2] = skillsCoolTime[2];
+                        currentStates = States.Attack;
                         animator.SetTrigger("skill3");
                     }
                 }
@@ -124,12 +129,14 @@ public class Water : PlayerController
     public void UseCalOfTheSea()
     {
         if (pv.IsMine)
-            pv.RPC("CallOfTheSea", RpcTarget.All, null);
+            pv.RPC("CallOfTheSea", RpcTarget.All, skillsPos[2]);
     }
 
     [PunRPC]
     public void RepellingWave(Vector3 _targetPos)
     {
+        repellingWavePlayerEF.SetActive(false);
+        repellingWavePlayerEF.SetActive(true);
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 180));
         GameObject skill = Instantiate(repellingWave, transform.position, fireRot);
         skill.GetComponent<RepellingWave>().targetPos = _targetPos;
@@ -149,9 +156,11 @@ public class Water : PlayerController
     }
 
     [PunRPC]
-    public void CallOfTheSea()
+    public void CallOfTheSea(Vector3 _targetPos)
     {
-
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
+        GameObject skill = Instantiate(callOfTheSea, _targetPos, fireRot);
+        skill.GetComponent<CallOfTheSea>().damage = playerAtk;
     }
 
     public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

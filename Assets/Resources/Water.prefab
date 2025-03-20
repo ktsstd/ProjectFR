@@ -687,6 +687,7 @@ Transform:
   - {fileID: 5080260871614722593}
   - {fileID: 7646641828182170132}
   - {fileID: 4630895584820636827}
+  - {fileID: 4086695097899649919}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7643029618498045650
@@ -780,6 +781,8 @@ MonoBehaviour:
   currentStates: 0
   AllPlayers: []
   repellingWave: {fileID: 740383764054113988, guid: c432efb040748764db23394ad1fa3a0a, type: 3}
+  repellingWavePlayerEF: {fileID: 8854595094012382202}
+  callOfTheSea: {fileID: 2667871517864018120, guid: 9f3da2e4d0449b1479ea96304b024088, type: 3}
 --- !u!136 &8439184563598457140
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5659,4 +5662,79 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7355673220199176238, guid: 277b1a6672cb9f5499af78c5aea4a9e8, type: 3}
   m_PrefabInstance: {fileID: 2760890387202307253}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4178623431847196051
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 471274438850629727}
+    m_Modifications:
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179173979261924648, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835921021928636009, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_Name
+      value: FX_Water_Skill_01_Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835921021928636009, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+--- !u!4 &4086695097899649919 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 93353301235711724, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+  m_PrefabInstance: {fileID: 4178623431847196051}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8854595094012382202 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4835921021928636009, guid: 83b96e4e76a8f584fb0205352b34eb64, type: 3}
+  m_PrefabInstance: {fileID: 4178623431847196051}
   m_PrefabAsset: {fileID: 0}
