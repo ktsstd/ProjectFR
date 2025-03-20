@@ -8,7 +8,7 @@ public class Boss : MonsterAI
     private float FirPatternbreakupHealth;
     private Transform BossMouthPos;
     private int BossPhase;
-    public float[] BossMonsterSkillCooldowns = { 9999f, 10f, 9999f, 0f };
+    public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
 
     protected override void Start()
@@ -108,7 +108,7 @@ public class Boss : MonsterAI
         {
             if (BossMonsterSkillTimers[i] <= 0f)
             {
-                if (i == 2) //|| i == 3)
+                if (i == 2 || i == 3)
                 {
                     if (BossPhase >= 2)
                     {

@@ -6,7 +6,6 @@ using Photon.Pun;
 public class Attackboundary : MonoBehaviour
 {
     GameObject attackboundaryObj;
-    public float damage;
     bool isFadeIn = false;
     MonsterAI monsterAIScript;
     float attackDuration = 4f;
@@ -59,7 +58,7 @@ public class Attackboundary : MonoBehaviour
         if (isFadeIn && other.CompareTag("Player"))
         {
             PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
-            playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, damage);
+            playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, monsterAIScript.monsterInfo.damage);
         }
     }
 
