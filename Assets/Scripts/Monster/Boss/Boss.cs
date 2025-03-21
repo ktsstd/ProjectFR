@@ -49,27 +49,27 @@ public class Boss : MonsterAI
         {
             case 0:
                 // todo -> attacking animation
-                Vector3 attackFowardPos1 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 8;        
+                Vector3 attackFowardPos1 = new Vector3(transform.position.x, transform.position.y - 0.9f, transform.position.z) + transform.forward * 8;        
                 GameObject AttackObj1 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos1, transform.rotation);
                 AttackObj1.transform.SetParent(this.transform);
                 break;
             case 1:
                 // todo -> jumping animation
                 PhotonNetwork.Instantiate("Boss_Skill_02_Jump", transform.position, Quaternion.identity);
-                Vector3 attackFowardPos2 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 6;
+                Vector3 attackFowardPos2 = new Vector3(transform.position.x, transform.position.y - 0.9f, transform.position.z) + transform.forward * 6;
                 GameObject AttackObj2 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos2, Quaternion.identity);
                 transform.position = attackFowardPos2;
                 AttackObj2.transform.SetParent(this.transform);
                 break;
             case 2:
                 //todo -> make
-                Vector3 attackFowardPos3 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
+                Vector3 attackFowardPos3 = new Vector3(transform.position.x, transform.position.y - 0.9f, transform.position.z) + transform.forward * 1;
                 GameObject AttackObj3 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos3, Quaternion.identity);
                 AttackObj3.transform.SetParent(this.transform);
                 break;
             case 3:
                 //todo -> poision animation
-                Vector3 attackFowardPos4 = new Vector3(transform.position.x, 0.1f, transform.position.z);
+                Vector3 attackFowardPos4 = new Vector3(transform.position.x, transform.position.y - 0.9f, transform.position.z);
                 GameObject AttackObj4 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos4, Quaternion.identity);
                 AttackObj4.transform.SetParent(this.transform);
                 break;
