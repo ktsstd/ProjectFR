@@ -65,7 +65,7 @@ public class Water : PlayerController
                         currentSkillsCoolTime[0] = skillsCoolTime[0];
                         skillRanges[0].SetActive(false);
                         currentStates = States.Attack;
-                        animator.SetTrigger("skill1");
+                        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill1");
                     }
                 }
             }
@@ -82,7 +82,7 @@ public class Water : PlayerController
                         skillRanges[1].SetActive(false);
                         currentSkillsCoolTime[1] = skillsCoolTime[1];
                         currentStates = States.Attack;
-                        animator.SetTrigger("skill2");
+                        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill2");
                     }
                 }
             }
@@ -102,7 +102,7 @@ public class Water : PlayerController
                         transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
                         currentSkillsCoolTime[2] = skillsCoolTime[2];
                         currentStates = States.Attack;
-                        animator.SetTrigger("skill3");
+                        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill3");
                     }
                 }
             }

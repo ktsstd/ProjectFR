@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject playerRespawnZone;
     public GameObject recoveryShileObject;
     public GameObject recoveryShileDestroy;
+    public GameObject recoveryEF;
     public PlayerInfo playerInfo;
 
     public PhotonView pv;
@@ -286,9 +287,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void OnPlayerRecovery(float _heal)
     {
-        if (pv.IsMine)
+        if (currentStates != States.Die)
         {
-            if (currentStates != States.Die)
+            recoveryEF.SetActive(false);
+            recoveryEF.SetActive(true);
+            if (pv.IsMine)
             {
                 playerHp += _heal;
                 if (playerHp > playerMaxHp)
@@ -310,6 +313,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             if (respawnCoolTime <= 0)
             {
                 // ��Ȱ �ִϸ��̼� �ֱ�
+                respawnCoolTime = 10;
                 GameObject targetPlayer = playerInRange[0];
                 pv.RPC("PlayerRespawn", RpcTarget.All, null);
             }
@@ -359,6 +363,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public IEnumerator RecoveryShield(float _shield)
     {
+        recoveryShileObject.SetActive(false);
         recoveryShileObject.SetActive(true);
         recoveryShield = _shield;
         yield return new WaitForSeconds(10f);
@@ -372,8 +377,27 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     bool cameraMoving = false;
+    float scrollSpeed = 3f;
+    float minY = 10f, maxY = 14f;
+    float minZ = -10f, maxZ = -6f;
     public void CameraMove()
     {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+        if (scroll != 0)
+        {
+            CinemachineTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+            Vector3 offset = transposer.m_FollowOffset;
+
+            offset.y -= scroll * scrollSpeed;
+            offset.z += scroll * scrollSpeed;
+
+            offset.y = Mathf.Clamp(offset.y, minY, maxY);
+            offset.z = Mathf.Clamp(offset.z, minZ, maxZ);
+
+            transposer.m_FollowOffset = offset;
+        }
+
         if (Input.GetKeyDown(KeyCode.Y))
         {
             cameraMoving = !cameraMoving;
@@ -449,5 +473,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
             return GetMousePosition();
+    }
+
+    [PunRPC]
+    public void PlayTriggerAnimation(string _name)
+    {
+        animator.SetTrigger(_name);
     }
 }
