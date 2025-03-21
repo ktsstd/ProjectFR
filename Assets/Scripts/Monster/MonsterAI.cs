@@ -8,23 +8,31 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 {
     public MonsterInfo monsterInfoScript;
     public MonsterInfo monsterInfo;
+    private Transform playerController;
 
     public Transform target;
+    private Rigidbody rigidbody;
 
     public NavMeshAgent agent;
     public bool canMove = true;
+    public bool knockback = false;
     public Animator animator;
 
     protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         monsterInfo = Instantiate(monsterInfoScript);
-        agent.speed = monsterInfo.speed;    
+        agent.speed = monsterInfo.speed;
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
-        animator = GetComponent<Animator>();  
+        animator = GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody>();
+        playerController = GameObject.FindGameObjectWithTag("Player").transform;
     }
     protected virtual void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+            OnMonsterKnockBack(playerController);
+        if (agent == null) return;
         target = GetClosestTarget();
 
         if (target != null && canMove)
@@ -39,7 +47,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                     canMove = false;
                 }
                 else
-                { 
+                {
                     agent.ResetPath(); // todo -> Idle animation
                 }
             }
@@ -53,17 +61,17 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 monsterInfo.attackTimer -= Time.deltaTime;
             }
             Vector3 directionToTarget = target.position - transform.position;
-            if (directionToTarget != Vector3.zero) 
+            if (directionToTarget != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             }
         }
-        else if (!canMove)
+        else if (!canMove && !knockback)
         {
             agent.ResetPath(); // todo -> Idle animation
             target = GetClosestTarget();
-        }    
+        }
     }
     protected Transform GetClosestTarget()
     {
@@ -108,7 +116,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
         Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1.5f;
         animator.SetTrigger("StartAttack");
-        GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);        
+        GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);
         AttackObj.transform.SetParent(this.transform);
     }
 
@@ -117,7 +125,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log("attack success: " + Obj + ":" + damage);
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
         canMove = true;
-    } 
+    }
 
     protected virtual void MonsterDmged(float damage)
     {
@@ -129,6 +137,35 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             PhotonNetwork.Destroy(gameObject);
         }
+    }
+
+    private void OnMonsterKnockBack(Transform _transform)
+    {
+        Vector3 vec = transform.position - _transform.position;
+        vec.x = Mathf.Sign(vec.x) * 5;
+        vec.z = Mathf.Sign(vec.z) * 5;
+        rigidbody.AddForce(vec, ForceMode.Impulse);
+        OnMonsterStun(0.5f);
+    }
+
+    private Coroutine stunCoroutine;
+    public void OnMonsterStun(float _time)
+    {
+        if (stunCoroutine != null)
+            StopCoroutine(stunCoroutine);
+
+        stunCoroutine = StartCoroutine(MonsterStun(_time));
+    }
+
+    IEnumerator MonsterStun(float _time) // 스턴 상태 처리
+    {
+        canMove = false;
+        knockback = true;
+        agent.enabled = false;
+        yield return new WaitForSeconds(_time);
+        agent.enabled = true;
+        canMove = true;
+        knockback = false ;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
