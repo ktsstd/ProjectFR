@@ -35,7 +35,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string prefabName = "Water";
+        string prefabName = "";
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
+        if ((int)character == 0)
+            prefabName = "Water";
+        else if ((int)character == 3)
+            prefabName = "Fire";
         PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);
         Debug.Log("Wave Start at 5sec / TestMod");
         StartCoroutine(WaveStart());

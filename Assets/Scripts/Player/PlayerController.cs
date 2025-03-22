@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public float recoveryShield;
 
     public GameObject[] skillRanges;
+    public Vector3[] skillsPos = new Vector3[3];
 
     public virtual void StartStatSet()
     {
@@ -98,7 +99,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (pv.IsMine)
         {
-            animator.SetBool("isRun", isMoving);
+            RunAnimation();
             CameraMove();
             if (currentStates != States.Idle)
             {
@@ -141,9 +142,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public virtual void RunAnimation()
+    {
+        animator.SetBool("isRun", isMoving);
+    }
+
     Ray ray;
     Vector3 targetPos;
-    private bool isMoving = false;
+    public bool isMoving = false;
     void Move()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -426,7 +432,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    // bool previousIsMoving;
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -436,6 +441,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(playerHp);
             stream.SendNext(currentStates);
             stream.SendNext(recoveryShield);
+            stream.SendNext(skillsPos);
         }
         else
         {
@@ -444,6 +450,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             playerHp = (float)stream.ReceiveNext();
             currentStates = (States)stream.ReceiveNext();
             recoveryShield = (float)stream.ReceiveNext();
+            skillsPos = (Vector3[])stream.ReceiveNext();
         }
     }
 

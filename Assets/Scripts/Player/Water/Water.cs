@@ -12,7 +12,6 @@ public class Water : PlayerController
 
     public GameObject callOfTheSea;
 
-    private Vector3[] skillsPos = new Vector3[3];
 
     public override void StartStatSet()
     {
@@ -161,20 +160,5 @@ public class Water : PlayerController
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(callOfTheSea, _targetPos, fireRot);
         skill.GetComponent<CallOfTheSea>().damage = playerAtk;
-    }
-
-    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        base.OnPhotonSerializeView(stream, info);
-        if (stream.IsWriting)
-        {
-            stream.SendNext(skillsPos[0]);
-            stream.SendNext(skillsPos[1]);
-        }
-        else
-        {
-            skillsPos[0] = (Vector3)stream.ReceiveNext();
-            skillsPos[1] = (Vector3)stream.ReceiveNext();
-        }
     }
 }
