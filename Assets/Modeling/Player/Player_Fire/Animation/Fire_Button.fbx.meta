@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e271a862db3f947498c43d60fa2a0f74
+guid: 12d52190d6f898e45a6fae649cdb34dc
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,18 +31,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Fire_Idle
-      takeName: Fire_Idle
-      internalID: -8942732132184233677
+      name: Fire_Button
+      takeName: Take 001
+      internalID: 1827226128182048838
       firstFrame: 0
-      lastFrame: 45
+      lastFrame: 22
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -54,7 +54,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.3248731
+        functionName: UseFireButton
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: b7c560737d7525a49b39ff881db580e4, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: StopAnimation
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: b7c560737d7525a49b39ff881db580e4, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
