@@ -282,7 +282,7 @@ public class Boss : MonsterAI
         }
         else if (monsterInfo.health <= 0 && BossPhase >= 2)
         {
-            // todo -> death animation
+            animator.SetTrigger("Die");
             Destroy(gameObject);
         }
     }
