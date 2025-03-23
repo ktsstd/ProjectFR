@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BoneMonster : MonsterAI
+public class Solborn : MonsterAI
 {
     private float reviveHealth;
     public override void Start()
@@ -19,14 +19,25 @@ public class BoneMonster : MonsterAI
         Debug.Log("health: " + monsterInfo.health);
         if (monsterInfo.health <= 0) // todo -> revive animation
         {
+            canMove = false;
             if (reviveHealth > 0)
             {
-                monsterInfo.health += reviveHealth;
+                StartCoroutine(Revive());
             }
             else
             {
                 PhotonNetwork.Destroy(gameObject);
             }
         }
+    }
+    IEnumerator Revive()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            monsterInfo.health += reviveHealth / 5;
+            yield return new WaitForSeconds(1.3f);
+        }
+        reviveHealth = 0;
+        canMove = true;
     }
 }

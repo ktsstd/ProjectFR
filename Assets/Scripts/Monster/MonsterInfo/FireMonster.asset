@@ -16,13 +16,11 @@ MonoBehaviour:
   damage: 10
   health: 150
   attackRange: 4
-  attackSpeed: 3
   attackCooldown: 6
   attackTimer: 0
   priTarget:
   - Player
   attackboundary:
   - {fileID: 1104074487764874493, guid: 11973fd44c2a6794095890cef91164da, type: 3}
-  attackPos: {x: 0, y: 0, z: 0}
   isBoss: 0
-  redistance: 8
+  redistance: 10

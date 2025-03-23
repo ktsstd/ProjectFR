@@ -59,6 +59,17 @@ public class Attackboundary : MonoBehaviour
         {
             PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
             playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, monsterAIScript.monsterInfo.damage);
+            monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
+            monsterAIScript.canMove = true;
+            Destroy(this.gameObject);
+        }
+        else if (isFadeIn && other.CompareTag("Object"))
+        {
+            Object objectS = other.gameObject.GetComponent<Object>();
+            objectS.photonView.RPC("Damaged", RpcTarget.All, monsterAIScript.monsterInfo.damage);
+            monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
+            monsterAIScript.canMove = true;
+            Destroy(this.gameObject);
         }
     }
 

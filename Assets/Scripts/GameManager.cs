@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Quit;
     private int WaveCount = 0;
     private bool isSpawn = false;
-    private bool QuitOn = false;
+    //private bool QuitOn = false;
 
     private static GameManager _instance;
     public static GameManager Instance
@@ -49,19 +50,19 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (!QuitOn)
-            {
-                Quit.SetActive(true);
-                QuitOn = true;
-            }
-            else
-            {
-                Quit.SetActive(false);
-                QuitOn = false;
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    if (!QuitOn)
+        //    {
+        //        Quit.SetActive(true);
+        //        QuitOn = true;
+        //    }
+        //    else
+        //    {
+        //        Quit.SetActive(false);
+        //        QuitOn = false;
+        //    }
+        //}
     }
 
     public void CheckMonster()
@@ -80,72 +81,128 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(5);
             isSpawn = true;
+
             string Firemonster = "TEMPMONSTER/Spirit of Fire";
-            string TestBoss = "TestBoss";
+            string Sleebam = "Monster/Sleebam";
+            string Mugolin = "Monster/Mugolin";
+            string Solborn = "Monster/Solborn";
+            string Boss = "Boss";
 
             int a = Random.Range(1, 4);
             int b = Random.Range(1, 5);
 
-            Transform[] spawnPositions = null;
-
-            if (a == 1)
-            {
-                switch (b)
-                {
-                    case 1:
-                        spawnPositions = GetChildTransforms(WaveEastFirstPos);
-                        break;
-                    case 2:
-                        spawnPositions = GetChildTransforms(WaveWestFirstPos);
-                        break;
-                    case 3:
-                        spawnPositions = GetChildTransforms(WaveSouthFirstPos);
-                        break;
-                    case 4:
-                        spawnPositions = GetChildTransforms(WaveNorthFirstPos);
-                        break;
-                }
-            }
-            else if (a == 2)
-            {
-                spawnPositions = GetChildTransforms(WaveSecondPos);
-            }
-
-            if (a == 3)
-            {
-                switch (b)
-                {
-                    case 1:
-                        spawnPositions = GetChildTransforms(WaveThirdPos1);
-                        break;
-                    case 2:
-                        spawnPositions = GetChildTransforms(WaveThirdPos2);
-                        break;
-                    case 3:
-                        spawnPositions = GetChildTransforms(WaveThirdPos3);
-                        break;
-                    case 4:
-                        spawnPositions = GetChildTransforms(WaveThirdPos4);
-                        break;
-                }
-            }
+            Transform[] spawnPositions = GetSpawnPositions(a, b);
 
             if (spawnPositions != null)
             {
-                foreach (var position in spawnPositions)
+                // 몬스터 인스턴스화 함수 호출
+                if (WaveCount == 1)
                 {
-                    PhotonNetwork.Instantiate(Firemonster, position.position, Quaternion.identity);
-                    yield return new WaitForSeconds(1);
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 15));
+                }
+                else if (WaveCount == 2)
+                {
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 15));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 10));
+                }
+                else if (WaveCount == 3)
+                {
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 20));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 15));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 10));
+                }
+                else if (WaveCount == 4)
+                {
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 25));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 15));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 10));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 5));
+                }
+                else if (WaveCount == 5)
+                {
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 30));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 25));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 15));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 10));
+                }
+                else if (WaveCount == 6)
+                {
+                    Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                    PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
                 }
             }
-
             isSpawn = false;
         }
         else
         {
-            Debug.Log("you are not a matser cl");
+            Debug.Log("you are not a master client");
         }
     }
+
+    // Spawn 위치 결정
+    Transform[] GetSpawnPositions(int a, int b)
+    {
+        Transform[] spawnPositions = null;
+
+        if (a == 1)
+        {
+            switch (b)
+            {
+                case 1:
+                    spawnPositions = GetChildTransforms(WaveEastFirstPos);
+                    break;
+                case 2:
+                    spawnPositions = GetChildTransforms(WaveWestFirstPos);
+                    break;
+                case 3:
+                    spawnPositions = GetChildTransforms(WaveSouthFirstPos);
+                    break;
+                case 4:
+                    spawnPositions = GetChildTransforms(WaveNorthFirstPos);
+                    break;
+            }
+        }
+        else if (a == 2)
+        {
+            spawnPositions = GetChildTransforms(WaveSecondPos);
+        }
+        else if (a == 3)
+        {
+            switch (b)
+            {
+                case 1:
+                    spawnPositions = GetChildTransforms(WaveThirdPos1);
+                    break;
+                case 2:
+                    spawnPositions = GetChildTransforms(WaveThirdPos2);
+                    break;
+                case 3:
+                    spawnPositions = GetChildTransforms(WaveThirdPos3);
+                    break;
+                case 4:
+                    spawnPositions = GetChildTransforms(WaveThirdPos4);
+                    break;
+            }
+        }
+
+        return spawnPositions;
+    }
+
+    IEnumerator InstantiateMonsters(Transform[] spawnPositions, int a, string monsterType, int count)
+    {
+        Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+
+        for (int i = 0; i < count; i++)
+        {
+            PhotonNetwork.Instantiate(monsterType, randomSpawnPos.position, Quaternion.identity);
+
+            if (a != 1)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+    }
+
 
     private Transform[] GetChildTransforms(Transform parent)
     {

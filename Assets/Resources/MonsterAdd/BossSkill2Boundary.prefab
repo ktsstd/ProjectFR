@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 828028620268732249}
   - component: {fileID: 151095156283255964}
   - component: {fileID: 1976442615473310613}
-  - component: {fileID: 8831498642990674506}
   - component: {fileID: 4397708959863309576}
   - component: {fileID: -397916790505633403}
   - component: {fileID: 4766816625584077479}
@@ -31,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1104074487764874493}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3.56}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 7, y: 0.00001, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -89,19 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8831498642990674506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1104074487764874493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c08f9dfef3b48cc43b9234e8d793cf09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 15
 --- !u!64 &4397708959863309576
 MeshCollider:
   m_ObjectHideFlags: 0

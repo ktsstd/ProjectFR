@@ -6,7 +6,7 @@ using Photon.Pun;
 public class BossSkill1Script : MonoBehaviour
 {
     GameObject attackboundaryObj;
-    public int damage;
+    private float damage;
     bool isFadeIn = false;
     Boss bossScript;
     // Start is called before the first frame update
@@ -14,13 +14,14 @@ public class BossSkill1Script : MonoBehaviour
     {
         attackboundaryObj = gameObject;
         bossScript = GetComponentInParent<Boss>();
+        damage += 50 + (bossScript.monsterInfo.damage / 2);
         StartCoroutine(FadeIn());
     }
 
     IEnumerator FadeIn()
     {
         float elapsedTime = 0f; // 누적 경과 시간
-        float fadedTime = 3f; // 총 소요 시간
+        float fadedTime = 0.93f; // 총 소요 시간
 
         while (elapsedTime <= fadedTime)
         {

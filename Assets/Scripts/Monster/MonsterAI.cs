@@ -10,6 +10,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public MonsterInfo monsterInfo;
     private Transform playerController;
     public float monsterSlowCurTime;
+    [SerializeField] private GameObject sloweffect;
 
 
     public Transform target;
@@ -38,15 +39,27 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             OnMonsterKnockBack(playerController);
         if (Input.GetKeyDown(KeyCode.V))
             OnMonsterSpeedDown(3f, 3f);
-        
+        if (sloweffect != null)
+        {
+            ParticleSystem ps = sloweffect.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                var main = ps.main;
+                main.startRotation = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
+            }
+        }
+
         target = GetClosestTarget();
 
         if (target != null && canMove && agent.enabled)
         {
             float distance = Vector3.Distance(transform.position, target.position);
+            if (animator != null)
+                animator.SetBool("Run", true);
 
             if (distance <= monsterInfo.attackRange)
             {
+                agent.velocity = Vector3.zero;
                 if (monsterInfo.attackTimer <= 0)
                 {
                     Attack();
@@ -56,10 +69,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     agent.ResetPath(); // todo -> Idle animation
                 }
+                if (animator != null)
+                    animator.SetBool("Run", false);
             }
             else
             {
                 agent.SetDestination(target.position); // todo -> moving animation
+                if (animator != null)
+                    animator.SetBool("Run", true);
             }
 
             if (monsterInfo.attackTimer > 0)
@@ -75,7 +92,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
         else if (!canMove && agent.enabled)
         {
+            agent.velocity = Vector3.zero;
             agent.ResetPath(); // todo -> Idle animation
+            if (animator != null)
+                animator.SetBool("Run", false);
             target = GetClosestTarget();
         }
     }
@@ -88,10 +108,21 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             GameObject[] possibleTargets = GameObject.FindGameObjectsWithTag(targetTag);
 
-            if (possibleTargets.Length == 0 || possibleTargets == null) continue;
+            if (possibleTargets == null || possibleTargets.Length == 0)
+                continue;
 
             foreach (GameObject possibleTarget in possibleTargets)
             {
+                if (possibleTarget.CompareTag("Player"))
+                {
+                    PlayerController playerCtrl = possibleTarget.GetComponent<PlayerController>();
+                    if (playerCtrl.playerHp <= 0)
+                    {
+                        continue;
+                    }
+                       
+                }
+
                 float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);
 
                 if (distance < closestDistance)
@@ -103,13 +134,21 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     if (!monsterInfo.isBoss)
                     {
-                        GameObject objectTarget = GameObject.FindGameObjectWithTag("TestObject");
+                        GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
                         return objectTarget.transform;
                     }
                     else
                     {
-                        GameObject objectTarget = GameObject.FindGameObjectWithTag("monsterInfo.priTarget[0]");
-                        return objectTarget.transform;
+                        GameObject objectTarget = GameObject.FindGameObjectWithTag("Player");
+                        PlayerController playerCont = objectTarget.GetComponent<PlayerController>();
+                        if (playerCont.playerInfo.hp <= 0)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            return objectTarget.transform;
+                        }
                     }
                 }
             }
@@ -117,13 +156,19 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
         return closestTarget;
     }
+
     public virtual void Attack() // todo -> attacking animation
     {
         string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
         Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1.5f;
-        animator.SetTrigger("StartAttack");
-        GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);
+        if (animator != null)
+            animator.SetTrigger("StartAttack");
+        Vector3 currentEulerAngles = transform.eulerAngles;
+        GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.Euler(currentEulerAngles.x, currentEulerAngles.y, currentEulerAngles.z));
         AttackObj.transform.SetParent(this.transform);
+        Vector3 AttackObjlocal = AttackObj.transform.localPosition;
+        AttackObjlocal.y = -0.9f;
+        AttackObj.transform.localPosition = AttackObjlocal;
     }
 
     public virtual void AttackSuccess(GameObject Obj, int damage)
@@ -141,6 +186,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log("health: " + monsterInfo.health);
         if (monsterInfo.health <= 0)
         {
+            if (animator != null)
+                animator.SetTrigger("Die");
             PhotonNetwork.Destroy(gameObject);
             GameManager.Instance.CheckMonster();
         }
@@ -148,6 +195,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OnMonsterKnockBack(Transform _transform)
     {
+        if (monsterInfo.isBoss) return;
         canMove = false;
         agent.enabled = false;
 
@@ -176,9 +224,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         canMove = true;
     }
 
-    public void OnMonsterSpeedDown(float _time, float _moveSpeed) // TS
+    public void OnMonsterSpeedDown(float _time, float _moveSpeed)
     {
-        if (monsterSlowCurTime > 0)
+        if (monsterSlowCurTime > 0 && !monsterInfo.isBoss)
         {
             slowEffects.Add((_time, _moveSpeed));
             slowEffects.Sort((a, b) => b.slowmoveSpeed.CompareTo(a.slowmoveSpeed));
@@ -201,9 +249,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator MonsterSpeedDowning(float _time, float _moveSpeed)
     {
         agent.speed -= _moveSpeed;
-        Vector3 EffectPos = new Vector3(transform.position.x, 0.1f, transform.position.z);
-        GameObject sloweffect = PhotonNetwork.Instantiate("Buff/FX_slow", EffectPos, Quaternion.identity);
-        sloweffect.transform.SetParent(this.transform);
+        sloweffect.SetActive(true);
         monsterSlowCurTime = _time;
         while (monsterSlowCurTime > 0)
         {
@@ -228,7 +274,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             speedCoroutine = null;
             agent.speed += _moveSpeed;
-            Destroy(sloweffect);
+            sloweffect.SetActive(false);
         }
     }
 

@@ -12,19 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75cdb71b47fd5f14d8d7889a191554eb, type: 3}
   m_Name: Boss
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 6
   damage: 80
-  health: 6000
+  health: 3000
   attackRange: 8
+  attackCooldown: 5
+  attackTimer: 0
+  priTarget:
+  - Player
   attackboundary:
   - {fileID: 95736695149742261, guid: 026da11826be46142a7d986bc4b49965, type: 3}
   - {fileID: 1104074487764874493, guid: 6319a936fa7d9af47981ea0e8cb206f1, type: 3}
   - {fileID: 8749548841231393093, guid: d82ae7a6c72190040986c0aa6172c611, type: 3}
   - {fileID: 2838887698864355486, guid: 06b4021e8e90a9b4f9d1717d1df96a7e, type: 3}
-  attackSpeed: 15
-  attackCooldown: 3
-  attackTimer: 0
-  priTarget:
-  - Player
-  isBoss: 0
-  redistance: 20
+  isBoss: 1
+  redistance: 10

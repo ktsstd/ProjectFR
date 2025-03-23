@@ -16,12 +16,11 @@ MonoBehaviour:
   damage: 20
   health: 300
   attackRange: 4
-  attackboundary:
-  - {fileID: 1838129466790532112, guid: 3ad183a41ea59b942b7611f4dc2b3839, type: 3}
-  attackSpeed: 3
   attackCooldown: 8
   attackTimer: 0
   priTarget:
   - Object
+  attackboundary:
+  - {fileID: 1838129466790532112, guid: 3ad183a41ea59b942b7611f4dc2b3839, type: 3}
   isBoss: 0
-  redistance: 3
+  redistance: 10
