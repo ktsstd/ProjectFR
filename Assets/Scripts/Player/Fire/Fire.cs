@@ -10,6 +10,11 @@ public class Fire : PlayerController
     public ParticleSystem fireParticle;
     public GameObject flameSpray;
 
+    public GameObject grenade;
+    private int grenadeType;
+
+    public GameObject flameGrenadeTest;
+
     public override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
@@ -53,12 +58,16 @@ public class Fire : PlayerController
                     if (Input.GetKey(KeyCode.W))
                     {
                         skillRanges[1].SetActive(true);
+                        skillRanges[1].transform.position = new Vector3(GetSkillRange(10).x, 0.1f, GetSkillRange(10).z);
                     }
                     if (Input.GetKeyUp(KeyCode.W))
                     {
                         skillRanges[1].SetActive(false);
+                        skillsPos[1] = new Vector3(GetSkillRange(10).x, 0.1f, GetSkillRange(10).z);
+                        transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
                         currentSkillsCoolTime[1] = skillsCoolTime[1];
                         currentStates = States.Attack;
+                        grenadeType = 0;
                         pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill2");
                     }
                 }
@@ -102,6 +111,12 @@ public class Fire : PlayerController
             pv.RPC("FlameSprayTest", RpcTarget.All, null);
     }
 
+    public void UseGrenade()
+    {
+        if (pv.IsMine)
+            pv.RPC("Grenade", RpcTarget.All, skillsPos[1], grenadeType);
+    }
+
     [PunRPC]
     public void FlameSprayTest()
     {
@@ -110,6 +125,7 @@ public class Fire : PlayerController
         {
             fireParticle.Play();
             flameSpray.SetActive(true);
+            flameSpray.GetComponent<FlameSprayTest>().damage = playerAtk;
             playerSpeed -= 1;
         }
         else
@@ -118,6 +134,24 @@ public class Fire : PlayerController
             flameSpray.SetActive(false);
             playerSpeed += 1;
         }
+    }
+
+    [PunRPC]
+    public void Grenade(Vector3 _targetPos, int _grenadeType)
+    {
+        GameObject skill = Instantiate(grenade, transform.position, transform.rotation);
+        Grenade grenadeScript = skill.GetComponent<Grenade>();
+        grenadeScript.target = _targetPos;
+        grenadeScript.skilltype = _grenadeType;
+        grenadeScript.player = this;
+    }
+
+    [PunRPC]
+    public void FlameGrenadeTest(Vector3 _targetPos)
+    {
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
+        GameObject skill = Instantiate(flameGrenadeTest, _targetPos, fireRot);
+        skill.GetComponent<FlameGrenadeTest>().damage = playerAtk;
     }
 
     public override void RunAnimation()

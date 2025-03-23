@@ -58,6 +58,8 @@ MonoBehaviour:
   - CallOfTheSea
   - PlayTriggerAnimation
   - FlameSprayTest
+  - Grenade
+  - FlameGrenadeTest
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class CallOfTheSea : MonoBehaviour
 {
+    public GameObject flameGrenadeTest;
+
     public float damage;
 
     float damageDelay = 0f;
-    int count = 0;
 
     void Start()
     {
