@@ -779,7 +779,12 @@ MonoBehaviour:
   - {fileID: 275875670315392482}
   - {fileID: 6435766958521550044}
   - {fileID: 4790618675410603142}
+  skillsPos:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   currentStates: 0
+  isMoving: 0
   AllPlayers: []
   repellingWave: {fileID: 740383764054113988, guid: c432efb040748764db23394ad1fa3a0a, type: 3}
   repellingWavePlayerEF: {fileID: 8854595094012382202}

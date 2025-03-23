@@ -5,13 +5,13 @@ using UnityEngine;
 public class Geodude : MonsterAI
 {
     
-    protected override void Start()
+    public override void Start()
     {
         base.Start();
         //monsterInfo.attackTimer = 99999f;
         StartCoroutine(StartMove());
     }
-    protected override void Update()
+    public override void Update()
     {
         base.Update();
     }

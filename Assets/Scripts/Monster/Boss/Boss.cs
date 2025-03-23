@@ -11,7 +11,7 @@ public class Boss : MonsterAI
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
 
-    protected override void Start()
+    public override void Start()
     {
         base.Start();
         FirPatternbreakupHealth = monsterInfo.health / 0.2f;
@@ -19,7 +19,7 @@ public class Boss : MonsterAI
         // todo -> directional light color change
     }
 
-    protected override void Update()
+    public override void Update()
     {
         base.Update();
         for (int i = 0; i < BossMonsterSkillTimers.Length; i++)
@@ -30,7 +30,7 @@ public class Boss : MonsterAI
             }
         }
     }
-    protected override void Attack() 
+    public override void Attack() 
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -135,7 +135,7 @@ public class Boss : MonsterAI
         return -1;  
     }
 
-    protected override void MonsterDmged(float damage)
+    public override void MonsterDmged(float damage)
     {
         float FirPatternHealth = monsterInfo.health / 2f;
         // todo -> hit animation

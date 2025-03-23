@@ -76,68 +76,75 @@ public class GameManager : MonoBehaviour
 
     IEnumerator WaveStart()
     {
-        yield return new WaitForSeconds(5);
-        isSpawn = true;
-        string Firemonster = "TEMPMONSTER/Spirit of Fire";
-        string TestBoss = "TestBoss";
-
-        int a = Random.Range(1, 4);
-        int b = Random.Range(1, 5);
-
-        Transform[] spawnPositions = null;
-
-        if (a == 1)
+        if (PhotonNetwork.IsMasterClient)
         {
-            switch (b)
+            yield return new WaitForSeconds(5);
+            isSpawn = true;
+            string Firemonster = "TEMPMONSTER/Spirit of Fire";
+            string TestBoss = "TestBoss";
+
+            int a = Random.Range(1, 4);
+            int b = Random.Range(1, 5);
+
+            Transform[] spawnPositions = null;
+
+            if (a == 1)
             {
-                case 1:
-                    spawnPositions = GetChildTransforms(WaveEastFirstPos);
-                    break;
-                case 2:
-                    spawnPositions = GetChildTransforms(WaveWestFirstPos);
-                    break;
-                case 3:
-                    spawnPositions = GetChildTransforms(WaveSouthFirstPos);
-                    break;
-                case 4:
-                    spawnPositions = GetChildTransforms(WaveNorthFirstPos);
-                    break;
+                switch (b)
+                {
+                    case 1:
+                        spawnPositions = GetChildTransforms(WaveEastFirstPos);
+                        break;
+                    case 2:
+                        spawnPositions = GetChildTransforms(WaveWestFirstPos);
+                        break;
+                    case 3:
+                        spawnPositions = GetChildTransforms(WaveSouthFirstPos);
+                        break;
+                    case 4:
+                        spawnPositions = GetChildTransforms(WaveNorthFirstPos);
+                        break;
+                }
             }
-        }
-        else if (a == 2)
-        {
-            spawnPositions = GetChildTransforms(WaveSecondPos);
-        }
-
-        if (a == 3)
-        {
-            switch (b)
+            else if (a == 2)
             {
-                case 1:
-                    spawnPositions = GetChildTransforms(WaveThirdPos1);
-                    break;
-                case 2:
-                    spawnPositions = GetChildTransforms(WaveThirdPos2);
-                    break;
-                case 3:
-                    spawnPositions = GetChildTransforms(WaveThirdPos3);
-                    break;
-                case 4:
-                    spawnPositions = GetChildTransforms(WaveThirdPos4);
-                    break;
+                spawnPositions = GetChildTransforms(WaveSecondPos);
             }
-        }
 
-        if (spawnPositions != null)
-        {
-            foreach (var position in spawnPositions)
+            if (a == 3)
             {
-                PhotonNetwork.Instantiate(Firemonster, position.position, Quaternion.identity);
-                yield return new WaitForSeconds(1);
+                switch (b)
+                {
+                    case 1:
+                        spawnPositions = GetChildTransforms(WaveThirdPos1);
+                        break;
+                    case 2:
+                        spawnPositions = GetChildTransforms(WaveThirdPos2);
+                        break;
+                    case 3:
+                        spawnPositions = GetChildTransforms(WaveThirdPos3);
+                        break;
+                    case 4:
+                        spawnPositions = GetChildTransforms(WaveThirdPos4);
+                        break;
+                }
             }
-        }
 
-        isSpawn = false;
+            if (spawnPositions != null)
+            {
+                foreach (var position in spawnPositions)
+                {
+                    PhotonNetwork.Instantiate(Firemonster, position.position, Quaternion.identity);
+                    yield return new WaitForSeconds(1);
+                }
+            }
+
+            isSpawn = false;
+        }
+        else
+        {
+            Debug.Log("you are not a matser cl");
+        }
     }
 
     private Transform[] GetChildTransforms(Transform parent)

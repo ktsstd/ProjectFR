@@ -9,7 +9,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public MonsterInfo monsterInfoScript;
     public MonsterInfo monsterInfo;
     private Transform playerController;
-    private float monsterSlowCurTime;
+    public float monsterSlowCurTime;
 
 
     public Transform target;
@@ -20,7 +20,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public bool canMove = true;
     public Animator animator;
 
-    protected virtual void Start()
+    public virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.avoidancePriority = 50;
@@ -30,12 +30,16 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         playerController = GameObject.FindGameObjectWithTag("Player").transform;
+        monsterSlowCurTime = 0;
     }
-    protected virtual void Update()
+    public virtual void Update()
     {
         if (Input.GetKeyDown(KeyCode.C))
             OnMonsterKnockBack(playerController);
-            target = GetClosestTarget();
+        if (Input.GetKeyDown(KeyCode.V))
+            OnMonsterSpeedDown(3f, 3f);
+        
+        target = GetClosestTarget();
 
         if (target != null && canMove && agent.enabled)
         {
@@ -113,10 +117,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
         return closestTarget;
     }
-    protected virtual void Attack() // todo -> attacking animation
+    public virtual void Attack() // todo -> attacking animation
     {
         string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
-        Vector3 attackFowardPos = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z) + transform.forward * 1.5f;
+        Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1.5f;
         animator.SetTrigger("StartAttack");
         GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);
         AttackObj.transform.SetParent(this.transform);
@@ -129,7 +133,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         canMove = true;
     }
 
-    protected virtual void MonsterDmged(float damage)
+    public virtual void MonsterDmged(float damage)
     {
         if (!photonView.IsMine) return;
 
@@ -137,12 +141,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log("health: " + monsterInfo.health);
         if (monsterInfo.health <= 0)
         {
-            GameManager.Instance.CheckMonster();
             PhotonNetwork.Destroy(gameObject);
+            GameManager.Instance.CheckMonster();
         }
     }
 
-    private void OnMonsterKnockBack(Transform _transform)
+    public void OnMonsterKnockBack(Transform _transform)
     {
         canMove = false;
         agent.enabled = false;
@@ -172,7 +176,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         canMove = true;
     }
 
-    public virtual void OnMonsterSpeedDown(float _time, float _moveSpeed) // HERE TS
+    public void OnMonsterSpeedDown(float _time, float _moveSpeed) // TS
     {
         if (monsterSlowCurTime > 0)
         {
@@ -186,7 +190,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     private Coroutine speedCoroutine;
-    public virtual void OnMonsterSpeedDownStart(float _time, float _moveSpeed)
+    public void OnMonsterSpeedDownStart(float _time, float _moveSpeed)
     {
         if (speedCoroutine != null)
             StopCoroutine(speedCoroutine);
@@ -196,10 +200,15 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     IEnumerator MonsterSpeedDowning(float _time, float _moveSpeed)
     {
-        monsterInfo.speed = _moveSpeed;
+        agent.speed -= _moveSpeed;
+        Vector3 EffectPos = new Vector3(transform.position.x, 0.1f, transform.position.z);
+        GameObject sloweffect = PhotonNetwork.Instantiate("Buff/FX_slow", EffectPos, Quaternion.identity);
+        sloweffect.transform.SetParent(this.transform);
+        monsterSlowCurTime = _time;
         while (monsterSlowCurTime > 0)
         {
             yield return null;
+            monsterSlowCurTime -= Time.deltaTime;
 
             for (int i = 0; i < slowEffects.Count; i++)
             {
@@ -212,12 +221,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             var nextSlowEffect = slowEffects[0];
             slowEffects.RemoveAt(0);
-            monsterInfo.speed += _moveSpeed;
+            agent.speed += _moveSpeed;
             OnMonsterSpeedDownStart(nextSlowEffect.slowtime, nextSlowEffect.slowmoveSpeed);
         }
         else
         {
             speedCoroutine = null;
+            agent.speed += _moveSpeed;
+            Destroy(sloweffect);
         }
     }
 

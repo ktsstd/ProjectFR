@@ -6,12 +6,12 @@ using Photon.Pun;
 public class BoneMonster : MonsterAI
 {
     private float reviveHealth;
-    protected override void Start()
+    public override void Start()
     {
         base.Start();
         reviveHealth = monsterInfo.health;
     }
-    protected override void MonsterDmged(float damage)
+    public override void MonsterDmged(float damage)
     {
         if (!photonView.IsMine) return;
 
