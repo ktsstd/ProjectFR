@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LightMonster : MonsterAI
 {
+    [SerializeField] GameObject LightMonsterBomb;
     public override void Start()
     {
         base.Start();
@@ -19,7 +20,7 @@ public class LightMonster : MonsterAI
         string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
         Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z);
         animator.SetTrigger("StartAttack");
-        GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.identity);
+        GameObject AttackObj = Instantiate(LightMonsterBomb, attackFowardPos, Quaternion.identity);
         AttackObj.transform.SetParent(this.transform);
     }
 }

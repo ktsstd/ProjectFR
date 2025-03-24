@@ -159,15 +159,15 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Attack() // todo -> attacking animation
     {
-        string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
+        //string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
         Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1.5f;
         if (animator != null)
             animator.SetTrigger("StartAttack");
         Vector3 currentEulerAngles = transform.eulerAngles;
-        GameObject AttackObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos, Quaternion.Euler(currentEulerAngles.x, currentEulerAngles.y, currentEulerAngles.z));
+        GameObject AttackObj = Instantiate(monsterInfo.attackboundary[0], attackFowardPos, Quaternion.Euler(currentEulerAngles.x, currentEulerAngles.y, currentEulerAngles.z));
         AttackObj.transform.SetParent(this.transform);
         Vector3 AttackObjlocal = AttackObj.transform.localPosition;
-        AttackObjlocal.y = -0.9f;
+        AttackObjlocal.y = -0.29f;
         AttackObj.transform.localPosition = AttackObjlocal;
     }
 

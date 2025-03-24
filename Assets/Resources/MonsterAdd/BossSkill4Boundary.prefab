@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3054813175631710640}
   - component: {fileID: 1347612265658037107}
   - component: {fileID: 4101400947082424138}
-  - component: {fileID: 7710646221867817946}
   - component: {fileID: 3709791516911914144}
   m_Layer: 0
   m_Name: BossSkill4Boundary
@@ -123,28 +122,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &7710646221867817946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2838887698864355486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &3709791516911914144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,4 +134,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7b00fb4a9e0384ab1ff826e58ce992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BossSkill4: {fileID: 6113128672718374927, guid: d4a9ee6f62c20f0408396bf5fc01db35, type: 3}
   damage: 0

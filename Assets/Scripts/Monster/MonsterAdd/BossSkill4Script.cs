@@ -6,6 +6,7 @@ using Photon.Pun;
 public class BossSkill4Script : MonoBehaviour
 {
     GameObject attackboundaryObj;
+    [SerializeField] GameObject BossSkill4;
     public int damage;
     bool isFadeIn = false;
     Boss bossScript;
@@ -37,8 +38,8 @@ public class BossSkill4Script : MonoBehaviour
     void StartEffect()
     {
         Vector3 currentEulerAngles = transform.eulerAngles;
-        GameObject Skill1Obj = PhotonNetwork.Instantiate("Boss_Skill_04", transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
+        GameObject Skill1Obj = Instantiate(BossSkill4, transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
         bossScript.canMove = false;
-        Destroy(gameObject);
+        DestroyImmediate(gameObject);
     }
 }

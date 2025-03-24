@@ -8,7 +8,6 @@ public class BossSkill1 : MonoBehaviour
 {
     private PlayableDirector playableDirector;
     public GameObject Skill1Obj;
-    private Animator animator;
 
     void Start()
     {
@@ -28,6 +27,6 @@ public class BossSkill1 : MonoBehaviour
 
     void OnTimelineStopped(PlayableDirector director)
     {
-        Destroy(Skill1Obj);
+        DestroyImmediate(Skill1Obj);
     }
 }

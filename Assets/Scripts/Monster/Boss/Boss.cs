@@ -102,25 +102,25 @@ public class Boss : MonsterAI
         if (PhotonNetwork.IsMasterClient)
         {
             int randomskill = GetRandomSkill();
-            string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[randomskill].name;
+            //string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[randomskill].name;
             // BossMonsterSkillTimers[randomskill] = BossMonsterSkillCooldowns[randomskill];
-            photonView.RPC("PunAttack", RpcTarget.All, randomskill, attackBoundary);
+            photonView.RPC("PunAttack", RpcTarget.All, randomskill);
         }     
     }
 
     [PunRPC]
-    public void PunAttack(int randomskill, string attackBoundary)
+    public void PunAttack(int randomskill)
     {
-        StartCoroutine(PunAttackCoroutine(randomskill, attackBoundary));
+        StartCoroutine(PunAttackCoroutine(randomskill));
     }
 
-    private IEnumerator PunAttackCoroutine(int randomskill, string attackBoundary)
+    private IEnumerator PunAttackCoroutine(int randomskill)
     {
         switch (randomskill)
         {
             case 0:
                 Vector3 attackFowardPos1 = new Vector3(transform.position.x, 0.02f, transform.position.z) + transform.forward * 9;
-                GameObject AttackObj1 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos1, transform.rotation);
+                GameObject AttackObj1 = Instantiate(monsterInfo.attackboundary[0], attackFowardPos1, transform.rotation);
                 AttackObj1.transform.SetParent(this.transform);
                 Vector3 AttackObj1local = AttackObj1.transform.localPosition;
                 AttackObj1local.y = -0.9f;
@@ -135,7 +135,7 @@ public class Boss : MonsterAI
                 PhotonNetwork.Instantiate("Boss_Skill_02_Jump", transform.position, Quaternion.identity);
                 Vector3 attackFowardPos2 = new Vector3(target.position.x, 0.02f, target.position.z);
                 yield return new WaitForSeconds(0.6f);
-                GameObject AttackObj2 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos2, transform.rotation);
+                GameObject AttackObj2 = Instantiate(monsterInfo.attackboundary[1], attackFowardPos2, transform.rotation);
                 transform.position = attackFowardPos2;
                 AttackObj2.transform.SetParent(this.transform);
                 Vector3 AttackObj2local = AttackObj2.transform.localPosition;
@@ -161,7 +161,7 @@ public class Boss : MonsterAI
                 if (animator != null)
                     animator.SetTrigger("Skill4");
                 Vector3 attackFowardPos4 = new Vector3(transform.position.x, 0.02f, transform.position.z);
-                GameObject AttackObj4 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos4, transform.rotation);
+                GameObject AttackObj4 = Instantiate(monsterInfo.attackboundary[3], attackFowardPos4, transform.rotation);
                 AttackObj4.transform.SetParent(this.transform);
                 Vector3 AttackObj4local = AttackObj4.transform.localPosition;
                 AttackObj4local.y = -0.9f;
@@ -270,7 +270,7 @@ public class Boss : MonsterAI
             if (canMove)
             {
                 canMove = false;
-                photonView.RPC("PunAttack", RpcTarget.All, 2, "MonsterAdd/" + monsterInfo.attackboundary[2].name);
+                photonView.RPC("PunAttack", RpcTarget.All, 2);
                 monsterInfo.health = 13000f;
                 monsterInfo.damage = 100f;
                 BossPhase += 1;
@@ -284,6 +284,7 @@ public class Boss : MonsterAI
         {
             animator.SetTrigger("Die");
             gameObject.SetActive(false);
+            //todo -> Victory
         }
     }
 }

@@ -13,7 +13,7 @@ public class BossSkill4 : MonoBehaviour
         bossScript.BossMonsterSkillTimers[3] = bossScript.BossMonsterSkillCooldowns[3];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
         bossScript.canMove = true;
-        Destroy(gameObject);
+        DestroyImmediate(gameObject);
     }
     private void OnTriggerStay(Collider other)
     {
