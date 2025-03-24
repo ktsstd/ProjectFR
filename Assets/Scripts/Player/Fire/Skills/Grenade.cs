@@ -26,17 +26,17 @@ public class Grenade : MonoBehaviour
                     if (player.pv.IsMine)
                     {
                         player.pv.RPC("FlameGrenadeTest", Photon.Pun.RpcTarget.All, target);
-                        Destroy(gameObject);
                     }
                     break;
                 case 1:
                     if (player.pv.IsMine)
                     {
                         player.pv.RPC("FinalTest", Photon.Pun.RpcTarget.All, target);
-                        Destroy(gameObject);
                     }
                     break;
             }
+
+            Destroy(gameObject);
         }
     }
 

@@ -283,6 +283,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 currentStates = States.Die;
                 pv.RPC("OnPlayerDie", RpcTarget.All, null);
             }
+
+            playerUi.InputHpData(playerHp, playerMaxHp);
         }
     }
 
@@ -351,6 +353,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             playerHp = playerController.playerHp * 0.5f;
             playerController.pv.RPC("OnPlayerTrueDamage", RpcTarget.All, playerController.playerHp * 0.5f);
             currentStates = States.Idle;
+            playerUi.InputHpData(playerHp, playerMaxHp);
         }
         playerInRange.Clear();
     }
