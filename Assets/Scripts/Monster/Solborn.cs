@@ -13,7 +13,7 @@ public class Solborn : MonsterAI
     }
     public override void MonsterDmged(float damage)
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
 
         monsterInfo.health -= damage;
         Debug.Log("health: " + monsterInfo.health);

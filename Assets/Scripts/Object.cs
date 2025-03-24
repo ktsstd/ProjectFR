@@ -17,7 +17,7 @@ public class Object : MonoBehaviourPunCallbacks
         health -= damage;
         if (health <= 0)
         {
-            Destroy(gameObject);
+            DestroyImmediate(gameObject);
         }
     }
 }

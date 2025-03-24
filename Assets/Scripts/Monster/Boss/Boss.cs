@@ -41,7 +41,7 @@ public class Boss : MonsterAI
         if (Input.GetKeyDown(KeyCode.Keypad8))
             MonsterDmged(1000f);
 
-        target = GetClosestTarget();
+        target = GetClosestTarget();        
 
         if (target != null && canMove && agent.enabled)
         {
@@ -299,7 +299,7 @@ public class Boss : MonsterAI
             float animTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             if (stateInfo.IsName("Boss_Die") && animTime >= 1f)
             {
-                DestroyImmediate(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
     }

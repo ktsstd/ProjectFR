@@ -105,7 +105,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -148,6 +148,7 @@ MonoBehaviour:
   monsterInfoScript: {fileID: 11400000, guid: 26599306d6b16e347b7aef68e8f8aa25, type: 2}
   monsterInfo: {fileID: 0}
   monsterSlowCurTime: 0
+  CurHp: 0
   sloweffect: {fileID: 5394715744695656825}
   target: {fileID: 0}
   agent: {fileID: 0}

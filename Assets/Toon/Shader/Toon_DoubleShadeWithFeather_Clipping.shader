@@ -183,7 +183,7 @@ Shader "UnityChanToonShader/Toon_DoubleShadeWithFeather_Clipping" {
             #pragma multi_compile _IS_OUTLINE_CLIPPING_YES 
             #pragma multi_compile _OUTLINE_NML _OUTLINE_POS
             //アウトライン処理は以下のUCTS_Outline.cgincへ.
-            #include "UCTS_Outline.cginc"
+            #include "\Assets\Modeling\Boss\UCTS_Outline.cginc"
             ENDCG
         }
 //ToonCoreStart

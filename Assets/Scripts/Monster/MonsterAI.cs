@@ -132,27 +132,45 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                     closestDistance = distance;
                     closestTarget = possibleTarget.transform;
                 }
-                else
+                else if (target == null && !monsterInfo.isBoss)
                 {
-                    if (!monsterInfo.isBoss)
+                    GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
+                            return objectTarget.transform;
+                }
+                else if (monsterInfo.isBoss)
+                {
+                    GameObject objectTarget = GameObject.FindGameObjectWithTag("Player");
+                    PlayerController playerCont = objectTarget.GetComponent<PlayerController>();
+                    if (playerCont.playerHp <= 0)
                     {
-                        GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
-                        return objectTarget.transform;
+                        return null;
                     }
                     else
                     {
-                        GameObject objectTarget = GameObject.FindGameObjectWithTag("Player");
-                        PlayerController playerCont = objectTarget.GetComponent<PlayerController>();
-                        if (playerCont.playerInfo.hp <= 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            return objectTarget.transform;
-                        }
+                        return objectTarget.transform;
                     }
                 }
+                //else
+                //{
+                //    if (!monsterInfo.isBoss)
+                //    {
+                //        GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
+                //        return objectTarget.transform;
+                //    }
+                //    else
+                //    {
+                //        GameObject objectTarget = GameObject.FindGameObjectWithTag("Player");
+                //        PlayerController playerCont = objectTarget.GetComponent<PlayerController>();
+                //        if (playerCont.playerInfo.hp <= 0)
+                //        {
+                //            return null;
+                //        }
+                //        else
+                //        {
+                //            return objectTarget.transform;
+                //        }
+                //    }
+                //}
             }
         }
 
@@ -190,7 +208,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (animator != null)
                 animator.SetTrigger("Die");
-            gameObject.SetActive(false);
+            PhotonNetwork.Destroy(gameObject);
             GameManager.Instance.CheckMonster();
         }
     }
@@ -287,14 +305,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
             stream.SendNext(CurHp);
-            stream.SendNext(monsterInfo.attackTimer);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
             CurHp = (float)stream.ReceiveNext();
-            monsterInfo.attackTimer = (float)stream.ReceiveNext();
         }
     }
 }
