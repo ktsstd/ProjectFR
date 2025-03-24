@@ -31,12 +31,13 @@ public class FinalTest : MonoBehaviour
                 monsters.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
             }
 
+            damageDelay = 0.5f;
+
             if (targetMonster == null)
             {
                 targetMonster = GetMinDistanceMonster();
             }
 
-            damageDelay = 0.5f;
         }
 
         if (targetMonster != null)

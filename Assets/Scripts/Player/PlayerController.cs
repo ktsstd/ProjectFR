@@ -8,6 +8,7 @@ using Cinemachine;
 using System.ComponentModel;
 using UnityEngine.PlayerLoop;
 using Unity.VisualScripting;
+using Photon.Pun.Demo.PunBasics;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Rigidbody rigidbody;
     private CapsuleCollider collider;
     private CinemachineVirtualCamera virtualCamera;
+    private PlayerUi playerUi;
 
     private Vector3 receivePos;
     private Quaternion receiveRot;
@@ -74,6 +76,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+        playerUi = GameObject.Find("PlayerUi").GetComponent<PlayerUi>();
 
         currentStates = States.Idle;
         StartStatSet();
@@ -102,6 +105,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             RunAnimation();
             CameraMove();
+            playerUi.InputDashData(currentDashCoolTime, dashCoolTime);
             if (currentStates != States.Idle)
             {
                 skillRanges[0].SetActive(false);
@@ -259,6 +263,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     currentStates = States.Die;
                     pv.RPC("OnPlayerDie", RpcTarget.All, null);
                 }
+
+                playerUi.InputHpData(playerHp, playerMaxHp);
             }
         }
     }
@@ -306,6 +312,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 if (playerHp > playerMaxHp)
                     playerHp = playerMaxHp;
             }
+            playerUi.InputHpData(playerHp, playerMaxHp);
         }
     }
 
@@ -350,7 +357,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Coroutine stunCoroutine;
 
     [PunRPC]
-    public void OnPlayerStun(float _time)
+    public virtual void OnPlayerStun(float _time)
     {
         if (pv.IsMine)
         {
