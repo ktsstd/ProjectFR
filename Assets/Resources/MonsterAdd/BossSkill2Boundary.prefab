@@ -122,4 +122,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossSkill2: {fileID: 4686204943365837908, guid: 71b9e28c2b32f944c87da0a932b7a507, type: 3}
-  BossHit: {fileID: 1880815419852894400, guid: 72b5393a147ba9341ac03fec51739a56, type: 3}
+  BossHit: {fileID: 961659510874282115, guid: 72b5393a147ba9341ac03fec51739a56, type: 3}

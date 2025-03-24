@@ -233,7 +233,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             slowEffects.Add((_time, _moveSpeed));
             slowEffects.Sort((a, b) => b.slowmoveSpeed.CompareTo(a.slowmoveSpeed));
         }
-        else
+        else if (monsterSlowCurTime <= 0 && !monsterInfo.isBoss)
         {
             OnMonsterSpeedDownStart(_time, _moveSpeed);
         }

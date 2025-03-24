@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Unity.VisualScripting;
 
 public class BossSkill1Script : MonoBehaviour
 {
@@ -41,9 +42,10 @@ public class BossSkill1Script : MonoBehaviour
         if (isFadeIn && other.CompareTag("Player"))
         {
             PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
+            Vector3 PlayerObj = other.transform.position;
+            PlayerObj.y += 1f;
             Vector3 currentEulerAngles = transform.eulerAngles;
-            Transform PlayerObj = other.transform;
-            GameObject HitEffect = Instantiate(BossHit, PlayerObj.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
+            GameObject HitEffect = Instantiate(BossHit, PlayerObj, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
             playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
         }
     }
@@ -52,7 +54,6 @@ public class BossSkill1Script : MonoBehaviour
     {
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = Instantiate(BossSkill1, transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-        
         bossScript.BossMonsterSkillTimers[0] = bossScript.BossMonsterSkillCooldowns[0];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
         bossScript.canMove = true;

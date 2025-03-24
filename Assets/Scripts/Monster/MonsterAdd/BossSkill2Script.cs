@@ -40,9 +40,10 @@ public class BossSkill2Script : MonoBehaviour
         if (isFadeIn && other.CompareTag("Player"))
         {
             PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
+            Vector3 PlayerObj = other.transform.position;
+            PlayerObj.y += 1f;
             Vector3 currentEulerAngles = transform.eulerAngles;
-            Transform PlayerObj = other.transform;
-            GameObject HitEffect = Instantiate(BossHit, PlayerObj.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
+            GameObject HitEffect = Instantiate(BossHit, PlayerObj, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
             playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
         }
     }

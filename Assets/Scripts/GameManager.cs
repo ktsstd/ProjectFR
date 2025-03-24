@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviourPun
     [SerializeField] private int poolsize = 60;
 
     private Dictionary<string, List<GameObject>> monsterPools = new Dictionary<string, List<GameObject>>();
-    private int WaveCount = 5;
+    private int WaveCount = 0;
     private bool isSpawn = false;
 
     private static GameManager _instance;

@@ -253,7 +253,7 @@ public class Boss : MonsterAI
         }
         return -1;  
     }
-
+    bool isDie = false;
     public override void MonsterDmged(float damage)
     {
         if (CurHp > 0 && FirPatternHealth <= 0) // Phase
@@ -289,9 +289,18 @@ public class Boss : MonsterAI
         }
         else if (CurHp <= 0 && BossPhase >= 2)
         {
+            canMove = false;
+            if (isDie) return;
+            isDie = true;
+            canMove = false;
             animator.SetTrigger("Die");
-            //gameObject.SetActive(false);
-            //todo -> Victory
+            canMove = false;
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            float animTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            if (stateInfo.IsName("Boss_Die") && animTime >= 1f)
+            {
+                DestroyImmediate(gameObject);
+            }
         }
     }
 }
