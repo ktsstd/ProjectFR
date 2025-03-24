@@ -188,7 +188,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (animator != null)
                 animator.SetTrigger("Die");
-            PhotonNetwork.Destroy(gameObject);
+            gameObject.SetActive(false);
             GameManager.Instance.CheckMonster();
         }
     }

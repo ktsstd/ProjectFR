@@ -283,7 +283,7 @@ public class Boss : MonsterAI
         else if (monsterInfo.health <= 0 && BossPhase >= 2)
         {
             animator.SetTrigger("Die");
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

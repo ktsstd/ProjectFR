@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.UIElements;
+using System.Linq;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPun
 {
     [SerializeField] private Transform SpawnPos;
     [SerializeField] private Transform WaveEastFirstPos;
@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform WaveThirdPos2;
     [SerializeField] private Transform WaveThirdPos3;
     [SerializeField] private Transform WaveThirdPos4;
-    [SerializeField] private GameObject Quit;
+    [SerializeField] private GameObject[] MonsterPrefab;
+    [SerializeField] private int poolsize = 60;
+
+    private Dictionary<string, List<GameObject>> monsterPools = new Dictionary<string, List<GameObject>>();
     private int WaveCount = 0;
     private bool isSpawn = false;
-    //private bool QuitOn = false;
 
     private static GameManager _instance;
     public static GameManager Instance
@@ -33,9 +35,22 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+
     // Start is called before the first frame update
     void Start()
     {
+        foreach (GameObject prefab in MonsterPrefab)
+        {
+            string key = prefab.name;
+            monsterPools[key] = new List<GameObject>();
+            for (int i = 0; i < poolsize; i++)
+            {
+                GameObject obj = Instantiate(prefab);
+                obj.SetActive(false);
+                monsterPools[key].Add(obj);
+            }
+        }
+
         string prefabName = "";
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         if ((int)character == 0)
@@ -43,26 +58,15 @@ public class GameManager : MonoBehaviour
         else if ((int)character == 3)
             prefabName = "Fire";
         PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);
+
         Debug.Log("Wave Start at 5sec / TestMod");
-        StartCoroutine(WaveStart());
         WaveCount += 1;
+        StartCoroutine(WaveStart());
     }
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    if (!QuitOn)
-        //    {
-        //        Quit.SetActive(true);
-        //        QuitOn = true;
-        //    }
-        //    else
-        //    {
-        //        Quit.SetActive(false);
-        //        QuitOn = false;
-        //    }
-        //}
+    
     }
 
     public void CheckMonster()
@@ -82,10 +86,10 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(5);
             isSpawn = true;
 
-            string Firemonster = "TEMPMONSTER/Spirit of Fire";
-            string Sleebam = "Monster/Sleebam";
-            string Mugolin = "Monster/Mugolin";
-            string Solborn = "Monster/Solborn";
+            string Firemonster = "Spirit of Fire";
+            string Sleebam = "Sleebam";
+            string Mugolin = "Mugolin";
+            string Solborn = "Solborn";
             string Boss = "Boss";
 
             int a = Random.Range(1, 4);
@@ -95,7 +99,6 @@ public class GameManager : MonoBehaviour
 
             if (spawnPositions != null)
             {
-                // 몬스터 인스턴스화 함수 호출
                 if (WaveCount == 1)
                 {
                     StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 15));
@@ -135,15 +138,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("you are not a master client");
+            Debug.Log("You are not a master client");
         }
     }
 
-    // Spawn 위치 결정
     Transform[] GetSpawnPositions(int a, int b)
     {
         Transform[] spawnPositions = null;
-
         if (a == 1)
         {
             switch (b)
@@ -184,25 +185,51 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
-
         return spawnPositions;
     }
 
-    IEnumerator InstantiateMonsters(Transform[] spawnPositions, int a, string monsterType, int count)
+    IEnumerator InstantiateMonsters(Transform[] spawnPositions, int a, string monsterPrefabName, int count)
     {
-        Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-
         for (int i = 0; i < count; i++)
         {
-            PhotonNetwork.Instantiate(monsterType, randomSpawnPos.position, Quaternion.identity);
-
+            Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+            GameObject monster = GetPooledObject(monsterPrefabName);
+            if (monster != null)
+            {
+                monster.transform.position = randomSpawnPos.position;
+                monster.transform.rotation = Quaternion.identity;
+                monster.SetActive(true);
+            }
             if (a != 1)
             {
                 yield return new WaitForSeconds(0.5f);
             }
+            
         }
     }
 
+    GameObject GetPooledObject(string prefabName)
+    {
+        if (monsterPools.ContainsKey(prefabName))
+        {
+            foreach (GameObject obj in monsterPools[prefabName])
+            {
+                if (!obj.activeInHierarchy)
+                {
+                    return obj;
+                }
+            }
+            GameObject prefab = MonsterPrefab.FirstOrDefault(p => p.name == prefabName);
+            if (prefab != null)
+            {
+                GameObject newObj = Instantiate(prefab);
+                newObj.SetActive(false);
+                monsterPools[prefabName].Add(newObj);
+                return newObj;
+            }
+        }
+        return null;
+    }
 
     private Transform[] GetChildTransforms(Transform parent)
     {

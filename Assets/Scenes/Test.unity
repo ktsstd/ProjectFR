@@ -455,7 +455,12 @@ MonoBehaviour:
   WaveThirdPos2: {fileID: 889075816}
   WaveThirdPos3: {fileID: 927278435}
   WaveThirdPos4: {fileID: 317905394}
-  Quit: {fileID: 0}
+  MonsterPrefab:
+  - {fileID: 6746269622466072561, guid: 0f0e439477cbfbd4a8652a3bc8a85701, type: 3}
+  - {fileID: 5439010726345992692, guid: e5ba82f6ccf7adf43acd73d84684f4ce, type: 3}
+  - {fileID: 5439010726345992692, guid: f21ea8d5e8e57064f96f055b26e21cb0, type: 3}
+  - {fileID: 5439010726345992692, guid: defb5bf9fea4f884ca29b4ef1c64319b, type: 3}
+  poolsize: 60
 --- !u!4 &93261086
 Transform:
   m_ObjectHideFlags: 0
