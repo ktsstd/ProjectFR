@@ -182,7 +182,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void MonsterDmged(float damage)
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
 
         CurHp -= damage;
         Debug.Log("health: " + CurHp);
