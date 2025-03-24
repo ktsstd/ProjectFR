@@ -6,7 +6,7 @@ public class BossHit : MonoBehaviour
 {
     private IEnumerator Start()
     {
-        yield return new WaitForSeconds(GetComponent<ParticleSystem>().duration);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(4f);
+        DestroyImmediate(gameObject);
     }
 }

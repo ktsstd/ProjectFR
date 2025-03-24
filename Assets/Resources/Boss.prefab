@@ -497,7 +497,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -538,6 +538,7 @@ MonoBehaviour:
   - 0
   BossSkill3: {fileID: 6318877801629017802}
   BossJumpSkill: {fileID: 3215405436011285547, guid: 8329b77b5195d34428ae7e41ac16277a, type: 3}
+  BossHit: {fileID: 1880815419852894400, guid: 72b5393a147ba9341ac03fec51739a56, type: 3}
 --- !u!114 &6805744738142481654
 MonoBehaviour:
   m_ObjectHideFlags: 0

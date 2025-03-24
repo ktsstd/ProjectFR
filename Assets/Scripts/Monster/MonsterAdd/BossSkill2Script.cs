@@ -6,6 +6,7 @@ public class BossSkill2Script : MonoBehaviour
 {
     GameObject attackboundaryObj;
     [SerializeField] GameObject BossSkill2;
+    [SerializeField] GameObject BossHit;
     private float damage;
     bool isFadeIn = false;
     Boss bossScript;
@@ -39,6 +40,9 @@ public class BossSkill2Script : MonoBehaviour
         if (isFadeIn && other.CompareTag("Player"))
         {
             PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
+            Vector3 currentEulerAngles = transform.eulerAngles;
+            Transform PlayerObj = other.transform;
+            GameObject HitEffect = Instantiate(BossHit, PlayerObj.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
             playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
         }
     }

@@ -14,6 +14,7 @@ public class Boss : MonsterAI
 
     public GameObject BossSkill3;
     public GameObject BossJumpSkill;
+    public GameObject BossHit;
 
     public override void Start()
     {
@@ -78,6 +79,7 @@ public class Boss : MonsterAI
             if (directionToTarget != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                animator.SetBool("Run", true);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             }
         }
@@ -124,7 +126,7 @@ public class Boss : MonsterAI
                 GameObject AttackObj1 = Instantiate(monsterInfo.attackboundary[0], attackFowardPos1, transform.rotation);
                 AttackObj1.transform.SetParent(this.transform);
                 Vector3 AttackObj1local = AttackObj1.transform.localPosition;
-                AttackObj1local.y = -0.9f;
+                AttackObj1local.y = -0.85f;
                 AttackObj1.transform.localPosition = AttackObj1local;
                 yield return new WaitForSeconds(0.6f);
                 if (animator != null)
@@ -140,7 +142,7 @@ public class Boss : MonsterAI
                 transform.position = attackFowardPos2;
                 AttackObj2.transform.SetParent(this.transform);
                 Vector3 AttackObj2local = AttackObj2.transform.localPosition;
-                AttackObj2local.y = -0.9f;
+                AttackObj2local.y = -0.85f;
                 AttackObj2.transform.localPosition = AttackObj2local;
                 break;
             case 2:
@@ -165,7 +167,7 @@ public class Boss : MonsterAI
                 GameObject AttackObj4 = Instantiate(monsterInfo.attackboundary[3], attackFowardPos4, transform.rotation);
                 AttackObj4.transform.SetParent(this.transform);
                 Vector3 AttackObj4local = AttackObj4.transform.localPosition;
-                AttackObj4local.y = -0.9f;
+                AttackObj4local.y = -0.85f;
                 AttackObj4.transform.localPosition = AttackObj4local;
                 break;
             default:
@@ -186,7 +188,7 @@ public class Boss : MonsterAI
     public void Skill3Success(GameObject Obj)
     {
         PlayerController playerScript = Obj.GetComponent<PlayerController>();
-        // todo -> playerScript.Stun
+        playerScript.OnPlayerStun(15f);
         Obj.transform.position = gameObject.transform.position;
         skill3Coroutine = StartCoroutine(Skill3PatternStart(Obj));
         animator.SetTrigger("Skill3_1");
@@ -212,6 +214,7 @@ public class Boss : MonsterAI
         //GameObject SpitObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos5, Quaternion.identity);
         animator.SetTrigger("Skill3_2");
         yield return new WaitForSeconds(2f);
+        canMove = true;
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
         //todo-> PlayerStun OFF
@@ -256,6 +259,9 @@ public class Boss : MonsterAI
         if (CurHp > 0 && FirPatternHealth <= 0) // Phase
         {
             CurHp -= damage;
+            //Vector3 currentEulerAngles = transform.eulerAngles;
+            //GameObject HitEffect = Instantiate(BossHit, transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
+            //HitEffect.transform.SetParent(this.transform);
         }
         else if (FirPatternHealth > 0)
         {
@@ -284,7 +290,7 @@ public class Boss : MonsterAI
         else if (CurHp <= 0 && BossPhase >= 2)
         {
             animator.SetTrigger("Die");
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             //todo -> Victory
         }
     }
