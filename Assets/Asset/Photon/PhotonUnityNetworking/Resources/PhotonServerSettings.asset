@@ -61,6 +61,8 @@ MonoBehaviour:
   - Grenade
   - FlameGrenadeTest
   - Damaged
+  - FinalTest
+  - OnPlayerStun
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

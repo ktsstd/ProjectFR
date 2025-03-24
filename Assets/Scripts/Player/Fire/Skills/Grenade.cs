@@ -8,8 +8,8 @@ public class Grenade : MonoBehaviour
     public int skilltype;
     public Fire player;
 
-    private float duration = 1.5f; // 이동 시간
-    private float height = 5f; // 최고점 높이
+    private float duration = 1f; // 이동 시간
+    private float height = 3f; // 최고점 높이
 
     void Start()
     {
@@ -24,13 +24,19 @@ public class Grenade : MonoBehaviour
             {
                 case 0:
                     if (player.pv.IsMine)
+                    {
                         player.pv.RPC("FlameGrenadeTest", Photon.Pun.RpcTarget.All, target);
+                        Destroy(gameObject);
+                    }
                     break;
                 case 1:
-                    // 불기둥 소환
+                    if (player.pv.IsMine)
+                    {
+                        player.pv.RPC("FinalTest", Photon.Pun.RpcTarget.All, target);
+                        Destroy(gameObject);
+                    }
                     break;
             }
-            Destroy(gameObject);
         }
     }
 

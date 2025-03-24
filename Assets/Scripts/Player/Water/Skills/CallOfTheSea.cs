@@ -9,6 +9,7 @@ public class CallOfTheSea : MonoBehaviour
     public float damage;
 
     float damageDelay = 0f;
+    List<GameObject> monsterInRange = new List<GameObject>();
 
     void Start()
     {
@@ -19,6 +20,15 @@ public class CallOfTheSea : MonoBehaviour
     {
         if (damageDelay >= 0)
             damageDelay -= Time.deltaTime;
+
+        if (damageDelay <= 0)
+        {
+            foreach (GameObject monsters in monsterInRange)
+            {
+                monsters.GetComponent<MonsterAI>().MonsterDmged(80f + damage * 0.1f);
+            }
+            damageDelay = 0.5f;
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -27,14 +37,24 @@ public class CallOfTheSea : MonoBehaviour
         {
             if (other.gameObject.TryGetComponent(out MonsterAI monster))
             {
-                if (damageDelay <= 0)
-                {
-                    Debug.Log(80 + (damage * 0.1) + " ÇÇÇØ ÀÔÈû");
-                    damageDelay = 0.5f;
-                }
                 if (!monster.monsterInfo.isBoss)
                     monster.transform.position = Vector3.MoveTowards(monster.transform.position, transform.position, Time.deltaTime * 5f);
             }
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            monsterInRange.Add(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            monsterInRange.Remove(other.gameObject);
         }
     }
 

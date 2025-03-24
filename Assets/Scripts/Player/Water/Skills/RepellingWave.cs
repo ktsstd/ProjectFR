@@ -22,8 +22,9 @@ public class RepellingWave : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            Debug.Log(120 + (damage * 0.25) + " 피해 입힘 + 슬로우 필요");
+            MonsterAI monster = other.GetComponent<MonsterAI>();
+            monster.MonsterDmged(120f + (damage * 0.25f));
+            monster.OnMonsterSpeedDown(2f, 3f);
         }
-        // 데미지 주기 + 슬로우
     }
 }

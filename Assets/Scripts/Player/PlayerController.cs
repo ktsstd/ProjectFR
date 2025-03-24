@@ -62,7 +62,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         Idle, // run, idle
         Attack,
         Dash,
-        Die
+        Die,
+        Stun
     }
     public States currentStates;
 
@@ -126,7 +127,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     break;
                 case States.Die:
                     OnPlayerRespawn(); // ��Ȱ��� �ֱ�
-                    // ī�޶� ����(�������)
+                    break;                   // ī�޶� ����(�������)
+                case States.Stun:
+                    // stun icon on
                     break;
             }
 
@@ -343,6 +346,28 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
         playerInRange.Clear();
     }
+
+    private Coroutine stunCoroutine;
+
+    [PunRPC]
+    public void OnPlayerStun(float _time)
+    {
+        if (pv.IsMine)
+        {
+            if (stunCoroutine != null)
+                StopCoroutine(stunCoroutine);
+
+            stunCoroutine = StartCoroutine("PlayerStun", _time);
+        }
+    }
+
+    IEnumerator PlayerStun(float _time)
+    {
+        currentStates = States.Stun;
+        yield return new WaitForSeconds(_time);
+        currentStates = States.Idle;
+    }
+
 
     public virtual void OnTriggerEnter(Collider other)
     {

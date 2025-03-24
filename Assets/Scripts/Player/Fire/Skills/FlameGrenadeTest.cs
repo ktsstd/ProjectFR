@@ -31,7 +31,9 @@ public class FlameGrenadeTest : MonoBehaviour
             {
                 foreach (GameObject monsters in monsterInRange)
                 {
-                    Debug.Log(60 + (damage * 0.2) + " «««ÿ ¿‘»˚");
+                    MonsterAI monster = monsters.GetComponent<MonsterAI>();
+                    monster.MonsterDmged(60f + (damage * 0.2f));
+                    monster.OnMonsterSpeedDown(4f, 3f);
                 }
                 damageDelay = 0.5f;
             }
@@ -44,7 +46,8 @@ public class FlameGrenadeTest : MonoBehaviour
         {
             if (other.tag == "Enemy")
             {
-                Debug.Log(100 + (damage * 0.2) + " «««ÿ ¿‘»˚");
+                other.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
+
             }
         }
         if (other.tag == "Enemy")

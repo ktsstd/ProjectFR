@@ -15,6 +15,8 @@ public class Fire : PlayerController
 
     public GameObject flameGrenadeTest;
 
+    public GameObject finalTest;
+
     public override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
@@ -88,7 +90,8 @@ public class Fire : PlayerController
                         transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
                         currentSkillsCoolTime[2] = skillsCoolTime[2];
                         currentStates = States.Attack;
-                        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill3");
+                        grenadeType = 1;
+                        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill2");
                     }
                 }
             }
@@ -114,7 +117,13 @@ public class Fire : PlayerController
     public void UseGrenade()
     {
         if (pv.IsMine)
-            pv.RPC("Grenade", RpcTarget.All, skillsPos[1], grenadeType);
+        {
+            if (grenadeType == 0)
+                pv.RPC("Grenade", RpcTarget.All, skillsPos[1], grenadeType);
+            else
+                pv.RPC("Grenade", RpcTarget.All, skillsPos[2], grenadeType);
+        }
+            
     }
 
     [PunRPC]
@@ -154,12 +163,19 @@ public class Fire : PlayerController
         skill.GetComponent<FlameGrenadeTest>().damage = playerAtk;
     }
 
+    [PunRPC]
+    public void FinalTest(Vector3 _targetPos)
+    {
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
+        GameObject skill = Instantiate(finalTest, _targetPos, fireRot);
+        skill.GetComponent<FinalTest>().damage = playerAtk;
+    }
+
     public override void RunAnimation()
     {
         if (!isFlameSpray)
             animator.SetBool("isRun", isMoving);
         else
             animator.SetBool("isRun_2", isMoving);
-
     }
 }
