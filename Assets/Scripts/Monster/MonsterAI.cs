@@ -78,7 +78,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             {
                 agent.SetDestination(target.position); // todo -> moving animation
                 if (animator != null)
-                    animator.SetBool("Run", true);
+                    animator.SetBool("Run", false);
             }
 
             if (monsterInfo.attackTimer > 0)
@@ -132,45 +132,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                     closestDistance = distance;
                     closestTarget = possibleTarget.transform;
                 }
-                else if (target == null && !monsterInfo.isBoss)
+                else if (target == null)
                 {
                     GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
-                            return objectTarget.transform;
+                    return objectTarget.transform;
                 }
-                else if (monsterInfo.isBoss)
-                {
-                    GameObject objectTarget = GameObject.FindGameObjectWithTag("Player");
-                    PlayerController playerCont = objectTarget.GetComponent<PlayerController>();
-                    if (playerCont.playerHp <= 0)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        return objectTarget.transform;
-                    }
-                }
-                //else
-                //{
-                //    if (!monsterInfo.isBoss)
-                //    {
-                //        GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
-                //        return objectTarget.transform;
-                //    }
-                //    else
-                //    {
-                //        GameObject objectTarget = GameObject.FindGameObjectWithTag("Player");
-                //        PlayerController playerCont = objectTarget.GetComponent<PlayerController>();
-                //        if (playerCont.playerInfo.hp <= 0)
-                //        {
-                //            return null;
-                //        }
-                //        else
-                //        {
-                //            return objectTarget.transform;
-                //        }
-                //    }
-                //}
             }
         }
 

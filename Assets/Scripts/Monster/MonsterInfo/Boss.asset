@@ -26,4 +26,4 @@ MonoBehaviour:
   - {fileID: 8749548841231393093, guid: d82ae7a6c72190040986c0aa6172c611, type: 3}
   - {fileID: 2838887698864355486, guid: 06b4021e8e90a9b4f9d1717d1df96a7e, type: 3}
   isBoss: 1
-  redistance: 10
+  redistance: 1000
