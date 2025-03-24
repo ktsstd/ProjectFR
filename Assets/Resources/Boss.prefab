@@ -536,6 +536,7 @@ MonoBehaviour:
   - 0
   - 0
   BossSkill3: {fileID: 6318877801629017802}
+  BossJumpSkill: {fileID: 3215405436011285547, guid: 8329b77b5195d34428ae7e41ac16277a, type: 3}
 --- !u!114 &6805744738142481654
 MonoBehaviour:
   m_ObjectHideFlags: 0

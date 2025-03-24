@@ -40,25 +40,45 @@ public class Mugolin : MonsterAI
     private IEnumerator StopMove()
     {
         StopCoroutine(StartMove()); // todo -> stun Effect
+        agent.velocity = Vector3.zero;
         canMove = false;
         IsRolling = false;
-        agent.speed = defaultspeed;
+        if(monsterSlowCurTime > 0)
+        {
+            float slowSpeed = Increasespeed - agent.speed;
+            agent.speed = defaultspeed - slowSpeed;
+        }
+        else
+        {
+            agent.speed = defaultspeed;
+        }
         yield return new WaitForSeconds(2f);
         canMove = true;
         StartCoroutine(StartMove());
     }
 
-    private void OnTriggerEnter(Collision other) 
+    private void OnTriggerEnter(Collider other) 
     {
         if (other.gameObject.tag == "Player" && IsRolling)
         {
+            StopCoroutine(StartMove());
             StartCoroutine(StopMove());
+            agent.velocity = Vector3.zero;
         }
 
         if (other.gameObject.tag == "SafeZone" && IsRolling) // todo -> hit with object: Stop rolling, attackTimer reset
         {
             //StartCoroutine(StopMove());
-            agent.speed = defaultspeed;
+            if (monsterSlowCurTime > 0)
+            {
+                float slowSpeed = Increasespeed - agent.speed;
+                agent.speed = defaultspeed - slowSpeed;
+            }
+            else
+            {
+                agent.speed = defaultspeed;
+            }
+            agent.velocity = Vector3.zero;
             IsRolling = false;
             monsterInfo.attackTimer = monsterInfo.attackCooldown;
         }

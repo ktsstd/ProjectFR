@@ -10,6 +10,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public MonsterInfo monsterInfo;
     private Transform playerController;
     public float monsterSlowCurTime;
+    public float CurHp;
     [SerializeField] private GameObject sloweffect;
 
 
@@ -26,6 +27,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         agent = GetComponent<NavMeshAgent>();
         agent.avoidancePriority = 50;
         monsterInfo = Instantiate(monsterInfoScript);
+        CurHp = monsterInfo.health;
         agent.speed = monsterInfo.speed;
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
         animator = GetComponent<Animator>();
@@ -182,9 +184,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!photonView.IsMine) return;
 
-        monsterInfo.health -= damage;
-        Debug.Log("health: " + monsterInfo.health);
-        if (monsterInfo.health <= 0)
+        CurHp -= damage;
+        Debug.Log("health: " + CurHp);
+        if (CurHp <= 0)
         {
             if (animator != null)
                 animator.SetTrigger("Die");
@@ -284,14 +286,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(monsterInfo.health);
+            stream.SendNext(CurHp);
             stream.SendNext(monsterInfo.attackTimer);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
-            monsterInfo.health = (float)stream.ReceiveNext();
+            CurHp = (float)stream.ReceiveNext();
             monsterInfo.attackTimer = (float)stream.ReceiveNext();
         }
     }

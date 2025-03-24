@@ -51,6 +51,6 @@ public class BossSkill1Script : MonoBehaviour
         bossScript.BossMonsterSkillTimers[0] = bossScript.BossMonsterSkillCooldowns[0];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
         bossScript.canMove = true;
-        Destroy(gameObject);
+        DestroyImmediate(gameObject);
     }
 }

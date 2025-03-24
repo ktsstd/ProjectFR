@@ -13,6 +13,7 @@ public class Boss : MonsterAI
     public float[] BossMonsterSkillTimers = new float[4];
 
     public GameObject BossSkill3;
+    public GameObject BossJumpSkill;
 
     public override void Start()
     {
@@ -132,7 +133,7 @@ public class Boss : MonsterAI
             case 1:
                 if (animator != null)
                     animator.SetTrigger("Skill2");
-                PhotonNetwork.Instantiate("Boss_Skill_02_Jump", transform.position, Quaternion.identity);
+                Instantiate(BossJumpSkill, transform.position, Quaternion.identity);
                 Vector3 attackFowardPos2 = new Vector3(target.position.x, 0.02f, target.position.z);
                 yield return new WaitForSeconds(0.6f);
                 GameObject AttackObj2 = Instantiate(monsterInfo.attackboundary[1], attackFowardPos2, transform.rotation);
@@ -252,9 +253,9 @@ public class Boss : MonsterAI
 
     public override void MonsterDmged(float damage)
     {
-        if (monsterInfo.health > 0 && FirPatternHealth <= 0) // Phase
+        if (CurHp > 0 && FirPatternHealth <= 0) // Phase
         {
-            monsterInfo.health -= damage;
+            CurHp -= damage;
         }
         else if (FirPatternHealth > 0)
         {
@@ -265,13 +266,13 @@ public class Boss : MonsterAI
                 StartCoroutine(Spititout());
             }
         }
-        else if (monsterInfo.health <= 0 && BossPhase < 2)
+        else if (CurHp <= 0 && BossPhase < 2)
         {
             if (canMove)
             {
                 canMove = false;
                 photonView.RPC("PunAttack", RpcTarget.All, 2);
-                monsterInfo.health = 13000f;
+                CurHp = 13000f;
                 monsterInfo.damage = 100f;
                 BossPhase += 1;
             }
@@ -280,7 +281,7 @@ public class Boss : MonsterAI
                 return;
             }
         }
-        else if (monsterInfo.health <= 0 && BossPhase >= 2)
+        else if (CurHp <= 0 && BossPhase >= 2)
         {
             animator.SetTrigger("Die");
             gameObject.SetActive(false);
