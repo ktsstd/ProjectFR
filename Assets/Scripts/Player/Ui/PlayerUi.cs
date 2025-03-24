@@ -12,11 +12,21 @@ public class PlayerUi : MonoBehaviour
 
     public Sprite[] hpSprits;
 
+    public Image[] skillsIcon;
+    public Sprite[] fireSkillIcon;
+    public Sprite[] WaterSkillIcon;
+
     float playerHp;
     float playerMaxHp;
 
     float playerDash;
     float playerMaxDash;
+
+    float[] currntskillCoolTime = new float[3];
+
+    float[] MaxskillCoolTime = new float[3];
+
+    public Image[] skillCoolTime;
 
     void Start()
     {
@@ -24,9 +34,19 @@ public class PlayerUi : MonoBehaviour
         playerHp = 1;
         playerMaxHp = 1;
         if ((int)character == 0)
+        {
             playerHpImage.sprite = hpSprits[0];
+            skillsIcon[0].sprite = WaterSkillIcon[0];
+            skillsIcon[1].sprite = WaterSkillIcon[1];
+            skillsIcon[2].sprite = WaterSkillIcon[2];
+        }
         else if ((int)character == 3)
+        {
             playerHpImage.sprite = hpSprits[3];
+            skillsIcon[0].sprite = fireSkillIcon[0];
+            skillsIcon[1].sprite = fireSkillIcon[1];
+            skillsIcon[2].sprite = fireSkillIcon[2];
+        }
 
     }
 
@@ -34,6 +54,11 @@ public class PlayerUi : MonoBehaviour
     {
         playerHpSlider.value = playerHp / playerMaxHp;
         playerDashSlider.value = 1 - (playerDash / playerMaxDash);
+
+        for (int i = 0;i < 3; i++)
+        {
+            skillCoolTime[i].fillAmount = currntskillCoolTime[i] / MaxskillCoolTime[i];
+        }
     }
 
     public void InputHpData(float _playerHp, float _playerMaxHp)
@@ -46,5 +71,16 @@ public class PlayerUi : MonoBehaviour
     {
         playerDash = _playerDash;
         playerMaxDash = _playerMaxDash;
+    }
+
+    public void InputSkillData(float[] _skillCoolTime, float[] _skillMaxCoolTime)
+    {
+        currntskillCoolTime[0] = _skillCoolTime[0];
+        currntskillCoolTime[1] = _skillCoolTime[1];
+        currntskillCoolTime[2] = _skillCoolTime[2];
+
+        MaxskillCoolTime[0] = _skillMaxCoolTime[0];
+        MaxskillCoolTime[1] = _skillMaxCoolTime[1];
+        MaxskillCoolTime[2] = _skillMaxCoolTime[2];
     }
 }

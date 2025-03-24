@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             RunAnimation();
             CameraMove();
             playerUi.InputDashData(currentDashCoolTime, dashCoolTime);
+            playerUi.InputSkillData(currentSkillsCoolTime, skillsCoolTime);
             if (currentStates != States.Idle)
             {
                 skillRanges[0].SetActive(false);
