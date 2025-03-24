@@ -19,7 +19,7 @@ MonoBehaviour:
   attackCooldown: 1.2
   attackTimer: 0
   priTarget:
-  - TestObject
+  - Object
   attackboundary:
   - {fileID: 1104074487764874493, guid: 11973fd44c2a6794095890cef91164da, type: 3}
   isBoss: 0

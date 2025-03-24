@@ -119,7 +119,7 @@ public class Boss : MonsterAI
         switch (randomskill)
         {
             case 0:
-                Vector3 attackFowardPos1 = new Vector3(transform.position.x, 0.02f, transform.position.z) + transform.forward * 5;
+                Vector3 attackFowardPos1 = new Vector3(transform.position.x, 0.02f, transform.position.z) + transform.forward * 9;
                 GameObject AttackObj1 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos1, transform.rotation);
                 AttackObj1.transform.SetParent(this.transform);
                 Vector3 AttackObj1local = AttackObj1.transform.localPosition;

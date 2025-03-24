@@ -15,7 +15,7 @@ public class Mugolin : MonsterAI
         base.Start();
         InSafeZone = false;
         IsRolling = false;
-        monsterInfo.attackTimer = 99999f;
+        //monsterInfo.attackTimer = 99999f;
         defaultspeed = agent.speed;
         Increasespeed = defaultspeed * 2;
         IncreasePerspeed = (Increasespeed - defaultspeed) / 5;
@@ -48,14 +48,14 @@ public class Mugolin : MonsterAI
         StartCoroutine(StartMove());
     }
 
-    private void OnCollisionEnter(Collision other) 
+    private void OnTriggerEnter(Collision other) 
     {
         if (other.gameObject.tag == "Player" && IsRolling)
         {
             StartCoroutine(StopMove());
         }
 
-        else if (other.gameObject.tag == "SafeZone" && IsRolling) // todo -> hit with object: Stop rolling, attackTimer reset
+        if (other.gameObject.tag == "SafeZone" && IsRolling) // todo -> hit with object: Stop rolling, attackTimer reset
         {
             //StartCoroutine(StopMove());
             agent.speed = defaultspeed;
