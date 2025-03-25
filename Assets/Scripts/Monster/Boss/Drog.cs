@@ -172,11 +172,11 @@ public class Drog : MonsterAI
         //string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[5].name;
         //Vector3 attackFowardPos5 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
         //GameObject SpitObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos5, Quaternion.identity);
-        if (animator != null)
-            animator.SetTrigger("Skill3_2");
         PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
         FSkill3Obj = null;
+        if (animator != null)
+            animator.SetTrigger("Skill3_2");
         yield return new WaitForSeconds(2f);
         canMove = true;
         //monsterInfo.attackTimer = monsterInfo.attackCooldown;
@@ -212,7 +212,7 @@ public class Drog : MonsterAI
             if (FirPatternHealth <= 0)
             {
                 StopCoroutine(skill3Coroutine);
-                Spititout();
+                StartCoroutine(Spititout());
                 //photonView.RPC("Spititout", RpcTarget.All);
             }
         }
