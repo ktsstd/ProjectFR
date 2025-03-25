@@ -24,7 +24,7 @@ public class Fire : PlayerController
         {
             if (other.tag == "Enemy")
             {
-                Debug.Log(5 + playerAtk * 0.1 + " 대쉬공격 데미지 부여");
+                other.GetComponent<MonsterAI>().MonsterDmged(5f + playerAtk * 0.1f);
             }
         }
     }
@@ -190,9 +190,8 @@ public class Fire : PlayerController
         }
     }
 
-    public override void OnPlayerSuppressed(float _time)
+    public override void OffSkills()
     {
-        base.OnPlayerStun(_time);
         if (isFlameSpray)
         {
             fireParticle.Stop();

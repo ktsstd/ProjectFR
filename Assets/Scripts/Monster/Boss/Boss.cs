@@ -79,7 +79,6 @@ public class Boss : MonsterAI
                 Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
                 //if (animator != null && photonView.IsMine)
                 //    animator.SetBool("Run", true);
-                Debug.Log(directionToTarget);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             }
         }

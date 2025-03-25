@@ -90,6 +90,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Update()
     {
+        Debug.Log(currentStates);
+
         if (currentDashCoolTime > 0)
             currentDashCoolTime -= Time.deltaTime;
         if (damageDelayTime > 0)
@@ -382,7 +384,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private Coroutine suppressedCoroutine;
     [PunRPC]
-    public virtual void OnPlayerSuppressed(float _time)
+    public void OnPlayerSuppressed(float _time)
     {
         if (pv.IsMine)
         {
@@ -391,6 +393,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
             suppressedCoroutine = StartCoroutine("PlayerSuppressed", _time);
         }
+        OffSkills();
+    }
+
+    public virtual void OffSkills()
+    {
+
     }
 
     IEnumerator PlayerSuppressed(float _time)
