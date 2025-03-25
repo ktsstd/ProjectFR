@@ -163,7 +163,7 @@ public class Drog : MonsterAI
         yield return new WaitForSeconds(5f);
         target = null;
         canMove = true;
-        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        //monsterInfo.attackTimer = monsterInfo.attackCooldown;
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
     }
     //[PunRPC]
@@ -179,7 +179,7 @@ public class Drog : MonsterAI
         FSkill3Obj = null;
         yield return new WaitForSeconds(2f);
         canMove = true;
-        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        //monsterInfo.attackTimer = monsterInfo.attackCooldown;
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
     }
     public override void MonsterDmged(float damage)
