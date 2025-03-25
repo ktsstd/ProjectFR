@@ -396,9 +396,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator PlayerSuppressed(float _time)
     {
         currentStates = States.Stun;
-        collider.gameObject.SetActive(false);
+        collider.isTrigger = false;
         yield return new WaitForSeconds(_time);
-        collider.gameObject.SetActive(true);
+        collider.isTrigger = true;
         if (currentStates != States.Die)
             currentStates = States.Idle;
     }
