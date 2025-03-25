@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     void Move()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100f, 1 << LayerMask.NameToLayer("ground")))
