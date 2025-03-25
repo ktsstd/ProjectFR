@@ -103,34 +103,40 @@ public class GameManager : MonoBehaviour
                 }
                 else if (WaveCount == 2)
                 {
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 15));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 5));
+                    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 15));
                     StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 10));
                 }
                 else if (WaveCount == 3)
                 {
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 20));
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 15));
-                    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 10));
-                }
-                else if (WaveCount == 4)
-                {
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 25));
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 15));
-                    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 10));
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 5));
-                }
-                else if (WaveCount == 5)
-                {
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 30));
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 25));
-                    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 15));
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 10));
-                }
-                else if (WaveCount == 6)
-                {
                     Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
                     PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
                 }
+                //else if (WaveCount == 3)
+                //{
+                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 20));
+                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 15));
+                //    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 10));
+                //}
+                //else if (WaveCount == 4)
+                //{
+                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 25));
+                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 15));
+                //    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 10));
+                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 5));
+                //}
+                //else if (WaveCount == 5)
+                //{
+                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 30));
+                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 25));
+                //    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 15));
+                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 10));
+                //}
+                //else if (WaveCount == 6)
+                //{
+                //    Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                //    PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+                //}
             }
             isSpawn = false;
         }
