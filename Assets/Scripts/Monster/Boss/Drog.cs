@@ -160,7 +160,7 @@ public class Drog : MonsterAI
         FirPatternHealth = 0;
         if (animator != null)
             animator.SetTrigger("Skill3__1");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         target = null;
         canMove = true;
         //monsterInfo.attackTimer = monsterInfo.attackCooldown;
