@@ -37,6 +37,10 @@ public class Drog : MonsterAI
                 BossMonsterSkillTimers[i] -= Time.deltaTime;
             }
         }
+        if (FirPatternHealth > 0 && FSkill3Obj != null)
+        {
+            FSkill3Obj.transform.position = gameObject.transform.position;
+        }
     }
     public override void Attack()
     {
@@ -146,12 +150,7 @@ public class Drog : MonsterAI
         skill3Coroutine = StartCoroutine(Skill3PatternStart(FSkill3Obj));
     }
     IEnumerator Skill3PatternStart(GameObject Obj)
-    {
-        while (FirPatternHealth > 0)
-        {
-            FSkill3Obj.transform.position = gameObject.transform.position;
-            yield return new WaitForSeconds(1f);
-        }
+    { 
         yield return new WaitForSeconds(15f);
         PlayerController playerScript = Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("OnPlayerHit", RpcTarget.All, 20000f);
