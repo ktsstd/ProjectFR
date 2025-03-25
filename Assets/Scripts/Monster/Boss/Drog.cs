@@ -194,7 +194,6 @@ public class Drog : MonsterAI
                     CurHp = 13000f;
                     monsterInfo.damage = 100f;
                     BossPhase++;
-                    canMove = true;
                 }
                 else
                 {
