@@ -205,7 +205,6 @@ public class Boss : MonsterAI
         if (animator != null && photonView.IsMine)
             animator.SetTrigger("Skill3__1");
         playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
-        //todo-> PlayerStun OFF
         yield return new WaitForSeconds(5f);
         target = null;
         canMove = true;
