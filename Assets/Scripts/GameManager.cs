@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
         //        QuitOn = false;
         //    }
         //}
+
     }
 
     public void CheckMonster()

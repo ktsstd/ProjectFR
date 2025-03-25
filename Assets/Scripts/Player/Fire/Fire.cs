@@ -178,4 +178,26 @@ public class Fire : PlayerController
         else
             animator.SetBool("isRun_2", isMoving);
     }
+
+    public override void OnPlayerDie()
+    {
+        base.OnPlayerDie();
+        if (isFlameSpray)
+        {
+            fireParticle.Stop();
+            flameSpray.SetActive(false);
+            playerSpeed += 1;
+        }
+    }
+
+    public override void OnPlayerStun(float _time)
+    {
+        base.OnPlayerStun(_time);
+        if (isFlameSpray)
+        {
+            fireParticle.Stop();
+            flameSpray.SetActive(false);
+            playerSpeed += 1;
+        }
+    }
 }

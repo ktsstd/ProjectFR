@@ -264,9 +264,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     currentStates = States.Die;
                     pv.RPC("OnPlayerDie", RpcTarget.All, null);
                 }
-
-                playerUi.InputHpData(playerHp, playerMaxHp);
             }
+
+            playerUi.InputHpData(playerHp, playerMaxHp);
         }
     }
 
@@ -296,7 +296,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void OnPlayerDie()
+    public virtual void OnPlayerDie()
     {
         playerRespawnZone.SetActive(true);
         // �÷��̾� ���� �ִϸ��̼� ���� ��
@@ -376,6 +376,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         currentStates = States.Stun;
         yield return new WaitForSeconds(_time);
+        currentStates = States.Idle;
+    }
+
+    [PunRPC]
+    public void PlayerStunClear()
+    {
+        if (stunCoroutine != null)
+            StopCoroutine(stunCoroutine);
         currentStates = States.Idle;
     }
 
