@@ -98,11 +98,6 @@ public class Fire : PlayerController
         }
     }
 
-    public override void Dash() // 이펙트 추가하기
-    {
-        base.Dash();
-    }
-
     public void StopAnimation() // 애니메이션 종료시 실행시킬 함수
     {
         currentStates = States.Idle;
@@ -179,9 +174,8 @@ public class Fire : PlayerController
             animator.SetBool("isRun_2", isMoving);
     }
 
-    public override void OnPlayerDie()
+    public override void PlayerDieEvent()
     {
-        base.OnPlayerDie();
         if (isFlameSpray)
         {
             fireParticle.Stop();

@@ -207,10 +207,11 @@ public class Boss : MonsterAI
     {
         yield return new WaitForSeconds(15f);
         PlayerController playerScript = Obj.GetComponent<PlayerController>();
+        playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All, null);
         playerScript.photonView.RPC("OnPlayerHit", RpcTarget.All, 20000f);
         if (animator != null)
             animator.SetTrigger("Skill3__1");
-        playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
+        playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All, null);
         yield return new WaitForSeconds(5f);
         target = null;
         canMove = true;

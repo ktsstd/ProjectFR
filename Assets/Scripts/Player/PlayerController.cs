@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject recoveryShileObject;
     public GameObject recoveryShileDestroy;
     public GameObject recoveryEF;
+    public GameObject eatEffeck;
+    public GameObject dashEF;
     public PlayerInfo playerInfo;
 
     public PhotonView pv;
@@ -107,6 +109,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             CameraMove();
             playerUi.InputDashData(currentDashCoolTime, dashCoolTime);
             playerUi.InputSkillData(currentSkillsCoolTime, skillsCoolTime);
+            if (currentStates == States.Dash)
+                dashEF.SetActive(true);
+            else
+                dashEF.SetActive(false);
             if (currentStates != States.Idle)
             {
                 skillRanges[0].SetActive(false);
@@ -187,7 +193,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     Vector3 dashPos;
-    public virtual void Dash()
+    public void Dash()
     {
         if (currentStates == States.Dash)
         {
@@ -230,7 +236,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     float damageDelayTime;
     [PunRPC]
-    public virtual void OnPlayerHit(float _damage)
+    public void OnPlayerHit(float _damage)
     {
         if (pv.IsMine)
         {
@@ -296,11 +302,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public virtual void OnPlayerDie()
+    public void OnPlayerDie()
     {
         playerRespawnZone.SetActive(true);
-        // �÷��̾� ���� �ִϸ��̼� ���� ��
+        PlayTriggerAnimation("reset");
+        PlayerDieEvent();
     }
+
+    public virtual void PlayerDieEvent() { }
 
     [PunRPC]
     public void OnPlayerRecovery(float _heal)
@@ -374,6 +383,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     IEnumerator PlayerStun(float _time)
     {
+        PlayTriggerAnimation("reset");
         currentStates = States.Stun;
         yield return new WaitForSeconds(_time);
         if (currentStates != States.Die)
@@ -398,12 +408,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     IEnumerator PlayerSuppressed(float _time)
     {
+        PlayTriggerAnimation("reset");
         currentStates = States.Stun;
-        collider.isTrigger = false;
-        rigidbody.useGravity = false;
-        yield return new WaitForSeconds(_time);
-        rigidbody.useGravity = true;
         collider.isTrigger = true;
+        rigidbody.useGravity = false;
+        eatEffeck.SetActive(true);
+        yield return new WaitForSeconds(_time);
+        collider.isTrigger = false;
+        rigidbody.useGravity = true;
+        eatEffeck.SetActive(false);
         if (currentStates != States.Die)
             currentStates = States.Idle;
     }
@@ -422,6 +435,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (suppressedCoroutine != null)
         {
             StopCoroutine(suppressedCoroutine);
+
+            rigidbody.useGravity = true;
+            collider.isTrigger = false;
+            eatEffeck.SetActive(false);
 
             if (currentStates != States.Die)
                 currentStates = States.Idle;

@@ -31,11 +31,6 @@ public class Water : PlayerController
         }
     }
 
-    public override void Dash() // 이펙트 추가하기
-    {
-        base.Dash();
-    }
-
     public override void Attack()
     {
         if (pv.IsMine && currentStates == States.Idle)
