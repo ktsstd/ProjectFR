@@ -78,7 +78,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             {
                 agent.SetDestination(target.position); // todo -> moving animation
                 if (animator != null)
-                    animator.SetBool("Run", false);
+                    animator.SetBool("Run", true);
             }
 
             if (monsterInfo.attackTimer > 0)
@@ -271,12 +271,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
             stream.SendNext(CurHp);
+            stream.SendNext(canMove);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
             CurHp = (float)stream.ReceiveNext();
+            canMove = (bool)stream.ReceiveNext();
         }
     }
 }

@@ -34,7 +34,7 @@ public class BossSkill1Script : MonoBehaviour
             yield return null;
         }
         isFadeIn = true;
-        Invoke("StartEffect", 0.2f);
+        Invoke("DestroyBoundary", 0.2f);
         yield break;
     }
     private void OnTriggerStay(Collider other)
@@ -42,21 +42,17 @@ public class BossSkill1Script : MonoBehaviour
         if (isFadeIn && other.CompareTag("Player"))
         {
             PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
-            Vector3 PlayerObj = other.transform.position;
-            PlayerObj.y += 1f;
-            Vector3 currentEulerAngles = transform.eulerAngles;
-            GameObject HitEffect = Instantiate(BossHit, PlayerObj, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
             playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
         }
     }
 
-    void StartEffect()
+    void DestroyBoundary()
     {
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = Instantiate(BossSkill1, transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
         bossScript.BossMonsterSkillTimers[0] = bossScript.BossMonsterSkillCooldowns[0];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
         bossScript.canMove = true;
-        DestroyImmediate(gameObject);
+        gameObject.SetActive(false);
     }
 }

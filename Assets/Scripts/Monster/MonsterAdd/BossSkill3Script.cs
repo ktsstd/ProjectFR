@@ -73,12 +73,11 @@ public class BossSkill3Script : MonoBehaviour {
     {
         if (isFadeIn && other.CompareTag("Player"))
         {
-            CancelInvoke("DestroyBoundary");
             bossScript = GetComponentInParent<Boss>();
             bossScript.Skill3Success(other.gameObject);
-            attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
-            gameObject.SetActive(false);
-            isFadeIn = false;
+            //attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+            //gameObject.SetActive(false);
+            //isFadeIn = false;
         }
     }
 
@@ -87,7 +86,6 @@ public class BossSkill3Script : MonoBehaviour {
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
         bossScript.BossMonsterSkillTimers[2] = bossScript.BossMonsterSkillCooldowns[2];
         bossScript.canMove = true;
-        Debug.Log("attack failed");
         attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         gameObject.SetActive(false);
         isFadeIn = false;
