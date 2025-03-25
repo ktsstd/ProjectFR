@@ -20,4 +20,15 @@ public class Object : MonoBehaviourPunCallbacks
             DestroyImmediate(gameObject);
         }
     }
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(health);
+        }
+        else
+        {
+            health = (float)stream.ReceiveNext();
+        }
+    }
 }
