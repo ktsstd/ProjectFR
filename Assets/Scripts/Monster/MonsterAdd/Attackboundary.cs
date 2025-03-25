@@ -8,7 +8,7 @@ public class Attackboundary : MonoBehaviour
     GameObject attackboundaryObj;
     bool isFadeIn = false;
     MonsterAI monsterAIScript;
-    float attackDuration = 4f;
+    float attackDuration = 2f;
     // Start is called before the first frame update
     void Start()
     {

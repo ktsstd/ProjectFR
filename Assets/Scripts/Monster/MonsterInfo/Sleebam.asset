@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75cdb71b47fd5f14d8d7889a191554eb, type: 3}
   m_Name: Sleebam
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 4
   damage: 100
   health: 300
   attackRange: 4

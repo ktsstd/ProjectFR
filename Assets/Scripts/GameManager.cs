@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform WaveThirdPos3;
     [SerializeField] private Transform WaveThirdPos4;
     [SerializeField] private GameObject Quit;
-    private int WaveCount = 0;
+    private int WaveCount = 5;
     private bool isSpawn = false;
     //private bool QuitOn = false;
 

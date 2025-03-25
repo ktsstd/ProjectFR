@@ -389,7 +389,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             if (suppressedCoroutine != null)
                 StopCoroutine(suppressedCoroutine);
 
-            suppressedCoroutine = StartCoroutine("PlayerSuppressed");
+            suppressedCoroutine = StartCoroutine("PlayerSuppressed", _time);
         }
     }
 

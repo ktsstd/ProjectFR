@@ -458,6 +458,7 @@ GameObject:
   - component: {fileID: 3416727803579598051}
   - component: {fileID: 6805744738142481654}
   - component: {fileID: 8198515157782370196}
+  - component: {fileID: 2471015778843839121}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -497,14 +498,14 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.120915
-  m_Height: 4.24183
+  m_Radius: 4.231731
+  m_Height: 8.463462
   m_Direction: 1
-  m_Center: {x: 0.08651447, y: 0.048188448, z: 0}
+  m_Center: {x: 0.086513996, y: 0.048188675, z: 1.7614961}
 --- !u!114 &3416727803579598051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,6 +560,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3416727803579598051}
+  - {fileID: 2471015778843839121}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -584,6 +586,22 @@ NavMeshAgent:
   m_BaseOffset: 0.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2471015778843839121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283986684501653865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &2312935397206462283
 GameObject:
   m_ObjectHideFlags: 0

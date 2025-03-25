@@ -5,16 +5,14 @@ using Photon.Pun;
 
 public class Boss : MonsterAI
 {
-    private float FirPatternbreakupHealth = 500f;
+    private float FirPatternbreakupHealth = 1500f;
     private float FirPatternHealth;
-    private Transform BossMouthPos;
     private int BossPhase;
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
 
     public GameObject BossSkill3;
     public GameObject BossJumpSkill;
-    public GameObject BossHit;
 
     public override void Start()
     {
@@ -46,7 +44,7 @@ public class Boss : MonsterAI
         if (target != null && canMove && agent.enabled)
         {
             float distance = Vector3.Distance(transform.position, target.position);
-            if (animator != null)
+            if (animator != null && photonView.IsMine)
                 animator.SetBool("Run", true);
 
             if (distance <= monsterInfo.attackRange)
@@ -61,13 +59,13 @@ public class Boss : MonsterAI
                 {
                     agent.ResetPath(); // todo -> Idle animation
                 }
-                if (animator != null)
+                if (animator != null && photonView.IsMine)
                     animator.SetBool("Run", false);
             }
             else
             {
                 agent.SetDestination(target.position); // todo -> moving animation
-                if (animator != null)
+                if (animator != null && photonView.IsMine)
                     animator.SetBool("Run", true);
             }
 
@@ -79,7 +77,9 @@ public class Boss : MonsterAI
             if (directionToTarget != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                animator.SetBool("Run", true);
+                //if (animator != null && photonView.IsMine)
+                //    animator.SetBool("Run", true);
+                Debug.Log(directionToTarget);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             }
         }
@@ -87,7 +87,7 @@ public class Boss : MonsterAI
         {
             agent.velocity = Vector3.zero;
             agent.ResetPath(); // todo -> Idle animation
-            if (animator != null)
+            if (animator != null && photonView.IsMine)
                 animator.SetBool("Run", false);
             target = GetClosestTarget();
         }
@@ -129,12 +129,14 @@ public class Boss : MonsterAI
                 AttackObj1local.y = -0.85f;
                 AttackObj1.transform.localPosition = AttackObj1local;
                 yield return new WaitForSeconds(0.6f);
-                if (animator != null)
+                if (animator != null && photonView.IsMine)
                     animator.SetTrigger("Skill1");
                 break;
             case 1:
-                if (animator != null)
+                if (animator != null && photonView.IsMine)
                     animator.SetTrigger("Skill2");
+                Collider collider = GetComponent<Collider>();
+                collider.enabled = false;
                 Instantiate(BossJumpSkill, transform.position, Quaternion.identity);
                 Vector3 attackFowardPos2 = new Vector3(target.position.x, 0.02f, target.position.z);
                 yield return new WaitForSeconds(0.6f);
@@ -157,11 +159,11 @@ public class Boss : MonsterAI
                 BossSkill3Script boss3Script = BossSkill3.GetComponent<BossSkill3Script>();
                 boss3Script.Starting();
                 yield return new WaitForSeconds(0.6f);
-                if (animator != null)
+                if (animator != null && photonView.IsMine)
                     animator.SetTrigger("Skill3");
                 break;
             case 3:
-                if (animator != null)
+                if (animator != null && photonView.IsMine)
                     animator.SetTrigger("Skill4");
                 Vector3 attackFowardPos4 = new Vector3(transform.position.x, 0.02f, transform.position.z);
                 GameObject AttackObj4 = Instantiate(monsterInfo.attackboundary[3], attackFowardPos4, transform.rotation);
@@ -187,19 +189,22 @@ public class Boss : MonsterAI
     Coroutine skill3Coroutine;
     public void Skill3Success(GameObject Obj)
     {
+        FirPatternHealth = FirPatternbreakupHealth;
         PlayerController playerScript = Obj.GetComponent<PlayerController>();
-        playerScript.OnPlayerStun(15f);
+        playerScript.photonView.RPC("OnPlayerSuppressed", RpcTarget.All, 15f);
         Obj.transform.position = gameObject.transform.position;
         skill3Coroutine = StartCoroutine(Skill3PatternStart(Obj));
-        animator.SetTrigger("Skill3_1");
+        if (animator != null && photonView.IsMine)
+            animator.SetTrigger("Skill3_1");
     }
     IEnumerator Skill3PatternStart(GameObject Obj)
     {
-        FirPatternHealth = FirPatternbreakupHealth;
         yield return new WaitForSeconds(15f);
         PlayerController playerScript = Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("OnPlayerHit", RpcTarget.All, 20000f);
-        animator.SetTrigger("Skill3__1");
+        if (animator != null && photonView.IsMine)
+            animator.SetTrigger("Skill3__1");
+        playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
         //todo-> PlayerStun OFF
         yield return new WaitForSeconds(5f);
         target = null;
@@ -212,7 +217,8 @@ public class Boss : MonsterAI
         //string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[5].name;
         //Vector3 attackFowardPos5 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
         //GameObject SpitObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos5, Quaternion.identity);
-        animator.SetTrigger("Skill3_2");
+        if (animator != null && photonView.IsMine)
+            animator.SetTrigger("Skill3_2");
         yield return new WaitForSeconds(2f);
         canMove = true;
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
@@ -293,7 +299,8 @@ public class Boss : MonsterAI
             if (isDie) return;
             isDie = true;
             canMove = false;
-            animator.SetTrigger("Die");
+            if (animator != null && photonView.IsMine)
+                animator.SetTrigger("Die");
             canMove = false;
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
             float animTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;

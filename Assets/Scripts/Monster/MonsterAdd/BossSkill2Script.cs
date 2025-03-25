@@ -54,6 +54,8 @@ public class BossSkill2Script : MonoBehaviour
         GameObject Skill1Obj = Instantiate(BossSkill2, transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
         bossScript.BossMonsterSkillTimers[1] = bossScript.BossMonsterSkillCooldowns[1];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
+        Collider collider = bossScript.GetComponent<Boss>().GetComponent<Collider>();
+        collider.enabled = true;
         bossScript.canMove = true;
         DestroyImmediate(gameObject);
     }
