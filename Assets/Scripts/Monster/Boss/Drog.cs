@@ -13,7 +13,7 @@ public class Drog : MonsterAI
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
     
-    private GameObject FSkill3Obj;
+    [SerializeField] private GameObject FSkill3Obj;
     [SerializeField] private GameObject BossSkill1Obj;
     [SerializeField] private GameObject BossJumpSkill;
     [SerializeField] private GameObject BossSkill3Obj;
@@ -136,11 +136,12 @@ public class Drog : MonsterAI
     public void Skill3Success(GameObject Obj)
     {
         FSkill3Obj = Obj;
-        photonView.RPC("Skill3Start", RpcTarget.All);
+        //photonView.RPC("Skill3Start", RpcTarget.All);
+        Skill3Start();
         if (animator != null)
             animator.SetTrigger("Skill3_1");
     }
-    [PunRPC]
+    //[PunRPC]
     public void Skill3Start()
     {
         FirPatternHealth = FirPatternbreakupHealth;
@@ -165,7 +166,7 @@ public class Drog : MonsterAI
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
     }
-    [PunRPC]
+    //[PunRPC]
     public IEnumerator Spititout()
     {
         //string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[5].name;
@@ -211,8 +212,28 @@ public class Drog : MonsterAI
             if (FirPatternHealth <= 0)
             {
                 StopCoroutine(skill3Coroutine);
-                photonView.RPC("Spititout", RpcTarget.All);
+                Spititout();
+                //photonView.RPC("Spititout", RpcTarget.All);
             }
+        }
+    }
+    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+            stream.SendNext(CurHp);
+            stream.SendNext(FirPatternHealth);
+            stream.SendNext(canMove);
+        }
+        else
+        {
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
+            CurHp = (float)stream.ReceiveNext();
+            FirPatternHealth = (float)stream.ReceiveNext();
+            canMove = (bool)stream.ReceiveNext();
         }
     }
 }
