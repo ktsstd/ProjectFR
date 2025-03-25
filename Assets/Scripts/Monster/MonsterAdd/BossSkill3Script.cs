@@ -87,6 +87,7 @@ public class BossSkill3Script : MonoBehaviour {
         {
             isFadeIn = false;
             gameObject.SetActive(false);
+            bossScript.animator.SetTrigger("Skill3Over");
             bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
             bossScript.BossMonsterSkillTimers[2] = bossScript.BossMonsterSkillCooldowns[2];
             bossScript.canMove = true;

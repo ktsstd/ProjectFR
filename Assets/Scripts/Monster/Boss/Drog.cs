@@ -133,12 +133,12 @@ public class Drog : MonsterAI
     {
         FSkill3Obj = Obj;
         photonView.RPC("Skill3Start", RpcTarget.All);
+        if (animator != null)
+            animator.SetTrigger("Skill3_1");
     }
     [PunRPC]
     public void Skill3Start()
     {
-        if (animator != null)
-            animator.SetTrigger("Skill3_1");
         FirPatternHealth = FirPatternbreakupHealth;
         PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("OnPlayerSuppressed", RpcTarget.All, 15f);
