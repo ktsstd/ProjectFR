@@ -376,15 +376,52 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         currentStates = States.Stun;
         yield return new WaitForSeconds(_time);
-        currentStates = States.Idle;
+        if (currentStates != States.Die)
+            currentStates = States.Idle;
+    }
+
+    private Coroutine suppressedCoroutine;
+    [PunRPC]
+    public virtual void OnPlayerSuppressed(float _time)
+    {
+        if (pv.IsMine)
+        {
+            if (suppressedCoroutine != null)
+                StopCoroutine(suppressedCoroutine);
+
+            suppressedCoroutine = StartCoroutine("PlayerSuppressed");
+        }
+    }
+
+    IEnumerator PlayerSuppressed(float _time)
+    {
+        currentStates = States.Stun;
+        collider.gameObject.SetActive(false);
+        yield return new WaitForSeconds(_time);
+        collider.gameObject.SetActive(true);
+        if (currentStates != States.Die)
+            currentStates = States.Idle;
     }
 
     [PunRPC]
     public void PlayerStunClear()
     {
         if (stunCoroutine != null)
+        {
             StopCoroutine(stunCoroutine);
-        currentStates = States.Idle;
+
+            if (currentStates != States.Die)
+                currentStates = States.Idle;
+        }
+
+        if (suppressedCoroutine != null)
+        {
+            StopCoroutine(suppressedCoroutine);
+
+            if (currentStates != States.Die)
+                currentStates = States.Idle;
+        }
+
     }
 
 
