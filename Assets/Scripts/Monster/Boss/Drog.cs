@@ -156,6 +156,7 @@ public class Drog : MonsterAI
         PlayerController playerScript = Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("OnPlayerHit", RpcTarget.All, 20000f);
         playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
+        FSkill3Obj = null;
         FirPatternHealth = 0;
         if (animator != null)
             animator.SetTrigger("Skill3__1");
@@ -175,6 +176,7 @@ public class Drog : MonsterAI
             animator.SetTrigger("Skill3_2");
         PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
+        FSkill3Obj = null;
         yield return new WaitForSeconds(2f);
         canMove = true;
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
