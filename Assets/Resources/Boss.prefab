@@ -583,6 +583,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  FSkill3Obj: {fileID: 0}
   BossSkill1Obj: {fileID: 1103512207633137629}
   BossJumpSkill: {fileID: 3215405436011285547, guid: 8329b77b5195d34428ae7e41ac16277a, type: 3}
   BossSkill3Obj: {fileID: 6318877801629017802}
