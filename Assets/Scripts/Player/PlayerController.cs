@@ -397,7 +397,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         currentStates = States.Stun;
         collider.isTrigger = false;
+        rigidbody.useGravity = false;
         yield return new WaitForSeconds(_time);
+        rigidbody.useGravity = true;
         collider.isTrigger = true;
         if (currentStates != States.Die)
             currentStates = States.Idle;

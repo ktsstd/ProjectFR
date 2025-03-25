@@ -190,7 +190,7 @@ public class Fire : PlayerController
         }
     }
 
-    public override void OnPlayerStun(float _time)
+    public override void OnPlayerSuppressed(float _time)
     {
         base.OnPlayerStun(_time);
         if (isFlameSpray)
