@@ -74,7 +74,6 @@ public class BossSkill3Script : MonoBehaviour {
     {
         if (isFadeIn && other.CompareTag("Player"))
         {
-            Debug.Log("TS");
             isFadeIn = false;
             bossScript.Skill3Success(other.gameObject);
             attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
@@ -86,7 +85,6 @@ public class BossSkill3Script : MonoBehaviour {
     {
         if (isFadeIn)
         {
-            Debug.Log("DB");
             isFadeIn = false;
             gameObject.SetActive(false);
             bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;

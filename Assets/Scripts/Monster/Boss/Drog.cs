@@ -22,7 +22,6 @@ public class Drog : MonsterAI
     public override void Start()
     {
         base.Start();
-        animator = GetComponentInChildren<Animator>();
         BossPhase = 1;
     }
     public override void Update()
