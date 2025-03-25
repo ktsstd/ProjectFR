@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.ComponentModel;
+using UnityEngine.UIElements;
 
 public class Drog : MonsterAI
 {
@@ -10,10 +12,13 @@ public class Drog : MonsterAI
     private int BossPhase;
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
-
-    public GameObject BossSkill3;
-    public GameObject BossJumpSkill;
-    //private GameObject FSkill3Obj;
+    
+    private GameObject FSkill3Obj;
+    [SerializeField] private GameObject BossSkill1Obj;
+    [SerializeField] private GameObject BossJumpSkill;
+    [SerializeField] private GameObject BossSkill3Obj;
+    [SerializeField] private GameObject BossSkill4Obj;
+    
     public override void Start()
     {
         base.Start();
@@ -23,6 +28,8 @@ public class Drog : MonsterAI
     public override void Update()
     {
         base.Update();
+        if (Input.GetKeyDown(KeyCode.Keypad8))
+            MonsterDmged(1000f);
         for (int i = 0; i < BossMonsterSkillTimers.Length; i++)
         {
             if (BossMonsterSkillTimers[i] > 0f)
@@ -35,7 +42,7 @@ public class Drog : MonsterAI
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            int randomskill = GetRandomSkill();
+            int randomskill = GetRandomSkill(); 
             photonView.RPC("PunAttack", RpcTarget.All, randomskill);
         }
         else
@@ -82,15 +89,11 @@ public class Drog : MonsterAI
         switch (randomskill)
         {
             case 0:
-                //Vector3 attackFowardPos1 = new Vector3(transform.position.x, 0.02f, transform.position.z) + transform.forward * 9;
-                //GameObject AttackObj1 = Instantiate(monsterInfo.attackboundary[0], attackFowardPos1, transform.rotation);
-                //AttackObj1.transform.SetParent(this.transform);
-                //Vector3 AttackObj1local = AttackObj1.transform.localPosition;
-                //AttackObj1local.y = -0.85f;
-                //AttackObj1.transform.localPosition = AttackObj1local;
-                yield return new WaitForSeconds(0.6f);
+                BossSkill1Script boss1Script = BossSkill1Obj.GetComponent<BossSkill1Script>();
+                BossSkill1Obj.SetActive(true);
+                yield return new WaitForSeconds(0.641f);
                 if (animator != null)
-                    animator.SetTrigger("Skill1");
+                    animator.SetTrigger("Skill1");                
                 break;
             case 1:
                 if (animator != null)
@@ -108,15 +111,8 @@ public class Drog : MonsterAI
                 AttackObj2.transform.localPosition = AttackObj2local;
                 break;
             case 2:
-                //Vector3 attackFowardPos3 = new Vector3(transform.position.x, 0.02f, transform.position.z) + transform.forward * 0;
-                //Vector3 currentEulerAngles = transform.eulerAngles;
-                //GameObject AttackObj3 = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos3, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-                //AttackObj3.transform.SetParent(this.transform);
-                //Vector3 AttackObj3local = AttackObj3.transform.localPosition;
-                //AttackObj3local.y = -0.9f;
-                //AttackObj3.transform.localPosition = AttackObj3local;
-                BossSkill3.SetActive(true);
-                BossSkill3Script boss3Script = BossSkill3.GetComponent<BossSkill3Script>();
+                BossSkill3Obj.SetActive(true);
+                BossSkill3Script boss3Script = BossSkill3Obj.GetComponent<BossSkill3Script>();
                 boss3Script.Starting();
                 yield return new WaitForSeconds(0.6f);
                 if (animator != null)
@@ -125,16 +121,98 @@ public class Drog : MonsterAI
             case 3:
                 if (animator != null)
                     animator.SetTrigger("Skill4");
-                Vector3 attackFowardPos4 = new Vector3(transform.position.x, 0.02f, transform.position.z);
-                GameObject AttackObj4 = Instantiate(monsterInfo.attackboundary[3], attackFowardPos4, transform.rotation);
-                AttackObj4.transform.SetParent(this.transform);
-                Vector3 AttackObj4local = AttackObj4.transform.localPosition;
-                AttackObj4local.y = -0.85f;
-                AttackObj4.transform.localPosition = AttackObj4local;
+                BossSkill4Obj.SetActive(true);
                 break;
             default:
                 canMove = true;
                 yield break;
+        }
+    }
+    Coroutine skill3Coroutine;
+    public void Skill3Success(GameObject Obj)
+    {
+        FSkill3Obj = Obj;
+        photonView.RPC("Skill3Start", RpcTarget.All);
+    }
+    [PunRPC]
+    public void Skill3Start()
+    {
+        if (animator != null)
+            animator.SetTrigger("Skill3_1");
+        FirPatternHealth = FirPatternbreakupHealth;
+        PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
+        playerScript.photonView.RPC("OnPlayerSuppressed", RpcTarget.All, 15f);
+        FSkill3Obj.transform.position = gameObject.transform.position;
+        skill3Coroutine = StartCoroutine(Skill3PatternStart(FSkill3Obj));
+    }
+    IEnumerator Skill3PatternStart(GameObject Obj)
+    {
+        while (FirPatternHealth > 0)
+        {
+            FSkill3Obj.transform.position = gameObject.transform.position;
+            yield return new WaitForSeconds(1f);
+        }
+        yield return new WaitForSeconds(15f);
+        PlayerController playerScript = Obj.GetComponent<PlayerController>();
+        playerScript.photonView.RPC("OnPlayerHit", RpcTarget.All, 20000f);
+        playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
+        FirPatternHealth = 0;
+        if (animator != null)
+            animator.SetTrigger("Skill3__1");
+        yield return new WaitForSeconds(5f);
+        target = null;
+        canMove = true;
+        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
+    }
+    [PunRPC]
+    public IEnumerator Spititout()
+    {
+        //string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[5].name;
+        //Vector3 attackFowardPos5 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
+        //GameObject SpitObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos5, Quaternion.identity);
+        if (animator != null)
+            animator.SetTrigger("Skill3_2");
+        PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
+        playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
+        yield return new WaitForSeconds(2f);
+        canMove = true;
+        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
+    }
+    public override void MonsterDmged(float damage)
+    {
+        if (FirPatternHealth <= 0)
+        {
+            CurHp -= damage;
+            if (CurHp <= 0 && canMove)
+            {
+                canMove = false;
+                if (BossPhase < 2)
+                {
+                    photonView.RPC("PunAttack", RpcTarget.All, 2);
+                    CurHp = 13000f;
+                    monsterInfo.damage = 100f;
+                    BossPhase++;
+                    canMove = true;
+                }
+                else
+                {
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Die");
+                    }
+                }
+            }
+        }
+        else
+        {
+            FirPatternHealth -= damage;
+            if (FirPatternHealth <= 0)
+            {
+                StopCoroutine(skill3Coroutine);
+                photonView.RPC("Spititout", RpcTarget.All);
+            }
         }
     }
 }

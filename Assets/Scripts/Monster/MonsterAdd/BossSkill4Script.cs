@@ -9,12 +9,12 @@ public class BossSkill4Script : MonoBehaviour
     [SerializeField] GameObject BossSkill4;
     public int damage;
     bool isFadeIn = false;
-    Boss bossScript;
+    Drog bossScript;
     // Start is called before the first frame update
     void Start()
     {
         attackboundaryObj = gameObject;
-        bossScript = GetComponentInParent<Boss>();
+        bossScript = GetComponentInParent<Drog>();
         StartCoroutine(FadeIn());
     }
 
@@ -25,7 +25,8 @@ public class BossSkill4Script : MonoBehaviour
 
         while (elapsedTime <= fadedTime)
         {
-            attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, Mathf.Lerp(0, 1, elapsedTime / fadedTime));
+            attackboundaryObj.GetComponent<MeshRenderer>().material.color
+                = new Color(1, 0, 0, Mathf.Lerp(0, 0.8f, elapsedTime / fadedTime));
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -37,9 +38,11 @@ public class BossSkill4Script : MonoBehaviour
 
     void StartEffect()
     {
+        gameObject.SetActive(false);
         Vector3 currentEulerAngles = transform.eulerAngles;
-        GameObject Skill1Obj = Instantiate(BossSkill4, transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-        bossScript.canMove = false;
-        DestroyImmediate(gameObject);
+        GameObject Skill4Obj = Instantiate(BossSkill4, transform.position,
+            Quaternion.Euler(-90, currentEulerAngles.y + 1f, currentEulerAngles.z));
+        attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+        isFadeIn = false;
     }
 }

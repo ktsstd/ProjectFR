@@ -9,12 +9,12 @@ public class BossSkill2Script : MonoBehaviour
     [SerializeField] GameObject BossHit;
     private float damage;
     bool isFadeIn = false;
-    Boss bossScript;
+    Drog bossScript;
     // Start is called before the first frame update
     void Start()
     {
         attackboundaryObj = gameObject;
-        bossScript = GetComponentInParent<Boss>();
+        bossScript = GetComponentInParent<Drog>();
         damage += 250 + (bossScript.monsterInfo.damage / 2);
         StartCoroutine(FadeIn());
     }
@@ -26,7 +26,8 @@ public class BossSkill2Script : MonoBehaviour
 
         while (elapsedTime <= fadedTime)
         {
-            attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, Mathf.Lerp(0, 1, elapsedTime / fadedTime));
+            attackboundaryObj.GetComponent<MeshRenderer>().material.color 
+                = new Color(1, 0, 0, Mathf.Lerp(0, 0.8f, elapsedTime / fadedTime));
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -43,18 +44,22 @@ public class BossSkill2Script : MonoBehaviour
             Vector3 PlayerObj = other.transform.position;
             PlayerObj.y += 1f;
             Vector3 currentEulerAngles = transform.eulerAngles;
-            GameObject HitEffect = Instantiate(BossHit, PlayerObj, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
+            GameObject HitEffect 
+                = Instantiate(BossHit, PlayerObj, 
+                Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
             playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
         }
     }
 
     void StartEffect()
     {
+        //gameObject.SetActive(false);
         Vector3 currentEulerAngles = transform.eulerAngles;
-        GameObject Skill1Obj = Instantiate(BossSkill2, transform.position, Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
+        GameObject Skill1Obj = Instantiate(BossSkill2, transform.position, 
+            Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
         bossScript.BossMonsterSkillTimers[1] = bossScript.BossMonsterSkillCooldowns[1];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
-        Collider collider = bossScript.GetComponent<Boss>().GetComponent<Collider>();
+        Collider collider = bossScript.GetComponent<Drog>().GetComponent<Collider>();
         collider.enabled = true;
         bossScript.canMove = true;
         DestroyImmediate(gameObject);

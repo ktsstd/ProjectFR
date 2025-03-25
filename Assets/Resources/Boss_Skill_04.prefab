@@ -4923,7 +4923,7 @@ GameObject:
   - component: {fileID: 7707265588961110614}
   - component: {fileID: 7006559414661722288}
   - component: {fileID: 1661805827869372405}
-  - component: {fileID: 326997753595792296}
+  - component: {fileID: 4362450257691694838}
   m_Layer: 0
   m_Name: Boss_Skill_04
   m_TagString: Untagged
@@ -9770,8 +9770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 067e6fec45ca8224f8b9e8cf359c2a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &326997753595792296
-BoxCollider:
+--- !u!135 &4362450257691694838
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9789,5 +9789,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9, y: 9, z: 5}
-  m_Center: {x: 0, y: 0, z: 2.3}
+  m_Radius: 9
+  m_Center: {x: 0, y: 0, z: 0}

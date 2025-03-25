@@ -11,7 +11,7 @@ public class BossSkill3Script : MonoBehaviour {
     GameObject attackboundaryObj;
     public int damage;
     bool isFadeIn = false;
-    Boss bossScript;
+    Drog bossScript;
 
     private void Start()
     {
@@ -48,7 +48,7 @@ public class BossSkill3Script : MonoBehaviour {
     public void Starting()
     {
         attackboundaryObj = gameObject;
-        bossScript = GetComponentInParent<Boss>();
+        bossScript = GetComponentInParent<Drog>();
         StartCoroutine(FadeIn());
     }
 
@@ -59,7 +59,8 @@ public class BossSkill3Script : MonoBehaviour {
 
         while (elapsedTime <= fadedTime)
         {
-            attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, Mathf.Lerp(0, 1, elapsedTime / fadedTime));
+            attackboundaryObj.GetComponent<MeshRenderer>().material.color 
+                = new Color(1, 0, 0, Mathf.Lerp(0, 0.8f, elapsedTime / fadedTime));
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -73,21 +74,26 @@ public class BossSkill3Script : MonoBehaviour {
     {
         if (isFadeIn && other.CompareTag("Player"))
         {
-            bossScript = GetComponentInParent<Boss>();
+            Debug.Log("TS");
+            isFadeIn = false;
             bossScript.Skill3Success(other.gameObject);
-            //attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
-            //gameObject.SetActive(false);
-            //isFadeIn = false;
+            attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+            gameObject.SetActive(false);
         }
     }
 
     void DestroyBoundary()
     {
-        bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
-        bossScript.BossMonsterSkillTimers[2] = bossScript.BossMonsterSkillCooldowns[2];
-        bossScript.canMove = true;
-        attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
-        gameObject.SetActive(false);
-        isFadeIn = false;
+        if (isFadeIn)
+        {
+            Debug.Log("DB");
+            isFadeIn = false;
+            gameObject.SetActive(false);
+            bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
+            bossScript.BossMonsterSkillTimers[2] = bossScript.BossMonsterSkillCooldowns[2];
+            bossScript.canMove = true;
+            attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+        }
+        
     }
 }

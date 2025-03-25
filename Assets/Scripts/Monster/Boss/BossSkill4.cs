@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class BossSkill4 : MonoBehaviour
 {
-    Boss bossScript;
+    Drog bossScript;
     private IEnumerator Start()
     {
-        Boss bossScript = GameObject.FindWithTag("Enemy").GetComponent<Boss>();
+        Drog bossScript = GameObject.FindWithTag("Enemy").GetComponent<Drog>();
         yield return new WaitForSeconds(GetComponent<ParticleSystem>().main.duration);
         bossScript.BossMonsterSkillTimers[3] = bossScript.BossMonsterSkillCooldowns[3];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
