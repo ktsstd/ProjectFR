@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 013bf7e38c68e4f4fb98ef948cd2bd91
+guid: fd7a9ffc24761d24fb15006525a4f060
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -34,7 +34,7 @@ ModelImporter:
       name: Water_Run
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 5
+      firstFrame: 0
       lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0

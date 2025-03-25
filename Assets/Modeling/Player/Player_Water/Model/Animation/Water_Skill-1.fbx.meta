@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 378aa84627741424fa47dcbca417f2e9
+guid: 651b7e704fb5f2542be8fd40209e5403
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -32,8 +32,8 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: Water_Skill_1
-      takeName: Water_Skill_1
-      internalID: -4748625145157910177
+      takeName: Take 001
+      internalID: 1827226128182048838
       firstFrame: 0
       lastFrame: 23
       wrapMode: 0
@@ -42,7 +42,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -55,14 +55,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.6003387
+      - time: 0.7516496
         functionName: UseRepellingWave
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 9db12644cc4ef5748ac1049f01726496, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9997451
+      - time: 0.99880034
         functionName: StopAnimation
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 9db12644cc4ef5748ac1049f01726496, type: 3}

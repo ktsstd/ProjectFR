@@ -297,7 +297,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Water_Skill_1
-  m_Speed: 1
+  m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7728122525126801516}
@@ -310,7 +310,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -4748625145157910177, guid: 378aa84627741424fa47dcbca417f2e9, type: 3}
+  m_Motion: {fileID: 1827226128182048838, guid: 651b7e704fb5f2542be8fd40209e5403, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -436,7 +436,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -4564117407025558884, guid: 65cd47ca465d96f4380716559bb09bd5, type: 3}
+  m_Motion: {fileID: 1827226128182048838, guid: 7724dba58667b32408e0e1cd7fb57256, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -490,7 +490,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: 013bf7e38c68e4f4fb98ef948cd2bd91, type: 3}
+  m_Motion: {fileID: 1827226128182048838, guid: fd7a9ffc24761d24fb15006525a4f060, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

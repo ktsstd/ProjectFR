@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7724dba58667b32408e0e1cd7fb57256
+guid: a02dc7c2dbe44bc49bb9b2f4c3bdc047
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Water_Skill_3
+      name: Fire_Die
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 0
-      lastFrame: 27
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -54,21 +54,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.6688662
-        functionName: UseCalOfTheSea
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 9db12644cc4ef5748ac1049f01726496, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.9988003
-        functionName: StopAnimation
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 9db12644cc4ef5748ac1049f01726496, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

@@ -31,7 +31,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Water_Skill_2
+      name: Water_Skill-2
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 0
@@ -42,7 +42,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -55,14 +55,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.79974186
+      - time: 0.84283143
         functionName: UseHealingBubble
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 9db12644cc4ef5748ac1049f01726496, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9997437
+      - time: 0.99880034
         functionName: StopAnimation
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 9db12644cc4ef5748ac1049f01726496, type: 3}

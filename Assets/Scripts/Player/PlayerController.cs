@@ -90,8 +90,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Update()
     {
-        Debug.Log(currentStates);
-
         if (currentDashCoolTime > 0)
             currentDashCoolTime -= Time.deltaTime;
         if (damageDelayTime > 0)
@@ -396,10 +394,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         OffSkills();
     }
 
-    public virtual void OffSkills()
-    {
-
-    }
+    public virtual void OffSkills() { }
 
     IEnumerator PlayerSuppressed(float _time)
     {
