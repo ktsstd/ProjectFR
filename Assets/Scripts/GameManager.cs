@@ -103,8 +103,8 @@ public class GameManager : MonoBehaviour
                 }
                 else if (WaveCount == 2)
                 {
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 5));
-                    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 15));
+                    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 5));
+                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 15));
                     StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 10));
                 }
                 else if (WaveCount == 3)
