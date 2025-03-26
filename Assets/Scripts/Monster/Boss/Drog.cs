@@ -16,10 +16,12 @@ public class Drog : MonsterAI
     [SerializeField] GameObject FSkill3Obj;
     [SerializeField] GameObject BossSkill1Obj;
     [SerializeField] GameObject BossJumpSkill;
+    [SerializeField] GameObject BossLandSkill;
     [SerializeField] GameObject BossSkill3Obj;
     [SerializeField] GameObject BossSkill4Obj;
 
     [SerializeField] BossSkill1Script boss1Script;
+    [SerializeField] BossSkill2Script boss2Script;
     [SerializeField] BossSkill3Script boss3Script;
     [SerializeField] BossSkill4Script boss4Script;
 
@@ -29,9 +31,6 @@ public class Drog : MonsterAI
         base.Start();
         animator = GetComponentInChildren<Animator>();
         BossPhase = 1;
-        BossSkill1Script boss1Script = BossSkill1Obj.GetComponent<BossSkill1Script>();
-        BossSkill3Script boss3Script = BossSkill3Obj.GetComponent<BossSkill3Script>();
-        BossSkill4Script boss4Script = BossSkill4Obj.GetComponent<BossSkill4Script>();
     }
     public override void Update()
     {
@@ -115,11 +114,9 @@ public class Drog : MonsterAI
                 Instantiate(BossJumpSkill, transform.position, Quaternion.identity);
                 Vector3 attackFowardPos2 = new Vector3(target.position.x, 0.02f, target.position.z);
                 yield return new WaitForSeconds(0.6f);
-                GameObject AttackObj2 = Instantiate(monsterInfo.attackboundary[1], attackFowardPos2, transform.rotation);
+                GameObject AttackObj2 = Instantiate(BossLandSkill, attackFowardPos2, transform.rotation);
                 transform.position = attackFowardPos2;
                 AttackObj2.transform.SetParent(this.transform);
-                BossSkill2Script boss2Script = AttackObj2.GetComponent<BossSkill2Script>();
-                boss2Script.Starting();
                 Vector3 AttackObj2local = AttackObj2.transform.localPosition;
                 AttackObj2local.y = -0.85f;
                 AttackObj2.transform.localPosition = AttackObj2local;

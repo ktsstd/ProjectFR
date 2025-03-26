@@ -4,21 +4,16 @@ using Photon.Pun;
 
 public class BossSkill1Script : MonoBehaviour
 {
-    GameObject attackboundaryObj;
     [SerializeField] GameObject BossSkill1;
     [SerializeField] GameObject BossHit;
     private float damage;
     bool isFadeIn = false;
     Drog bossScript;
     // Start is called before the first frame update
-    void Start()
-    {
-        attackboundaryObj = gameObject;
-        bossScript = GetComponentInParent<Drog>();
-        damage += 50 + (bossScript.monsterInfo.damage / 2);
-    }
     public void Starting()
     {
+        bossScript = GetComponentInParent<Drog>();
+        damage += 50 + (bossScript.monsterInfo.damage / 2);
         StartCoroutine(FadeIn());
     }
 
@@ -29,7 +24,7 @@ public class BossSkill1Script : MonoBehaviour
 
         while (elapsedTime <= fadedTime)
         {
-            attackboundaryObj.GetComponent<MeshRenderer>().material.color 
+            gameObject.GetComponent<MeshRenderer>().material.color 
                 = new Color(1, 0, 0, Mathf.Lerp(0, 0.8f, elapsedTime / fadedTime));
 
             elapsedTime += Time.deltaTime;
@@ -63,7 +58,7 @@ public class BossSkill1Script : MonoBehaviour
         bossScript.BossMonsterSkillTimers[0] = bossScript.BossMonsterSkillCooldowns[0];
         bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
         bossScript.canMove = true;
-        attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         isFadeIn = false;
     }
 }
