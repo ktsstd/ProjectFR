@@ -102,6 +102,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             currentSkillsCoolTime[1] -= Time.deltaTime;
         if (currentSkillsCoolTime[2] > 0)
             currentSkillsCoolTime[2] -= Time.deltaTime;
+        if (currentStates == States.Dash)
+            dashEF.SetActive(true);
+        else
+            dashEF.SetActive(false);
 
         if (pv.IsMine)
         {
@@ -109,10 +113,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             CameraMove();
             playerUi.InputDashData(currentDashCoolTime, dashCoolTime);
             playerUi.InputSkillData(currentSkillsCoolTime, skillsCoolTime);
-            if (currentStates == States.Dash)
-                dashEF.SetActive(true);
-            else
-                dashEF.SetActive(false);
             if (currentStates != States.Idle)
             {
                 skillRanges[0].SetActive(false);
