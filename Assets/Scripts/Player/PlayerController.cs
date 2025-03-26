@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject recoveryEF;
     public GameObject eatEffeck;
     public GameObject dashEF;
+    public GameObject stunEF;
     public ParticleSystem poisonEF;
     public PlayerInfo playerInfo;
 
@@ -139,7 +140,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     break;
                 case States.Die:
                     OnPlayerRespawn(); // ��Ȱ��� �ֱ�
-                    break;                   // ī�޶� ����(�������)
+                    break;
                 case States.Stun:
                     // stun icon on
                     break;
@@ -279,6 +280,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     playerHp = 0;
                     currentStates = States.Die;
                     pv.RPC("OnPlayerDie", RpcTarget.All, null);
+                    pv.RPC("PlayTriggerAnimation", RpcTarget.All, "die");
                 }
             }
 
@@ -291,13 +293,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (pv.IsMine)
         {
-            playerHp -= _damage;
-
-            if (playerHp <= 0)
+            if (currentStates != States.Die)
             {
-                playerHp = 0;
-                currentStates = States.Die;
-                pv.RPC("OnPlayerDie", RpcTarget.All, null);
+                playerHp -= _damage;
+
+                if (playerHp <= 0)
+                {
+                    playerHp = 0;
+                    currentStates = States.Die;
+                    pv.RPC("OnPlayerDie", RpcTarget.All, null);
+                    pv.RPC("PlayTriggerAnimation", RpcTarget.All, "die");
+                }
             }
 
             playerUi.InputHpData(playerHp, playerMaxHp);
@@ -366,6 +372,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public void PlayerRespawn()
     {
         playerRespawnZone.SetActive(false);
+        PlayTriggerAnimation("reset");
         if (pv.IsMine)
         {
             PlayerController playerController = playerInRange[0].GetComponent<PlayerController>();
@@ -389,6 +396,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
             stunCoroutine = StartCoroutine("PlayerStun", _time);
         }
+        stunEF.SetActive(true);
     }
 
     IEnumerator PlayerStun(float _time)
@@ -396,6 +404,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         PlayTriggerAnimation("reset");
         currentStates = States.Stun;
         yield return new WaitForSeconds(_time);
+        stunEF.SetActive(false);
         if (currentStates != States.Die)
             currentStates = States.Idle;
     }
@@ -437,6 +446,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (stunCoroutine != null)
         {
             StopCoroutine(stunCoroutine);
+            stunEF.SetActive(false);
 
             if (currentStates != States.Die)
                 currentStates = States.Idle;
@@ -478,8 +488,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         int count = 0;
         while (count != _time)
         {
+            if (currentStates == States.Die)
+                break;
             yield return new WaitForSeconds(0.5f);
-            OnPlayerTrueDamage(playerMaxHp * 0.05f);
+            OnPlayerTrueDamage(playerHp * 0.05f);
             count += 1;
             if (pv.IsMine)
                 playerUi.InputHpData(playerHp, playerMaxHp);
