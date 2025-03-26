@@ -15,6 +15,9 @@ public class BossSkill4Script : MonoBehaviour
     {
         attackboundaryObj = gameObject;
         bossScript = GetComponentInParent<Drog>();
+    }
+    public void Starting()
+    {
         StartCoroutine(FadeIn());
     }
 

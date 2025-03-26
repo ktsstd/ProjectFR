@@ -16,6 +16,9 @@ public class BossSkill2Script : MonoBehaviour
         attackboundaryObj = gameObject;
         bossScript = GetComponentInParent<Drog>();
         damage += 250 + (bossScript.monsterInfo.damage / 2);
+    }
+    public void Starting()
+    {
         StartCoroutine(FadeIn());
     }
 

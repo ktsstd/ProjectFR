@@ -13,17 +13,25 @@ public class Drog : MonsterAI
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
     
-    [SerializeField] private GameObject FSkill3Obj;
-    [SerializeField] private GameObject BossSkill1Obj;
-    [SerializeField] private GameObject BossJumpSkill;
-    [SerializeField] private GameObject BossSkill3Obj;
-    [SerializeField] private GameObject BossSkill4Obj;
-    
+    [SerializeField] GameObject FSkill3Obj;
+    [SerializeField] GameObject BossSkill1Obj;
+    [SerializeField] GameObject BossJumpSkill;
+    [SerializeField] GameObject BossSkill3Obj;
+    [SerializeField] GameObject BossSkill4Obj;
+
+    [SerializeField] BossSkill1Script boss1Script;
+    [SerializeField] BossSkill3Script boss3Script;
+    [SerializeField] BossSkill4Script boss4Script;
+
+
     public override void Start()
     {
         base.Start();
         animator = GetComponentInChildren<Animator>();
         BossPhase = 1;
+        BossSkill1Script boss1Script = BossSkill1Obj.GetComponent<BossSkill1Script>();
+        BossSkill3Script boss3Script = BossSkill3Obj.GetComponent<BossSkill3Script>();
+        BossSkill4Script boss4Script = BossSkill4Obj.GetComponent<BossSkill4Script>();
     }
     public override void Update()
     {
@@ -93,8 +101,8 @@ public class Drog : MonsterAI
         switch (randomskill)
         {
             case 0:
-                BossSkill1Script boss1Script = BossSkill1Obj.GetComponent<BossSkill1Script>();
                 BossSkill1Obj.SetActive(true);
+                boss1Script.Starting();
                 yield return new WaitForSeconds(0.641f);
                 if (animator != null)
                     animator.SetTrigger("Skill1");                
@@ -110,13 +118,14 @@ public class Drog : MonsterAI
                 GameObject AttackObj2 = Instantiate(monsterInfo.attackboundary[1], attackFowardPos2, transform.rotation);
                 transform.position = attackFowardPos2;
                 AttackObj2.transform.SetParent(this.transform);
+                BossSkill2Script boss2Script = AttackObj2.GetComponent<BossSkill2Script>();
+                boss2Script.Starting();
                 Vector3 AttackObj2local = AttackObj2.transform.localPosition;
                 AttackObj2local.y = -0.85f;
                 AttackObj2.transform.localPosition = AttackObj2local;
                 break;
             case 2:
                 BossSkill3Obj.SetActive(true);
-                BossSkill3Script boss3Script = BossSkill3Obj.GetComponent<BossSkill3Script>();
                 boss3Script.Starting();
                 yield return new WaitForSeconds(0.6f);
                 if (animator != null)
@@ -126,6 +135,7 @@ public class Drog : MonsterAI
                 if (animator != null)
                     animator.SetTrigger("Skill4");
                 BossSkill4Obj.SetActive(true);
+                boss4Script.Starting();
                 break;
             default:
                 canMove = true;
