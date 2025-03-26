@@ -5,17 +5,12 @@ using Photon.Pun;
 
 public class Attackboundary : MonoBehaviour
 {
-    GameObject attackboundaryObj;
     bool isFadeIn = false;
-    MonsterAI monsterAIScript;
+    [SerializeField] MonsterAI monsterAIScript;
     float attackDuration = 2f;
     // Start is called before the first frame update
-    void Start()
+    public void Starting()
     {
-        attackboundaryObj = gameObject;
-        monsterAIScript = GetComponentInParent<MonsterAI>();
-
-        // 부모의 Animator에서 "Attack" 애니메이션 클립의 길이 구하기
         Animator animator = monsterAIScript.animator;
         if (animator != null && animator.runtimeAnimatorController != null)
         {
@@ -43,7 +38,7 @@ public class Attackboundary : MonoBehaviour
 
         while (elapsedTime <= fadedTime)
         {
-            attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, Mathf.Lerp(0, 1, elapsedTime / fadedTime));
+            gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, Mathf.Lerp(0, 1, elapsedTime / fadedTime));
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -61,7 +56,7 @@ public class Attackboundary : MonoBehaviour
             playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, monsterAIScript.monsterInfo.damage);
             monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
             monsterAIScript.canMove = true;
-            Destroy(this.gameObject);
+            gameObject.SetActive(false);
         }
         else if (isFadeIn && other.CompareTag("Object"))
         {
@@ -69,7 +64,7 @@ public class Attackboundary : MonoBehaviour
             objectS.photonView.RPC("Damaged", RpcTarget.All, monsterAIScript.monsterInfo.damage);
             monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
             monsterAIScript.canMove = true;
-            Destroy(this.gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -77,6 +72,8 @@ public class Attackboundary : MonoBehaviour
     {
         monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
         monsterAIScript.canMove = true;
-        Destroy(this.gameObject);
+        isFadeIn = false;
+        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+        gameObject.SetActive(false);
     }
 }

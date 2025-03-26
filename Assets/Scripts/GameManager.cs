@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
+using System.Security.Cryptography;
 
 public class GameManager : MonoBehaviour
 {
@@ -91,54 +93,23 @@ public class GameManager : MonoBehaviour
 
             int a = Random.Range(1, 4);
             int b = Random.Range(1, 5);
-
             Transform[] spawnPositions = GetSpawnPositions(a, b);
 
-            if (spawnPositions != null)
+            if (WaveCount == 1)
             {
-                // 몬스터 인스턴스화 함수 호출
-                if (WaveCount == 1)
-                {
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 15));
-                }
-                else if (WaveCount == 2)
-                {
-                    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 5));
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 15));
-                    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 10));
-                }
-                else if (WaveCount == 3)
-                {
-                    Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-                    PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
-                }
-                //else if (WaveCount == 3)
-                //{
-                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 20));
-                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 15));
-                //    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 10));
-                //}
-                //else if (WaveCount == 4)
-                //{
-                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 25));
-                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 15));
-                //    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 10));
-                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 5));
-                //}
-                //else if (WaveCount == 5)
-                //{
-                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Firemonster, 30));
-                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Sleebam, 25));
-                //    //StartCoroutine(InstantiateMonsters(spawnPositions, a, Mugolin, 15));
-                //    StartCoroutine(InstantiateMonsters(spawnPositions, a, Solborn, 10));
-                //}
-                //else if (WaveCount == 6)
-                //{
-                //    Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-                //    PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
-                //}
+                StartCoroutine(InstantiateMonsters(Firemonster, 120));
             }
-            isSpawn = false;
+            else if (WaveCount == 2)
+            {
+                //StartCoroutine(InstantiateMonsters(Solborn, 5));
+                StartCoroutine(InstantiateMonsters(Firemonster, 150));
+                StartCoroutine(InstantiateMonsters(Sleebam, 100));
+            }
+            else if (WaveCount == 3)
+            {
+                Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+            }
         }
         else
         {
@@ -146,7 +117,94 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Spawn 위치 결정
+    IEnumerator InstantiateMonsters(string monsterType, int count)
+    {
+        int Instantiatetime;
+        if (count > 15)
+        {
+            Instantiatetime = Mathf.CeilToInt(count / 15); 
+        }
+        else
+        {
+            Instantiatetime = 0;
+        }
+        
+        for (int inst = 0; inst <= Instantiatetime; inst++)  
+        {
+            int a = Random.Range(1, 4);
+            int b = Random.Range(1, 5);
+            Transform[] spawnPositions = GetSpawnPositions(a, b);
+            int realcount = Mathf.FloorToInt(count / 15); 
+            int realinstcount = count - (realcount * 15);
+            if (realinstcount <= 0 && Instantiatetime <= 0) 
+            {
+                realinstcount = count;
+            }
+            if (inst >= Instantiatetime && realinstcount > 0)
+            {
+                if (a != 2)
+                {
+                    for (int sp = 0; sp < realinstcount; sp++)
+                    {
+                        PhotonNetwork.Instantiate(monsterType, spawnPositions[sp].position, Quaternion.identity);
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < realinstcount; i++)
+                    {
+                        Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                        PhotonNetwork.Instantiate(monsterType, randomSpawnPos.position, Quaternion.identity);
+                        if (a != 1)
+                        {
+                            yield return new WaitForSeconds(0.5f);
+                        }
+                        else
+                        {
+                            yield return new WaitForSeconds(0.1f);
+                        }
+                    }
+                }
+            }
+            else if (inst < Instantiatetime)
+            {
+                if (a == 2)
+                {
+                    int sppos = 0;
+                    for (int sp = 0; sp < 15; sp++)
+                    {
+                        sppos += 1;
+                        if (sppos > spawnPositions.Length - 1)
+                        {
+                            sppos = 0;
+                        }
+                        PhotonNetwork.Instantiate(monsterType, spawnPositions[sppos].position, Quaternion.identity);
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 15; i++)
+                    {
+                        Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                        PhotonNetwork.Instantiate(monsterType, randomSpawnPos.position, Quaternion.identity);
+                        if (a != 1)
+                        {
+                            yield return new WaitForSeconds(0.5f);
+                        }
+                        else
+                        {
+                            yield return new WaitForSeconds(0.1f);
+                        }
+                    }
+                }
+            }
+        }
+        isSpawn = false;
+        GameObject[] MonsterCount = GameObject.FindGameObjectsWithTag("Enemy");
+        Debug.Log(MonsterCount.Length);
+    }
     Transform[] GetSpawnPositions(int a, int b)
     {
         Transform[] spawnPositions = null;
@@ -194,23 +252,6 @@ public class GameManager : MonoBehaviour
 
         return spawnPositions;
     }
-
-    IEnumerator InstantiateMonsters(Transform[] spawnPositions, int a, string monsterType, int count)
-    {
-        Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-
-        for (int i = 0; i < count; i++)
-        {
-            PhotonNetwork.Instantiate(monsterType, randomSpawnPos.position, Quaternion.identity);
-
-            if (a != 1)
-            {
-                yield return new WaitForSeconds(0.5f);
-            }
-        }
-    }
-
-
     private Transform[] GetChildTransforms(Transform parent)
     {
         List<Transform> childTransforms = new List<Transform>();

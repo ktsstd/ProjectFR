@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FireMonster
   m_EditorClassIdentifier: 
   speed: 5
-  damage: 10
+  damage: 100
   health: 1300
   attackRange: 2
   attackCooldown: 6

@@ -123,7 +123,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                     {
                         continue;
                     }
-                       
                 }
 
                 float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);
@@ -133,12 +132,13 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                     closestDistance = distance;
                     closestTarget = possibleTarget.transform;
                 }
-                else if (target == null)
-                {
-                    GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
-                    return objectTarget.transform;
-                }
             }
+        }
+
+        if (target == null)
+        {
+            GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
+            return objectTarget.transform;
         }
 
         return closestTarget;
@@ -156,6 +156,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         //AttackObj.transform.localPosition = AttackObjlocal;
         if (animator != null)
             animator.SetTrigger("StartAttack");
+        AttackBoundary.SetActive(true);
+        Attackboundary attackboundaryScript = AttackBoundary.GetComponent<Attackboundary>();
+        attackboundaryScript.Starting();
     }
 
     public virtual void AttackSuccess(GameObject Obj, int damage)

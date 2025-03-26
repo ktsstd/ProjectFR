@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class Object : MonoBehaviourPunCallbacks
 {
-    public float health = 500f;
+    public float health = 5500f;
     PhotonView pv;
     private void Start()
     {

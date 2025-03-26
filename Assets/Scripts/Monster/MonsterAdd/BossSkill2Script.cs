@@ -8,6 +8,7 @@ public class BossSkill2Script : MonoBehaviour
     [SerializeField] GameObject BossHit;
     private float damage;
     bool isFadeIn = false;
+    bool isdamaged = false;
     Drog bossScript;
 
     void Start()
@@ -42,16 +43,20 @@ public class BossSkill2Script : MonoBehaviour
             Vector3 PlayerObj = other.transform.position;
             PlayerObj.y += 1f;
             Vector3 currentEulerAngles = transform.eulerAngles;
-            GameObject HitEffect 
-                = Instantiate(BossHit, PlayerObj, 
+            if (!isdamaged)
+            {
+                isdamaged = true;
+                GameObject HitEffect
+                = Instantiate(BossHit, PlayerObj,
                 Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-            playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
+                HitEffect.transform.SetParent(other.transform);
+                playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
+            }
         }
     }
 
     void StartEffect()
     {
-        //gameObject.SetActive(false);
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = Instantiate(BossSkill2, transform.position, 
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
