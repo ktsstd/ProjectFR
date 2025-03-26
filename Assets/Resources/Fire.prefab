@@ -6527,6 +6527,7 @@ MonoBehaviour:
   recoveryEF: {fileID: 6707274142408447521}
   eatEffeck: {fileID: 683042621433111889}
   dashEF: {fileID: 5597551784761577637}
+  poisonEF: {fileID: 4828297709672088807}
   playerInfo: {fileID: 11400000, guid: 7b7775c0bc492ce4c8fd773cb7e560af, type: 2}
   pv: {fileID: 0}
   animator: {fileID: 0}
@@ -40908,13 +40909,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5608011528782491753}
     m_Modifications:
+    - target: {fileID: 2666198703155961376, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2666198703155961391, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
       propertyPath: looping
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2666198703155961391, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198703155961391, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198703155961391, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.05
+      objectReference: {fileID: 0}
     - target: {fileID: 2666198703468065987, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
       propertyPath: looping
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198703468065987, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198703468065987, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2666198704263702624, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
       propertyPath: m_LocalPosition.x
@@ -40956,17 +40981,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2666198704263702627, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2666198704263702629, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
       propertyPath: m_Name
       value: FX_poison
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198704263702629, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2666198704285525351, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
       propertyPath: looping
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2666198704285525351, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198704285525351, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198704396365072, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2666198704396365087, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
       propertyPath: looping
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198704396365087, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198704396365087, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666198704396365087, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -40976,5 +41033,10 @@ PrefabInstance:
 --- !u!4 &4828297709672088804 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2666198704263702624, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
+  m_PrefabInstance: {fileID: 7350352566211374212}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4828297709672088807 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2666198704263702627, guid: f66a92ada1642d04db2a22c7bb33ceee, type: 3}
   m_PrefabInstance: {fileID: 7350352566211374212}
   m_PrefabAsset: {fileID: 0}

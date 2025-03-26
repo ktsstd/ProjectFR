@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject recoveryEF;
     public GameObject eatEffeck;
     public GameObject dashEF;
+    public ParticleSystem poisonEF;
     public PlayerInfo playerInfo;
 
     public PhotonView pv;
@@ -148,6 +149,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 pv.RPC("OnPlayerHit", RpcTarget.All, 100f);
             }
+            if (Input.GetKeyDown(KeyCode.Keypad1))
+            {
+                pv.RPC("OnPlayerPoison", RpcTarget.All, 10);
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad2))
+            {
+                pv.RPC("OnPlayerPoison", RpcTarget.All, 5);
+            }
+
         }
         else
         {
@@ -443,7 +453,39 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             if (currentStates != States.Die)
                 currentStates = States.Idle;
         }
+    }
 
+    Coroutine poisonCoroutine;
+    float[] poisontime = new float[2] {0, 0};
+    [PunRPC]
+    public void OnPlayerPoison(int _time)
+    {
+        if (poisonCoroutine != null)
+        {
+            if ((Time.time - poisontime[0]) - poisontime[1] < _time)
+            {
+                StopCoroutine(poisonCoroutine);
+            }
+        }
+        poisonEF.Play();
+        poisontime[0] = Time.time;
+        poisontime[1] = (float)_time;
+        poisonCoroutine = StartCoroutine("PlayerPoison", _time);
+    }
+
+    IEnumerator PlayerPoison(int _time)
+    {
+        int count = 0;
+        while (count != _time)
+        {
+            yield return new WaitForSeconds(0.5f);
+            OnPlayerTrueDamage(playerMaxHp * 0.05f);
+            count += 1;
+            if (pv.IsMine)
+                playerUi.InputHpData(playerHp, playerMaxHp);
+            yield return new WaitForSeconds(0.5f);
+        }
+        poisonEF.Stop();
     }
 
 
