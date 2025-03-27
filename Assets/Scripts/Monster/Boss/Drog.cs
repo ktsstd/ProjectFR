@@ -242,6 +242,7 @@ public class Drog : MonsterAI
             stream.SendNext(CurHp);
             stream.SendNext(FirPatternHealth);
             stream.SendNext(canMove);
+            stream.SendNext(BossPhase);
         }
         else
         {
@@ -250,6 +251,7 @@ public class Drog : MonsterAI
             CurHp = (float)stream.ReceiveNext();
             FirPatternHealth = (float)stream.ReceiveNext();
             canMove = (bool)stream.ReceiveNext();
+            BossPhase = (int)stream.ReceiveNext();
         }
     }
 }
