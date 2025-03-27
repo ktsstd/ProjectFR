@@ -339,8 +339,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 playerHp += _heal;
                 if (playerHp > playerMaxHp)
                     playerHp = playerMaxHp;
+
+                playerUi.InputHpData(playerHp, playerMaxHp);
             }
-            playerUi.InputHpData(playerHp, playerMaxHp);
         }
     }
 
@@ -350,13 +351,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (playerInRange.Count != 0)
         {
+            if (playerInRange[0].GetComponent<PlayerController>().currentStates == States.Die)
+                playerInRange.RemoveAt(0);
+
             if (respawnCoolTime > 0)
             {
                 respawnCoolTime -= Time.deltaTime;
             }
             if (respawnCoolTime <= 0)
             {
-                // ��Ȱ �ִϸ��̼� �ֱ�
                 respawnCoolTime = 10;
                 GameObject targetPlayer = playerInRange[0];
                 pv.RPC("PlayerRespawn", RpcTarget.All, null);
