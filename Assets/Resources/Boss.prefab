@@ -482,6 +482,7 @@ Transform:
   - {fileID: 3562232140059233974}
   - {fileID: 8731647739539578942}
   - {fileID: 7655320876550312649}
+  - {fileID: 3495932867319654309}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -2.442, y: 0, z: 0}
 --- !u!136 &7502540128812197412
@@ -506,7 +507,7 @@ CapsuleCollider:
   m_Radius: 4.231731
   m_Height: 8.463462
   m_Direction: 1
-  m_Center: {x: 0.086513996, y: 0.048188675, z: 1.7614961}
+  m_Center: {x: 0.086513996, y: 0.29, z: 1.71}
 --- !u!114 &6805744738142481654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,6 +585,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  MouthPos: {fileID: 3495932867319654309}
   FSkill3Obj: {fileID: 0}
   BossSkill1Obj: {fileID: 1103512207633137629}
   BossJumpSkill: {fileID: 3215405436011285547, guid: 8329b77b5195d34428ae7e41ac16277a, type: 3}
@@ -1589,6 +1591,37 @@ Transform:
   - {fileID: 4251762261838563535}
   m_Father: {fileID: 1275820430301552986}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8435940199364130340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3495932867319654309}
+  m_Layer: 0
+  m_Name: mouthpos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3495932867319654309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435940199364130340}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.467, z: 4.86}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 284517741559222554}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8520874917361371548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1789,6 +1822,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3709791516911914144, guid: 06b4021e8e90a9b4f9d1717d1df96a7e, type: 3}
+      propertyPath: bossScript
+      value: 
+      objectReference: {fileID: 5653653283553579801}
     - target: {fileID: 7875046959887151201, guid: 06b4021e8e90a9b4f9d1717d1df96a7e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

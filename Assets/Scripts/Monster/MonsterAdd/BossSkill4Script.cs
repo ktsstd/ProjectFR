@@ -5,17 +5,11 @@ using Photon.Pun;
 
 public class BossSkill4Script : MonoBehaviour
 {
-    GameObject attackboundaryObj;
     [SerializeField] GameObject BossSkill4;
-    public int damage;
+    [SerializeField] Drog bossScript;
     bool isFadeIn = false;
-    Drog bossScript;
+    
     // Start is called before the first frame update
-    void Start()
-    {
-        attackboundaryObj = gameObject;
-        bossScript = GetComponentInParent<Drog>();
-    }
     public void Starting()
     {
         StartCoroutine(FadeIn());
@@ -24,11 +18,11 @@ public class BossSkill4Script : MonoBehaviour
     IEnumerator FadeIn()
     {
         float elapsedTime = 0f; // 누적 경과 시간
-        float fadedTime = 2f; // 총 소요 시간
+        float fadedTime = 1.2f; // 총 소요 시간
 
         while (elapsedTime <= fadedTime)
         {
-            attackboundaryObj.GetComponent<MeshRenderer>().material.color
+            gameObject.GetComponent<MeshRenderer>().material.color
                 = new Color(1, 0, 0, Mathf.Lerp(0, 0.8f, elapsedTime / fadedTime));
 
             elapsedTime += Time.deltaTime;
@@ -45,7 +39,7 @@ public class BossSkill4Script : MonoBehaviour
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill4Obj = Instantiate(BossSkill4, transform.position,
             Quaternion.Euler(-90, currentEulerAngles.y + 1f, currentEulerAngles.z));
-        attackboundaryObj.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         isFadeIn = false;
     }
 }

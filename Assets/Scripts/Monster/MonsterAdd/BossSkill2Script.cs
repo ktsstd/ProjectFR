@@ -51,6 +51,8 @@ public class BossSkill2Script : MonoBehaviour
                 Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
                 HitEffect.transform.SetParent(other.transform);
                 playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
+                PlayerObj = new Vector3(PlayerObj.x + 0.00001f, PlayerObj.y - 1f, PlayerObj.z);
+                other.transform.position = PlayerObj;
             }
         }
     }

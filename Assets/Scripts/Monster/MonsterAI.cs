@@ -135,7 +135,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
-        if (target == null)
+        if (target == null && !monsterInfo.isBoss)
         {
             GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
             return objectTarget.transform;

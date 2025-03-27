@@ -20,6 +20,7 @@ public class BossSkill4 : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
+            playerS.pv.RPC("OnPlayerPoison", RpcTarget.All, 10);
             // playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
             // todo -> PlayerPoision
         }

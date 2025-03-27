@@ -12,6 +12,8 @@ public class Drog : MonsterAI
     private int BossPhase;
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
+
+    [SerializeField] Transform MouthPos;
     
     [SerializeField] GameObject FSkill3Obj;
     [SerializeField] GameObject BossSkill1Obj;
@@ -165,12 +167,12 @@ public class Drog : MonsterAI
         playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
         FSkill3Obj = null;
         FirPatternHealth = 0;
+        Obj.transform.position = MouthPos.transform.position;
         if (animator != null)
             animator.SetTrigger("Skill3__1");
         yield return new WaitForSeconds(2f);
         target = null;
         canMove = true;
-        //monsterInfo.attackTimer = monsterInfo.attackCooldown;
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
     }
     //[PunRPC]
@@ -181,12 +183,12 @@ public class Drog : MonsterAI
         //GameObject SpitObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos5, Quaternion.identity);
         PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
+        FSkill3Obj.transform.position = MouthPos.transform.position;
         FSkill3Obj = null;
         if (animator != null)
             animator.SetTrigger("Skill3_2");
         yield return new WaitForSeconds(2f);
         canMove = true;
-        //monsterInfo.attackTimer = monsterInfo.attackCooldown;
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
     }
     public override void MonsterDmged(float damage)

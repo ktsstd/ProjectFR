@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using Unity.VisualScripting;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
