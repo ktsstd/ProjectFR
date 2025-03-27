@@ -68,6 +68,7 @@ MonoBehaviour:
   - Skill3Start
   - Spititout
   - OnPlayerPoison
+  - MonsterDmged
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

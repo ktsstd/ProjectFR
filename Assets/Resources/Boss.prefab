@@ -1982,6 +1982,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 284517741559222554}
     m_Modifications:
+    - target: {fileID: 1995706408436204992, guid: d82ae7a6c72190040986c0aa6172c611, type: 3}
+      propertyPath: bossScript
+      value: 
+      objectReference: {fileID: 5653653283553579801}
     - target: {fileID: 6336713017449555889, guid: d82ae7a6c72190040986c0aa6172c611, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

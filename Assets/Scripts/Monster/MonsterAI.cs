@@ -167,7 +167,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
         canMove = true;
     }
-
     public virtual void MonsterDmged(float damage)
     {
         //if (!photonView.IsMine) return;

@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         if ((int)character == 0)
             prefabName = "Water";
+        if ((int)character == 1)
+            prefabName = "Fire";
+        if ((int)character == 2)
+            prefabName = "Fire";
         else if ((int)character == 3)
             prefabName = "Fire";
         PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);

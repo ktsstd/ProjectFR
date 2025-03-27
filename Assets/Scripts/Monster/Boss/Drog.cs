@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using System.ComponentModel;
 using UnityEngine.UIElements;
+using System.Security.Cryptography;
 
 public class Drog : MonsterAI
 {
@@ -26,6 +27,7 @@ public class Drog : MonsterAI
     [SerializeField] BossSkill2Script boss2Script;
     [SerializeField] BossSkill3Script boss3Script;
     [SerializeField] BossSkill4Script boss4Script;
+    
 
 
     public override void Start()
@@ -99,6 +101,7 @@ public class Drog : MonsterAI
     [PunRPC]
     public IEnumerator PunAttack(int randomskill)
     {
+        canMove = false;
         switch (randomskill)
         {
             case 0:
@@ -157,11 +160,14 @@ public class Drog : MonsterAI
         PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("OnPlayerSuppressed", RpcTarget.All, 15f);
         FSkill3Obj.transform.position = gameObject.transform.position;
+        is3Patterning = true;
         skill3Coroutine = StartCoroutine(Skill3PatternStart(FSkill3Obj));
     }
+    bool is3Patterning;
     IEnumerator Skill3PatternStart(GameObject Obj)
     { 
         yield return new WaitForSeconds(15f);
+        if (!is3Patterning) yield break;
         PlayerController playerScript = Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("OnPlayerHit", RpcTarget.All, 20000f);
         playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
@@ -181,6 +187,7 @@ public class Drog : MonsterAI
         //string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[5].name;
         //Vector3 attackFowardPos5 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
         //GameObject SpitObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos5, Quaternion.identity);
+        is3Patterning = false;
         PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
         playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
         FSkill3Obj.transform.position = MouthPos.transform.position;
@@ -204,7 +211,7 @@ public class Drog : MonsterAI
                     photonView.RPC("PunAttack", RpcTarget.All, 2);
                     CurHp = 13000f;
                     monsterInfo.damage = 100f;
-                    BossPhase++;
+                    BossPhase = 2;
                 }
                 else
                 {
