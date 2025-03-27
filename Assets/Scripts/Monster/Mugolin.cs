@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Mugolin : MonsterAI
-{    
+{
     private bool InSafeZone;
     private bool IsRolling;
 
@@ -15,7 +15,7 @@ public class Mugolin : MonsterAI
         base.Start();
         InSafeZone = false;
         IsRolling = false;
-        //monsterInfo.attackTimer = 99999f;
+        monsterInfo.attackTimer = 99999f;
         defaultspeed = agent.speed;
         Increasespeed = defaultspeed * 2;
         IncreasePerspeed = (Increasespeed - defaultspeed) / 5;
@@ -29,21 +29,24 @@ public class Mugolin : MonsterAI
     private IEnumerator StartMove() // todo -> speedup, rolling animationStart, speedup -> damageup
     {
         IsRolling = true;
+        animator.SetBool("IsRolling", true);
         for (int i = 0; i < 5; i++)
         {
             agent.speed += IncreasePerspeed;
             yield return new WaitForSeconds(1f);
-        }   
-        yield break; 
+        }
+        yield break;
     }
-    
+
     private IEnumerator StopMove()
     {
         StopCoroutine(StartMove()); // todo -> stun Effect
+        animator.SetBool("IsRolling", false);
+        animator.SetTrigger("Stun");
         agent.velocity = Vector3.zero;
         canMove = false;
         IsRolling = false;
-        if(monsterSlowCurTime > 0)
+        if (monsterSlowCurTime > 0)
         {
             float slowSpeed = Increasespeed - agent.speed;
             agent.speed = defaultspeed - slowSpeed;
@@ -57,7 +60,7 @@ public class Mugolin : MonsterAI
         StartCoroutine(StartMove());
     }
 
-    private void OnTriggerEnter(Collider other) 
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Player" && IsRolling)
         {
@@ -80,6 +83,8 @@ public class Mugolin : MonsterAI
             }
             agent.velocity = Vector3.zero;
             IsRolling = false;
+            animator.SetBool("IsRolling", false);
+            animator.SetTrigger("MonsterUp");
             monsterInfo.attackTimer = monsterInfo.attackCooldown;
         }
     }

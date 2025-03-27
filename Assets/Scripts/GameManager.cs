@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform WaveThirdPos3;
     [SerializeField] private Transform WaveThirdPos4;
     [SerializeField] private GameObject Quit;
-    private int WaveCount = 2;
+    private int WaveCount = 0;
     private bool isSpawn = false;
     //private bool QuitOn = false;
 
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
 
             if (WaveCount == 1)
             {
-                StartCoroutine(InstantiateMonsters(Firemonster, 120));
+                StartCoroutine(InstantiateMonsters(Mugolin, 1));
             }
             else if (WaveCount == 2)
             {
