@@ -8,7 +8,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 {
     public MonsterInfo monsterInfoScript;
     public MonsterInfo monsterInfo;
-    private Transform playerController;
     public float monsterSlowCurTime;
     public float CurHp;
     [SerializeField] private GameObject sloweffect;
@@ -33,15 +32,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
-        playerController = GameObject.FindGameObjectWithTag("Player").transform;
         monsterSlowCurTime = 0;
     }
     public virtual void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-            OnMonsterKnockBack(playerController);
-        if (Input.GetKeyDown(KeyCode.V))
-            OnMonsterSpeedDown(3f, 3f);
         if (sloweffect != null)
         {
             ParticleSystem ps = sloweffect.GetComponent<ParticleSystem>();
@@ -146,14 +140,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Attack() // todo -> attacking animation
     {
-        //string attackBoundary = "MonsterAdd/" + monsterInfo.attackboundary[0].name;
-        //Vector3 attackFowardPos = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1.5f;
-        //Vector3 currentEulerAngles = transform.eulerAngles;
-        //GameObject AttackObj = Instantiate(monsterInfo.attackboundary[0], attackFowardPos, Quaternion.Euler(currentEulerAngles.x, currentEulerAngles.y, currentEulerAngles.z));
-        //AttackObj.transform.SetParent(this.transform);
-        //Vector3 AttackObjlocal = AttackObj.transform.localPosition;
-        //AttackObjlocal.y = -0.29f;
-        //AttackObj.transform.localPosition = AttackObjlocal;
         if (animator != null)
             animator.SetTrigger("StartAttack");
         AttackBoundary.SetActive(true);

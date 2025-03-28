@@ -5,12 +5,34 @@ using Photon.Pun;
 
 public class Object : MonoBehaviourPunCallbacks
 {
-    public float health = 5500f;
-    PhotonView pv;
+    private float health = 5500f;
+    private GameObject[] Monster;
+    private int MonsterCount;
+    private float detectRadius = 31f;
+
     private void Start()
     {
-        pv = GetComponent<PhotonView>();
+        Monster = GameObject.FindGameObjectsWithTag("Enemy");
     }
+
+    private void Update()
+    {
+        MonsterCount = Monster.Length;
+        foreach (GameObject monster in Monster)
+        {
+            float distance = Vector3.Distance(transform.position, monster.transform.position);
+            if (distance <= detectRadius)
+            {
+                Transform mugolinTransform = monster.transform.Find("Mugolin");
+                if (mugolinTransform != null)
+                {
+                    Mugolin mugolin = mugolinTransform.GetComponent<Mugolin>();
+                    mugolin.StandUp();
+                }
+            }
+        }
+    }
+
     [PunRPC]
     public void Damaged(float damage)
     {

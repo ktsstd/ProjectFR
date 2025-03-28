@@ -14,7 +14,6 @@ public class Mugolin : MonsterAI
     {
         base.Start();
         InSafeZone = false;
-        IsRolling = false;
         monsterInfo.attackTimer = 99999f;
         defaultspeed = agent.speed;
         Increasespeed = defaultspeed * 2;
@@ -29,7 +28,7 @@ public class Mugolin : MonsterAI
     private IEnumerator StartMove() // todo -> speedup, rolling animationStart, speedup -> damageup
     {
         IsRolling = true;
-        animator.SetBool("IsRolling", true);
+        animator.SetBool("isRolling", true);
         for (int i = 0; i < 5; i++)
         {
             agent.speed += IncreasePerspeed;
@@ -41,8 +40,8 @@ public class Mugolin : MonsterAI
     private IEnumerator StopMove()
     {
         StopCoroutine(StartMove()); // todo -> stun Effect
-        animator.SetBool("IsRolling", false);
         animator.SetTrigger("Stun");
+        animator.SetBool("isRolling", false);        
         agent.velocity = Vector3.zero;
         canMove = false;
         IsRolling = false;
@@ -55,7 +54,7 @@ public class Mugolin : MonsterAI
         {
             agent.speed = defaultspeed;
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.333f); // todo stun duration
         canMove = true;
         StartCoroutine(StartMove());
     }
@@ -68,25 +67,22 @@ public class Mugolin : MonsterAI
             StartCoroutine(StopMove());
             agent.velocity = Vector3.zero;
         }
-
-        if (other.gameObject.tag == "SafeZone" && IsRolling) // todo -> hit with object: Stop rolling, attackTimer reset
+    }
+    public void StandUp()
+    {
+        animator.SetBool("isRolling", false);
+        animator.SetTrigger("isUp");
+        agent.velocity = Vector3.zero;
+        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        IsRolling = false;
+        if (monsterSlowCurTime > 0)
         {
-            //StartCoroutine(StopMove());
-            if (monsterSlowCurTime > 0)
-            {
-                float slowSpeed = Increasespeed - agent.speed;
-                agent.speed = defaultspeed - slowSpeed;
-            }
-            else
-            {
-                agent.speed = defaultspeed;
-            }
-            agent.velocity = Vector3.zero;
-            IsRolling = false;
-            animator.SetBool("IsRolling", false);
-            animator.SetTrigger("MonsterUp");
-            monsterInfo.attackTimer = monsterInfo.attackCooldown;
+            float slowSpeed = Increasespeed - agent.speed;
+            agent.speed = defaultspeed - slowSpeed;
+        }
+        else
+        {
+            agent.speed = defaultspeed;
         }
     }
-
 }

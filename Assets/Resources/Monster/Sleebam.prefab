@@ -171,7 +171,9 @@ MonoBehaviour:
   monsterInfoScript: {fileID: 11400000, guid: 8e3fd7c3e89b24c4e93d5b0333c164f3, type: 2}
   monsterInfo: {fileID: 0}
   monsterSlowCurTime: 0
+  CurHp: 0
   sloweffect: {fileID: 5394715744695656825}
+  AttackBoundary: {fileID: 0}
   target: {fileID: 0}
   agent: {fileID: 0}
   canMove: 1

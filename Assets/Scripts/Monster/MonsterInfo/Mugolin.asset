@@ -23,4 +23,4 @@ MonoBehaviour:
   attackboundary:
   - {fileID: 1104074487764874493, guid: 11973fd44c2a6794095890cef91164da, type: 3}
   isBoss: 0
-  redistance: 10
+  redistance: 1000
