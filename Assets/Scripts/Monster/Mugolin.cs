@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Mugolin : MonsterAI
 {
@@ -23,12 +24,35 @@ public class Mugolin : MonsterAI
     public override void Update()
     {
         base.Update();
+        animator.SetBool("isRolling", IsRolling);
+    }
+
+    public override void Attack() // todo -> attacking animation
+    {
+        if (animator != null)
+            animator.SetTrigger("StartAttack");
+        float attackDuration = 0f;
+        foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == "Attack")
+            {
+                attackDuration = clip.length - 0.5f;
+                break;
+            }
+        }
+        Invoke("DamageObj", attackDuration);
+    }
+
+    public void DamageObj()
+    {
+        GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
+        Object ObjectS = ObjectObj.GetComponent<Object>();
+        ObjectS.photonView.RPC("Damaged", RpcTarget.All, monsterInfo.damage);
     }
 
     private IEnumerator StartMove() // todo -> speedup, rolling animationStart, speedup -> damageup
     {
         IsRolling = true;
-        animator.SetBool("isRolling", true);
         for (int i = 0; i < 5; i++)
         {
             agent.speed += IncreasePerspeed;
@@ -41,10 +65,9 @@ public class Mugolin : MonsterAI
     {
         StopCoroutine(StartMove()); // todo -> stun Effect
         animator.SetTrigger("Stun");
-        animator.SetBool("isRolling", false);        
-        agent.velocity = Vector3.zero;
         canMove = false;
         IsRolling = false;
+        agent.velocity = Vector3.zero;        
         if (monsterSlowCurTime > 0)
         {
             float slowSpeed = Increasespeed - agent.speed;
@@ -68,13 +91,15 @@ public class Mugolin : MonsterAI
             agent.velocity = Vector3.zero;
         }
     }
+
     public void StandUp()
     {
-        animator.SetBool("isRolling", false);
+        if (!IsRolling) return;
+        IsRolling = false;
+        canMove = false;
         animator.SetTrigger("isUp");
         agent.velocity = Vector3.zero;
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
-        IsRolling = false;
         if (monsterSlowCurTime > 0)
         {
             float slowSpeed = Increasespeed - agent.speed;
@@ -84,5 +109,12 @@ public class Mugolin : MonsterAI
         {
             agent.speed = defaultspeed;
         }
+        StartCoroutine(Standing());
+    }
+
+    private IEnumerator Standing()
+    {
+        yield return new WaitForSeconds(0.6f);
+        canMove = true;
     }
 }

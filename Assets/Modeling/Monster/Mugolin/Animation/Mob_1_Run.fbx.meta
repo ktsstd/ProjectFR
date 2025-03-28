@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1c9674af630893d4983c70ba10535b3e
+guid: 5d6f52fe50438934fa79d70be03e3f8e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Mob_1_Idle
-      takeName: Take 001
-      internalID: 1827226128182048838
+      name: Mob_1_Run
+      takeName: Mob_1_Idle
+      internalID: 6327384108679781773
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

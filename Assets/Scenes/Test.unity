@@ -44531,7 +44531,6 @@ Transform:
   - {fileID: 8259024258400408825}
   - {fileID: 7304407093579707767}
   - {fileID: 5263575934736855482}
-  - {fileID: 7852214579899323634}
   m_Father: {fileID: 8724123238314278576}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5149727568966000582
@@ -64693,7 +64692,7 @@ Transform:
   m_GameObject: {fileID: 5612387657939706099}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.76, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -64705,7 +64704,7 @@ Transform:
   - {fileID: 2303980709990948099}
   - {fileID: 6449610287571827154}
   - {fileID: 1364819830848942530}
-  m_Father: {fileID: 5147031344556078090}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7852214579899323635
 MonoBehaviour:
@@ -64760,10 +64759,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.0661633
+  m_Radius: 2.372892
   m_Height: 8.95
   m_Direction: 1
-  m_Center: {x: 0, y: 1.70448, z: 0.27}
+  m_Center: {x: -0.07289171, y: 1.7044802, z: 0.26999998}
 --- !u!65 &7853284640142111227
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74541,5 +74540,6 @@ SceneRoots:
   - {fileID: 730584255}
   - {fileID: 2119949134}
   - {fileID: 254997908}
+  - {fileID: 7852214579899323634}
   - {fileID: 8724123238314278576}
   - {fileID: 4299272}
