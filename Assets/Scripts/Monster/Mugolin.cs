@@ -19,6 +19,7 @@ public class Mugolin : MonsterAI
         defaultspeed = agent.speed;
         Increasespeed = defaultspeed * 2;
         IncreasePerspeed = (Increasespeed - defaultspeed) / 5;
+       
         StartCoroutine(StartMove());
     }
     public override void Update()
@@ -31,16 +32,7 @@ public class Mugolin : MonsterAI
     {
         if (animator != null)
             animator.SetTrigger("StartAttack");
-        float attackDuration = 0f;
-        foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
-        {
-            if (clip.name == "Attack")
-            {
-                attackDuration = clip.length - 0.5f;
-                break;
-            }
-        }
-        Invoke("DamageObj", attackDuration);
+        Invoke("DamageObj", 0.767f);
     }
 
     public void DamageObj()
@@ -48,6 +40,8 @@ public class Mugolin : MonsterAI
         GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
         Object ObjectS = ObjectObj.GetComponent<Object>();
         ObjectS.photonView.RPC("Damaged", RpcTarget.All, monsterInfo.damage);
+        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        canMove = true;
     }
 
     private IEnumerator StartMove() // todo -> speedup, rolling animationStart, speedup -> damageup

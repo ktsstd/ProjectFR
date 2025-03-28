@@ -84,7 +84,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             if (directionToTarget != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2.5f);
             }
         }
         else if (!canMove && agent.enabled)
@@ -159,8 +159,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
         CurHp -= damage;
         Debug.Log("health: " + CurHp);
-        if (CurHp <= 0)
+        if (CurHp <= 0 && canMove)
         {
+            canMove = false;
             if (animator != null)
                 animator.SetTrigger("Die");
             Invoke("DestroyMonster", 4f);

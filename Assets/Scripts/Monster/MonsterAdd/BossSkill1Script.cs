@@ -5,7 +5,7 @@ using Photon.Pun;
 public class BossSkill1Script : MonoBehaviour
 {
     [SerializeField] GameObject BossSkill1;
-    [SerializeField] GameObject BossHit;
+    //[SerializeField] GameObject BossHit;
     private float damage;
     bool isFadeIn = false;
     bool isdamaged = false;
@@ -47,10 +47,10 @@ public class BossSkill1Script : MonoBehaviour
             if (!isdamaged)
             {
                 isdamaged = true;
-                GameObject HitEffect
-                = Instantiate(BossHit, PlayerObj,
-                Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-                HitEffect.transform.SetParent(other.transform);
+                //GameObject HitEffect
+                //= Instantiate(BossHit, PlayerObj,
+                //Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
+                //HitEffect.transform.SetParent(other.transform);
                 playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
             }
         }
