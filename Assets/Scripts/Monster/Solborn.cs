@@ -5,39 +5,18 @@ using Photon.Pun;
 
 public class Solborn : MonsterAI
 {
-    private float reviveHealth;
-    public override void Start()
+    public override void Attack() // todo -> attacking animation
     {
-        base.Start();
-        reviveHealth = monsterInfo.health;
+        StartCoroutine(SolbornAttack());
     }
-    public override void MonsterDmged(float damage)
-    {
-        //if (!photonView.IsMine) return;
 
-        monsterInfo.health -= damage;
-        Debug.Log("health: " + monsterInfo.health);
-        if (monsterInfo.health <= 0) // todo -> revive animation
-        {
-            canMove = false;
-            if (reviveHealth > 0)
-            {
-                StartCoroutine(Revive());
-            }
-            else
-            {
-                PhotonNetwork.Destroy(gameObject);
-            }
-        }
-    }
-    IEnumerator Revive()
+    private IEnumerator SolbornAttack()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            monsterInfo.health += reviveHealth / 5;
-            yield return new WaitForSeconds(1.3f);
-        }
-        reviveHealth = 0;
-        canMove = true;
+        AttackBoundary.SetActive(true);
+        Attackboundary attackboundaryScript = AttackBoundary.GetComponent<Attackboundary>();
+        attackboundaryScript.Starting();
+        yield return new WaitForSeconds(1.17f);
+        if (animator != null)
+            animator.SetTrigger("StartAttack");
     }
 }

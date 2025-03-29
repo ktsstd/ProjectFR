@@ -17,6 +17,7 @@ TagManager:
   - UI
   - ground
   - Clothes
+  - Enemy
   - 
   - 
   - 
@@ -39,8 +40,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Object
   m_SortingLayers:
   - name: Default
     uniqueID: 0

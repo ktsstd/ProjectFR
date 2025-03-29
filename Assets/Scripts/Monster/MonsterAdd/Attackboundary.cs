@@ -21,6 +21,11 @@ public class Attackboundary : MonoBehaviour
                     attackDuration = clip.length - 0.5f;
                     break;
                 }
+                else if (clip.name == "SolbornAttack")
+                {
+                    attackDuration = 1.5f;
+                    break;
+                }
             }
         }
         else

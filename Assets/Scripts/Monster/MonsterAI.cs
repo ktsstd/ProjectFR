@@ -10,8 +10,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public MonsterInfo monsterInfo;
     public float monsterSlowCurTime;
     public float CurHp;
-    [SerializeField] private GameObject sloweffect;
-    [SerializeField] private GameObject AttackBoundary;
+    public GameObject sloweffect;
+    public GameObject AttackBoundary;
 
 
     public Transform target;
