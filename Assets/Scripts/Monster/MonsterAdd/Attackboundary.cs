@@ -26,6 +26,11 @@ public class Attackboundary : MonoBehaviour
                     attackDuration = 1.5f;
                     break;
                 }
+                else if (clip.name == "Sleebam_Attack")
+                {
+                    attackDuration = 1.5f;
+                    break;
+                }
             }
         }
         else

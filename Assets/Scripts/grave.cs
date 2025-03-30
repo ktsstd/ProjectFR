@@ -9,10 +9,6 @@ public class grave : MonoBehaviourPun, IPunObservable
     private float hp = 800f;
     private float radius = 5f;
     // PhotonNetwork.Instantiate("Monster/Solborn", spawnPositions[sp].position, Quaternion.identity);
-    void Start()
-    {
-        StartCoroutine(SpawnStart());
-    }
     private void Update()
     {
         Transform target = GameObject.FindWithTag("Object").transform;
@@ -23,7 +19,7 @@ public class grave : MonoBehaviourPun, IPunObservable
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2.5f);
         }
     }
-    private IEnumerator SpawnStart()
+    private IEnumerator Start()
     {
         yield return new WaitForSeconds(3.5f);
         while (true)
