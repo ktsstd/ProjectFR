@@ -2,9 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using JetBrains.Annotations;
 
 public class Solborn : MonsterAI
 {
+    public override void Start()
+    {
+        base.Start();
+        animator.SetTrigger("Spawn");
+        canMove = false;
+        StartCoroutine(StartMove());
+    }
+    private IEnumerator StartMove()
+    {
+        yield return new WaitForSeconds(1.1f);
+        canMove = true;
+    }
     public override void Attack() // todo -> attacking animation
     {
         StartCoroutine(SolbornAttack());

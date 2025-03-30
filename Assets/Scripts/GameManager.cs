@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
             string Sleebam = "Monster/Sleebam";
             string Mugolin = "Monster/Mugolin";
             string Solborn = "Monster/Solborn";
+            string Grave = "Monster/Grave";
             string Boss = "Boss";
 
             int a = Random.Range(1, 4);
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
 
             if (WaveCount == 1)
             {
-                StartCoroutine(InstantiateMonsters(Mugolin, 1));
+                StartCoroutine(InstantiateMonsters(Grave, 15));
             }
             else if (WaveCount == 2)
             {
