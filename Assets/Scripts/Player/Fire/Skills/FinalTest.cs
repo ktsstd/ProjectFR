@@ -12,6 +12,7 @@ public class FinalTest : MonoBehaviour
 
     MonsterAI targetMonster;
 
+    public GameObject fireHitEF;
     private void Start()
     {
         monsters = FindObjectsOfType<MonsterAI>();
@@ -26,18 +27,21 @@ public class FinalTest : MonoBehaviour
 
         if (damageDelay <= 0)
         {
-            foreach (GameObject monsters in monsterInRange)
-            {
-                monsters.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
-            }
-
-            damageDelay = 0.5f;
-
             if (targetMonster == null)
             {
                 targetMonster = GetMinDistanceMonster();
             }
 
+            foreach (GameObject monsters in monsterInRange)
+            {
+                if (monsters == null)
+                    monsterInRange.Remove(monsters);
+
+                monsters.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
+                Instantiate(fireHitEF, monsters.transform);
+            }
+
+            damageDelay = 0.5f;
         }
 
         if (targetMonster != null)

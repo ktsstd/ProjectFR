@@ -4915,6 +4915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
   damage: 0
+  waterHitEF: {fileID: 2005856625639563914, guid: 1b2c11c075057b044a9be93f809a43d4, type: 3}
 --- !u!1 &2485333308036713755
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CallOfTheSea : MonoBehaviour
 {
-    public GameObject flameGrenadeTest;
-
     public float damage;
 
     float damageDelay = 0f;
     List<GameObject> monsterInRange = new List<GameObject>();
+
+    public GameObject waterHitEF;
 
     void Start()
     {
@@ -25,7 +25,11 @@ public class CallOfTheSea : MonoBehaviour
         {
             foreach (GameObject monsters in monsterInRange)
             {
+                if (monsters == null)
+                    monsterInRange.Remove(monsters);
+
                 monsters.GetComponent<MonsterAI>().MonsterDmged(80f + damage * 0.1f);
+                Instantiate(waterHitEF, monsters.transform);
             }
             damageDelay = 0.5f;
         }

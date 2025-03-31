@@ -29285,6 +29285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flameGrenadeTest: {fileID: 0}
   damage: 0
+  waterHitEF: {fileID: 2005856625639563914, guid: 1b2c11c075057b044a9be93f809a43d4, type: 3}
 --- !u!54 &-8958338705344526021
 Rigidbody:
   m_ObjectHideFlags: 0

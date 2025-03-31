@@ -11,6 +11,7 @@ public class FlameGrenadeTest : MonoBehaviour
     float boomDamage = 1f;
     List<GameObject> monsterInRange = new List<GameObject>();
 
+    public GameObject fireHitEF;
     void Start()
     {
         playableDirector.Play();
@@ -31,8 +32,12 @@ public class FlameGrenadeTest : MonoBehaviour
             {
                 foreach (GameObject monsters in monsterInRange)
                 {
+                    if (monsters == null)
+                        monsterInRange.Remove(monsters);
+
                     MonsterAI monster = monsters.GetComponent<MonsterAI>();
                     monster.MonsterDmged(60f + (damage * 0.2f));
+                    Instantiate(fireHitEF, monsters.transform);
                     monster.OnMonsterSpeedDown(4f, 3f);
                 }
                 damageDelay = 0.5f;
@@ -47,7 +52,7 @@ public class FlameGrenadeTest : MonoBehaviour
             if (other.tag == "Enemy")
             {
                 other.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
-
+                Instantiate(fireHitEF, other.transform);
             }
         }
         if (other.tag == "Enemy")

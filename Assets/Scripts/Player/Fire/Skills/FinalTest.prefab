@@ -29643,6 +29643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  fireHitEF: {fileID: 400510289285981004, guid: 1d755c7f39221ec4d8d9fd794543e3c6, type: 3}
 --- !u!54 &5963552712639849317
 Rigidbody:
   m_ObjectHideFlags: 0

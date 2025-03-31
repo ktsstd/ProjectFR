@@ -6642,6 +6642,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: reset
+  - Type: 9
+    SynchronizeType: 0
+    Name: die
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -40642,6 +40645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  fireHitEF: {fileID: 400510289285981004, guid: 1d755c7f39221ec4d8d9fd794543e3c6, type: 3}
 --- !u!1001 &4818727820489972744
 PrefabInstance:
   m_ObjectHideFlags: 0

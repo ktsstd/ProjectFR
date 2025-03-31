@@ -8,6 +8,8 @@ public class FlameSprayTest : MonoBehaviour
 
     List<GameObject> monsterInRange = new List<GameObject>();
 
+    public GameObject fireHitEF;
+
     float damageDelay = 0f;
     void Update()
     {
@@ -18,7 +20,11 @@ public class FlameSprayTest : MonoBehaviour
         {
             foreach (GameObject monsters in monsterInRange)
             {
+                if (monsters == null)
+                    monsterInRange.Remove(monsters);
+
                 monsters.GetComponent<MonsterAI>().MonsterDmged(80f + (damage * 0.1f));
+                Instantiate(fireHitEF, monsters.transform);
             }
             damageDelay = 0.5f;
         }
