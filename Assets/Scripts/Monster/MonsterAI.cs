@@ -157,15 +157,19 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     {
         //if (!photonView.IsMine) return;
 
-        CurHp -= damage;
-        Debug.Log("health: " + CurHp);
+        if (CurHp > 0)
+        {
+            CurHp -= damage;
+        }
         if (CurHp <= 0 && canMove)
         {
             canMove = false;
+            AttackBoundary.SetActive(false);
             if (animator != null)
                 animator.SetTrigger("Die");
             Invoke("DestroyMonster", 4f);
         }
+        Debug.Log("health: " + CurHp);
     }
     public virtual void DestroyMonster()
     {

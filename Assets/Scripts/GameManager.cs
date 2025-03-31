@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
             if (WaveCount == 1)
             {
                 StartCoroutine(InstantiateMonsters(Sleebam, 100));
+                StartCoroutine(InstantiateMonsters(Grave, 3));
             }
             else if (WaveCount == 2)
             {

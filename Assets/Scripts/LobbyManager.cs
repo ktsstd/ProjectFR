@@ -231,10 +231,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             CharacterImgParent.transform.position = CharacterPos[localPlayerIndex].position;
         }
-        else
-        {
-            Debug.LogError("유효하지 않은 플레이어 인덱스입니다.");
-        }
 
         SetReadyState(otherPlayer.ActorNumber, false);
         UpdatePlayerListUI();
@@ -264,6 +260,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 return false;
             }
         }
+        //if (PhotonNetwork.PlayerList.Length < 2)
+        //{
+        //    return false;
+        //}
         return true;
     }
 
