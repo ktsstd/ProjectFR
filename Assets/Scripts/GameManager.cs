@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform WaveThirdPos3;
     [SerializeField] private Transform WaveThirdPos4;
     [SerializeField] private GameObject Quit;
-    private int WaveCount = 5;
+    private int WaveCount = 0;
     private bool isSpawn = false;
     //private bool QuitOn = false;
 
@@ -102,18 +102,29 @@ public class GameManager : MonoBehaviour
 
             if (WaveCount == 1)
             {
-                Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-                PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+                StartCoroutine(InstantiateMonsters(Mugolin, 15));
             }
             else if (WaveCount == 2)
             {
-                //StartCoroutine(InstantiateMonsters(Solborn, 5));
-                StartCoroutine(InstantiateMonsters(Firemonster, 150));
-                StartCoroutine(InstantiateMonsters(Sleebam, 100));
+                StartCoroutine(InstantiateMonsters(Mugolin, 15));
+                StartCoroutine(InstantiateMonsters(Sleebam, 10));
             }
             else if (WaveCount == 3)
             {
-                
+                StartCoroutine(InstantiateMonsters(Mugolin, 20));
+                StartCoroutine(InstantiateMonsters(Sleebam, 10));
+                StartCoroutine(InstantiateMonsters(Grave, 3));
+            }
+            else if (WaveCount == 4)
+            {
+                StartCoroutine(InstantiateMonsters(Mugolin, 25));
+                StartCoroutine(InstantiateMonsters(Sleebam, 15));
+                StartCoroutine(InstantiateMonsters(Grave, 6));
+            }
+            else if (WaveCount == 5)
+            {
+                Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
             }
         }
         else
