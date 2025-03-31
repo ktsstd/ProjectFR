@@ -6529,6 +6529,7 @@ MonoBehaviour:
   eatEffeck: {fileID: 683042621433111889}
   dashEF: {fileID: 5597551784761577637}
   stunEF: {fileID: 7518414742586100612}
+  hitEF: {fileID: 6041512771165082783, guid: 1d3967b309e4f1e4e860fd0cff4874d3, type: 3}
   poisonEF: {fileID: 4828297709672088807}
   playerInfo: {fileID: 11400000, guid: 7b7775c0bc492ce4c8fd773cb7e560af, type: 2}
   pv: {fileID: 0}

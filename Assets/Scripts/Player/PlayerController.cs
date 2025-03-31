@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject eatEffeck;
     public GameObject dashEF;
     public GameObject stunEF;
+    public GameObject hitEF;
     public ParticleSystem poisonEF;
     public PlayerInfo playerInfo;
 
@@ -81,6 +82,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
         playerUi = GameObject.Find("PlayerUi").GetComponent<PlayerUi>();
+
+        screenWidth = Screen.width;
+        screenHeight = Screen.height;
 
         currentStates = States.Idle;
         StartStatSet();
@@ -152,7 +156,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             }
             if (Input.GetKeyDown(KeyCode.Keypad1))
             {
-                pv.RPC("OnPlayerPoison", RpcTarget.All, 10);
+                pv.RPC("OnPlayerStun", RpcTarget.All, 5f);
             }
             if (Input.GetKeyDown(KeyCode.Keypad2))
             {
@@ -249,6 +253,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void OnPlayerHit(float _damage)
     {
+        if (currentStates != States.Die)
+            Instantiate(hitEF, transform);
         if (pv.IsMine)
         {
             if (currentStates != States.Die)
@@ -390,7 +396,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Coroutine stunCoroutine;
 
     [PunRPC]
-    public virtual void OnPlayerStun(float _time)
+    public void OnPlayerStun(float _time)
     {
         if (pv.IsMine)
         {
@@ -400,11 +406,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             stunCoroutine = StartCoroutine("PlayerStun", _time);
         }
         stunEF.SetActive(true);
+        PlayTriggerAnimation("reset");
     }
 
     IEnumerator PlayerStun(float _time)
     {
-        PlayTriggerAnimation("reset");
         currentStates = States.Stun;
         yield return new WaitForSeconds(_time);
         stunEF.SetActive(false);
@@ -424,13 +430,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             suppressedCoroutine = StartCoroutine("PlayerSuppressed", _time);
         }
         OffSkills();
+        PlayTriggerAnimation("reset");
     }
 
     public virtual void OffSkills() { }
 
     IEnumerator PlayerSuppressed(float _time)
     {
-        PlayTriggerAnimation("reset");
         currentStates = States.Stun;
         collider.isTrigger = true;
         rigidbody.useGravity = false;
@@ -546,9 +552,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     float scrollSpeed = 3f;
     float minY = 10f, maxY = 14f;
     float minZ = -10f, maxZ = -6f;
+    float screenWidth;
+    float screenHeight;
     public void CameraMove()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
+        Vector3 mousePosition = Input.mousePosition;
 
         if (scroll != 0)
         {
@@ -581,14 +590,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (cameraMoving)
         {
-            if (Input.GetKey(KeyCode.UpArrow))
-                virtualCamera.transform.Translate(Vector3.forward * 20f * Time.deltaTime, Space.World);
-            if (Input.GetKey(KeyCode.LeftArrow))
-                virtualCamera.transform.Translate(Vector3.left * 20f * Time.deltaTime, Space.World);
-            if (Input.GetKey(KeyCode.RightArrow))
-                virtualCamera.transform.Translate(Vector3.right * 20f * Time.deltaTime, Space.World);
-            if (Input.GetKey(KeyCode.DownArrow))
-                virtualCamera.transform.Translate(Vector3.back * 20f * Time.deltaTime, Space.World);
+            if (mousePosition.y >= 0 && mousePosition.y >= screenHeight)
+                virtualCamera.transform.Translate(Vector3.forward * 25f * Time.deltaTime, Space.World);
+            if (mousePosition.y <= 0 && mousePosition.y <= screenHeight)
+                virtualCamera.transform.Translate(Vector3.back * 25f * Time.deltaTime, Space.World);
+            if (mousePosition.x <= 0 && mousePosition.x <= screenWidth)
+                virtualCamera.transform.Translate(Vector3.left * 25f * Time.deltaTime, Space.World);
+            if (mousePosition.x >= 0 && mousePosition.x >= screenWidth)
+                virtualCamera.transform.Translate(Vector3.right * 25f * Time.deltaTime, Space.World);
         }
     }
 

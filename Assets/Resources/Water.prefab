@@ -1433,6 +1433,7 @@ MonoBehaviour:
   eatEffeck: {fileID: 4061075023805216356}
   dashEF: {fileID: 1542223991317310120}
   stunEF: {fileID: 1064255104079102327}
+  hitEF: {fileID: 6041512771165082783, guid: 1d3967b309e4f1e4e860fd0cff4874d3, type: 3}
   poisonEF: {fileID: 7470916934343661948}
   playerInfo: {fileID: 11400000, guid: bd7b61e52359c864e81b2e3a72be0afe, type: 2}
   pv: {fileID: 0}
@@ -1545,6 +1546,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: reset
+  - Type: 9
+    SynchronizeType: 0
+    Name: die
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
