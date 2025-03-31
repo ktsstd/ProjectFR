@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform WaveThirdPos3;
     [SerializeField] private Transform WaveThirdPos4;
     [SerializeField] private GameObject Quit;
-    private int WaveCount = 0;
+    private int WaveCount = 5;
     private bool isSpawn = false;
     //private bool QuitOn = false;
 
@@ -102,8 +102,8 @@ public class GameManager : MonoBehaviour
 
             if (WaveCount == 1)
             {
-                StartCoroutine(InstantiateMonsters(Sleebam, 100));
-                StartCoroutine(InstantiateMonsters(Grave, 3));
+                Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
             }
             else if (WaveCount == 2)
             {
@@ -113,8 +113,7 @@ public class GameManager : MonoBehaviour
             }
             else if (WaveCount == 3)
             {
-                Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-                PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+                
             }
         }
         else

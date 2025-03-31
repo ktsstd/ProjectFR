@@ -208,7 +208,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         canMove = true;
     }
 
-    public void OnMonsterSpeedDown(float _time, float _moveSpeed)
+    public virtual void OnMonsterSpeedDown(float _time, float _moveSpeed)
     {
         if (monsterSlowCurTime > 0 && !monsterInfo.isBoss)
         {
