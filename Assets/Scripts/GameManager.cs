@@ -5,9 +5,15 @@ using Photon.Pun;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using System.Security.Cryptography;
+using Cinemachine;
+using Photon.Pun.Demo.PunBasics;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public PhotonView pv;
+
+    private CinemachineVirtualCamera virtualCamera;
+
     [SerializeField] private Transform SpawnPos;
     [SerializeField] private Transform WaveEastFirstPos;
     [SerializeField] private Transform WaveWestFirstPos;
@@ -38,6 +44,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pv = GetComponent<PhotonView>();
+        virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+
         string prefabName = "";
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         if ((int)character == 0)
@@ -281,5 +290,34 @@ public class GameManager : MonoBehaviour
     public void OnClickQuit()
     {
         Application.Quit();
+    }
+
+    Coroutine shakeCoroutine;
+    float[] shaketime = new float[2] { 0, 0 };
+    [PunRPC]
+    public void OnCameraShake(int _time)
+    {
+        if (shakeCoroutine != null)
+        {
+            if ((Time.time - shaketime[0]) - shaketime[1] < _time)
+            {
+                StopCoroutine(shakeCoroutine);
+            }
+        }
+        shaketime[0] = Time.time;
+        shaketime[1] = (float)_time;
+        shakeCoroutine = StartCoroutine("CameraShake", _time);
+    }
+
+    IEnumerator CameraShake(int _time)
+    {
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 3;
+        yield return new WaitForSeconds(_time);
+        virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0;
+    }
+
+    public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+
     }
 }

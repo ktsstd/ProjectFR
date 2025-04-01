@@ -162,6 +162,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 pv.RPC("OnPlayerPoison", RpcTarget.All, 5);
             }
+            if (Input.GetKeyDown(KeyCode.Keypad3))
+            {
+                GameManager.Instance.CameraShake();
+            }
 
         }
         else
