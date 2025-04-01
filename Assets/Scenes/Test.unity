@@ -486,6 +486,8 @@ MonoBehaviour:
   WaveThirdPos3: {fileID: 927278435}
   WaveThirdPos4: {fileID: 317905394}
   Quit: {fileID: 0}
+  WaveCount: 0
+  isSpawn: 0
 --- !u!4 &93261086
 Transform:
   m_ObjectHideFlags: 0
@@ -951,7 +953,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 271018314}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
   antialiasingMode: 0
