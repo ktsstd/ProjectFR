@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class Object : MonoBehaviourPunCallbacks
 {
-    private float health = 5500f;
+    private float health = 550000f;
     private GameObject[] Monster;
     private int MonsterCount;
     private float detectRadius = 31f;

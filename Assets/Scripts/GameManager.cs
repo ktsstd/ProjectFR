@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private Transform WaveThirdPos3;
     [SerializeField] private Transform WaveThirdPos4;
     [SerializeField] private GameObject Quit;
-    private int WaveCount = 0;
-    private bool isSpawn = false;
+    public int WaveCount = 0;
+    public bool isSpawn = false;
     //private bool QuitOn = false;
 
     private static GameManager _instance;
@@ -169,9 +169,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (a != 2)
                 {
+                    int sppos = 0;
                     for (int sp = 0; sp < realinstcount; sp++)
                     {
-                        PhotonNetwork.Instantiate(monsterType, spawnPositions[sp].position, Quaternion.identity);
+                        sppos += 1;
+                        if (sppos > spawnPositions.Length - 1)
+                        {
+                            sppos = 0;
+                        }
+                        PhotonNetwork.Instantiate(monsterType, spawnPositions[sppos].position, Quaternion.identity);
                         yield return new WaitForSeconds(0.5f);
                     }
                 }
