@@ -95,6 +95,7 @@ public class Fire : PlayerController
                     }
                 }
             }
+            ElementalSetting();
         }
     }
 

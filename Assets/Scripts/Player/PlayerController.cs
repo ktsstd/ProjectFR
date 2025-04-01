@@ -41,11 +41,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public float dashCoolTime;
     public float[] currentSkillsCoolTime;
     public float[] skillsCoolTime;
+    public int elementalCode = 0;
 
     public float recoveryShield;
 
     public GameObject[] skillRanges;
     public Vector3[] skillsPos = new Vector3[3];
+    public CollaborationSkill collaboration;
 
     public virtual void StartStatSet()
     {
@@ -81,6 +83,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+        collaboration = FindAnyObjectByType<CollaborationSkill>();
         playerUi = GameObject.Find("PlayerUi").GetComponent<PlayerUi>();
 
         screenWidth = Screen.width;
@@ -88,6 +91,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         currentStates = States.Idle;
         StartStatSet();
+
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
+        elementalCode = (int)character;
 
         if (pv.IsMine)
         {
@@ -248,6 +254,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     public virtual void Attack() { }
+
+    public void ElementalSetting()
+    {
+        if (!skillRanges[0].activeSelf && !skillRanges[1].activeSelf && !skillRanges[2].activeSelf)
+        {
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                collaboration.pv.RPC("ElementalSettingMaster", RpcTarget.MasterClient, elementalCode);
+            }
+        }
+    }
 
     float damageDelayTime;
     [PunRPC]

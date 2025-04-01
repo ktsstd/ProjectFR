@@ -6548,6 +6548,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  elementalCode: 0
   recoveryShield: 0
   skillRanges:
   - {fileID: 2381493193179363036}
@@ -6557,6 +6558,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  collaboration: {fileID: 0}
   currentStates: 0
   isMoving: 0
   fireParticle: {fileID: 3553764508332317647}

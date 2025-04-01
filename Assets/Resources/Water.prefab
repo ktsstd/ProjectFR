@@ -1452,6 +1452,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  elementalCode: 0
   recoveryShield: 0
   skillRanges:
   - {fileID: 275875670315392482}
@@ -1461,6 +1462,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  collaboration: {fileID: 0}
   currentStates: 0
   isMoving: 0
   AllPlayers: []
