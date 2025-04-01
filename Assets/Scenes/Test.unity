@@ -474,6 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7910f5cc45fb4d4c93d4c13f76bafe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pv: {fileID: 0}
   SpawnPos: {fileID: 730584255}
   WaveEastFirstPos: {fileID: 1257629288}
   WaveWestFirstPos: {fileID: 1363109297}
@@ -2758,94 +2759,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &831292447
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2571074778218723824, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: sceneViewId
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.51
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.71877
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710469027722483806, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6444703109056490771, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_Name
-      value: Grave
-      objectReference: {fileID: 0}
-    - target: {fileID: 6444703109056490771, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8131683284075811791, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: Dps
-      value: 
-      objectReference: {fileID: 1031489343}
-    - target: {fileID: 8131683284075811791, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: Timer
-      value: 
-      objectReference: {fileID: 1875853577}
-    - target: {fileID: 8131683284075811791, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-      propertyPath: Damage
-      value: 
-      objectReference: {fileID: 1476763872}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
---- !u!114 &831292448 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8131683284075811791, guid: 72f616edca6f9c242953bd6e62308e22, type: 3}
-  m_PrefabInstance: {fileID: 831292447}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66248980340a18c4da079e10a87441f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &879555069
 GameObject:
   m_ObjectHideFlags: 0
@@ -5639,7 +5552,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 831292448}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: husoofather, Assembly-CSharp
         m_MethodName: OnReset
         m_Mode: 1
@@ -75354,4 +75267,3 @@ SceneRoots:
   - {fileID: 254997908}
   - {fileID: 8724123238314278576}
   - {fileID: 4299272}
-  - {fileID: 831292447}

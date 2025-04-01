@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Solborn
   m_EditorClassIdentifier: 
   speed: 5
-  damage: 80
+  damage: 800
   health: 500
   attackRange: 2
   attackCooldown: 6

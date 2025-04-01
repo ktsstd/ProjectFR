@@ -69,6 +69,7 @@ MonoBehaviour:
   - Spititout
   - OnPlayerPoison
   - MonsterDmged
+  - OnCameraShake
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

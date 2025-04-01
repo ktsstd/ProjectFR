@@ -318,6 +318,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-
+        if (stream.IsWriting)
+        {
+            stream.SendNext(isSpawn);
+            stream.SendNext(WaveCount);
+        }
+        else
+        {
+            isSpawn = (bool)stream.ReceiveNext();
+            WaveCount = (int)stream.ReceiveNext();
+        }
     }
 }
