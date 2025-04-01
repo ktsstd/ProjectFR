@@ -159,10 +159,13 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             CurHp -= damage;
         }
-        else
+        else if (CurHp <= 0 && canMove)
         {
             canMove = false;
-            AttackBoundary.SetActive(false);
+            if (AttackBoundary != null)
+            {
+                AttackBoundary.SetActive(false);
+            }
             if (animator != null)
                 animator.SetTrigger("Die");
             Invoke("DestroyMonster", 4f);
