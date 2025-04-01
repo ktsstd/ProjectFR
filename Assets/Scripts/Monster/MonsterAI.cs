@@ -48,7 +48,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
         target = GetClosestTarget();
 
-        if (target != null && canMove && agent.enabled)
+        if (target != null && canMove && CurHp > 0)
         {
             float distance = Vector3.Distance(transform.position, target.position);
             if (animator != null)
@@ -155,13 +155,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
     public virtual void MonsterDmged(float damage)
     {
-        //if (!photonView.IsMine) return;
-
         if (CurHp > 0)
         {
             CurHp -= damage;
         }
-        if (CurHp <= 0 && canMove)
+        else
         {
             canMove = false;
             AttackBoundary.SetActive(false);
@@ -169,7 +167,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 animator.SetTrigger("Die");
             Invoke("DestroyMonster", 4f);
         }
-        Debug.Log("health: " + CurHp);
     }
     public virtual void DestroyMonster()
     {
