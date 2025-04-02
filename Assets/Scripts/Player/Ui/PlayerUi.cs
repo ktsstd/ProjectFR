@@ -16,6 +16,9 @@ public class PlayerUi : MonoBehaviour
     public Sprite[] fireSkillIcon;
     public Sprite[] WaterSkillIcon;
 
+    public Image[] elementalCodeImage;
+    public Sprite[] elementalCodeSprite;
+
     float playerHp;
     float playerMaxHp;
 
@@ -82,5 +85,18 @@ public class PlayerUi : MonoBehaviour
         MaxskillCoolTime[0] = _skillMaxCoolTime[0];
         MaxskillCoolTime[1] = _skillMaxCoolTime[1];
         MaxskillCoolTime[2] = _skillMaxCoolTime[2];
+    }
+
+    public void elementalData(int _code_1, int _code_2)
+    {
+        if(_code_1 == 10)
+            elementalCodeImage[0].sprite = null;
+        else
+            elementalCodeImage[0].sprite = elementalCodeSprite[_code_1];
+
+        if (_code_2 == 10)
+            elementalCodeImage[1].sprite = null;
+        else
+            elementalCodeImage[1].sprite = elementalCodeSprite[_code_2];
     }
 }
