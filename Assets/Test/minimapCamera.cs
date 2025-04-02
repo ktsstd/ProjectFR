@@ -2,12 +2,17 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class minimapCamera : MonoBehaviour
+public class MinimapCamera : MonoBehaviour
 {
     GameObject playerObj;
-    public Vector3 center = Vector3.zero; 
-    public float radius = 5f;
+    public Vector3 center = Vector3.zero;
+    public float radius = 50f;
+
+    [SerializeField] GameObject indicatorPrefab;
+    [SerializeField] RectTransform minimapRect;
+    private List<GameObject> indicators = new List<GameObject>();
 
     private void Start()
     {
@@ -27,7 +32,6 @@ public class minimapCamera : MonoBehaviour
         if (playerObj != null)
         {
             Vector3 newPosition = playerObj.transform.position;
-
             newPosition.y = transform.position.y;
 
             Vector3 offset = new Vector3(newPosition.x - center.x, 0, newPosition.z - center.z);
@@ -39,8 +43,11 @@ public class minimapCamera : MonoBehaviour
             }
 
             transform.position = newPosition;
+
+            UpdateEnemyIndicators();
         }
     }
+
     void FindLocalPlayer()
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
@@ -50,6 +57,40 @@ public class minimapCamera : MonoBehaviour
             {
                 playerObj = obj;
                 break;
+            }
+        }
+    }
+
+    void UpdateEnemyIndicators()
+    {
+        foreach (GameObject indicator in indicators)
+        {
+            Destroy(indicator);
+        }
+        indicators.Clear();
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            Vector3 viewportPos = Camera.main.WorldToViewportPoint(enemy.transform.position);
+
+            if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1)
+            {
+                float xPos = Mathf.Clamp(viewportPos.x, 0.03f, 0.97f) * minimapRect.sizeDelta.x;
+                float yPos = Mathf.Clamp(viewportPos.y, 0.03f, 0.97f) * minimapRect.sizeDelta.y;
+                Vector2 indicatorPos = new Vector2(xPos - minimapRect.sizeDelta.x / 2, yPos - minimapRect.sizeDelta.y / 2);
+
+                GameObject indicator = Instantiate(indicatorPrefab, minimapRect);
+                RectTransform indicatorRT = indicator.GetComponent<RectTransform>();
+                indicatorRT.anchoredPosition = indicatorPos;
+
+                Vector3 dir = enemy.transform.position - playerObj.transform.position;
+                Vector2 dir2D = new Vector2(dir.x, dir.z);
+                float angle = Mathf.Atan2(dir2D.y, dir2D.x) * Mathf.Rad2Deg;
+                indicatorRT.rotation = Quaternion.Euler(0, 0, angle);
+
+                indicators.Add(indicator);
             }
         }
     }

@@ -151,6 +151,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   center: {x: 0, y: 0, z: 0}
   radius: 50
+  indicatorPrefab: {fileID: 7357854066178813573, guid: 6bab23998b1201345b22df576d0c0617, type: 3}
+  minimapRect: {fileID: 404433311}
 --- !u!20 &4299271
 Camera:
   m_ObjectHideFlags: 0
@@ -186,7 +188,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 50
+  orthographic size: 17
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
