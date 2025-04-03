@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if ((int)character == 0)
             prefabName = "Water";
         if ((int)character == 1)
-            prefabName = "Fire";
+            prefabName = "Lightning";
         if ((int)character == 2)
             prefabName = "Fire";
         else if ((int)character == 3)

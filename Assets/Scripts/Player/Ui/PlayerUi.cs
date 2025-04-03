@@ -36,7 +36,7 @@ public class PlayerUi : MonoBehaviour
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         playerHp = 1;
         playerMaxHp = 1;
-        if ((int)character == 0)
+        if ((int)character == 0 || (int)character == 1)
         {
             playerHpImage.sprite = hpSprits[0];
             skillsIcon[0].sprite = WaterSkillIcon[0];

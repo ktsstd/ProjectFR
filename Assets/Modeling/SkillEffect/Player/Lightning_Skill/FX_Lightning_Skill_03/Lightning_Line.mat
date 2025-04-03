@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Lightning_Line
+  m_Shader: {fileID: 4800000, guid: cfee657037e5ad24082f8f3bf94ec2a5, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _HighLight_Tex:
+        m_Texture: {fileID: 2800000, guid: 6ae7e5fec54a9c14b852c7a0dffe2dc2, type: 3}
+        m_Scale: {x: 1, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Tex:
+        m_Texture: {fileID: 2800000, guid: cabaccd71d626ab498db97c31b076032, type: 3}
+        m_Scale: {x: 1, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _Mask_Tex:
+        m_Texture: {fileID: 2800000, guid: 252343d0620965b48973110ba71a3802, type: 3}
+        m_Scale: {x: 2, y: 1.84}
+        m_Offset: {x: 0, y: -0.13}
+    - _Normal_Tex:
+        m_Texture: {fileID: 2800000, guid: 857ca16f4f8e2d141a248c4057f1a0e7, type: 3}
+        m_Scale: {x: 1, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _CUSTOM_Dissolve: 0
+    - _CUSTOM_Distortion: 0
+    - _Color_Offset: 6.43
+    - _Color_Range: 4.05
+    - _Dissolve: 1
+    - _Distortion: 0.138
+    - _HighLight_Range: 0.01
+    - _HighLight_UPanner: 0
+    - _HighLight_VPanner: 0.3
+    - _Main_UPanner: 0
+    - _Main_VPanner: 0.2
+    - _Normal_UPanner: 0
+    - _Normal_VPanner: 0.2
+    - _Opacity: 1
+    - __dirty: 0
+    m_Colors:
+    - _Color_A: {r: 0.8557631, g: 1, b: 0, a: 0}
+    - _Color_B: {r: 26.60913, g: 26.010605, b: 0, a: 0}
+    - _Color_High: {r: 0, g: 0, b: 0, a: 0}
