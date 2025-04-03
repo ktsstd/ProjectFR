@@ -71,6 +71,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f03ad185da43540b04e5ddd07e2afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterInfoScript: {fileID: 0}
+  monsterInfo: {fileID: 0}
+  monsterSlowCurTime: 0
+  CurHp: 0
+  sloweffect: {fileID: 0}
+  AttackBoundary: {fileID: 0}
+  target: {fileID: 0}
+  agent: {fileID: 0}
+  canMove: 1
+  animator: {fileID: 0}
 --- !u!65 &3307074056060645225
 BoxCollider:
   m_ObjectHideFlags: 0

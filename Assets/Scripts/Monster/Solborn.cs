@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 
 public class Solborn : MonsterAI
 {
+    [SerializeField] ParticleSystem SolbornEffect;
     public override void Start()
     {
         base.Start();
@@ -31,5 +32,7 @@ public class Solborn : MonsterAI
         yield return new WaitForSeconds(1.17f);
         if (animator != null)
             animator.SetTrigger("StartAttack");
+        yield return new WaitForSeconds(0.2f);
+        SolbornEffect.Play();
     }
 }

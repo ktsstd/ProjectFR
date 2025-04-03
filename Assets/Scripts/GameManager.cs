@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<GameManager>();
+                _instance = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
             return _instance;
         }
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount == 1)
             {
-                StartCoroutine(InstantiateMonsters(Mugolin, 15));
+                StartCoroutine(InstantiateMonsters(Mugolin, 1));
             }
             else if (WaveCount == 2)
             {

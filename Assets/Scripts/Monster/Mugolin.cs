@@ -5,7 +5,9 @@ using Photon.Pun;
 
 public class Mugolin : MonsterAI
 {
-    private bool InSafeZone;
+    //private bool InSafeZone;
+    [SerializeField] private GameObject MugolinEffect;
+    //[SerializeField] private GameObject RunEffect;
     private bool IsRolling;
 
     private float defaultspeed;
@@ -14,7 +16,7 @@ public class Mugolin : MonsterAI
     public override void Start()
     {
         base.Start();
-        InSafeZone = false;
+        //InSafeZone = false;
         monsterInfo.attackTimer = 99999f;
         defaultspeed = agent.speed;
         Increasespeed = defaultspeed * 2;
@@ -26,6 +28,20 @@ public class Mugolin : MonsterAI
     {
         base.Update();
         animator.SetBool("isRolling", IsRolling);
+        if (IsRolling && canMove)
+        {
+            MugolinEffect.SetActive(true);
+        }
+        else if (!IsRolling && canMove)
+        {
+            StartCoroutine(RunEffectStart());
+            MugolinEffect.SetActive(false);
+        }
+    }
+
+    IEnumerator RunEffectStart()
+    {
+        yield return new WaitForSeconds(0.5f);
     }
 
     public override void Attack() // todo -> attacking animation

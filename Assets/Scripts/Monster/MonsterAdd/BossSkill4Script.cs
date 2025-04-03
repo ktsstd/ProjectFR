@@ -7,7 +7,7 @@ public class BossSkill4Script : MonoBehaviour
 {
     [SerializeField] GameObject BossSkill4;
     [SerializeField] Drog bossScript;
-    bool isFadeIn = false;
+    //bool isFadeIn = false;
     
     // Start is called before the first frame update
     public void Starting()
@@ -28,7 +28,7 @@ public class BossSkill4Script : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        isFadeIn = true;
+        //isFadeIn = true;
         Invoke("StartEffect", 0.2f);
         yield break;
     }
@@ -40,6 +40,6 @@ public class BossSkill4Script : MonoBehaviour
         GameObject Skill4Obj = Instantiate(BossSkill4, transform.position,
             Quaternion.Euler(-90, currentEulerAngles.y + 1f, currentEulerAngles.z));
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
-        isFadeIn = false;
+        //isFadeIn = false;
     }
 }
