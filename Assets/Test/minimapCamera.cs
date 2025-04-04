@@ -73,7 +73,8 @@ public class MinimapCamera : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
-            Vector3 viewportPos = Camera.main.WorldToViewportPoint(enemy.transform.position);
+            Camera minimapCamera = GetComponent<Camera>();
+            Vector3 viewportPos = minimapCamera.WorldToViewportPoint(enemy.transform.position);
 
             if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1)
             {

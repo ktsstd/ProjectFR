@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75cdb71b47fd5f14d8d7889a191554eb, type: 3}
   m_Name: Mugolin
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 3.5
   damage: 100
   health: 700
   attackRange: 6
