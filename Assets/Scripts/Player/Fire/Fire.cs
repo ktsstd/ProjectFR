@@ -11,7 +11,7 @@ public class Fire : PlayerController
     public GameObject flameSpray;
 
     public GameObject grenade;
-    private int grenadeType;
+    int grenadeType;
 
     public GameObject flameGrenadeTest;
 

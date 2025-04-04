@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
-public class ShockSpin : MonoBehaviour
+public class ThunderRush : MonoBehaviour
 {
     public float damage;
     public GameObject lightningHitEF;
@@ -17,7 +16,7 @@ public class ShockSpin : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            other.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
+            other.GetComponent<MonsterAI>().MonsterDmged(60f + (damage * 0.5f));
             Instantiate(lightningHitEF, other.transform);
         }
     }

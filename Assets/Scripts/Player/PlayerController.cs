@@ -25,8 +25,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public PhotonView pv;
     public Animator animator;
-    private Rigidbody rigidbody;
-    private CapsuleCollider collider;
+    public Rigidbody rigidbody;
+    public CapsuleCollider collider;
     private CinemachineVirtualCamera virtualCamera;
     private PlayerUi playerUi;
 

@@ -6,9 +6,16 @@ using Photon.Pun;
 
 public class Lightning : PlayerController
 {
+    public GameObject[] playerRenderer;
+
     public GameObject speedUpEF;
 
+    int skilltype;
     public GameObject shockSpin;
+    public GameObject thunderRush;
+    public GameObject thunderTempo;
+
+    public GameObject thunderRushEF;
 
     float[] playerSpeedUp;
 
@@ -20,6 +27,7 @@ public class Lightning : PlayerController
     public override void Update()
     {
         base.Update();
+
         if (speedUpCoroutine != null)
             playerSpeed = playerSpeedUp[1];
         else
@@ -86,12 +94,26 @@ public class Lightning : PlayerController
                     if (Input.GetKey(KeyCode.W))
                     {
                         skillRanges[1].SetActive(true);
+                        Vector3 direction = GetMousePosition() - transform.position;
+                        float distance = direction.magnitude;
+                        direction = direction.normalized;
+
+                        skillRanges[1].transform.position = transform.position + direction * 5;
+                        skillRanges[1].transform.rotation = Quaternion.LookRotation(GetSkillRange(5) - transform.position) * Quaternion.Euler(new Vector3(0, 90, 0));
                     }
                     if (Input.GetKeyUp(KeyCode.W))
                     {
+                        Vector3 direction = GetMousePosition() - transform.position;
+                        float distance = direction.magnitude;
+                        direction = direction.normalized;
+                        skillsPos[1] = transform.position + direction * 5;
+                        movePos = transform.position + direction * 10;
+                        transform.rotation = Quaternion.LookRotation(GetSkillRange(5) - transform.position);
+                        currentSkillsCoolTime[1] = skillsCoolTime[1];
                         skillRanges[1].SetActive(false);
                         currentSkillsCoolTime[1] = skillsCoolTime[1];
                         currentStates = States.Attack;
+                        skilltype = 0;
                         pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill2");
                     }
                 }
@@ -103,17 +125,14 @@ public class Lightning : PlayerController
                     if (Input.GetKey(KeyCode.E))
                     {
                         skillRanges[2].SetActive(true);
-                        skillRanges[2].transform.position = new Vector3(GetSkillRange(10).x, 0.1f, GetSkillRange(10).z);
                     }
                     if (Input.GetKeyUp(KeyCode.E))
                     {
                         skillRanges[2].SetActive(false);
-                        skillsPos[2] = new Vector3(GetSkillRange(10).x, 0.1f, GetSkillRange(10).z);
-                        transform.rotation = Quaternion.LookRotation(GetSkillRange(10) - transform.position);
                         currentSkillsCoolTime[2] = skillsCoolTime[2];
                         currentStates = States.Attack;
-                        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill3");
-                        Debug.Log("123123");
+                        skilltype = 1;
+                        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill2");
                     }
                 }
             }
@@ -121,9 +140,37 @@ public class Lightning : PlayerController
         }
     }
 
-    public void StopAnimation() // 애니메이션 종료시 실행시킬 함수
+    public void StopAnimation()
     {
         currentStates = States.Idle;
+    }
+
+    public void AniReset()
+    {
+        animator.ResetTrigger("skill2_2");
+        animator.ResetTrigger("skill3");
+    }
+
+    Vector3 movePos;
+    public void StopAttackAnimation()
+    {
+        if (skilltype == 0)
+        {
+            if (pv.IsMine)
+            {
+                pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill2_2");
+                pv.RPC("ThunderRush", RpcTarget.All, skillsPos[1]);
+                transform.position = movePos;
+                currentStates = States.Idle;
+            }
+        }
+        else
+        {
+            if (pv.IsMine)
+            {
+                pv.RPC("ThunderTempo", RpcTarget.All, null);
+            }
+        }
     }
 
     public void UseShockSpin()
@@ -132,11 +179,48 @@ public class Lightning : PlayerController
             pv.RPC("ShockSpin", RpcTarget.All, null);
     }
 
+    public void UseThunderRush()
+    {
+        if (pv.IsMine)
+            pv.RPC("ThunderRush", RpcTarget.All, skillsPos[1]);
+    }
+
     [PunRPC]
     public void ShockSpin()
     {
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(90, 0, -20));
         GameObject skill = Instantiate(shockSpin, transform.position, fireRot);
         skill.GetComponent<ShockSpin>().damage = playerAtk;
+    }
+
+    [PunRPC]
+    public void ThunderRush(Vector3 _targetPos)
+    {
+        Instantiate(thunderRushEF, transform);
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(90, 90, 0));
+        GameObject skill = Instantiate(thunderRush, _targetPos, fireRot);
+        skill.GetComponent<ThunderRush>().damage = playerAtk;
+    }
+
+    [PunRPC]
+    public void ThunderTempo()
+    {
+        rigidbody.useGravity = false;
+        collider.enabled = false;
+        foreach (GameObject playerSkin in playerRenderer)
+            playerSkin.SetActive(false);
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
+        GameObject skill = Instantiate(thunderTempo, transform.position, fireRot);
+        skill.GetComponent<ThunderTempo>().damage = playerAtk;
+        Invoke("StateReset", 1.5f);
+    }
+
+    public void StateReset()
+    {
+        rigidbody.useGravity = true;
+        collider.enabled = true;
+        foreach (GameObject playerSkin in playerRenderer)
+            playerSkin.SetActive(true);
+        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill3");
     }
 }

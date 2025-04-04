@@ -6534,6 +6534,8 @@ MonoBehaviour:
   playerInfo: {fileID: 11400000, guid: 7b7775c0bc492ce4c8fd773cb7e560af, type: 2}
   pv: {fileID: 0}
   animator: {fileID: 0}
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
   playerHp: 0
   playerMaxHp: 0
   playerAtk: 0
