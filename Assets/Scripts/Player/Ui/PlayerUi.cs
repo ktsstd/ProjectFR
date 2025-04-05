@@ -14,10 +14,15 @@ public class PlayerUi : MonoBehaviour
 
     public Image[] skillsIcon;
     public Sprite[] fireSkillIcon;
-    public Sprite[] WaterSkillIcon;
+    public Sprite[] waterSkillIcon;
+    public Sprite[] lightningSkillIcon;
 
     public Image[] elementalCodeImage;
     public Sprite[] elementalCodeSprite;
+
+    public GameObject[] otherPlayerUi;
+    public Slider[] otherPlayerHp;
+    List <GameObject> otherPlayerList = new List<GameObject>();
 
     float playerHp;
     float playerMaxHp;
@@ -36,12 +41,19 @@ public class PlayerUi : MonoBehaviour
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         playerHp = 1;
         playerMaxHp = 1;
-        if ((int)character == 0 || (int)character == 1)
+        if ((int)character == 0)
         {
             playerHpImage.sprite = hpSprits[0];
-            skillsIcon[0].sprite = WaterSkillIcon[0];
-            skillsIcon[1].sprite = WaterSkillIcon[1];
-            skillsIcon[2].sprite = WaterSkillIcon[2];
+            skillsIcon[0].sprite = waterSkillIcon[0];
+            skillsIcon[1].sprite = waterSkillIcon[1];
+            skillsIcon[2].sprite = waterSkillIcon[2];
+        }
+        else if ((int)character == 1)
+        {
+            playerHpImage.sprite = hpSprits[1];
+            skillsIcon[0].sprite = lightningSkillIcon[0];
+            skillsIcon[1].sprite = lightningSkillIcon[1];
+            skillsIcon[2].sprite = lightningSkillIcon[2];
         }
         else if ((int)character == 3)
         {
@@ -50,7 +62,6 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[1].sprite = fireSkillIcon[1];
             skillsIcon[2].sprite = fireSkillIcon[2];
         }
-
     }
 
     void Update()
@@ -61,6 +72,24 @@ public class PlayerUi : MonoBehaviour
         for (int i = 0;i < 3; i++)
         {
             skillCoolTime[i].fillAmount = currntskillCoolTime[i] / MaxskillCoolTime[i];
+        }
+
+        if (otherPlayerList.Count != 0)
+        {
+            for (int i = 0; i < otherPlayerList.Count; i++)
+            {
+                otherPlayerHp[i].value = otherPlayerList[i].GetComponent<PlayerController>().playerHp / otherPlayerList[i].GetComponent<PlayerController>().playerMaxHp;
+            }
+        }
+    }
+
+    public void OtherPlayerData(GameObject _gameObject)
+    {
+        otherPlayerList.Add(_gameObject);
+
+        for (int i = 0; i < otherPlayerList.Count; i++)
+        {
+            otherPlayerUi[i].SetActive(true);
         }
     }
 

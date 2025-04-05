@@ -100,6 +100,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             virtualCamera.Follow = transform;
             virtualCamera.LookAt = transform;
         }
+        else
+        {
+            playerUi.OtherPlayerData(gameObject);
+        }
     }
 
     public virtual void Update()
@@ -344,7 +348,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public void OnPlayerDie()
     {
         playerRespawnZone.SetActive(true);
-        PlayTriggerAnimation("reset");
+
         PlayerDieEvent();
     }
 
@@ -448,6 +452,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
         OffSkills();
         PlayTriggerAnimation("reset");
+
     }
 
     public virtual void OffSkills() { }
