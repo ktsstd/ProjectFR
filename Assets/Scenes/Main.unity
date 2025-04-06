@@ -609,7 +609,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BgmVolume: 1
   SfxVolume: 1
-  SfxAudio: []
+  SfxAudio:
+  - {fileID: 8300000, guid: f38f9a83f44965249895c8162f15fcc6, type: 3}
+  - {fileID: 8300000, guid: 8ac4c31c057c343408afa64788d4169d, type: 3}
   BgmAudio: []
   UISfxAudio: []
   Bgm: {fileID: 0}
@@ -722,7 +724,7 @@ Transform:
   m_GameObject: {fileID: 647502724}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 363.53894, y: 150.26802, z: -485.235}
+  m_LocalPosition: {x: 0, y: 11.9, z: -118}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

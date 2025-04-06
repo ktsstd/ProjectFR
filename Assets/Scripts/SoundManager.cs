@@ -30,15 +30,7 @@ public class SoundManager : MonoBehaviour
     }
     public void Awake()
     {
-        if (_instance != null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        DontDestroyOnLoad(gameObject);
 
         if (!PlayerPrefs.HasKey("SfxVolume"))
         {

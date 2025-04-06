@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+using System;
+using UnityEngine.UIElements;
 
 public class BossSkill1Script : MonoBehaviour
 {
@@ -21,8 +23,8 @@ public class BossSkill1Script : MonoBehaviour
 
     IEnumerator FadeIn()
     {
-        float elapsedTime = 0f; // 누적 경과 시간
-        float fadedTime = 0.93f; // 총 소요 시간
+        float elapsedTime = 0f; 
+        float fadedTime = 0.93f; 
 
         while (elapsedTime <= fadedTime)
         {
@@ -33,6 +35,7 @@ public class BossSkill1Script : MonoBehaviour
             yield return null;
         }
         isFadeIn = true;
+        SoundManager.Instance.PlaySfx(1, transform.position); // Edit
         Invoke("DestroyBoundary", 0.2f);
         yield break;
     }
