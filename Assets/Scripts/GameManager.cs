@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         //        QuitOn = false;
         //    }
         //}
-
     }
 
     public void CheckMonster()
@@ -103,7 +102,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             string Mugolin = "Monster/Mugolin";
             string Solborn = "Monster/Solborn";
             string Grave = "Monster/Grave";
-            string Boss = "Boss";
+            string Boss = "Boss/Boss";
 
             int a = Random.Range(1, 4);
             int b = Random.Range(1, 5);
