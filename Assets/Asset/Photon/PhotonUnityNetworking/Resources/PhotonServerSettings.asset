@@ -76,6 +76,16 @@ MonoBehaviour:
   - ShockSpin
   - ThunderRush
   - ThunderTempo
+  - PlayerListSetting
+  - InputHoldingPlayerData
+  - InputHoldingPlayerDataMaster
+  - UseFusionSkill
+  - FireAndLightning
+  - UsingFusionSkill
+  - LightningAndFire
+  - UseFireAndLightning
+  - LookAtTarget
+  - UseGrenadeBundle
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

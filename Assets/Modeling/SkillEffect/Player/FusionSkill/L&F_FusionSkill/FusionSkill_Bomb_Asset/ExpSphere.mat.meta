@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 48237371c63636d4da683e57f6ad32ae
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280069
+  packageName: Master Explosion FX
+  packageVersion: 1.0
+  assetPath: Assets/MasterStylizedExplosions/Materials/Toon3DExplosionBlue/ExpSphere.mat
+  uploadId: 658932

@@ -11,6 +11,7 @@ public class Fire : PlayerController
     public GameObject flameSpray;
 
     public GameObject grenade;
+    public GameObject grenadeBundle;
     int grenadeType;
 
     public GameObject flameGrenadeTest;
@@ -165,6 +166,25 @@ public class Fire : PlayerController
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(finalTest, _targetPos, fireRot);
         skill.GetComponent<FinalTest>().damage = playerAtk;
+    }
+
+    Vector3 fusionSkillPos;
+    [PunRPC]
+    public void FireAndLightning(Vector3 _pos)
+    {
+        fusionSkillPos = _pos;
+        transform.rotation = Quaternion.LookRotation(_pos - transform.position);
+        if (pv.IsMine)
+        {
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "F&L");
+        }
+    }
+
+    public void FireAndLightningAni()
+    {
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
+        GameObject skill = Instantiate(grenadeBundle, transform.position, fireRot);
+        skill.GetComponent<FusionGrenade>().target = fusionSkillPos;
     }
 
     public override void RunAnimation()

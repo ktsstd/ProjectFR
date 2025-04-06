@@ -17,6 +17,8 @@ public class Lightning : PlayerController
 
     public GameObject thunderRushEF;
 
+    public GameObject dagger;
+
     float[] playerSpeedUp;
 
     public override void StartStatSet()
@@ -213,6 +215,25 @@ public class Lightning : PlayerController
         GameObject skill = Instantiate(thunderTempo, transform.position, fireRot);
         skill.GetComponent<ThunderTempo>().damage = playerAtk;
         Invoke("StateReset", 1.5f);
+    }
+
+    Vector3 fusionSkillPos;
+    [PunRPC]
+    public void LightningAndFire(Vector3 _pos)
+    {
+        fusionSkillPos = _pos;
+        transform.rotation = Quaternion.LookRotation(_pos - transform.position);
+        if (pv.IsMine)
+        {
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "L&F");
+        }
+    }
+
+    public void LightningAniAndFire()
+    {
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
+        GameObject skill = Instantiate(dagger, transform.position, fireRot);
+        skill.GetComponent<Dagger>().target = fusionSkillPos;
     }
 
     public void StateReset()

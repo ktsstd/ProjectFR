@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public GameObject[] skillRanges;
     public Vector3[] skillsPos = new Vector3[3];
-    public CollaborationSkill collaboration;
+    public FusionSkill fusion;
 
     public virtual void StartStatSet()
     {
@@ -72,7 +72,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         Attack,
         Dash,
         Die,
-        Stun
+        Stun,
+        Fusion
     }
     public States currentStates;
 
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
-        collaboration = FindAnyObjectByType<CollaborationSkill>();
+        fusion = FindAnyObjectByType<FusionSkill>();
         playerUi = GameObject.Find("PlayerUi").GetComponent<PlayerUi>();
 
         screenWidth = Screen.width;
@@ -157,6 +158,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     break;
                 case States.Stun:
                     // stun icon on
+                    break;
+                case States.Fusion:
                     break;
             }
 
@@ -259,15 +262,59 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Attack() { }
 
+
+    float fusionHoldTime = 2f;
     public void ElementalSetting()
     {
         if (!skillRanges[0].activeSelf && !skillRanges[1].activeSelf && !skillRanges[2].activeSelf)
         {
+            if (Input.GetKey(KeyCode.R))
+            {
+                if (fusion.RetrunFusionSkillReady(elementalCode) != 10)
+                {
+                    fusionHoldTime -= Time.deltaTime;
+                    if (fusionHoldTime <= 0)
+                    {
+                        fusion.FusionSkillSetting(GetSkillRange(10f));
+                    }
+                }
+            }
             if (Input.GetKeyUp(KeyCode.R))
             {
-                collaboration.pv.RPC("ElementalSettingMaster", RpcTarget.MasterClient, elementalCode);
+                fusion.FusionSkillRangeOff();
+                if (fusion.RetrunFusionSkillReady(elementalCode) != 10)
+                {
+                    if (fusionHoldTime <= 0)
+                    {
+                        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+                        foreach (GameObject player in players)
+                        {
+                            if (player.GetComponent<PlayerController>().elementalCode == fusion.RetrunFusionSkillReady(elementalCode))
+                            {
+                                if (Vector3.Distance(gameObject.transform.position, player.transform.position) < 3f)
+                                {
+                                    fusion.UseFusionSkill(GetSkillRange(10f));
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    fusion.pv.RPC("ElementalSettingMaster", RpcTarget.MasterClient, elementalCode);
+                }
             }
         }
+    }
+
+    [PunRPC]
+    public void UsingFusionSkill(bool _bool)
+    {
+        if (_bool)
+            currentStates = States.Fusion;
+        else
+            currentStates = States.Idle;
     }
 
     float damageDelayTime;
@@ -278,7 +325,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             Instantiate(hitEF, transform);
         if (pv.IsMine)
         {
-            if (currentStates != States.Die)
+            if (currentStates != States.Die || currentStates != States.Fusion)
             {
                 float currentDamage = _damage;
                 if (damageDelayTime <= 0)
@@ -320,7 +367,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (pv.IsMine)
         {
-            if (currentStates != States.Die)
+            if (currentStates != States.Die || currentStates != States.Fusion)
             {
                 playerHp -= _damage;
 
@@ -578,48 +625,62 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     float screenHeight;
     public void CameraMove()
     {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        Vector3 mousePosition = Input.mousePosition;
-
-        if (scroll != 0)
+        if (currentStates != States.Fusion)
         {
-            CinemachineTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-            Vector3 offset = transposer.m_FollowOffset;
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            Vector3 mousePosition = Input.mousePosition;
 
-            offset.y -= scroll * scrollSpeed;
-            offset.z += scroll * scrollSpeed;
+            if (scroll != 0)
+            {
+                CinemachineTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+                Vector3 offset = transposer.m_FollowOffset;
 
-            offset.y = Mathf.Clamp(offset.y, minY, maxY);
-            offset.z = Mathf.Clamp(offset.z, minZ, maxZ);
+                offset.y -= scroll * scrollSpeed;
+                offset.z += scroll * scrollSpeed;
 
-            transposer.m_FollowOffset = offset;
-        }
+                offset.y = Mathf.Clamp(offset.y, minY, maxY);
+                offset.z = Mathf.Clamp(offset.z, minZ, maxZ);
 
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            cameraMoving = !cameraMoving;
+                transposer.m_FollowOffset = offset;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                cameraMoving = !cameraMoving;
+                if (cameraMoving)
+                {
+                    virtualCamera.Follow = null;
+                    virtualCamera.LookAt = null;
+                }
+                else
+                {
+                    virtualCamera.Follow = transform;
+                    virtualCamera.LookAt = transform;
+                }
+            }
+
             if (cameraMoving)
             {
-                virtualCamera.Follow = null;
-                virtualCamera.LookAt = null;
-            }
-            else
-            {
-                virtualCamera.Follow = transform;
-                virtualCamera.LookAt = transform;
+                if (mousePosition.y >= 0 && mousePosition.y >= screenHeight)
+                    virtualCamera.transform.Translate(Vector3.forward * 25f * Time.deltaTime, Space.World);
+                if (mousePosition.y <= 0 && mousePosition.y <= screenHeight)
+                    virtualCamera.transform.Translate(Vector3.back * 25f * Time.deltaTime, Space.World);
+                if (mousePosition.x <= 0 && mousePosition.x <= screenWidth)
+                    virtualCamera.transform.Translate(Vector3.left * 25f * Time.deltaTime, Space.World);
+                if (mousePosition.x >= 0 && mousePosition.x >= screenWidth)
+                    virtualCamera.transform.Translate(Vector3.right * 25f * Time.deltaTime, Space.World);
             }
         }
+    }
 
-        if (cameraMoving)
+    [PunRPC]
+    public IEnumerator LookAtTarget(string _gameObject, float _time)
+    {
+        if (pv.IsMine)
         {
-            if (mousePosition.y >= 0 && mousePosition.y >= screenHeight)
-                virtualCamera.transform.Translate(Vector3.forward * 25f * Time.deltaTime, Space.World);
-            if (mousePosition.y <= 0 && mousePosition.y <= screenHeight)
-                virtualCamera.transform.Translate(Vector3.back * 25f * Time.deltaTime, Space.World);
-            if (mousePosition.x <= 0 && mousePosition.x <= screenWidth)
-                virtualCamera.transform.Translate(Vector3.left * 25f * Time.deltaTime, Space.World);
-            if (mousePosition.x >= 0 && mousePosition.x >= screenWidth)
-                virtualCamera.transform.Translate(Vector3.right * 25f * Time.deltaTime, Space.World);
+            virtualCamera.LookAt = GameObject.Find(_gameObject).transform;
+            yield return new WaitForSeconds(_time);
+            virtualCamera.LookAt = transform;
         }
     }
 
@@ -633,6 +694,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(currentStates);
             stream.SendNext(recoveryShield);
             stream.SendNext(skillsPos);
+            stream.SendNext(elementalCode);
         }
         else
         {
@@ -642,6 +704,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             currentStates = (States)stream.ReceiveNext();
             recoveryShield = (float)stream.ReceiveNext();
             skillsPos = (Vector3[])stream.ReceiveNext();
+            elementalCode = (int)stream.ReceiveNext();
         }
     }
 

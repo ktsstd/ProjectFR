@@ -1464,7 +1464,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  collaboration: {fileID: 0}
+  fusion: {fileID: 0}
   currentStates: 0
   isMoving: 0
   AllPlayers: []
