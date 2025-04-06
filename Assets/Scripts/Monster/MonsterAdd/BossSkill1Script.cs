@@ -35,7 +35,7 @@ public class BossSkill1Script : MonoBehaviour
             yield return null;
         }
         isFadeIn = true;
-        SoundManager.Instance.PlaySfx(1, transform.position); // Edit
+        SoundManager.Instance.PlaySfx(0, transform.position); // Edit
         Invoke("DestroyBoundary", 0.2f);
         yield break;
     }

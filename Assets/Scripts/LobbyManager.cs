@@ -20,6 +20,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Transform[] CharacterPos;
     public TextMeshProUGUI WarningText;
 
+    //[SerializeField] GameObject SettingUI;
+
     private void Start()
     {
         CharacterIndex = -1;

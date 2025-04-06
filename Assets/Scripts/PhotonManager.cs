@@ -15,6 +15,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
+        if (PlayerPrefs.HasKey("UserId"))
+        {
+            PhotonNetwork.NickName = PlayerPrefs.GetString("UserId");
+        }
+        else
+        {
+            PhotonNetwork.NickName = $"USER_{Random.Range(1, 21):00}";
+        }
+        userIF.text = PhotonNetwork.NickName;
     }
 
     void Awake()
@@ -39,6 +48,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         // Photon 네트워크에 새 닉네임 설정
         PhotonNetwork.NickName = userId;
+        PlayerPrefs.SetString("UserId", userId);
     }
 
     public override void OnConnectedToMaster()

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager _instance;
-    public float BgmVolume = 1f;
-    public float SfxVolume = 1f;
+    [SerializeField] public float BgmVolume = 1f;
+    [SerializeField] public float SfxVolume = 1f;
     [SerializeField] private AudioClip[] SfxAudio;
     [SerializeField] private AudioClip[] BgmAudio;
     [SerializeField] private AudioClip[] UISfxAudio;
@@ -17,6 +17,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource Sfx;
     [SerializeField] private AudioSource UISfx;
     [SerializeField] private AudioSource[] MonsterAudio;
+    
     public static SoundManager Instance
     {
         get
