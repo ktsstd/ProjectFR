@@ -75,17 +75,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 if (animator != null)
                     animator.SetBool("Run", true);
             }
-
-            if (monsterInfo.attackTimer > 0)
-            {
-                monsterInfo.attackTimer -= Time.deltaTime;
-            }
-            Vector3 directionToTarget = target.position - transform.position;
-            if (directionToTarget != Vector3.zero)
-            {
-                Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
-            }
         }
         else if (!canMove && agent.enabled)
         {
@@ -94,6 +83,16 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             if (animator != null)
                 animator.SetBool("Run", false);
             target = GetClosestTarget();
+        }
+        if (monsterInfo.attackTimer > 0)
+        {
+            monsterInfo.attackTimer -= Time.deltaTime;
+        }
+        Vector3 directionToTarget = target.position - transform.position;
+        if (directionToTarget != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
         }
     }
     protected Transform GetClosestTarget()

@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public IEnumerator CheckMonsterC()
     {
-        while (true)
+        while (!isSpawn)
         {
             yield return new WaitForSeconds(5f);
             CheckMonster();
@@ -122,7 +122,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount == 1)
             {
-                StartCoroutine(InstantiateMonsters(Mugolin, 15));
+                StartCoroutine(InstantiateMonsters(Grave, 6));
+                //StartCoroutine(InstantiateMonsters(Mugolin, 15));
             }
             else if (WaveCount == 2)
             {
