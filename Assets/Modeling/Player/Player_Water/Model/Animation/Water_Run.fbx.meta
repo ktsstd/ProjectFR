@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fd7a9ffc24761d24fb15006525a4f060
+guid: 67d71d02a8bc1e64a86f83f1e24d0cd3
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -32,9 +32,9 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: Water_Run
-      takeName: Take 001
-      internalID: 1827226128182048838
-      firstFrame: 0
+      takeName: Water_Die
+      internalID: -6314189055894950337
+      firstFrame: 5
       lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
@@ -54,7 +54,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.3986528
+        functionName: MoveAniSound
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: c9f0edda985010848b363fb487eebf85, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8322106
+        functionName: MoveAniSound
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: c9f0edda985010848b363fb487eebf85, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

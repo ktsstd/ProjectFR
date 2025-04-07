@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 07348295b844e2847b799e0e0bc30bbf
+<<<<<<<< Updated upstream:Assets/Sound/SE/UI 효과음/결정 버튼/결정 버튼 1.mp3.meta
+guid: 90f261c2fa71b8d4796334dbdd39a224
+========
+guid: 4d2aff65999013b4a8e419c7c69aaafd
+>>>>>>>> Stashed changes:Assets/Sound/SE/캐릭터/물/2. W/후보 (였던 것)/2. CH_WATER_Heal.mp3.meta
 AudioImporter:
   externalObjects: {}
   serializedVersion: 7

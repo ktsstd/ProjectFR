@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class Water : PlayerController
 {
@@ -136,6 +137,7 @@ public class Water : PlayerController
         GameObject skill = Instantiate(repellingWave, transform.position, fireRot);
         skill.GetComponent<RepellingWave>().targetPos = _targetPos;
         skill.GetComponent<RepellingWave>().damage = playerAtk;
+        SoundManager.Instance.PlayPlayerSfx(0, transform.position);
     }
 
     [PunRPC]
@@ -146,6 +148,7 @@ public class Water : PlayerController
             if (Vector3.Distance(player.transform.position, transform.position) <= 7.5)
             {
                 player.pv.RPC("RecoveryShield", RpcTarget.All, playerMaxHp * 0.1f);
+                SoundManager.Instance.PlayPlayerSfx(1, player.transform.position);
             }
         }
     }
@@ -156,5 +159,6 @@ public class Water : PlayerController
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(callOfTheSea, _targetPos, fireRot);
         skill.GetComponent<CallOfTheSea>().damage = playerAtk;
+        SoundManager.Instance.PlayPlayerSfx(3, _targetPos);
     }
 }

@@ -147,17 +147,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 case States.Attack:
                     isMoving = false;
                     targetPos = transform.position;
-                    // ���� �Ұ���, ��� ������ Idle�� ��ȯ
                     break;
                 case States.Dash:
                     Dash();
-                    // ĳ���͸��� �̵����
                     break;
                 case States.Die:
-                    OnPlayerRespawn(); // ��Ȱ��� �ֱ�
+                    OnPlayerRespawn();
                     break;
                 case States.Stun:
-                    // stun icon on
                     break;
                 case States.Fusion:
                     break;
@@ -255,6 +252,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     collider.isTrigger = true;
                     dashPos = GetSkillRange(5);
                     currentStates = States.Dash;
+                    SoundManager.Instance.PlayPlayerSfx(7, transform.position);
                 }
             }
         }
@@ -273,6 +271,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 if (fusion.RetrunFusionSkillReady(elementalCode) != 10)
                 {
                     fusionHoldTime -= Time.deltaTime;
+                    playerUi.FusionHoldTime = fusionHoldTime;
                     if (fusionHoldTime <= 0)
                     {
                         fusion.FusionSkillSetting(GetSkillRange(10f));
@@ -299,6 +298,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                             }
                         }
                     }
+                    fusionHoldTime = 2f;
+                    playerUi.FusionHoldTime = fusionHoldTime;
                 }
                 else
                 {
@@ -325,7 +326,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             Instantiate(hitEF, transform);
         if (pv.IsMine)
         {
-            if (currentStates != States.Die || currentStates != States.Fusion)
+            if (currentStates != States.Die && currentStates != States.Fusion)
             {
                 float currentDamage = _damage;
                 if (damageDelayTime <= 0)
@@ -367,7 +368,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (pv.IsMine)
         {
-            if (currentStates != States.Die || currentStates != States.Fusion)
+            if (currentStates != States.Die && currentStates != States.Fusion)
             {
                 playerHp -= _damage;
 
@@ -408,6 +409,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             recoveryEF.SetActive(false);
             recoveryEF.SetActive(true);
+            SoundManager.Instance.PlayPlayerSfx(2, transform.position);
             if (pv.IsMine)
             {
                 playerHp += _heal;
@@ -740,5 +742,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public void PlayTriggerAnimation(string _name)
     {
         animator.SetTrigger(_name);
+    }
+
+    public void MoveAniSound()
+    {
+        int randomNum = Random.Range(0, 2);
+        switch (randomNum)
+        {
+            case 0:
+                SoundManager.Instance.PlayPlayerSfx(8, transform.position);
+                break;
+            case 1:
+                SoundManager.Instance.PlayPlayerSfx(9, transform.position);
+                break;
+            case 2:
+                SoundManager.Instance.PlayPlayerSfx(10, transform.position);
+                break;
+        }
     }
 }

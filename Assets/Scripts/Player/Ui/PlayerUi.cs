@@ -19,6 +19,7 @@ public class PlayerUi : MonoBehaviour
 
     public Image[] elementalCodeImage;
     public Sprite[] elementalCodeSprite;
+    public Slider FusionHoldSlider;
 
     public GameObject[] otherPlayerUi;
     public Slider[] otherPlayerHp;
@@ -33,6 +34,8 @@ public class PlayerUi : MonoBehaviour
     float[] currntskillCoolTime = new float[3];
 
     float[] MaxskillCoolTime = new float[3];
+
+    public float FusionHoldTime = 2;
 
     public Image[] skillCoolTime;
 
@@ -68,6 +71,8 @@ public class PlayerUi : MonoBehaviour
     {
         playerHpSlider.value = playerHp / playerMaxHp;
         playerDashSlider.value = 1 - (playerDash / playerMaxDash);
+
+        FusionHoldSlider.value = 1 - (FusionHoldTime / 2f);
 
         for (int i = 0;i < 3; i++)
         {

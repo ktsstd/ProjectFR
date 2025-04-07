@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/Sound/SE/UI 효과음/결정 버튼/결정 버튼 4.mp3.meta
 guid: a1159d14b8fcdca4d875f06a40c628cb
+========
+guid: 0999a764823d23048b39afa88821fb6c
+>>>>>>>> Stashed changes:Assets/Sound/SE/UI 효과음/결정 버튼/결정 버튼 3.mp3.meta
 AudioImporter:
   externalObjects: {}
   serializedVersion: 7
