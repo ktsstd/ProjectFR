@@ -48,7 +48,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
         target = GetClosestTarget();
 
-        if (target != null && canMove && CurHp > 0)
+        if (target != null && canMove)
         {
             float distance = Vector3.Distance(transform.position, target.position);
             if (animator != null)
