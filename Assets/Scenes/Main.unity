@@ -34065,7 +34065,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Touch to Start
+  m_text: Click to Start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c16532d08082bd64291b0e4209f6b90e, type: 2}
   m_sharedMaterial: {fileID: -5283300883188771937, guid: c16532d08082bd64291b0e4209f6b90e, type: 2}
