@@ -14271,7 +14271,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BgmVolume: 1
   SfxVolume: 1
-  SfxPlayerAudio: []
+  SfxPlayerAudio:
+  - {fileID: 8300000, guid: 8de9764e5a33b004a94bdc492b320617, type: 3}
+  - {fileID: 8300000, guid: acaee7320795d7648b33438df6085932, type: 3}
+  - {fileID: 8300000, guid: b4cb5ba13b0843a4caf1b09e252e5198, type: 3}
+  - {fileID: 8300000, guid: 8ca4464d404733b4ba2256003358b5e6, type: 3}
+  - {fileID: 8300000, guid: d21a95f2c19a1ce42be332e305045bf4, type: 3}
+  - {fileID: 8300000, guid: 84ea80a58e26f8146a8f9e2aad8729d2, type: 3}
+  - {fileID: 8300000, guid: c7e2b22e6d3a9b94fb2cba233d11657e, type: 3}
+  - {fileID: 8300000, guid: 94b1f3a76b65dbe4fb2adeb0512273f4, type: 3}
+  - {fileID: 8300000, guid: 1fed2efe3c5a44a428f00e43ab9d37a7, type: 3}
+  - {fileID: 8300000, guid: 3e526c5464b9af148887f03782192f93, type: 3}
+  - {fileID: 8300000, guid: 5b36cdda367b455409a85ecb42180c94, type: 3}
   SfxMonsterAudio:
   - {fileID: 8300000, guid: 7016f3b5df63e9747b0aeb16be758a4c, type: 3}
   - {fileID: 0}
