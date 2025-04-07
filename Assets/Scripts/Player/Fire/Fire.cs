@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Fire : PlayerController
 {
@@ -17,6 +18,14 @@ public class Fire : PlayerController
     public GameObject flameGrenadeTest;
 
     public GameObject finalTest;
+
+    public AudioSource audioSource;
+
+    public override void StartStatSet()
+    {
+        base.StartStatSet();
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public override void OnTriggerEnter(Collider other)
     {
@@ -126,11 +135,13 @@ public class Fire : PlayerController
     [PunRPC]
     public void FlameSprayTest()
     {
+        SoundManager.Instance.PlayPlayerSfx(11, transform.position);
         isFlameSpray = !isFlameSpray;
         if (isFlameSpray)
         {
             fireParticle.Play();
             flameSpray.SetActive(true);
+            audioSource.Play();
             flameSpray.GetComponent<FlameSprayTest>().damage = playerAtk;
             playerSpeed -= 1;
         }
@@ -138,6 +149,7 @@ public class Fire : PlayerController
         {
             fireParticle.Stop();
             flameSpray.SetActive(false);
+            audioSource.Stop();
             playerSpeed += 1;
         }
     }
@@ -145,6 +157,7 @@ public class Fire : PlayerController
     [PunRPC]
     public void Grenade(Vector3 _targetPos, int _grenadeType)
     {
+        SoundManager.Instance.PlayPlayerSfx(12, transform.position);
         GameObject skill = Instantiate(grenade, transform.position, transform.rotation);
         Grenade grenadeScript = skill.GetComponent<Grenade>();
         grenadeScript.target = _targetPos;
@@ -155,7 +168,9 @@ public class Fire : PlayerController
     [PunRPC]
     public void FlameGrenadeTest(Vector3 _targetPos)
     {
+        SoundManager.Instance.PlayPlayerSfx(13, _targetPos);
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
+        SoundManager.Instance.PlayPlayerSfx(14, _targetPos);
         GameObject skill = Instantiate(flameGrenadeTest, _targetPos, fireRot);
         skill.GetComponent<FlameGrenadeTest>().damage = playerAtk;
     }
@@ -163,6 +178,7 @@ public class Fire : PlayerController
     [PunRPC]
     public void FinalTest(Vector3 _targetPos)
     {
+        SoundManager.Instance.PlayPlayerSfx(15, _targetPos);
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(finalTest, _targetPos, fireRot);
         skill.GetComponent<FinalTest>().damage = playerAtk;
