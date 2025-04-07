@@ -475,9 +475,9 @@ GameObject:
   - component: {fileID: 7480244720606117015}
   - component: {fileID: 7731873453102367003}
   - component: {fileID: 2519382254315546434}
-  - component: {fileID: 7144494819290019081}
   - component: {fileID: 4241399915846016407}
   - component: {fileID: 1581586115015890742}
+  - component: {fileID: 4721847789063338420}
   m_Layer: 8
   m_Name: Mugolin
   m_TagString: Enemy
@@ -573,27 +573,6 @@ MonoBehaviour:
   animator: {fileID: 4241399915846016407}
   MugolinEffect: {fileID: 5522399060792921784}
   audioS: {fileID: 1581586115015890742}
---- !u!135 &7144494819290019081
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3742495228493169063}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.86939067
-  m_Center: {x: 0, y: 0.36939096, z: 0}
 --- !u!95 &4241399915846016407
 Animator:
   serializedVersion: 7
@@ -713,6 +692,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &4721847789063338420
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3742495228493169063}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 5.8804607
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.26671076, z: 0}
 --- !u!1 &3808697760785488207
 GameObject:
   m_ObjectHideFlags: 0
