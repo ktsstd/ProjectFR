@@ -34,5 +34,6 @@ public class Solborn : MonsterAI
             animator.SetTrigger("StartAttack");
         yield return new WaitForSeconds(0.2f);
         SolbornEffect.Play();
+        SoundManager.Instance.PlayMonsterSfx(1, transform.position); // Edit
     }
 }
