@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn)
         {
             StartCoroutine(WaveStart());
+            isSpawn = true;
             WaveCount += 1;
             Debug.Log("Wave Start at 5sec / TestMod");
         }
@@ -107,7 +108,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             yield return new WaitForSeconds(5);
-            isSpawn = true;
 
             string Firemonster = "TEMPMONSTER/Spirit of Fire";
             string Sleebam = "Monster/Sleebam";
