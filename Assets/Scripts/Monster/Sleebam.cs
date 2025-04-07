@@ -17,5 +17,7 @@ public class Sleebam : MonsterAI
         yield return new WaitForSeconds(1f);
         if (animator != null)
             animator.SetTrigger("StartAttack");
+        yield return new WaitForSeconds(0.15f);
+        SoundManager.Instance.PlayMonsterSfx(2, transform.position); // Edit
     }
 }

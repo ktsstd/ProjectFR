@@ -7,6 +7,7 @@ public class Mugolin : MonsterAI
 {
     //private bool InSafeZone;
     [SerializeField] private GameObject MugolinEffect;
+    [SerializeField] private AudioSource audioS;
     //[SerializeField] private GameObject RunEffect;
     private bool IsRolling;
 
@@ -31,11 +32,14 @@ public class Mugolin : MonsterAI
         if (IsRolling && canMove)
         {
             MugolinEffect.SetActive(true);
+            audioS.volume = SoundManager.Instance.SfxVolume;
+            audioS.Play();
         }
         else if (!IsRolling && canMove)
         {
             StartCoroutine(RunEffectStart());
             MugolinEffect.SetActive(false);
+            audioS.Stop();
         }
     }
 
@@ -55,6 +59,7 @@ public class Mugolin : MonsterAI
     {
         GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
         Object ObjectS = ObjectObj.GetComponent<Object>();
+        SoundManager.Instance.PlayMonsterSfx(0, transform.position); // Edit
         ObjectS.photonView.RPC("Damaged", RpcTarget.All, monsterInfo.damage);
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
         canMove = true;
