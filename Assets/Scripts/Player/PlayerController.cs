@@ -353,6 +353,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 if (playerHp <= 0)
                 {
                     playerHp = 0;
+                    pv.RPC("PlayTriggerAnimation", RpcTarget.All, "reset");
                     currentStates = States.Die;
                     pv.RPC("OnPlayerDie", RpcTarget.All, null);
                     pv.RPC("PlayTriggerAnimation", RpcTarget.All, "die");
@@ -375,6 +376,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 if (playerHp <= 0)
                 {
                     playerHp = 0;
+                    pv.RPC("PlayTriggerAnimation", RpcTarget.All, "reset");
                     currentStates = States.Die;
                     pv.RPC("OnPlayerDie", RpcTarget.All, null);
                     pv.RPC("PlayTriggerAnimation", RpcTarget.All, "die");
@@ -483,9 +485,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         currentStates = States.Stun;
         yield return new WaitForSeconds(_time);
-        stunEF.SetActive(false);
+        pv.RPC("StunEffect", RpcTarget.All, false);
         if (currentStates != States.Die)
             currentStates = States.Idle;
+    }
+
+    [PunRPC]
+    public void StunEffect(bool _bool)
+    {
+        stunEF.SetActive(_bool);
     }
 
     private Coroutine suppressedCoroutine;

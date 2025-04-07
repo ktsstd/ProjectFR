@@ -245,6 +245,7 @@ public class Lightning : PlayerController
         collider.enabled = true;
         foreach (GameObject playerSkin in playerRenderer)
             playerSkin.SetActive(true);
-        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill3");
+        if (currentStates != States.Die)
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill3");
     }
 }

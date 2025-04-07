@@ -60,6 +60,7 @@ public class Fire : PlayerController
                         skillRanges[0].SetActive(false);
                         currentStates = States.Attack;
                         pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill1");
+                        audioSource.volume = SoundManager.Instance.SfxVolume;
                     }
                 }
             }
