@@ -216,6 +216,7 @@ public class Fire : PlayerController
         if (isFlameSpray)
         {
             fireParticle.Stop();
+            audioSource.Stop();
             flameSpray.SetActive(false);
             playerSpeed += 1;
         }
@@ -226,6 +227,7 @@ public class Fire : PlayerController
         if (isFlameSpray)
         {
             fireParticle.Stop();
+            audioSource.Stop();
             flameSpray.SetActive(false);
             playerSpeed += 1;
         }

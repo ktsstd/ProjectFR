@@ -9549,10 +9549,10 @@ PrefabInstance:
       addedObject: {fileID: 1677099126}
     - targetCorrespondingSourceObject: {fileID: 8176374876632484194, guid: 3bb0017d48e79764fad174f40daed6fd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1677099128}
+      addedObject: {fileID: 1677099129}
     - targetCorrespondingSourceObject: {fileID: 8176374876632484194, guid: 3bb0017d48e79764fad174f40daed6fd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1677099129}
+      addedObject: {fileID: 1677099130}
   m_SourcePrefab: {fileID: 100100000, guid: 3bb0017d48e79764fad174f40daed6fd, type: 3}
 --- !u!1 &1677099125 stripped
 GameObject:
@@ -9593,27 +9593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb4a2f0c4bd628443a45ccb762ba56d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &1677099128
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677099125}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.42462674, y: 0.4181759, z: 0.407236}
-  m_Center: {x: -0.00000006705522, y: -0.000000022351744, z: 0.20361798}
 --- !u!208 &1677099129
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -9630,6 +9609,29 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0.20400001}
   m_TimeToStationary: 0.5
+--- !u!136 &1677099130
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677099125}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.21231337
+  m_Height: 5
+  m_Direction: 2
+  m_Center: {x: -0.00000006705522, y: -0.000000022351744, z: 0.20361796}
 --- !u!1 &1677520572
 GameObject:
   m_ObjectHideFlags: 0
@@ -32659,6 +32661,7 @@ GameObject:
   - component: {fileID: 2674670965538930078}
   - component: {fileID: 4995998461911734397}
   - component: {fileID: 4995998461911734398}
+  - component: {fileID: 4995998461911734399}
   m_Layer: 6
   m_Name: FlatSquare01
   m_TagString: Untagged
@@ -34945,6 +34948,27 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 75fdf6cc61f1d6d43a5c554e5b2f7a58, type: 2}
   m_BuildHeightMesh: 0
+--- !u!65 &4995998461911734399
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4476203518143765579}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 50, y: 100, z: 50}
+  m_Center: {x: 0, y: -50, z: 0}
 --- !u!4 &5001195179255784142
 Transform:
   m_ObjectHideFlags: 0
