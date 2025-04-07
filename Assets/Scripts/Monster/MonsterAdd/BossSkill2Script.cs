@@ -32,7 +32,7 @@ public class BossSkill2Script : MonoBehaviour
             yield return null;
         }
         isFadeIn = true;
-        SoundManager.Instance.PlaySfx(1, transform.position); // Edit
+        SoundManager.Instance.PlayMonsterSfx(1, transform.position); // Edit
         Invoke("StartEffect", 0.2f);
         yield break;
     }

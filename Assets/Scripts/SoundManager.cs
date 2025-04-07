@@ -10,7 +10,9 @@ public class SoundManager : MonoBehaviour
     private static SoundManager _instance;
     [SerializeField] public float BgmVolume = 1f;
     [SerializeField] public float SfxVolume = 1f;
-    [SerializeField] private AudioClip[] SfxAudio;
+    //[SerializeField] private AudioClip[] SfxAudio;
+    [SerializeField] private AudioClip[] SfxPlayerAudio;
+    [SerializeField] private AudioClip[] SfxMonsterAudio;
     [SerializeField] private AudioClip[] BgmAudio;
     [SerializeField] private AudioClip[] UISfxAudio;
     [SerializeField] private AudioSource Bgm;
@@ -51,10 +53,15 @@ public class SoundManager : MonoBehaviour
             BgmVolume = PlayerPrefs.GetFloat("BgmVolume");
         }
     }
-    public void PlaySfx(int index, Vector3 position)
+    public void PlayPlayerSfx(int index, Vector3 position)
     {
-        AudioSource.PlayClipAtPoint(SfxAudio[index], position, SfxVolume);
+        AudioSource.PlayClipAtPoint(SfxPlayerAudio[index], position, SfxVolume);
     }
+    public void PlayMonsterSfx(int index, Vector3 position)
+    {
+        AudioSource.PlayClipAtPoint(SfxMonsterAudio[index], position, SfxVolume);
+    }
+
     public void PlayUISfx(int index, Vector3 position)
     {
         AudioSource.PlayClipAtPoint(UISfxAudio[index], position, SfxVolume);

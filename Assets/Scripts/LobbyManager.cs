@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.TextCore.Text;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -99,6 +100,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             CharacterImg[CharacterIndex].SetActive(true);
     }
 
+    private GameObject CharacterObj;
     public void OnClickReadybutton()
     {
         if (CharacterIndex == -1)
@@ -122,13 +124,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
         isReady = !isReady;
+        
 
-        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+            ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
             { "isReady", isReady },
             { "selectedCharacter", CharacterIndex }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+        if (isReady)
+        {
+            CharacterObj = PhotonNetwork.Instantiate("Lobby/Icon" + CharacterIndex, CharacterPos[PhotonNetwork.LocalPlayer.ActorNumber - 1].position, Quaternion.identity, 0);
+            CharacterObj.transform.SetParent(CharacterImgParent.transform, false);
+            CharacterObj.transform.localPosition = CharacterPos[PhotonNetwork.LocalPlayer.ActorNumber - 1].position;
+        }
+        else
+        {
+            PhotonNetwork.Destroy(CharacterObj);
+        }
     }
 
     private void WarningTexts(int ErrorCode)

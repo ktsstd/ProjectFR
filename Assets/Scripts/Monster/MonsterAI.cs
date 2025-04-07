@@ -84,7 +84,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             if (directionToTarget != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2.5f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
             }
         }
         else if (!canMove && agent.enabled)
