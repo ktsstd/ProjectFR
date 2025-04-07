@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private Transform WaveThirdPos3;
     [SerializeField] private Transform WaveThirdPos4;
     [SerializeField] private GameObject Quit;
+    [SerializeField] private Material SkyBoxMat;
+    [SerializeField] private Light DLight;
     public int WaveCount = 0;
     public bool isSpawn = false;
     //private bool QuitOn = false;
@@ -135,12 +137,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
                 PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+                RenderSettings.skybox = SkyBoxMat;
             }
         }
         else
         {
             Debug.Log("you are not a master client");
         }
+        RenderSettings.skybox = SkyBoxMat;
+        DLight.color = new Color(1f, 0.3216f, 0f, 1f);
     }
 
     IEnumerator InstantiateMonsters(string monsterType, int count)

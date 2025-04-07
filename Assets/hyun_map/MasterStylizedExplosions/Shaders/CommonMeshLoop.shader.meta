@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a2d5847b25fdb344580bce584f276872
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280069
+  packageName: Master Explosion FX
+  packageVersion: 1.0
+  assetPath: Assets/MasterStylizedExplosions/Shaders/CommonMeshLoop.shader
+  uploadId: 658932

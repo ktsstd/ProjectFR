@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: b7cd6def6f3c7a64bacbdf59fbc09461
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280069
+  packageName: Master Explosion FX
+  packageVersion: 1.0
+  assetPath: Assets/MasterStylizedExplosions/Scripts/MSEExampleSpawner.cs
+  uploadId: 658932

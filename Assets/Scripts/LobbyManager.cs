@@ -4,8 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEngine.TextCore.Text;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -18,38 +16,41 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public int CharacterIndex;
     public GameObject[] CharacterImg;
     public GameObject CharacterImgParent;
-    public Transform[] CharacterPos;
+    public Transform[] CharacterPos; // UI 슬롯별 위치 (순서대로 할당)
     public TextMeshProUGUI WarningText;
 
-    //[SerializeField] GameObject SettingUI;
+    private GameObject CharacterObj;
 
     private void Start()
     {
         CharacterIndex = -1;
         isReady = false;
-        
+
         if (roomNameText != null)
         {
             roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         }
 
+        // 기존 플레이어 리스트 초기화
+        playerList.Clear();
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             playerList.Add(player);
             bool playerIsReady = player.CustomProperties.TryGetValue("isReady", out object readyState) && (bool)readyState;
-
-            SetReadyState(player.ActorNumber, playerIsReady);
+            // UI 슬롯은 플레이어 리스트의 순서를 기준으로 함.
+            SetReadyState(player, playerIsReady);
         }
 
         UpdatePlayerListUI();
-        int localPlayerIndex = System.Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.LocalPlayer);
-
-        if(localPlayerIndex >= 0 && localPlayerIndex < CharacterPos.Length)
+        // 로컬 플레이어의 인덱스를 playerList에서 찾은 후 해당 슬롯의 위치로 이동
+        int localPlayerIndex = GetLocalPlayerIndex();
+        if (localPlayerIndex >= 0 && localPlayerIndex < CharacterPos.Length)
         {
             CharacterImgParent.transform.position = CharacterPos[localPlayerIndex].position;
         }
     }
 
+    // 오른쪽 캐릭터 선택
     public void OnClickCharacterSelectRightButton()
     {
         if (isReady)
@@ -57,7 +58,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             WarningTexts(3);
             return;
         }
-        if (CharacterIndex < 3)
+        if (CharacterIndex < CharacterImg.Length - 1)
         {
             CharacterIndex += 1;
         }
@@ -65,16 +66,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             CharacterIndex = 0;
         }
-        for (int i = 0; i <= 3; i++)
-            {
-                if (CharacterImg[i] != null)
-                {
-                    CharacterImg[i].SetActive(false);
-                }
-            }
-            CharacterImg[CharacterIndex].SetActive(true);
+        UpdateCharacterImg();
     }
 
+    // 왼쪽 캐릭터 선택
     public void OnClickCharacterSelectLeftButton()
     {
         if (isReady)
@@ -88,19 +83,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            CharacterIndex = 3;
+            CharacterIndex = CharacterImg.Length - 1;
         }
-        for (int i = 0; i <= 3; i++)
+        UpdateCharacterImg();
+    }
+
+    // 캐릭터 이미지 활성화/비활성화
+    private void UpdateCharacterImg()
+    {
+        for (int i = 0; i < CharacterImg.Length; i++)
+        {
+            if (CharacterImg[i] != null)
             {
-                if (CharacterImg[i] != null)
-                {
-                    CharacterImg[i].SetActive(false);
-                }
+                CharacterImg[i].SetActive(false);
             }
+        }
+        if (CharacterIndex >= 0 && CharacterIndex < CharacterImg.Length)
             CharacterImg[CharacterIndex].SetActive(true);
     }
 
-    private GameObject CharacterObj;
+    // Ready 버튼 클릭 시 처리
     public void OnClickReadybutton()
     {
         if (CharacterIndex == -1)
@@ -109,6 +111,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             return;
         }
 
+        // 다른 플레이어와 캐릭터 중복 선택 체크 (playerList를 순회)
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
@@ -124,26 +127,34 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
         isReady = !isReady;
-        
+        int localPlayerIndex = GetLocalPlayerIndex();
+        if (localPlayerIndex < 0 || localPlayerIndex >= CharacterPos.Length)
+        {
+            Debug.LogError("로컬 플레이어의 인덱스가 올바르지 않습니다.");
+            return;
+        }
 
-            ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        //if (isReady)
+        //{
+        //    // playerList의 인덱스에 해당하는 UI 슬롯의 위치 사용
+        //    CharacterObj = PhotonNetwork.Instantiate("Lobby/Icon" + CharacterIndex, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
+        //    CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
+        //    CharacterObj.transform.localPosition = Vector3.zero;
+        //}
+        //else
+        //{
+        //    PhotonNetwork.Destroy(CharacterObj);
+        //}
+
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
             { "isReady", isReady },
             { "selectedCharacter", CharacterIndex }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
-        if (isReady)
-        {
-            CharacterObj = PhotonNetwork.Instantiate("Lobby/Icon" + CharacterIndex, CharacterPos[PhotonNetwork.LocalPlayer.ActorNumber - 1].position, Quaternion.identity, 0);
-            CharacterObj.transform.SetParent(CharacterImgParent.transform, false);
-            CharacterObj.transform.localPosition = CharacterPos[PhotonNetwork.LocalPlayer.ActorNumber - 1].position;
-        }
-        else
-        {
-            PhotonNetwork.Destroy(CharacterObj);
-        }
     }
 
+    // 경고 메시지 처리
     private void WarningTexts(int ErrorCode)
     {
         if (isFadeOut) return;
@@ -177,18 +188,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         isFadeOut = false;
     }
 
-
     public void OnClickLeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
     }
 
+    // 플레이어 프로퍼티가 업데이트 될 때 UI 갱신 (매핑 시 playerList 기준 사용)
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (changedProps.ContainsKey("isReady"))
         {
             bool playerIsReady = (bool)changedProps["isReady"];
-            SetReadyState(targetPlayer.ActorNumber, playerIsReady);
+            SetReadyState(targetPlayer, playerIsReady);
         }
 
         if (PhotonNetwork.IsMasterClient)
@@ -196,7 +207,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             photonView.RPC("UpdateStartButton", RpcTarget.All, isAllPlayerReady());
         }
     }
-
 
     [PunRPC]
     public void UpdateStartButton(bool state)
@@ -216,7 +226,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         playerList.Add(newPlayer);
         bool playerIsReady = newPlayer.CustomProperties.TryGetValue("isReady", out object readyState) && (bool)readyState;
-        SetReadyState(newPlayer.ActorNumber, playerIsReady);
+        SetReadyState(newPlayer, playerIsReady);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -241,47 +251,47 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         UpdatePlayerListUI();
 
-        int localPlayerIndex = System.Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.LocalPlayer);
+        // 로컬 플레이어의 UI 위치 갱신 (playerList 순서를 기준)
+        int localPlayerIndex = GetLocalPlayerIndex();
         if (localPlayerIndex >= 0 && localPlayerIndex < CharacterPos.Length)
         {
             CharacterImgParent.transform.position = CharacterPos[localPlayerIndex].position;
         }
     }
 
-
-    private void SetReadyState(int playerActorNumber, bool isReady)
+    // playerList에서 해당 플레이어의 인덱스 반환
+    private int GetLocalPlayerIndex()
     {
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        return playerList.FindIndex(p => p.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber);
+    }
+
+    // Ready 상태를 설정할 때 playerList 기준 인덱스 사용
+    private void SetReadyState(Player player, bool isReady)
+    {
+        int index = playerList.FindIndex(p => p.ActorNumber == player.ActorNumber);
+        if (index != -1 && index < ReadyObj.Length && ReadyObj[index] != null)
         {
-            if (PhotonNetwork.PlayerList[i].ActorNumber == playerActorNumber)
-            {
-                if (ReadyObj[i] != null)
-                {
-                    ReadyObj[i].SetActive(isReady);
-                }
-                break;
-            }
+            ReadyObj[index].SetActive(isReady);
         }
     }
 
+    // 모든 플레이어가 준비됐는지 여부
     private bool isAllPlayerReady()
     {
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if (!player.CustomProperties.TryGetValue("isReady", out object isReady) || !(bool)isReady)
+            if (!player.CustomProperties.TryGetValue("isReady", out object ready) || !(bool)ready)
             {
                 return false;
             }
         }
-        //if (PhotonNetwork.PlayerList.Length < 2)
-        //{
-        //    return false;
-        //}
         return true;
     }
 
+    // 플레이어 리스트 UI 업데이트 : 플레이어 리스트 순서대로 텍스트 할당
     void UpdatePlayerListUI()
     {
+        // playerList를 정렬하거나 순서를 새로 할당할 수 있습니다.
         for (int i = 0; i < playerTexts.Length; i++)
         {
             playerTexts[i].text = "";
