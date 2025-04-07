@@ -48,17 +48,19 @@ public class SaveManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SettingUI.SetActive(!SettingUI.activeSelf);
+            SoundManager.Instance.PlayUISfxShot(0);
         }
     }
     private void OnSliderBgmValueChanged(float newValue)
     {
         SoundManager.Instance.BgmVolume = newValue;
         BgmText.text = "" + Mathf.Floor(SoundManager.Instance.BgmVolume * 100);
+        SoundManager.Instance.Bgm.volume = SoundManager.Instance.BgmVolume;
     }
     private void OnSliderSfxValueChanged(float newValue)
     {
         SoundManager.Instance.SfxVolume = newValue;
-        SfxText.text = "" + Mathf.Floor(SoundManager.Instance.SfxVolume * 100);
+        SfxText.text = "" + Mathf.Floor(SoundManager.Instance.SfxVolume * 100);        
     }
     public void OnClickSaveSetting()
     {

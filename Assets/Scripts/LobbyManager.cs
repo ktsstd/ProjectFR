@@ -153,6 +153,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
+    public void OnClickUISfx()
+    {
+        SoundManager.Instance.PlayUISfxShot(0);
+    }
 
     // 경고 메시지 처리
     private void WarningTexts(int ErrorCode)

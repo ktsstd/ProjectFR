@@ -15,7 +15,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip[] SfxMonsterAudio;
     [SerializeField] private AudioClip[] BgmAudio;
     [SerializeField] private AudioClip[] UISfxAudio;
-    [SerializeField] private AudioSource Bgm;
+    [SerializeField] public AudioSource Bgm;
     [SerializeField] private AudioSource Sfx;
     [SerializeField] private AudioSource UISfx;
     [SerializeField] private AudioSource[] MonsterAudio;
@@ -53,6 +53,14 @@ public class SoundManager : MonoBehaviour
             BgmVolume = PlayerPrefs.GetFloat("BgmVolume");
         }
     }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     public void PlayPlayerSfx(int index, Vector3 position)
     {
         AudioSource.PlayClipAtPoint(SfxPlayerAudio[index], position, SfxVolume);
@@ -62,8 +70,52 @@ public class SoundManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(SfxMonsterAudio[index], position, SfxVolume);
     }
 
-    public void PlayUISfx(int index, Vector3 position)
+    public void PlayUISfxShot(int index)
     {
-        AudioSource.PlayClipAtPoint(UISfxAudio[index], position, SfxVolume);
+        GameObject tempAudioObj = new GameObject("TempUISfxAudio");
+        AudioSource audioSource = tempAudioObj.AddComponent<AudioSource>();
+
+        audioSource.clip = UISfxAudio[index];
+        audioSource.volume = SfxVolume * 5f;
+        audioSource.spatialBlend = 0f; 
+        audioSource.Play();
+
+        Destroy(tempAudioObj, UISfxAudio[index].length); // ÀÚµ¿ ÆÄ±«
     }
+
+    public void OnClickUISfx()
+    {
+        PlayUISfxShot(0);
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Lobby")
+            return;
+        PlayBgm(scene.name);
+    }
+
+    private void PlayBgm(string sceneName)
+    {
+        Bgm.Stop();
+
+        switch (sceneName)
+        {
+            case "Main":
+                Bgm.clip = BgmAudio[0];
+                break;
+            case "Test":
+                Bgm.clip = BgmAudio[1];
+                break;
+            case "Boss":
+                Bgm.clip = BgmAudio[2];
+                break;
+            default:
+                break;
+        }
+
+        Bgm.volume = BgmVolume;
+        Bgm.loop = true;
+        Bgm.Play();
+    }
+
 }

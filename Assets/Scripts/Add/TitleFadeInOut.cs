@@ -27,6 +27,7 @@ public class TitleFadeInOut : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !isTouch)
         {
             isTouch = true;
+            SoundManager.Instance.PlayUISfxShot(0); // Edit
             StopAllCoroutines();
             Title.SetActive(false);
             Panel.SetActive(true);

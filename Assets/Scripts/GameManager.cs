@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);
         Debug.Log("Wave Start at 5sec / TestMod");
         StartCoroutine(WaveStart());
+        StartCoroutine(CheckMonsterC());
         WaveCount += 1;
     }
 
@@ -80,6 +81,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         //        QuitOn = false;
         //    }
         //}
+    }
+
+    public IEnumerator CheckMonsterC()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            CheckMonster();
+        }
     }
 
     public void CheckMonster()
@@ -112,9 +122,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount == 1)
             {
-                //StartCoroutine(InstantiateMonsters(Mugolin, 15));
-                StartCoroutine(InstantiateMonsters(Sleebam, 1));
-                StartCoroutine(InstantiateMonsters(Grave, 1));
+                StartCoroutine(InstantiateMonsters(Mugolin, 15));
             }
             else if (WaveCount == 2)
             {
@@ -343,5 +351,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             isSpawn = (bool)stream.ReceiveNext();
             WaveCount = (int)stream.ReceiveNext();
         }
+    }
+    public void OnClickUISfx()
+    {
+        SoundManager.Instance.PlayUISfxShot(0);
     }
 }
