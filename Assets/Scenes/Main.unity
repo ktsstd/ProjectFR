@@ -14271,9 +14271,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BgmVolume: 1
   SfxVolume: 1
-  SfxAudio:
-  - {fileID: 8300000, guid: f38f9a83f44965249895c8162f15fcc6, type: 3}
-  - {fileID: 8300000, guid: 8ac4c31c057c343408afa64788d4169d, type: 3}
+  SfxPlayerAudio: []
+  SfxMonsterAudio:
+  - {fileID: 8300000, guid: 7016f3b5df63e9747b0aeb16be758a4c, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   BgmAudio: []
   UISfxAudio: []
   Bgm: {fileID: 0}

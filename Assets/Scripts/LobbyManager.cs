@@ -228,28 +228,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        int indexToRemove = otherPlayer.ActorNumber; // playerList.FindIndex(p => p.ActorNumber == otherPlayer.ActorNumber);
-        
+        int indexToRemove = playerList.FindIndex(p => p.ActorNumber == otherPlayer.ActorNumber);
         if (indexToRemove != -1)
         {
             playerList.RemoveAt(indexToRemove);
 
-            if (ReadyObj[indexToRemove] != null)
+            if (indexToRemove < ReadyObj.Length && ReadyObj[indexToRemove] != null)
             {
                 ReadyObj[indexToRemove].SetActive(false);
             }
         }
 
-        int localPlayerIndex = System.Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.LocalPlayer);
+        UpdatePlayerListUI();
 
-        if(localPlayerIndex >= 0 && localPlayerIndex < CharacterPos.Length)
+        int localPlayerIndex = System.Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.LocalPlayer);
+        if (localPlayerIndex >= 0 && localPlayerIndex < CharacterPos.Length)
         {
             CharacterImgParent.transform.position = CharacterPos[localPlayerIndex].position;
         }
-
-        SetReadyState(otherPlayer.ActorNumber, false);
-        UpdatePlayerListUI();
     }
+
 
     private void SetReadyState(int playerActorNumber, bool isReady)
     {
