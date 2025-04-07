@@ -1,0 +1,723 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f4de31cc4ea49b8ab005fb966d553c, type: 3}
+  m_Name: HS_Blend_CG
+  m_EditorClassIdentifier: 
+  generatesWithShaderGraph: 1
+  lit: 1
+  alphaClipping: 0
+  m_PropertiesStages: 020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000
+  compilationResult:
+    codeSnippets:
+    - '#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
+
+'
+    - "// Node: Split Texture Transform\r\nvoid Unity_SplitTextureTransform_float(UnityTexture2D
+      In, out float2 Tiling, out float2 Offset, out UnityTexture2D TextureOnly)\n{\n   
+      TextureOnly = In;\n    TextureOnly.scaleTranslate = float4(1.0f, 1.0f, 0.0f,
+      0.0f);\n    Tiling = In.scaleTranslate.xy;\n    Offset = In.scaleTranslate.zw;\n}\n\r\n"
+    - "// Node: Divide\r\nvoid Unity_Divide_float2(float2 A, float2 B, out float2
+      Out)\n{\n    Out = A / B;\n}\n\r\n"
+    - '// Node: Multiply
+
+      void Unity_Multiply_float2_float2(float2 A, float2
+      B, out float2 Out)
+
+      {
+
+      Out = A * B;
+
+      }
+
+      
+
+'
+    - "// Node: Tiling And Offset\r\nvoid Unity_TilingAndOffset_float(float2 UV,
+      float2 Tiling, float2 Offset, out float2 Out)\n{\n    Out = UV * Tiling + Offset;\n}\n\r\n"
+    - '// Node: Multiply
+
+      void Unity_Multiply_float_float(float A, float B,
+      out float Out)
+
+      {
+
+      Out = A * B;
+
+      }
+
+      
+
+'
+    - "// Node: Subtract\r\nvoid Unity_Subtract_float2(float2 A, float2 B, out float2
+      Out)\n{\n    Out = A - B;\n}\n\r\n"
+    - '// Node: Multiply
+
+      void Unity_Multiply_float4_float4(float4 A, float4
+      B, out float4 Out)
+
+      {
+
+      Out = A * B;
+
+      }
+
+      
+
+'
+    - "// Node: Remap\r\nvoid Unity_Remap_float(float In, float2 InMinMax, float2
+      OutMinMax, out float Out)\n{\n    Out = OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y
+      - OutMinMax.x) / (InMinMax.y - InMinMax.x);\n}\n\r\n"
+    - "// Node: Subtract\r\nvoid Unity_Subtract_float(float A, float B, out float
+      Out)\n{\n    Out = A - B;\n}\n\r\n"
+    - "// Node: Saturate\r\nvoid Unity_Saturate_float(float In, out float Out)\n{\n   
+      Out = saturate(In);\n}\n\r\n"
+    - "// Node: Branch\r\nvoid Unity_Branch_float4(float Predicate, float4 True,
+      float4 False, out float4 Out)\n{\n    Out = Predicate ? True : False;\n}\n\r\n"
+    - "// Node: Scene Depth\r\nvoid Unity_SceneDepth_Linear01_float(float4 UV, out
+      float Out)\n{\n    Out = Linear01Depth(SHADERGRAPH_SAMPLE_SCENE_DEPTH(UV.xy),
+      _ZBufferParams);\n}\n\r\n"
+    - "// Node: Divide\r\nvoid Unity_Divide_float(float A, float B, out float Out)\n{\n   
+      Out = A / B;\n}\n\r\n"
+    - "// Node: Step\r\nvoid Unity_Step_float(float Edge, float In, out float Out)\n{\n   
+      Out = step(Edge, In);\n}\n\r\n"
+    - "// Node: Lerp\r\nvoid Unity_Lerp_float(float A, float B, float T, out float
+      Out)\n{\n    Out = lerp(A, B, T);\n}\n\r\n"
+    - "// Node: Branch\r\nvoid Unity_Branch_float(float Predicate, float True, float
+      False, out float Out)\n{\n    Out = Predicate ? True : False;\n}\n\r\n"
+    - '// Property: SamplerState
+
+      SAMPLER(SamplerState_Linear_Repeat);
+
+      
+
+'
+    - 'struct SG_Input_00191177e5fd5c4468ad546ce87ef329
+
+      {
+
+'
+    - '    float3 ObjectSpaceNormal;
+
+'
+    - '    float3 ObjectSpaceTangent;
+
+'
+    - '    float3 ObjectSpacePosition;
+
+'
+    - '    float4 VertexColor;
+
+'
+    - '    float4 ScreenPosition;
+
+'
+    - '    float2 NDCPosition;
+
+'
+    - '    half4 uv0;
+
+'
+    - '    float3 TimeParameters;
+
+'
+    - '};
+
+      
+
+'
+    - 'struct SG_Output_00191177e5fd5c4468ad546ce87ef329
+
+      {'
+    - "\r\n    float3 Position_0;"
+    - "\r\n    float3 Normal_0;"
+    - "\r\n    float3 Tangent_0;"
+    - "\r\n    float3 BaseColor_1;"
+    - "\r\n    float Alpha_4;"
+    - "\r\n    float AlphaClipThreshold_7;"
+    - "\r\n    float3 Emission_5;"
+    - '
+
+      };
+
+      
+
+'
+    - "SG_Output_00191177e5fd5c4468ad546ce87ef329 SG_Evaluate_00191177e5fd5c4468ad546ce87ef329(\r\n   
+      SG_Input_00191177e5fd5c4468ad546ce87ef329 IN"
+    - ",\r\n    /* Property: MainTex */ TEXTURE2D(_MainTex)"
+    - ",\r\n    /* Property: Noise */ TEXTURE2D(_Noise)"
+    - ",\r\n    /* Property: Flow */ TEXTURE2D(_Flow)"
+    - ",\r\n    /* Property: Mask */ TEXTURE2D(_Mask)"
+    - ",\r\n    /* Property: Speed MainTex U/V + Noise Z/W */ float4 _SpeedMainTexUVNoiseZW"
+    - ",\r\n    /* Property: Distortion Speed XY Power Z */ float4 _DistortionSpeedXYPowerZ"
+    - ",\r\n    /* Property: Emission */ float _Emission"
+    - ",\r\n    /* Property: Color */ float4 _Color"
+    - ",\r\n    /* Property: Opacity */ float _Opacity"
+    - ",\r\n    /* Property: Use center glow? */ float _Usecenterglow"
+    - ",\r\n    /* Property: Use depth? */ float _Usedepth"
+    - ",\r\n    /* Property: Depth power */ float _Depthpower"
+    - ')
+
+      {'
+    - "\r\n    // Node: Property\r\nfloat _Property_1e68b16368ced289a4e9003a607ed8a9_Out_0_Boolean
+      = _Usecenterglow;\n"
+    - "\r\n    // Node: Property\r\nUnityTexture2D _Property_5a5564758aac3e8ab0f2bbdc40bb431b_Out_0_Texture2D
+      = UnityBuildTexture2DStruct(_MainTex);\n"
+    - "\r\n    // Node: Property\r\nfloat4 _Property_85b8c58e85972789802dfaea97ad05e0_Out_0_Vector4
+      = _SpeedMainTexUVNoiseZW;\n"
+    - "\r\n    // Node: Split\r\nfloat _Split_e997a8b001c94f8c89b40fb8ed45334a_R_1_Float
+      = _Property_85b8c58e85972789802dfaea97ad05e0_Out_0_Vector4[0];\nfloat _Split_e997a8b001c94f8c89b40fb8ed45334a_G_2_Float
+      = _Property_85b8c58e85972789802dfaea97ad05e0_Out_0_Vector4[1];\nfloat _Split_e997a8b001c94f8c89b40fb8ed45334a_B_3_Float
+      = _Property_85b8c58e85972789802dfaea97ad05e0_Out_0_Vector4[2];\nfloat _Split_e997a8b001c94f8c89b40fb8ed45334a_A_4_Float
+      = _Property_85b8c58e85972789802dfaea97ad05e0_Out_0_Vector4[3];\n"
+    - "\r\n    // Node: Vector 2\r\nfloat2 _Vector2_e07e0e777a2847dea110c4bb5cc94b37_Out_0_Vector2
+      = float2(_Split_e997a8b001c94f8c89b40fb8ed45334a_R_1_Float, _Split_e997a8b001c94f8c89b40fb8ed45334a_G_2_Float);\n"
+    - "\r\n    // Node: Property\r\nUnityTexture2D _Property_ebf4fd8594444b71b5d4714a0d071a8e_Out_0_Texture2D
+      = UnityBuildTexture2DStruct(_MainTex);\n"
+    - "\r\n    // Node: Split Texture Transform\r\nfloat2 _SplitTextureTransform_bed4ed5d62c14202b0bd1896b650dc5f_Tiling_1_Vector2;\nfloat2
+      _SplitTextureTransform_bed4ed5d62c14202b0bd1896b650dc5f_Offset_2_Vector2;\nUnityTexture2D
+      _SplitTextureTransform_bed4ed5d62c14202b0bd1896b650dc5f_TextureOnly_3_Texture2D;\nUnity_SplitTextureTransform_float(_Property_ebf4fd8594444b71b5d4714a0d071a8e_Out_0_Texture2D,
+      _SplitTextureTransform_bed4ed5d62c14202b0bd1896b650dc5f_Tiling_1_Vector2, _SplitTextureTransform_bed4ed5d62c14202b0bd1896b650dc5f_Offset_2_Vector2,
+      _SplitTextureTransform_bed4ed5d62c14202b0bd1896b650dc5f_TextureOnly_3_Texture2D);\n"
+    - "\r\n    // Node: Divide\r\nfloat2 _Divide_1a275d6b88d448689a7268f7c58e2b5e_Out_2_Vector2;\nUnity_Divide_float2(_Vector2_e07e0e777a2847dea110c4bb5cc94b37_Out_0_Vector2,
+      _SplitTextureTransform_bed4ed5d62c14202b0bd1896b650dc5f_Tiling_1_Vector2, _Divide_1a275d6b88d448689a7268f7c58e2b5e_Out_2_Vector2);\n"
+    - "\r\n    // Node: Multiply\r\nfloat2 _Multiply_af92727bf284c08c9960c739abde2c0f_Out_2_Vector2;\nUnity_Multiply_float2_float2(_Divide_1a275d6b88d448689a7268f7c58e2b5e_Out_2_Vector2,
+      (IN.TimeParameters.x.xx), _Multiply_af92727bf284c08c9960c739abde2c0f_Out_2_Vector2);\n"
+    - "\r\n    // Node: Tiling And Offset\r\nfloat2 _TilingAndOffset_785428c855ac1383a0f7650b556ad228_Out_3_Vector2;\nUnity_TilingAndOffset_float(IN.uv0.xy,
+      float2 (1, 1), _Multiply_af92727bf284c08c9960c739abde2c0f_Out_2_Vector2, _TilingAndOffset_785428c855ac1383a0f7650b556ad228_Out_3_Vector2);\n"
+    - "\r\n    // Node: Property\r\nUnityTexture2D _Property_ac08417ff7cdaf87bc8fe4eca659e66b_Out_0_Texture2D
+      = UnityBuildTexture2DStruct(_Flow);\n"
+    - "\r\n    // Node: Property\r\nfloat4 _Property_d59317d93b18cc8a9f4e5afd4b9f69da_Out_0_Vector4
+      = _DistortionSpeedXYPowerZ;\n"
+    - "\r\n    // Node: Split\r\nfloat _Split_6a9bb8cfbbdd268fae6fc6b41c5985ee_R_1_Float
+      = _Property_d59317d93b18cc8a9f4e5afd4b9f69da_Out_0_Vector4[0];\nfloat _Split_6a9bb8cfbbdd268fae6fc6b41c5985ee_G_2_Float
+      = _Property_d59317d93b18cc8a9f4e5afd4b9f69da_Out_0_Vector4[1];\nfloat _Split_6a9bb8cfbbdd268fae6fc6b41c5985ee_B_3_Float
+      = _Property_d59317d93b18cc8a9f4e5afd4b9f69da_Out_0_Vector4[2];\nfloat _Split_6a9bb8cfbbdd268fae6fc6b41c5985ee_A_4_Float
+      = _Property_d59317d93b18cc8a9f4e5afd4b9f69da_Out_0_Vector4[3];\n"
+    - "\r\n    // Node: Vector 2\r\nfloat2 _Vector2_266adcff58564a188a86baf26d3c80db_Out_0_Vector2
+      = float2(_Split_6a9bb8cfbbdd268fae6fc6b41c5985ee_R_1_Float, _Split_6a9bb8cfbbdd268fae6fc6b41c5985ee_G_2_Float);\n"
+    - "\r\n    // Node: Property\r\nUnityTexture2D _Property_0b6b8885b813402fbf2ac34e2f6bd0c5_Out_0_Texture2D
+      = UnityBuildTexture2DStruct(_Flow);\n"
+    - "\r\n    // Node: Split Texture Transform\r\nfloat2 _SplitTextureTransform_349c4edb31af43319f63e2ec3e82a8ca_Tiling_1_Vector2;\nfloat2
+      _SplitTextureTransform_349c4edb31af43319f63e2ec3e82a8ca_Offset_2_Vector2;\nUnityTexture2D
+      _SplitTextureTransform_349c4edb31af43319f63e2ec3e82a8ca_TextureOnly_3_Texture2D;\nUnity_SplitTextureTransform_float(_Property_0b6b8885b813402fbf2ac34e2f6bd0c5_Out_0_Texture2D,
+      _SplitTextureTransform_349c4edb31af43319f63e2ec3e82a8ca_Tiling_1_Vector2, _SplitTextureTransform_349c4edb31af43319f63e2ec3e82a8ca_Offset_2_Vector2,
+      _SplitTextureTransform_349c4edb31af43319f63e2ec3e82a8ca_TextureOnly_3_Texture2D);\n"
+    - "\r\n    // Node: Divide\r\nfloat2 _Divide_fba8ed6baa6d4de6b148954a3f0dee66_Out_2_Vector2;\nUnity_Divide_float2(_Vector2_266adcff58564a188a86baf26d3c80db_Out_0_Vector2,
+      _SplitTextureTransform_349c4edb31af43319f63e2ec3e82a8ca_Tiling_1_Vector2, _Divide_fba8ed6baa6d4de6b148954a3f0dee66_Out_2_Vector2);\n"
+    - "\r\n    // Node: Multiply\r\nfloat2 _Multiply_664b1813b6342b89a0b8ec323ed03934_Out_2_Vector2;\nUnity_Multiply_float2_float2(_Divide_fba8ed6baa6d4de6b148954a3f0dee66_Out_2_Vector2,
+      (IN.TimeParameters.x.xx), _Multiply_664b1813b6342b89a0b8ec323ed03934_Out_2_Vector2);\n"
+    - "\r\n    // Node: Tiling And Offset\r\nfloat2 _TilingAndOffset_d30b64ff26e85382875cf3b3e2e660b9_Out_3_Vector2;\nUnity_TilingAndOffset_float(IN.uv0.xy,
+      float2 (1, 1), _Multiply_664b1813b6342b89a0b8ec323ed03934_Out_2_Vector2, _TilingAndOffset_d30b64ff26e85382875cf3b3e2e660b9_Out_3_Vector2);\n"
+    - "\r\n    // Node: Sample Texture 2D\r\nfloat4 _SampleTexture2D_481de0df4615d582881fa7f2739b2514_RGBA_0_Vector4
+      = SAMPLE_TEXTURE2D(_Property_ac08417ff7cdaf87bc8fe4eca659e66b_Out_0_Texture2D.tex,
+      _Property_ac08417ff7cdaf87bc8fe4eca659e66b_Out_0_Texture2D.samplerstate, _Property_ac08417ff7cdaf87bc8fe4eca659e66b_Out_0_Texture2D.GetTransformedUV(_TilingAndOffset_d30b64ff26e85382875cf3b3e2e660b9_Out_3_Vector2)
+      );\nfloat _SampleTexture2D_481de0df4615d582881fa7f2739b2514_R_4_Float = _SampleTexture2D_481de0df4615d582881fa7f2739b2514_RGBA_0_Vector4.r;\nfloat
+      _SampleTexture2D_481de0df4615d582881fa7f2739b2514_G_5_Float = _SampleTexture2D_481de0df4615d582881fa7f2739b2514_RGBA_0_Vector4.g;\nfloat
+      _SampleTexture2D_481de0df4615d582881fa7f2739b2514_B_6_Float = _SampleTexture2D_481de0df4615d582881fa7f2739b2514_RGBA_0_Vector4.b;\nfloat
+      _SampleTexture2D_481de0df4615d582881fa7f2739b2514_A_7_Float = _SampleTexture2D_481de0df4615d582881fa7f2739b2514_RGBA_0_Vector4.a;\n"
+    - "\r\n    // Node: Property\r\nUnityTexture2D _Property_14e3bc7b97b86381a0d0bfe4761f1a3a_Out_0_Texture2D
+      = UnityBuildTexture2DStruct(_Mask);\n"
+    - "\r\n    // Node: Sample Texture 2D\r\nfloat4 _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_RGBA_0_Vector4
+      = SAMPLE_TEXTURE2D(_Property_14e3bc7b97b86381a0d0bfe4761f1a3a_Out_0_Texture2D.tex,
+      _Property_14e3bc7b97b86381a0d0bfe4761f1a3a_Out_0_Texture2D.samplerstate, _Property_14e3bc7b97b86381a0d0bfe4761f1a3a_Out_0_Texture2D.GetTransformedUV(IN.uv0.xy)
+      );\nfloat _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_R_4_Float = _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_RGBA_0_Vector4.r;\nfloat
+      _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_G_5_Float = _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_RGBA_0_Vector4.g;\nfloat
+      _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_B_6_Float = _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_RGBA_0_Vector4.b;\nfloat
+      _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_A_7_Float = _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_RGBA_0_Vector4.a;\n"
+    - "\r\n    // Node: Multiply\r\nfloat _Multiply_246c6571509b0e8cb1f4dd13552a787d_Out_2_Float;\nUnity_Multiply_float_float(_SampleTexture2D_481de0df4615d582881fa7f2739b2514_A_7_Float,
+      _SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_A_7_Float, _Multiply_246c6571509b0e8cb1f4dd13552a787d_Out_2_Float);\n"
+    - "\r\n    // Node: Multiply\r\nfloat _Multiply_87af950519160b8ca724215eb63caeba_Out_2_Float;\nUnity_Multiply_float_float(_Multiply_246c6571509b0e8cb1f4dd13552a787d_Out_2_Float,
+      _Split_6a9bb8cfbbdd268fae6fc6b41c5985ee_B_3_Float, _Multiply_87af950519160b8ca724215eb63caeba_Out_2_Float);\n"
+    - "\r\n    // Node: Property\r\nUnityTexture2D _Property_a000ee1f26254b92881b808ba8d1ee0d_Out_0_Texture2D
+      = UnityBuildTexture2DStruct(_MainTex);\n"
+    - "\r\n    // Node: Split Texture Transform\r\nfloat2 _SplitTextureTransform_1744b594d062467baf408a271d2be756_Tiling_1_Vector2;\nfloat2
+      _SplitTextureTransform_1744b594d062467baf408a271d2be756_Offset_2_Vector2;\nUnityTexture2D
+      _SplitTextureTransform_1744b594d062467baf408a271d2be756_TextureOnly_3_Texture2D;\nUnity_SplitTextureTransform_float(_Property_a000ee1f26254b92881b808ba8d1ee0d_Out_0_Texture2D,
+      _SplitTextureTransform_1744b594d062467baf408a271d2be756_Tiling_1_Vector2, _SplitTextureTransform_1744b594d062467baf408a271d2be756_Offset_2_Vector2,
+      _SplitTextureTransform_1744b594d062467baf408a271d2be756_TextureOnly_3_Texture2D);\n"
+    - "\r\n    // Node: Divide\r\nfloat2 _Divide_e08536afc5a947f79c2b1ca8fcef9474_Out_2_Vector2;\nUnity_Divide_float2((_Multiply_87af950519160b8ca724215eb63caeba_Out_2_Float.xx),
+      _SplitTextureTransform_1744b594d062467baf408a271d2be756_Tiling_1_Vector2, _Divide_e08536afc5a947f79c2b1ca8fcef9474_Out_2_Vector2);\n"
+    - "\r\n    // Node: Subtract\r\nfloat2 _Subtract_756960c4134050849214a48ae780512e_Out_2_Vector2;\nUnity_Subtract_float2(_TilingAndOffset_785428c855ac1383a0f7650b556ad228_Out_3_Vector2,
+      _Divide_e08536afc5a947f79c2b1ca8fcef9474_Out_2_Vector2, _Subtract_756960c4134050849214a48ae780512e_Out_2_Vector2);\n"
+    - "\r\n    // Node: Sample Texture 2D\r\nfloat4 _SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_RGBA_0_Vector4
+      = SAMPLE_TEXTURE2D(_Property_5a5564758aac3e8ab0f2bbdc40bb431b_Out_0_Texture2D.tex,
+      _Property_5a5564758aac3e8ab0f2bbdc40bb431b_Out_0_Texture2D.samplerstate, _Property_5a5564758aac3e8ab0f2bbdc40bb431b_Out_0_Texture2D.GetTransformedUV(_Subtract_756960c4134050849214a48ae780512e_Out_2_Vector2)
+      );\nfloat _SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_R_4_Float = _SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_RGBA_0_Vector4.r;\nfloat
+      _SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_G_5_Float = _SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_RGBA_0_Vector4.g;\nfloat
+      _SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_B_6_Float = _SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_RGBA_0_Vector4.b;\nfloat
+      _SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_A_7_Float = _SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_RGBA_0_Vector4.a;\n"
+    - "\r\n    // Node: Property\r\nUnityTexture2D _Property_20aa464a8a0ea88cb5c381b8831730cb_Out_0_Texture2D
+      = UnityBuildTexture2DStruct(_Noise);\n"
+    - "\r\n    // Node: Vector 2\r\nfloat2 _Vector2_eb3444928c6d484e94b6b79d74023b03_Out_0_Vector2
+      = float2(_Split_e997a8b001c94f8c89b40fb8ed45334a_B_3_Float, _Split_e997a8b001c94f8c89b40fb8ed45334a_A_4_Float);\n"
+    - "\r\n    // Node: Property\r\nUnityTexture2D _Property_f75894fb523748a6a2c0ee255f827b2a_Out_0_Texture2D
+      = UnityBuildTexture2DStruct(_Noise);\n"
+    - "\r\n    // Node: Split Texture Transform\r\nfloat2 _SplitTextureTransform_8191459a954042a8b745b5070b679fe2_Tiling_1_Vector2;\nfloat2
+      _SplitTextureTransform_8191459a954042a8b745b5070b679fe2_Offset_2_Vector2;\nUnityTexture2D
+      _SplitTextureTransform_8191459a954042a8b745b5070b679fe2_TextureOnly_3_Texture2D;\nUnity_SplitTextureTransform_float(_Property_f75894fb523748a6a2c0ee255f827b2a_Out_0_Texture2D,
+      _SplitTextureTransform_8191459a954042a8b745b5070b679fe2_Tiling_1_Vector2, _SplitTextureTransform_8191459a954042a8b745b5070b679fe2_Offset_2_Vector2,
+      _SplitTextureTransform_8191459a954042a8b745b5070b679fe2_TextureOnly_3_Texture2D);\n"
+    - "\r\n    // Node: Divide\r\nfloat2 _Divide_c2d6e1d153964dc3a920dc91e9c06328_Out_2_Vector2;\nUnity_Divide_float2(_Vector2_eb3444928c6d484e94b6b79d74023b03_Out_0_Vector2,
+      _SplitTextureTransform_8191459a954042a8b745b5070b679fe2_Tiling_1_Vector2, _Divide_c2d6e1d153964dc3a920dc91e9c06328_Out_2_Vector2);\n"
+    - "\r\n    // Node: Multiply\r\nfloat2 _Multiply_a7450d1dc073518d8474ac32f7624bf9_Out_2_Vector2;\nUnity_Multiply_float2_float2((IN.TimeParameters.x.xx),
+      _Divide_c2d6e1d153964dc3a920dc91e9c06328_Out_2_Vector2, _Multiply_a7450d1dc073518d8474ac32f7624bf9_Out_2_Vector2);\n"
+    - "\r\n    // Node: Tiling And Offset\r\nfloat2 _TilingAndOffset_1b734d5536df74898bf84054510831de_Out_3_Vector2;\nUnity_TilingAndOffset_float(IN.uv0.xy,
+      float2 (1, 1), _Multiply_a7450d1dc073518d8474ac32f7624bf9_Out_2_Vector2, _TilingAndOffset_1b734d5536df74898bf84054510831de_Out_3_Vector2);\n"
+    - "\r\n    // Node: Sample Texture 2D\r\nfloat4 _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_RGBA_0_Vector4
+      = SAMPLE_TEXTURE2D(_Property_20aa464a8a0ea88cb5c381b8831730cb_Out_0_Texture2D.tex,
+      _Property_20aa464a8a0ea88cb5c381b8831730cb_Out_0_Texture2D.samplerstate, _Property_20aa464a8a0ea88cb5c381b8831730cb_Out_0_Texture2D.GetTransformedUV(_TilingAndOffset_1b734d5536df74898bf84054510831de_Out_3_Vector2)
+      );\nfloat _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_R_4_Float = _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_RGBA_0_Vector4.r;\nfloat
+      _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_G_5_Float = _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_RGBA_0_Vector4.g;\nfloat
+      _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_B_6_Float = _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_RGBA_0_Vector4.b;\nfloat
+      _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_A_7_Float = _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_RGBA_0_Vector4.a;\n"
+    - "\r\n    // Node: Multiply\r\nfloat4 _Multiply_f2ca1f6ea7179e8aa89b1e0b99e5aa31_Out_2_Vector4;\nUnity_Multiply_float4_float4(_SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_RGBA_0_Vector4,
+      _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_RGBA_0_Vector4, _Multiply_f2ca1f6ea7179e8aa89b1e0b99e5aa31_Out_2_Vector4);\n"
+    - "\r\n    // Node: Property\r\nfloat4 _Property_fe00e731606ba48d9a9fa9df083222cd_Out_0_Vector4
+      = IsGammaSpace() ? LinearToSRGB(_Color) : _Color;\n"
+    - "\r\n    // Node: Multiply\r\nfloat4 _Multiply_df32f698e120fb8f822b54c5fab3878f_Out_2_Vector4;\nUnity_Multiply_float4_float4(_Multiply_f2ca1f6ea7179e8aa89b1e0b99e5aa31_Out_2_Vector4,
+      _Property_fe00e731606ba48d9a9fa9df083222cd_Out_0_Vector4, _Multiply_df32f698e120fb8f822b54c5fab3878f_Out_2_Vector4);\n"
+    - "\r\n    // Node: Multiply\r\nfloat4 _Multiply_202e688e6c154b8f8fb8ab4abf71bacb_Out_2_Vector4;\nUnity_Multiply_float4_float4(_Multiply_df32f698e120fb8f822b54c5fab3878f_Out_2_Vector4,
+      IN.VertexColor, _Multiply_202e688e6c154b8f8fb8ab4abf71bacb_Out_2_Vector4);\n"
+    - "\r\n    // Node: UV\r\nfloat4 _UV_8c5bf46eac23e28fa6733efebaa9b81b_Out_0_Vector4
+      = IN.uv0;\n"
+    - "\r\n    // Node: Split\r\nfloat _Split_61cf6e9db26b0a8389f1f46736096398_R_1_Float
+      = _UV_8c5bf46eac23e28fa6733efebaa9b81b_Out_0_Vector4[0];\nfloat _Split_61cf6e9db26b0a8389f1f46736096398_G_2_Float
+      = _UV_8c5bf46eac23e28fa6733efebaa9b81b_Out_0_Vector4[1];\nfloat _Split_61cf6e9db26b0a8389f1f46736096398_B_3_Float
+      = _UV_8c5bf46eac23e28fa6733efebaa9b81b_Out_0_Vector4[2];\nfloat _Split_61cf6e9db26b0a8389f1f46736096398_A_4_Float
+      = _UV_8c5bf46eac23e28fa6733efebaa9b81b_Out_0_Vector4[3];\n"
+    - "\r\n    // Node: Remap\r\nfloat _Remap_5d6dc225af12328892210edc7212c56d_Out_3_Float;\nUnity_Remap_float(_Split_61cf6e9db26b0a8389f1f46736096398_B_3_Float,
+      float2 (0, 1), float2 (1, 0), _Remap_5d6dc225af12328892210edc7212c56d_Out_3_Float);\n"
+    - "\r\n    // Node: Subtract\r\nfloat _Subtract_ff333cb8c0b30b8fb79f111037db3f26_Out_2_Float;\nUnity_Subtract_float(_SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_A_7_Float,
+      _Remap_5d6dc225af12328892210edc7212c56d_Out_3_Float, _Subtract_ff333cb8c0b30b8fb79f111037db3f26_Out_2_Float);\n"
+    - "\r\n    // Node: Saturate\r\nfloat _Saturate_33c7f8265842496c85d9167df0238e36_Out_1_Float;\nUnity_Saturate_float(_Subtract_ff333cb8c0b30b8fb79f111037db3f26_Out_2_Float,
+      _Saturate_33c7f8265842496c85d9167df0238e36_Out_1_Float);\n"
+    - "\r\n    // Node: Multiply\r\nfloat _Multiply_27cfdde658ddea80a3a3fe249aafe455_Out_2_Float;\nUnity_Multiply_float_float(_SampleTexture2D_aea930039d9ffb8398eb97fe4cccc4c2_A_7_Float,
+      _Saturate_33c7f8265842496c85d9167df0238e36_Out_1_Float, _Multiply_27cfdde658ddea80a3a3fe249aafe455_Out_2_Float);\n"
+    - "\r\n    // Node: Saturate\r\nfloat _Saturate_cfc827de69654f4c9b83a034e8cacda9_Out_1_Float;\nUnity_Saturate_float(_Multiply_27cfdde658ddea80a3a3fe249aafe455_Out_2_Float,
+      _Saturate_cfc827de69654f4c9b83a034e8cacda9_Out_1_Float);\n"
+    - "\r\n    // Node: Multiply\r\nfloat4 _Multiply_8e6506033168c18db4033e5aff64f330_Out_2_Vector4;\nUnity_Multiply_float4_float4(_Multiply_202e688e6c154b8f8fb8ab4abf71bacb_Out_2_Vector4,
+      (_Saturate_cfc827de69654f4c9b83a034e8cacda9_Out_1_Float.xxxx), _Multiply_8e6506033168c18db4033e5aff64f330_Out_2_Vector4);\n"
+    - "\r\n    // Node: Branch\r\nfloat4 _Branch_155a3bea7d534884ae362a18f0a7ea11_Out_3_Vector4;\nUnity_Branch_float4(_Property_1e68b16368ced289a4e9003a607ed8a9_Out_0_Boolean,
+      _Multiply_8e6506033168c18db4033e5aff64f330_Out_2_Vector4, _Multiply_202e688e6c154b8f8fb8ab4abf71bacb_Out_2_Vector4,
+      _Branch_155a3bea7d534884ae362a18f0a7ea11_Out_3_Vector4);\n"
+    - "\r\n    // Node: Property\r\nfloat _Property_21bbaf00d2ccc38698a609ad485f67fa_Out_0_Float
+      = _Emission;\n"
+    - "\r\n    // Node: Multiply\r\nfloat4 _Multiply_b01ef874d6bd008c83e2c1259443b55d_Out_2_Vector4;\nUnity_Multiply_float4_float4(_Branch_155a3bea7d534884ae362a18f0a7ea11_Out_3_Vector4,
+      (_Property_21bbaf00d2ccc38698a609ad485f67fa_Out_0_Float.xxxx), _Multiply_b01ef874d6bd008c83e2c1259443b55d_Out_2_Vector4);\n"
+    - "\r\n    // Node: Property\r\nfloat _Property_d0de51822e85e98abeaa21bf4e95e299_Out_0_Boolean
+      = _Usedepth;\n"
+    - "\r\n    // Node: Multiply\r\nfloat _Multiply_cbab2db5aa4d8a8a80bf238ed34d1ac4_Out_2_Float;\nUnity_Multiply_float_float(_SampleTexture2D_b82d73ca02e1248b9b2a9d7c78ef7e64_A_7_Float,
+      _SampleTexture2D_f717e5f65c8d328a89b5d6e349d5ddda_A_7_Float, _Multiply_cbab2db5aa4d8a8a80bf238ed34d1ac4_Out_2_Float);\n"
+    - "\r\n    // Node: Split\r\nfloat _Split_8576d58efb23248a96d3504ddf7eeb82_R_1_Float
+      = _Property_fe00e731606ba48d9a9fa9df083222cd_Out_0_Vector4[0];\nfloat _Split_8576d58efb23248a96d3504ddf7eeb82_G_2_Float
+      = _Property_fe00e731606ba48d9a9fa9df083222cd_Out_0_Vector4[1];\nfloat _Split_8576d58efb23248a96d3504ddf7eeb82_B_3_Float
+      = _Property_fe00e731606ba48d9a9fa9df083222cd_Out_0_Vector4[2];\nfloat _Split_8576d58efb23248a96d3504ddf7eeb82_A_4_Float
+      = _Property_fe00e731606ba48d9a9fa9df083222cd_Out_0_Vector4[3];\n"
+    - "\r\n    // Node: Multiply\r\nfloat _Multiply_55816b51bc8ef484b27119dd99cac061_Out_2_Float;\nUnity_Multiply_float_float(_Multiply_cbab2db5aa4d8a8a80bf238ed34d1ac4_Out_2_Float,
+      _Split_8576d58efb23248a96d3504ddf7eeb82_A_4_Float, _Multiply_55816b51bc8ef484b27119dd99cac061_Out_2_Float);\n"
+    - "\r\n    // Node: Split\r\nfloat _Split_08b2a371dca50b88abcbf5c2e7362375_R_1_Float
+      = IN.VertexColor[0];\nfloat _Split_08b2a371dca50b88abcbf5c2e7362375_G_2_Float
+      = IN.VertexColor[1];\nfloat _Split_08b2a371dca50b88abcbf5c2e7362375_B_3_Float
+      = IN.VertexColor[2];\nfloat _Split_08b2a371dca50b88abcbf5c2e7362375_A_4_Float
+      = IN.VertexColor[3];\n"
+    - "\r\n    // Node: Multiply\r\nfloat _Multiply_e60dfa0b5fb780899db96e3fb34a9e82_Out_2_Float;\nUnity_Multiply_float_float(_Multiply_55816b51bc8ef484b27119dd99cac061_Out_2_Float,
+      _Split_08b2a371dca50b88abcbf5c2e7362375_A_4_Float, _Multiply_e60dfa0b5fb780899db96e3fb34a9e82_Out_2_Float);\n"
+    - "\r\n    // Node: Scene Depth\r\nfloat _SceneDepth_959b9c1a9e5828889b3f9ffa7fac771e_Out_1_Float;\nUnity_SceneDepth_Linear01_float(float4(IN.NDCPosition.xy,
+      0, 0), _SceneDepth_959b9c1a9e5828889b3f9ffa7fac771e_Out_1_Float);\n"
+    - "\r\n    // Node: Multiply\r\nfloat _Multiply_51d6b6a3eb15e78db33d5a4c6d4e5fe2_Out_2_Float;\nUnity_Multiply_float_float(_SceneDepth_959b9c1a9e5828889b3f9ffa7fac771e_Out_1_Float,
+      _ProjectionParams.z, _Multiply_51d6b6a3eb15e78db33d5a4c6d4e5fe2_Out_2_Float);\n"
+    - "\r\n    // Node: Screen Position\r\nfloat4 _ScreenPosition_ad14e761a6eb738da33037c82431c4ce_Out_0_Vector4
+      = IN.ScreenPosition;\n"
+    - "\r\n    // Node: Split\r\nfloat _Split_6e8e98d90639678688967edd620b6bf9_R_1_Float
+      = _ScreenPosition_ad14e761a6eb738da33037c82431c4ce_Out_0_Vector4[0];\nfloat
+      _Split_6e8e98d90639678688967edd620b6bf9_G_2_Float = _ScreenPosition_ad14e761a6eb738da33037c82431c4ce_Out_0_Vector4[1];\nfloat
+      _Split_6e8e98d90639678688967edd620b6bf9_B_3_Float = _ScreenPosition_ad14e761a6eb738da33037c82431c4ce_Out_0_Vector4[2];\nfloat
+      _Split_6e8e98d90639678688967edd620b6bf9_A_4_Float = _ScreenPosition_ad14e761a6eb738da33037c82431c4ce_Out_0_Vector4[3];\n"
+    - "\r\n    // Node: Subtract\r\nfloat _Subtract_b36971220ee9a68f9a68ad6cb133cc01_Out_2_Float;\nUnity_Subtract_float(_Multiply_51d6b6a3eb15e78db33d5a4c6d4e5fe2_Out_2_Float,
+      _Split_6e8e98d90639678688967edd620b6bf9_A_4_Float, _Subtract_b36971220ee9a68f9a68ad6cb133cc01_Out_2_Float);\n"
+    - "\r\n    // Node: Property\r\nfloat _Property_2dd4222a824a4186b55eac38e4182331_Out_0_Float
+      = _Depthpower;\n"
+    - "\r\n    // Node: Divide\r\nfloat _Divide_b4b9a169c07dbc8bab7df598d7eba983_Out_2_Float;\nUnity_Divide_float(_Subtract_b36971220ee9a68f9a68ad6cb133cc01_Out_2_Float,
+      _Property_2dd4222a824a4186b55eac38e4182331_Out_0_Float, _Divide_b4b9a169c07dbc8bab7df598d7eba983_Out_2_Float);\n"
+    - "\r\n    // Node: Saturate\r\nfloat _Saturate_f687265e45d248b8b969485c31b3bcd5_Out_1_Float;\nUnity_Saturate_float(_Divide_b4b9a169c07dbc8bab7df598d7eba983_Out_2_Float,
+      _Saturate_f687265e45d248b8b969485c31b3bcd5_Out_1_Float);\n"
+    - "\r\n    // Node: Step\r\nfloat _Step_cfb1b59bfaef4e77bc3b772ae832bc1e_Out_2_Float;\nUnity_Step_float(_Saturate_f687265e45d248b8b969485c31b3bcd5_Out_1_Float,
+      float(0), _Step_cfb1b59bfaef4e77bc3b772ae832bc1e_Out_2_Float);\n"
+    - "\r\n    // Node: Lerp\r\nfloat _Lerp_6dfebfd661484c77b6927527d589b4a7_Out_3_Float;\nUnity_Lerp_float(_Saturate_f687265e45d248b8b969485c31b3bcd5_Out_1_Float,
+      float(1), _Step_cfb1b59bfaef4e77bc3b772ae832bc1e_Out_2_Float, _Lerp_6dfebfd661484c77b6927527d589b4a7_Out_3_Float);\n"
+    - "\r\n    // Node: Multiply\r\nfloat _Multiply_9dc574d06777a282968207b32bb7d31f_Out_2_Float;\nUnity_Multiply_float_float(_Multiply_e60dfa0b5fb780899db96e3fb34a9e82_Out_2_Float,
+      _Lerp_6dfebfd661484c77b6927527d589b4a7_Out_3_Float, _Multiply_9dc574d06777a282968207b32bb7d31f_Out_2_Float);\n"
+    - "\r\n    // Node: Branch\r\nfloat _Branch_952b662a1f8faa8a84fda0264d62d942_Out_3_Float;\nUnity_Branch_float(_Property_d0de51822e85e98abeaa21bf4e95e299_Out_0_Boolean,
+      _Multiply_9dc574d06777a282968207b32bb7d31f_Out_2_Float, _Multiply_e60dfa0b5fb780899db96e3fb34a9e82_Out_2_Float,
+      _Branch_952b662a1f8faa8a84fda0264d62d942_Out_3_Float);\n"
+    - "\r\n    // Node: Property\r\nfloat _Property_a898859936d62f87842b5b1d87727769_Out_0_Float
+      = _Opacity;\n"
+    - "\r\n    // Node: Multiply\r\nfloat _Multiply_54616f64fa16798e8f7a1e83aeb21dc0_Out_2_Float;\nUnity_Multiply_float_float(_Branch_952b662a1f8faa8a84fda0264d62d942_Out_3_Float,
+      _Property_a898859936d62f87842b5b1d87727769_Out_0_Float, _Multiply_54616f64fa16798e8f7a1e83aeb21dc0_Out_2_Float);\n"
+    - "\r\n    // Node: Saturate\r\nfloat _Saturate_617dc3b6f1354bdca8ddc65684999a4e_Out_1_Float;\nUnity_Saturate_float(_Multiply_54616f64fa16798e8f7a1e83aeb21dc0_Out_2_Float,
+      _Saturate_617dc3b6f1354bdca8ddc65684999a4e_Out_1_Float);\n"
+    - "\r\n    // Node: Float\r\nfloat _Float_f85bd832c8f24c38b5cd0378e92fbe07_Out_0_Float
+      = float(100000);\n"
+    - "\r\n    // Node: Multiply\r\nfloat4 _Multiply_993d535cd5974571b4c367bfc6e90212_Out_2_Vector4;\nUnity_Multiply_float4_float4(_Multiply_b01ef874d6bd008c83e2c1259443b55d_Out_2_Vector4,
+      (_Float_f85bd832c8f24c38b5cd0378e92fbe07_Out_0_Float.xxxx), _Multiply_993d535cd5974571b4c367bfc6e90212_Out_2_Vector4);\n"
+    - "\r\n    // Node: Multiply\r\nfloat4 _Multiply_237b910a50564dcdb1f7ff30e7771511_Out_2_Vector4;\nUnity_Multiply_float4_float4((_Saturate_617dc3b6f1354bdca8ddc65684999a4e_Out_1_Float.xxxx),
+      _Multiply_993d535cd5974571b4c367bfc6e90212_Out_2_Vector4, _Multiply_237b910a50564dcdb1f7ff30e7771511_Out_2_Vector4);\n"
+    - "\r\n    // VFXMasterNode\r\n    SG_Output_00191177e5fd5c4468ad546ce87ef329
+      OUT;\r\n"
+    - '    OUT.Position_0 = IN.ObjectSpacePosition;
+
+'
+    - '    OUT.Normal_0 = IN.ObjectSpaceNormal;
+
+'
+    - '    OUT.Tangent_0 = IN.ObjectSpaceTangent;
+
+'
+    - '    OUT.BaseColor_1 = (_Multiply_b01ef874d6bd008c83e2c1259443b55d_Out_2_Vector4.xyz);
+
+'
+    - '    OUT.Alpha_4 = _Saturate_617dc3b6f1354bdca8ddc65684999a4e_Out_1_Float;
+
+'
+    - '    OUT.AlphaClipThreshold_7 = float(0);
+
+'
+    - '    OUT.Emission_5 = (_Multiply_237b910a50564dcdb1f7ff30e7771511_Out_2_Vector4.xyz);
+
+'
+    - '    return OUT;
+
+      }
+
+'
+    sharedCodeIndices: 0000000011000000120000001b0000001c0000002400000025000000320000007f00000087000000
+    outputCodeIndices:
+    - array: 150000001d00000080000000
+    - array: 130000001e00000081000000
+    - array: 140000001f00000082000000
+    - array: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b00000016000000190000001a00000020000000260000002700000028000000290000002a0000002b0000002c0000002d0000002f000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f0000006000000061000000620000006300000064000000650000006600000083000000
+    - array: 010000000200000003000000040000000500000006000000090000000a0000000c0000000d0000000e0000000f00000010000000160000001700000018000000190000001a00000021000000260000002700000028000000290000002a0000002b0000002d0000002e00000030000000310000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f0000005000000051000000520000005300000054000000550000005600000057000000590000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a0000007b00000084000000
+    - array: 2200000085000000
+    - array: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000010000000160000001700000018000000190000001a00000023000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f0000003000000031000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a0000007b0000007c0000007d0000007e00000086000000
+  portRequirements:
+  - m_RequiresNormal: 0
+    m_RequiresBitangent: 0
+    m_RequiresTangent: 0
+    m_RequiresViewDir: 0
+    m_RequiresPosition: 1
+    m_RequiresPositionPredisplacement: 0
+    m_RequiresScreenPosition: 0
+    m_RequiresNDCPosition: 0
+    m_RequiresPixelPosition: 0
+    m_RequiresVertexColor: 0
+    m_RequiresFaceSign: 0
+    m_RequiresMeshUVs: 
+    m_RequiresDepthTexture: 0
+    m_RequiresCameraOpaqueTexture: 0
+    m_RequiresTime: 0
+    m_RequiresVertexSkinning: 0
+    m_RequiresVertexID: 0
+    m_RequiresInstanceID: 0
+    m_RequiresMeshUVDerivatives: 
+  - m_RequiresNormal: 1
+    m_RequiresBitangent: 0
+    m_RequiresTangent: 0
+    m_RequiresViewDir: 0
+    m_RequiresPosition: 0
+    m_RequiresPositionPredisplacement: 0
+    m_RequiresScreenPosition: 0
+    m_RequiresNDCPosition: 0
+    m_RequiresPixelPosition: 0
+    m_RequiresVertexColor: 0
+    m_RequiresFaceSign: 0
+    m_RequiresMeshUVs: 
+    m_RequiresDepthTexture: 0
+    m_RequiresCameraOpaqueTexture: 0
+    m_RequiresTime: 0
+    m_RequiresVertexSkinning: 0
+    m_RequiresVertexID: 0
+    m_RequiresInstanceID: 0
+    m_RequiresMeshUVDerivatives: 
+  - m_RequiresNormal: 0
+    m_RequiresBitangent: 0
+    m_RequiresTangent: 1
+    m_RequiresViewDir: 0
+    m_RequiresPosition: 0
+    m_RequiresPositionPredisplacement: 0
+    m_RequiresScreenPosition: 0
+    m_RequiresNDCPosition: 0
+    m_RequiresPixelPosition: 0
+    m_RequiresVertexColor: 0
+    m_RequiresFaceSign: 0
+    m_RequiresMeshUVs: 
+    m_RequiresDepthTexture: 0
+    m_RequiresCameraOpaqueTexture: 0
+    m_RequiresTime: 0
+    m_RequiresVertexSkinning: 0
+    m_RequiresVertexID: 0
+    m_RequiresInstanceID: 0
+    m_RequiresMeshUVDerivatives: 
+  - m_RequiresNormal: 0
+    m_RequiresBitangent: 0
+    m_RequiresTangent: 0
+    m_RequiresViewDir: 0
+    m_RequiresPosition: 0
+    m_RequiresPositionPredisplacement: 0
+    m_RequiresScreenPosition: 0
+    m_RequiresNDCPosition: 0
+    m_RequiresPixelPosition: 0
+    m_RequiresVertexColor: 1
+    m_RequiresFaceSign: 0
+    m_RequiresMeshUVs: 0000000000000000000000000000000000000000
+    m_RequiresDepthTexture: 0
+    m_RequiresCameraOpaqueTexture: 0
+    m_RequiresTime: 1
+    m_RequiresVertexSkinning: 0
+    m_RequiresVertexID: 0
+    m_RequiresInstanceID: 0
+    m_RequiresMeshUVDerivatives: 
+  - m_RequiresNormal: 0
+    m_RequiresBitangent: 0
+    m_RequiresTangent: 0
+    m_RequiresViewDir: 0
+    m_RequiresPosition: 0
+    m_RequiresPositionPredisplacement: 0
+    m_RequiresScreenPosition: 1
+    m_RequiresNDCPosition: 1
+    m_RequiresPixelPosition: 0
+    m_RequiresVertexColor: 1
+    m_RequiresFaceSign: 0
+    m_RequiresMeshUVs: 00000000000000000000000000000000
+    m_RequiresDepthTexture: 1
+    m_RequiresCameraOpaqueTexture: 0
+    m_RequiresTime: 1
+    m_RequiresVertexSkinning: 0
+    m_RequiresVertexID: 0
+    m_RequiresInstanceID: 0
+    m_RequiresMeshUVDerivatives: 
+  - m_RequiresNormal: 0
+    m_RequiresBitangent: 0
+    m_RequiresTangent: 0
+    m_RequiresViewDir: 0
+    m_RequiresPosition: 0
+    m_RequiresPositionPredisplacement: 0
+    m_RequiresScreenPosition: 0
+    m_RequiresNDCPosition: 0
+    m_RequiresPixelPosition: 0
+    m_RequiresVertexColor: 0
+    m_RequiresFaceSign: 0
+    m_RequiresMeshUVs: 
+    m_RequiresDepthTexture: 0
+    m_RequiresCameraOpaqueTexture: 0
+    m_RequiresTime: 0
+    m_RequiresVertexSkinning: 0
+    m_RequiresVertexID: 0
+    m_RequiresInstanceID: 0
+    m_RequiresMeshUVDerivatives: 
+  - m_RequiresNormal: 0
+    m_RequiresBitangent: 0
+    m_RequiresTangent: 0
+    m_RequiresViewDir: 0
+    m_RequiresPosition: 0
+    m_RequiresPositionPredisplacement: 0
+    m_RequiresScreenPosition: 1
+    m_RequiresNDCPosition: 1
+    m_RequiresPixelPosition: 0
+    m_RequiresVertexColor: 1
+    m_RequiresFaceSign: 0
+    m_RequiresMeshUVs: 0000000000000000000000000000000000000000
+    m_RequiresDepthTexture: 1
+    m_RequiresCameraOpaqueTexture: 0
+    m_RequiresTime: 1
+    m_RequiresVertexSkinning: 0
+    m_RequiresVertexID: 0
+    m_RequiresInstanceID: 0
+    m_RequiresMeshUVDerivatives: 
+  m_EvaluationFunctionName: SG_Evaluate_00191177e5fd5c4468ad546ce87ef329
+  m_InputStructName: SG_Input_00191177e5fd5c4468ad546ce87ef329
+  m_OutputStructName: SG_Output_00191177e5fd5c4468ad546ce87ef329
+  m_ConcretePrecision: 0
+  m_SerializedVfxAssetData:
+    typeInfo:
+      fullName: 
+    JSONnodeData: "{\n    \"m_SGVersion\": 0,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.ShaderGraphVfxAsset+ShaderGraphVfxAssetData\",\n   
+      \"m_ObjectId\": \"883366b402ae40c085b877b802c7bda5\",\n    \"m_Properties\":
+      [\n        {\n            \"m_Id\": \"5246188bf8cab28d819d347f8b1bf8d0\"\n       
+      },\n        {\n            \"m_Id\": \"c03a6e8810a2f98f8e01a7187103665e\"\n       
+      },\n        {\n            \"m_Id\": \"56f95c9b40802b8daea0bab8acf5d626\"\n       
+      },\n        {\n            \"m_Id\": \"2e8817d6a782a98da49e5a1db662e5b2\"\n       
+      },\n        {\n            \"m_Id\": \"dd1df9d842261d8881629ce70568e0ca\"\n       
+      },\n        {\n            \"m_Id\": \"ec6a0c274b5e64888e9f70111cb03d15\"\n       
+      },\n        {\n            \"m_Id\": \"f3b1db719b4a1886bc86fd83e0647608\"\n       
+      },\n        {\n            \"m_Id\": \"069e56cb7b97908e8df7d2ac480dad7b\"\n       
+      },\n        {\n            \"m_Id\": \"e777fb890bb10889a45df7c70eaf85c0\"\n       
+      },\n        {\n            \"m_Id\": \"bf1d272b7d30f18f8175dfa0a19aaf7d\"\n       
+      },\n        {\n            \"m_Id\": \"df371f7652d2968aacff152eb2d7dbb3\"\n       
+      },\n        {\n            \"m_Id\": \"8d00dd1e72a81381aa7e80b759631f23\"\n       
+      }\n    ]\n}\n\n{\n    \"m_SGVersion\": 3,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.ColorShaderProperty\",\n   
+      \"m_ObjectId\": \"069e56cb7b97908e8df7d2ac480dad7b\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"5cb4f7a4-8cfc-491d-b70c-ef631fb65aee\"\n    },\n   
+      \"m_Name\": \"Color\",\n    \"m_DefaultRefNameVersion\": 0,\n    \"m_RefNameGeneratedByDisplayName\":
+      \"\",\n    \"m_DefaultReferenceName\": \"Color_E4EA3604\",\n    \"m_OverrideReferenceName\":
+      \"_Color\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\":
+      false,\n    \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n   
+      \"m_Precision\": 0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"r\": 1.0,\n       
+      \"g\": 1.0,\n        \"b\": 1.0,\n        \"a\": 1.0\n    },\n    \"isMainColor\":
+      false,\n    \"m_ColorMode\": 1\n}\n\n{\n    \"m_SGVersion\": 0,\n    \"m_Type\":
+      \"UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty\",\n    \"m_ObjectId\":
+      \"2e8817d6a782a98da49e5a1db662e5b2\",\n    \"m_Guid\": {\n        \"m_GuidSerialized\":
+      \"e6fd9c8d-9a61-44c3-a207-fc91ca3f068d\"\n    },\n    \"m_Name\": \"Mask\",\n   
+      \"m_DefaultRefNameVersion\": 0,\n    \"m_RefNameGeneratedByDisplayName\": \"\",\n   
+      \"m_DefaultReferenceName\": \"Texture2D_17D88F59\",\n    \"m_OverrideReferenceName\":
+      \"_Mask\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\":
+      false,\n    \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n   
+      \"m_Precision\": 0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"m_SerializedTexture\":
+      \"\",\n        \"m_Guid\": \"\"\n    },\n    \"isMainTexture\": false,\n   
+      \"useTilingAndOffset\": true,\n    \"m_Modifiable\": true,\n    \"m_DefaultType\":
+      0\n}\n\n{\n    \"m_SGVersion\": 0,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty\",\n   
+      \"m_ObjectId\": \"5246188bf8cab28d819d347f8b1bf8d0\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"cae82736-97aa-43b3-8295-c05fb0e07af3\"\n    },\n   
+      \"m_Name\": \"MainTex\",\n    \"m_DefaultRefNameVersion\": 0,\n    \"m_RefNameGeneratedByDisplayName\":
+      \"\",\n    \"m_DefaultReferenceName\": \"Texture2D_AD51C74E\",\n    \"m_OverrideReferenceName\":
+      \"_MainTex\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\":
+      false,\n    \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n   
+      \"m_Precision\": 0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"m_SerializedTexture\":
+      \"\",\n        \"m_Guid\": \"\"\n    },\n    \"isMainTexture\": false,\n   
+      \"useTilingAndOffset\": true,\n    \"m_Modifiable\": true,\n    \"m_DefaultType\":
+      0\n}\n\n{\n    \"m_SGVersion\": 0,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty\",\n   
+      \"m_ObjectId\": \"56f95c9b40802b8daea0bab8acf5d626\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"432fe999-48f0-46b7-b5f8-cad5a0a79c13\"\n    },\n   
+      \"m_Name\": \"Flow\",\n    \"m_DefaultRefNameVersion\": 0,\n    \"m_RefNameGeneratedByDisplayName\":
+      \"\",\n    \"m_DefaultReferenceName\": \"Texture2D_6B7AC656\",\n    \"m_OverrideReferenceName\":
+      \"_Flow\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\":
+      false,\n    \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n   
+      \"m_Precision\": 0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"m_SerializedTexture\":
+      \"\",\n        \"m_Guid\": \"\"\n    },\n    \"isMainTexture\": false,\n   
+      \"useTilingAndOffset\": true,\n    \"m_Modifiable\": true,\n    \"m_DefaultType\":
+      0\n}\n\n{\n    \"m_SGVersion\": 1,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty\",\n   
+      \"m_ObjectId\": \"8d00dd1e72a81381aa7e80b759631f23\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"1658b4dc-9511-487b-81e0-aed42824ae07\"\n    },\n   
+      \"m_Name\": \"Depth power\",\n    \"m_DefaultRefNameVersion\": 0,\n    \"m_RefNameGeneratedByDisplayName\":
+      \"\",\n    \"m_DefaultReferenceName\": \"Vector1_2145D603\",\n    \"m_OverrideReferenceName\":
+      \"_Depthpower\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\":
+      false,\n    \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n   
+      \"m_Precision\": 0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": 1.0,\n    \"m_FloatType\": 0,\n   
+      \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}\n\n{\n   
+      \"m_SGVersion\": 0,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.BooleanShaderProperty\",\n   
+      \"m_ObjectId\": \"bf1d272b7d30f18f8175dfa0a19aaf7d\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"c451cc58-1c5a-4e4f-b088-67d0c6648a90\"\n    },\n   
+      \"m_Name\": \"Use center glow?\",\n    \"m_DefaultRefNameVersion\": 0,\n   
+      \"m_RefNameGeneratedByDisplayName\": \"\",\n    \"m_DefaultReferenceName\":
+      \"Boolean_7A8F4F91\",\n    \"m_OverrideReferenceName\": \"_Usecenterglow\",\n   
+      \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\": false,\n   
+      \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n    \"m_Precision\":
+      0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": false\n}\n\n{\n    \"m_SGVersion\":
+      0,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty\",\n   
+      \"m_ObjectId\": \"c03a6e8810a2f98f8e01a7187103665e\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"01dc216e-a170-433a-9542-a77ce280727b\"\n    },\n   
+      \"m_Name\": \"Noise\",\n    \"m_DefaultRefNameVersion\": 0,\n    \"m_RefNameGeneratedByDisplayName\":
+      \"\",\n    \"m_DefaultReferenceName\": \"Texture2D_2CD074A9\",\n    \"m_OverrideReferenceName\":
+      \"_Noise\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\":
+      false,\n    \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n   
+      \"m_Precision\": 0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"m_SerializedTexture\":
+      \"\",\n        \"m_Guid\": \"\"\n    },\n    \"isMainTexture\": false,\n   
+      \"useTilingAndOffset\": true,\n    \"m_Modifiable\": true,\n    \"m_DefaultType\":
+      0\n}\n\n{\n    \"m_SGVersion\": 1,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.Vector4ShaderProperty\",\n   
+      \"m_ObjectId\": \"dd1df9d842261d8881629ce70568e0ca\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"b59762d8-3e0e-47ad-ba6a-3d7a3162bc31\"\n    },\n   
+      \"m_Name\": \"Speed MainTex U/V + Noise Z/W\",\n    \"m_DefaultRefNameVersion\":
+      0,\n    \"m_RefNameGeneratedByDisplayName\": \"\",\n    \"m_DefaultReferenceName\":
+      \"Vector4_72221BD9\",\n    \"m_OverrideReferenceName\": \"_SpeedMainTexUVNoiseZW\",\n   
+      \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\": false,\n   
+      \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n    \"m_Precision\":
+      0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"x\": 0.0,\n       
+      \"y\": 0.0,\n        \"z\": 0.0,\n        \"w\": 0.0\n    }\n}\n\n{\n    \"m_SGVersion\":
+      0,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.BooleanShaderProperty\",\n   
+      \"m_ObjectId\": \"df371f7652d2968aacff152eb2d7dbb3\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"c0977d0a-9347-4c56-abd3-ff0468a07119\"\n    },\n   
+      \"m_Name\": \"Use depth?\",\n    \"m_DefaultRefNameVersion\": 0,\n    \"m_RefNameGeneratedByDisplayName\":
+      \"\",\n    \"m_DefaultReferenceName\": \"Boolean_D84B36BE\",\n    \"m_OverrideReferenceName\":
+      \"_Usedepth\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\":
+      false,\n    \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n   
+      \"m_Precision\": 0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": false\n}\n\n{\n    \"m_SGVersion\":
+      1,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty\",\n   
+      \"m_ObjectId\": \"e777fb890bb10889a45df7c70eaf85c0\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"5776a4e9-3d0f-41c6-9782-7d9fc2276bb5\"\n    },\n   
+      \"m_Name\": \"Opacity\",\n    \"m_DefaultRefNameVersion\": 0,\n    \"m_RefNameGeneratedByDisplayName\":
+      \"\",\n    \"m_DefaultReferenceName\": \"Vector1_3340BB83\",\n    \"m_OverrideReferenceName\":
+      \"_Opacity\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\":
+      false,\n    \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n   
+      \"m_Precision\": 0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": 1.0,\n    \"m_FloatType\": 0,\n   
+      \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}\n\n{\n   
+      \"m_SGVersion\": 1,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.Vector4ShaderProperty\",\n   
+      \"m_ObjectId\": \"ec6a0c274b5e64888e9f70111cb03d15\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"6e642b86-e35b-43b6-ae2a-3d06b780b618\"\n    },\n   
+      \"m_Name\": \"Distortion Speed XY Power Z\",\n    \"m_DefaultRefNameVersion\":
+      0,\n    \"m_RefNameGeneratedByDisplayName\": \"\",\n    \"m_DefaultReferenceName\":
+      \"Vector4_ABCF8388\",\n    \"m_OverrideReferenceName\": \"_DistortionSpeedXYPowerZ\",\n   
+      \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\": false,\n   
+      \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n    \"m_Precision\":
+      0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"x\": 0.0,\n       
+      \"y\": 0.0,\n        \"z\": 0.0,\n        \"w\": 0.0\n    }\n}\n\n{\n    \"m_SGVersion\":
+      1,\n    \"m_Type\": \"UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty\",\n   
+      \"m_ObjectId\": \"f3b1db719b4a1886bc86fd83e0647608\",\n    \"m_Guid\": {\n       
+      \"m_GuidSerialized\": \"8c99dd19-cb0e-4f6e-b98c-a2ff94bb3c52\"\n    },\n   
+      \"m_Name\": \"Emission\",\n    \"m_DefaultRefNameVersion\": 0,\n    \"m_RefNameGeneratedByDisplayName\":
+      \"\",\n    \"m_DefaultReferenceName\": \"Vector1_6294219F\",\n    \"m_OverrideReferenceName\":
+      \"_Emission\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_UseCustomSlotLabel\":
+      false,\n    \"m_CustomSlotLabel\": \"\",\n    \"m_DismissedVersion\": 0,\n   
+      \"m_Precision\": 0,\n    \"overrideHLSLDeclaration\": false,\n    \"hlslDeclarationOverride\":
+      0,\n    \"m_Hidden\": false,\n    \"m_Value\": 1.0,\n    \"m_FloatType\": 0,\n   
+      \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}\n\n"
+  outputPropertyIndices:
+  - array: 
+  - array: 
+  - array: 
+  - array: 000000000100000002000000030000000400000005000000060000000700000009000000
+  - array: 00000000010000000200000003000000040000000500000007000000080000000a0000000b000000
+  - array: 
+  - array: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b000000
+  m_Outputs:
+  - m_Index: 0
+    m_ReferenceName: Position
+    m_Id: 0
+  - m_Index: 1
+    m_ReferenceName: Normal
+    m_Id: 0
+  - m_Index: 2
+    m_ReferenceName: Tangent
+    m_Id: 0
+  - m_Index: 3
+    m_ReferenceName: BaseColor
+    m_Id: 1
+  - m_Index: 4
+    m_ReferenceName: Alpha
+    m_Id: 4
+  - m_Index: 5
+    m_ReferenceName: AlphaClipThreshold
+    m_Id: 7
+  - m_Index: 6
+    m_ReferenceName: Emission
+    m_Id: 5
+  m_TextureInfos: []
