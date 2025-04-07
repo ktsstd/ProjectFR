@@ -19,6 +19,8 @@ public class PlayerUi : MonoBehaviour
 
     public Image[] elementalCodeImage;
     public Sprite[] elementalCodeSprite;
+    public Image fusionSkillIconImage;
+    public Sprite[] fusionSkillIcon;
     public Slider FusionHoldSlider;
 
     public GameObject[] otherPlayerUi;
@@ -124,13 +126,20 @@ public class PlayerUi : MonoBehaviour
     public void elementalData(int _code_1, int _code_2)
     {
         if(_code_1 == 10)
-            elementalCodeImage[0].sprite = null;
+            elementalCodeImage[0].sprite = elementalCodeSprite[4];
         else
             elementalCodeImage[0].sprite = elementalCodeSprite[_code_1];
 
         if (_code_2 == 10)
-            elementalCodeImage[1].sprite = null;
+            elementalCodeImage[1].sprite = elementalCodeSprite[4];
         else
             elementalCodeImage[1].sprite = elementalCodeSprite[_code_2];
+
+        if ((_code_1 == 3 && _code_2 == 1) || (_code_1 == 1 && _code_2 == 3))
+        {
+            fusionSkillIconImage.sprite = fusionSkillIcon[0];
+        }
+        else
+            fusionSkillIconImage.sprite = elementalCodeSprite[4];
     }
 }
