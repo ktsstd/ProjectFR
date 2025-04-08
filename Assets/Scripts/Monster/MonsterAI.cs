@@ -62,7 +62,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 if (monsterInfo.attackTimer <= 0)
                 {
                     Attack();
-                    canMove = false;
                 }
                 else
                 {
@@ -140,6 +139,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Attack() // todo -> attacking animation
     {
+        canMove = false;
         if (animator != null)
             animator.SetTrigger("StartAttack");
         AttackBoundary.SetActive(true);

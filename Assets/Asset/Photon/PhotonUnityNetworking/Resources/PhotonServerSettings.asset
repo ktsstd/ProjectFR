@@ -87,6 +87,7 @@ MonoBehaviour:
   - LookAtTarget
   - UseGrenadeBundle
   - StunEffect
+  - Skill3Success
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

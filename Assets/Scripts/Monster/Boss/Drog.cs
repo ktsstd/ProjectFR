@@ -15,8 +15,9 @@ public class Drog : MonsterAI
     public float[] BossMonsterSkillTimers = new float[4];
 
     [SerializeField] Transform MouthPos;
-    
-    [SerializeField] GameObject FSkill3Obj;
+
+    public List<GameObject> FSkill3Obj;
+    public List<PlayerController> F3Skill3Script;
     [SerializeField] GameObject BossSkill1Obj;
     [SerializeField] GameObject BossJumpSkill;
     [SerializeField] GameObject BossLandSkill;
@@ -48,9 +49,12 @@ public class Drog : MonsterAI
                 BossMonsterSkillTimers[i] -= Time.deltaTime;
             }
         }
-        if (FirPatternHealth > 0 && FSkill3Obj != null)
+        if (FirPatternHealth > 0)
         {
-            FSkill3Obj.transform.position = gameObject.transform.position;
+            foreach (PlayerController playerObj in F3Skill3Script)
+            {
+                playerObj.transform.position = gameObject.transform.position;
+            }
         }
     }
     public override void Attack()
@@ -95,6 +99,7 @@ public class Drog : MonsterAI
         else
         {
             monsterInfo.attackTimer = monsterInfo.attackCooldown;
+            canMove = true;
         }
         return -1;
     }
@@ -145,10 +150,20 @@ public class Drog : MonsterAI
         }
     }
     Coroutine skill3Coroutine;
-    public void Skill3Success(GameObject Obj)
+    [PunRPC]
+    public void Skill3Success()
     {
-        FSkill3Obj = Obj;
+        //for (int i = 0; i < FSkill3Obj.Length; i++)
+        //{
+        //    if (FSkill3Obj[i] != null)
+        //    {
+        //        FSkill3Obj[i].SetActive(false);
+        //    }
+        //}
+        //FSkill3Obj = Obj;
         //photonView.RPC("Skill3Start", RpcTarget.All);
+        FirPatternHealth = FirPatternbreakupHealth;
+        canMove = false;
         Skill3Start();
         if (animator != null)
             animator.SetTrigger("Skill3_1");
@@ -156,24 +171,28 @@ public class Drog : MonsterAI
     //[PunRPC]
     public void Skill3Start()
     {
-        FirPatternHealth = FirPatternbreakupHealth;
-        PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
-        playerScript.photonView.RPC("OnPlayerSuppressed", RpcTarget.All, 15f);
-        FSkill3Obj.transform.position = gameObject.transform.position;
+        foreach (PlayerController playerObj in F3Skill3Script)
+        {
+            playerObj.photonView.RPC("OnPlayerSuppressed", RpcTarget.All, 15f);
+            playerObj.transform.position = gameObject.transform.position;
+        }
         is3Patterning = true;
-        skill3Coroutine = StartCoroutine(Skill3PatternStart(FSkill3Obj));
+        canMove = false;
+        skill3Coroutine = StartCoroutine(Skill3PatternStart());
     }
     bool is3Patterning;
-    IEnumerator Skill3PatternStart(GameObject Obj)
+    IEnumerator Skill3PatternStart()
     { 
         yield return new WaitForSeconds(15f);
         if (!is3Patterning) yield break;
-        PlayerController playerScript = Obj.GetComponent<PlayerController>();
-        playerScript.photonView.RPC("OnPlayerHit", RpcTarget.All, 20000f);
-        playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
+        foreach (PlayerController playerObj in F3Skill3Script)
+        {
+            playerObj.photonView.RPC("OnPlayerHit", RpcTarget.All, 20000f);
+            playerObj.photonView.RPC("PlayerStunClear", RpcTarget.All);
+        }
         FSkill3Obj = null;
+        F3Skill3Script = null;
         FirPatternHealth = 0;
-        Obj.transform.position = MouthPos.transform.position;
         if (animator != null)
             animator.SetTrigger("Skill3__1");
         yield return new WaitForSeconds(2f);
@@ -188,10 +207,13 @@ public class Drog : MonsterAI
         //Vector3 attackFowardPos5 = new Vector3(transform.position.x, 0.1f, transform.position.z) + transform.forward * 1;
         //GameObject SpitObj = PhotonNetwork.Instantiate(attackBoundary, attackFowardPos5, Quaternion.identity);
         is3Patterning = false;
-        PlayerController playerScript = FSkill3Obj.GetComponent<PlayerController>();
-        playerScript.photonView.RPC("PlayerStunClear", RpcTarget.All);
-        FSkill3Obj.transform.position = MouthPos.transform.position;
+        foreach (PlayerController playerObj in F3Skill3Script)
+        {
+            playerObj.photonView.RPC("PlayerStunClear", RpcTarget.All);
+            playerObj.transform.position = MouthPos.transform.position;
+        }
         FSkill3Obj = null;
+        F3Skill3Script = null;
         if (animator != null)
             animator.SetTrigger("Skill3_2");
         yield return new WaitForSeconds(2f);
@@ -241,6 +263,7 @@ public class Drog : MonsterAI
             stream.SendNext(transform.rotation);
             stream.SendNext(CurHp);
             stream.SendNext(FirPatternHealth);
+            stream.SendNext(is3Patterning);
             stream.SendNext(canMove);
             stream.SendNext(BossPhase);
         }
@@ -250,6 +273,7 @@ public class Drog : MonsterAI
             transform.rotation = (Quaternion)stream.ReceiveNext();
             CurHp = (float)stream.ReceiveNext();
             FirPatternHealth = (float)stream.ReceiveNext();
+            is3Patterning = (bool)stream.ReceiveNext();
             canMove = (bool)stream.ReceiveNext();
             BossPhase = (int)stream.ReceiveNext();
         }

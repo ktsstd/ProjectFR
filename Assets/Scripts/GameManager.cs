@@ -81,6 +81,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         //        QuitOn = false;
         //    }
         //}
+        if (WaveCount == 5 && !isSpawn)
+        {
+            RenderSettings.skybox = SkyBoxMat;
+            DLight.color = new Color(1f, 0.3216f, 0f, 1f);
+        }
     }
 
     public IEnumerator CheckMonsterC()
@@ -122,7 +127,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount == 1)
             {
-                StartCoroutine(InstantiateMonsters(Mugolin, 15));
+                Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+                //StartCoroutine(InstantiateMonsters(Mugolin, 15));
             }
             else if (WaveCount == 2)
             {
@@ -151,12 +158,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             Debug.Log("you are not a master client");
         }
-        if (WaveCount == 5)
-        {
-            RenderSettings.skybox = SkyBoxMat;
-            DLight.color = new Color(1f, 0.3216f, 0f, 1f);
-        }
-        
     }
 
     IEnumerator InstantiateMonsters(string monsterType, int count)
