@@ -11,8 +11,10 @@ public class BossSkill3Script : MonoBehaviour {
     bool isFadeIn = false;
     [SerializeField] Drog bossScript;
     private GameObject[] SuccessPlayer;
+    GameObject rootPlayerObj;
     public void Starting()
     {
+        rootPlayerObj = null;
         StartCoroutine(FadeIn());
     }
 
@@ -36,18 +38,18 @@ public class BossSkill3Script : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        if (isFadeIn && other.CompareTag("Player") && PhotonNetwork.IsMasterClient)
+        if (isFadeIn && other.CompareTag("Player"))
         {
-            GameObject rootPlayerObj = other.transform.root.gameObject;
+            rootPlayerObj = other.transform.root.gameObject;
             if (!bossScript.FSkill3Obj.Contains(rootPlayerObj))
             {
                 bossScript.FSkill3Obj.Add(rootPlayerObj);
                 bossScript.F3Skill3Script.Add(rootPlayerObj.GetComponent<PlayerController>());
                 bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
             }
-            isFadeIn = false;
-            gameObject.SetActive(false);
-            gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+            //isFadeIn = false;
+            //gameObject.SetActive(false);
+            //gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         }
     }
 
@@ -57,12 +59,14 @@ public class BossSkill3Script : MonoBehaviour {
         {
             isFadeIn = false;
             gameObject.SetActive(false);
-            bossScript.animator.SetTrigger("Skill3Over");
-            bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
-            bossScript.BossMonsterSkillTimers[2] = bossScript.BossMonsterSkillCooldowns[2];
-            bossScript.canMove = true;
+            if (!bossScript.is3Patterning)
+            {
+                bossScript.animator.SetTrigger("Skill3Over");
+                bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
+                bossScript.BossMonsterSkillTimers[2] = bossScript.BossMonsterSkillCooldowns[2];
+                bossScript.canMove = true;
+            }
             gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
-        }
-        
+        } 
     }
 }
