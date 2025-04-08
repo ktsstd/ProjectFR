@@ -21,6 +21,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public NavMeshAgent agent;
     public bool canMove = true;
     public Animator animator;
+    Transform closestTarget;
 
     public virtual void Start()
     {
@@ -45,12 +46,13 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 main.startRotation = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
             }
         }
-
         target = GetClosestTarget();
-
+        if (target == null) return;
+        CapsuleCollider coll = target.GetComponent<CapsuleCollider>();
+        Vector3 targetPos = coll.ClosestPoint(transform.position);
         if (target != null && canMove)
         {
-            float distance = Vector3.Distance(transform.position, target.position);
+            float distance = Vector3.Distance(transform.position, targetPos);
             if (animator != null)
                 animator.SetBool("Run", true);
 
@@ -75,6 +77,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 if (animator != null)
                     animator.SetBool("Run", true);
             }
+            Vector3 directionToTarget = target.position - transform.position;
+            if (directionToTarget != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
+            }
         }
         else if (!canMove && agent.enabled)
         {
@@ -88,22 +96,15 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             monsterInfo.attackTimer -= Time.deltaTime;
         }
-        Vector3 directionToTarget = target.position - transform.position;
-        if (directionToTarget != Vector3.zero)
-        {
-            Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
-        }
     }
     protected Transform GetClosestTarget()
     {
-        Transform closestTarget = null;
         float closestDistance = monsterInfo.redistance;
+        Transform tempClosestTarget = null;
 
         foreach (string targetTag in monsterInfo.priTarget)
         {
             GameObject[] possibleTargets = GameObject.FindGameObjectsWithTag(targetTag);
-
             if (possibleTargets == null || possibleTargets.Length == 0)
                 continue;
 
@@ -112,10 +113,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 if (possibleTarget.CompareTag("Player"))
                 {
                     PlayerController playerCtrl = possibleTarget.GetComponent<PlayerController>();
-                    if (playerCtrl.playerHp <= 0)
-                    {
+                    if (playerCtrl != null && playerCtrl.playerHp <= 0)
                         continue;
-                    }
                 }
 
                 float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);
@@ -123,19 +122,21 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    closestTarget = possibleTarget.transform;
+                    tempClosestTarget = possibleTarget.transform;
                 }
             }
         }
 
-        if (target == null && !monsterInfo.isBoss)
+        if (tempClosestTarget == null && !monsterInfo.isBoss)
         {
             GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
-            return objectTarget.transform;
+            if (objectTarget != null)
+                tempClosestTarget = objectTarget.transform;
         }
 
-        return closestTarget;
+        return tempClosestTarget;
     }
+
 
     public virtual void Attack() // todo -> attacking animation
     {

@@ -7,6 +7,7 @@ public class Mugolin : MonsterAI
 {
     //private bool InSafeZone;
     [SerializeField] private GameObject MugolinEffect;
+    [SerializeField] private GameObject StunEffect;
     [SerializeField] private AudioSource audioS;
     //[SerializeField] private GameObject RunEffect;
     private bool IsRolling;
@@ -28,10 +29,10 @@ public class Mugolin : MonsterAI
     public override void Update()
     {
         base.Update();
+        MugolinEffect.SetActive(IsRolling);
         animator.SetBool("isRolling", IsRolling);
         if (IsRolling && canMove)
         {
-            MugolinEffect.SetActive(true);
             audioS.volume = SoundManager.Instance.SfxVolume / 2;
             if (!audioS.isPlaying)
                 audioS.Play();
@@ -39,7 +40,6 @@ public class Mugolin : MonsterAI
         else if (!IsRolling && canMove)
         {
             StartCoroutine(RunEffectStart());
-            MugolinEffect.SetActive(false);
             audioS.Stop();
         }
     }
@@ -81,6 +81,7 @@ public class Mugolin : MonsterAI
     {
         StopCoroutine(StartMove()); // todo -> stun Effect
         animator.SetTrigger("Stun");
+        StunEffect.SetActive(true);
         canMove = false;
         IsRolling = false;
         agent.velocity = Vector3.zero;        
@@ -95,6 +96,7 @@ public class Mugolin : MonsterAI
         }
         yield return new WaitForSeconds(1.333f); // todo stun duration
         canMove = true;
+        StunEffect.SetActive(false);
         StartCoroutine(StartMove());
     }
 
@@ -104,6 +106,8 @@ public class Mugolin : MonsterAI
         {
             StopCoroutine(StartMove());
             StartCoroutine(StopMove());
+            PlayerController playerctrl = other.gameObject.GetComponent<PlayerController>();
+            playerctrl.photonView.RPC("OnPlayerStun", RpcTarget.All, 1f);
             agent.velocity = Vector3.zero;
         }
     }

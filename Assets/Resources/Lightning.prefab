@@ -37610,7 +37610,7 @@ MonoBehaviour:
     Name: skill2_2
   - Type: 9
     SynchronizeType: 0
-    Name: F&L
+    Name: L&F
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

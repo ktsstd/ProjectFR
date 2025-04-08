@@ -15,7 +15,7 @@ MonoBehaviour:
   speed: 3.5
   damage: 100
   health: 700
-  attackRange: 6
+  attackRange: 2
   attackCooldown: 1.2
   attackTimer: 0
   priTarget:

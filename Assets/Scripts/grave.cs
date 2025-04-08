@@ -14,7 +14,7 @@ public class grave : MonsterAI
         {
             Vector3 randomPos = GetRandomPos();
             PhotonNetwork.Instantiate("Monster/Solborn", randomPos, Quaternion.identity);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(6f);
         }
     }
     public override void Update()
