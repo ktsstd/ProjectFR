@@ -353,7 +353,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 if (playerHp <= 0)
                 {
                     playerHp = 0;
-                    pv.RPC("PlayTriggerAnimation", RpcTarget.All, "reset");
                     currentStates = States.Die;
                     pv.RPC("OnPlayerDie", RpcTarget.All, null);
                     pv.RPC("PlayTriggerAnimation", RpcTarget.All, "die");
@@ -376,7 +375,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 if (playerHp <= 0)
                 {
                     playerHp = 0;
-                    pv.RPC("PlayTriggerAnimation", RpcTarget.All, "reset");
                     currentStates = States.Die;
                     pv.RPC("OnPlayerDie", RpcTarget.All, null);
                     pv.RPC("PlayTriggerAnimation", RpcTarget.All, "die");
