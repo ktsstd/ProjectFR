@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour
     private static SoundManager _instance;
     [SerializeField] public float BgmVolume = 1f;
     [SerializeField] public float SfxVolume = 1f;
+    [SerializeField] public float SfxMonsterVolume = 1f;
     //[SerializeField] private AudioClip[] SfxAudio;
     [SerializeField] private AudioClip[] SfxPlayerAudio;
     [SerializeField] private AudioClip[] SfxMonsterAudio;
@@ -52,6 +53,14 @@ public class SoundManager : MonoBehaviour
         {
             BgmVolume = PlayerPrefs.GetFloat("BgmVolume");
         }
+        if (!PlayerPrefs.HasKey("MonsterSfxVolume"))
+        {
+            PlayerPrefs.SetFloat("MonsterSfxVolume", SfxMonsterVolume);
+        }
+        else
+        {
+            SfxMonsterVolume = PlayerPrefs.GetFloat("MonsterSfxVolume");
+        }
     }
     private void OnEnable()
     {
@@ -67,7 +76,11 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayMonsterSfx(int index, Vector3 position)
     {
-        AudioSource.PlayClipAtPoint(SfxMonsterAudio[index], position, SfxVolume);
+        AudioSource.PlayClipAtPoint(SfxMonsterAudio[index], position, SfxMonsterVolume);
+    }
+    public void OnClickUISfx()
+    {
+        PlayUISfxShot(0);
     }
 
     public void PlayUISfxShot(int index)
@@ -80,13 +93,10 @@ public class SoundManager : MonoBehaviour
         audioSource.spatialBlend = 0f; 
         audioSource.Play();
 
-        Destroy(tempAudioObj, UISfxAudio[index].length); // ÀÚµ¿ ÆÄ±«
+        Destroy(tempAudioObj, UISfxAudio[index].length);
     }
 
-    public void OnClickUISfx()
-    {
-        PlayUISfxShot(0);
-    }
+    
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Lobby")

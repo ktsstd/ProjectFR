@@ -13,9 +13,11 @@ public class SaveManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI WarningText;
     [SerializeField] TextMeshProUGUI BgmText;
     [SerializeField] TextMeshProUGUI SfxText;
+    [SerializeField] TextMeshProUGUI SfxMonsterText;
     [SerializeField] GameObject SettingUI;
     public Slider BgmSlider;
     public Slider SfxSlider;
+    public Slider SfxMonsterSlider;
 
     private void Start()
     {
@@ -39,8 +41,18 @@ public class SaveManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("SfxVolume", SoundManager.Instance.SfxVolume);
         }
+        if (PlayerPrefs.HasKey("MonsterSfxVolume"))
+        {
+            SoundManager.Instance.SfxMonsterVolume = PlayerPrefs.GetFloat("MonsterSfxVolume");
+            SfxMonsterSlider.value = SoundManager.Instance.SfxMonsterVolume;
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("MonsterSfxVolume", SoundManager.Instance.SfxMonsterVolume);
+        }
         BgmSlider.onValueChanged.AddListener(OnSliderBgmValueChanged);
         SfxSlider.onValueChanged.AddListener(OnSliderSfxValueChanged);
+        SfxMonsterSlider.onValueChanged.AddListener(OnSliderSfxMonsterValueChanged);
     }
 
     private void Update()
@@ -62,10 +74,16 @@ public class SaveManager : MonoBehaviour
         SoundManager.Instance.SfxVolume = newValue;
         SfxText.text = "" + Mathf.Floor(SoundManager.Instance.SfxVolume * 100);        
     }
+    private void OnSliderSfxMonsterValueChanged(float newValue)
+    {
+        SoundManager.Instance.SfxMonsterVolume = newValue;
+        SfxMonsterText.text = "" + Mathf.Floor(SoundManager.Instance.SfxMonsterVolume * 100);
+    }
     public void OnClickSaveSetting()
     {
         PlayerPrefs.SetFloat("BgmVolume", SoundManager.Instance.BgmVolume);
         PlayerPrefs.SetFloat("SfxVolume", SoundManager.Instance.SfxVolume);
+        PlayerPrefs.SetFloat("MonsterSfxVolume", SoundManager.Instance.SfxMonsterVolume);
         PlayerPrefs.Save();
     }
 }

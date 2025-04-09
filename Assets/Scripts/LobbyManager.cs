@@ -16,7 +16,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public int CharacterIndex;
     public GameObject[] CharacterImg;
     public GameObject CharacterImgParent;
-    public Transform[] CharacterPos; // UI 슬롯별 위치 (순서대로 할당)
+    public Transform[] CharacterPos;
+    public Transform[] CharacterUIPos;
     public TextMeshProUGUI WarningText;
 
     private GameObject CharacterObj;
@@ -44,9 +45,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         UpdatePlayerListUI();
         // 로컬 플레이어의 인덱스를 playerList에서 찾은 후 해당 슬롯의 위치로 이동
         int localPlayerIndex = GetLocalPlayerIndex();
-        if (localPlayerIndex >= 0 && localPlayerIndex < CharacterPos.Length)
+        if (localPlayerIndex >= 0 && localPlayerIndex < CharacterUIPos.Length)
         {
-            CharacterImgParent.transform.position = CharacterPos[localPlayerIndex].position;
+            CharacterImgParent.transform.position = CharacterUIPos[localPlayerIndex].position;
         }
     }
 
@@ -128,23 +129,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         isReady = !isReady;
         int localPlayerIndex = GetLocalPlayerIndex();
-        if (localPlayerIndex < 0 || localPlayerIndex >= CharacterPos.Length)
+        if (localPlayerIndex < 0 || localPlayerIndex >= CharacterUIPos.Length)
         {
             Debug.LogError("로컬 플레이어의 인덱스가 올바르지 않습니다.");
             return;
         }
 
-        //if (isReady)
-        //{
-        //    // playerList의 인덱스에 해당하는 UI 슬롯의 위치 사용
-        //    CharacterObj = PhotonNetwork.Instantiate("Lobby/Icon" + CharacterIndex, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
-        //    CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
-        //    CharacterObj.transform.localPosition = Vector3.zero;
-        //}
-        //else
-        //{
-        //    PhotonNetwork.Destroy(CharacterObj);
-        //}
+        if (isReady)
+        {
+            // playerList의 인덱스에 해당하는 UI 슬롯의 위치 사용
+            CharacterObj = PhotonNetwork.Instantiate("Lobby/Icon" + CharacterIndex, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
+            CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
+            CharacterObj.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            PhotonNetwork.Destroy(CharacterObj);
+        }
 
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
@@ -257,9 +258,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         // 로컬 플레이어의 UI 위치 갱신 (playerList 순서를 기준)
         int localPlayerIndex = GetLocalPlayerIndex();
-        if (localPlayerIndex >= 0 && localPlayerIndex < CharacterPos.Length)
+        if (localPlayerIndex >= 0 && localPlayerIndex < CharacterUIPos.Length)
         {
-            CharacterImgParent.transform.position = CharacterPos[localPlayerIndex].position;
+            CharacterImgParent.transform.position = CharacterUIPos[localPlayerIndex].position;
         }
     }
 
