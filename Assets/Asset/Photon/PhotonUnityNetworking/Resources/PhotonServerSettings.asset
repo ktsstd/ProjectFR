@@ -90,6 +90,7 @@ MonoBehaviour:
   - Skill3Success
   - AddPlayer
   - CharacterImgpos
+  - CharacterParentSet
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

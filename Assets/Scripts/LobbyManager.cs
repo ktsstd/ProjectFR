@@ -19,6 +19,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Transform[] CharacterPos;
     public Transform[] CharacterUIPos;
     public TextMeshProUGUI WarningText;
+    string playerPrefab = "";
 
     private GameObject CharacterObj;
 
@@ -48,6 +49,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (localPlayerIndex >= 0 && localPlayerIndex < CharacterUIPos.Length)
         {
             CharacterImgParent.transform.position = CharacterUIPos[localPlayerIndex].position;
+            CharacterObj.transform.position = CharacterPos[localPlayerIndex].position;
         }
     }
 
@@ -92,15 +94,41 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // 캐릭터 이미지 활성화/비활성화
     private void UpdateCharacterImg()
     {
+        if (CharacterIndex == 0)
+        {
+            playerPrefab = "Water";
+        }
+        else if (CharacterIndex == 1)
+        {
+            playerPrefab = "Lightning";
+        }
+        else if (CharacterIndex == 2)
+        {
+            playerPrefab = "Fire";
+        }
+        else if (CharacterIndex == 3)
+        {
+            playerPrefab = "Fire";
+        }
+        int localPlayerIndex = GetLocalPlayerIndex();
         for (int i = 0; i < CharacterImg.Length; i++)
         {
             if (CharacterImg[i] != null)
             {
-                CharacterImg[i].SetActive(false);
+                PhotonNetwork.Destroy(CharacterObj);
             }
         }
-        if (CharacterIndex >= 0 && CharacterIndex < CharacterImg.Length)
-            CharacterImg[CharacterIndex].SetActive(true);
+        //if (CharacterIndex >= 0 && CharacterIndex < CharacterImg.Length)
+        CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
+        photonView.RPC("CharacterParentSet", RpcTarget.AllBuffered);
+
+    }
+    [PunRPC]
+    public void CharacterParentSet()
+    {
+        int localPlayerIndex = GetLocalPlayerIndex();
+        CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
+        CharacterObj.transform.localPosition = Vector3.zero;
     }
 
     // Ready 버튼 클릭 시 처리
@@ -133,18 +161,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             Debug.LogError("로컬 플레이어의 인덱스가 올바르지 않습니다.");
             return;
-        }
-
-        if (isReady)
-        {
-            // playerList의 인덱스에 해당하는 UI 슬롯의 위치 사용
-            CharacterObj = PhotonNetwork.Instantiate("Lobby/Icon" + CharacterIndex, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
-            CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
-            CharacterObj.transform.localPosition = Vector3.zero;
-        }
-        else
-        {
-            PhotonNetwork.Destroy(CharacterObj);
         }
 
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
@@ -251,6 +267,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (indexToRemove < ReadyObj.Length && ReadyObj[indexToRemove] != null)
             {
                 ReadyObj[indexToRemove].SetActive(false);
+                PhotonNetwork.Destroy(CharacterObj);
             }
         }
 
@@ -260,7 +277,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         int localPlayerIndex = GetLocalPlayerIndex();
         if (localPlayerIndex >= 0 && localPlayerIndex < CharacterUIPos.Length)
         {
+            CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
             CharacterImgParent.transform.position = CharacterUIPos[localPlayerIndex].position;
+            CharacterObj.transform.position = CharacterPos[localPlayerIndex].position;            
         }
     }
 
