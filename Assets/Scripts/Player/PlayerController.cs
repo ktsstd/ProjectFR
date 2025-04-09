@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject stunEF;
     public GameObject hitEF;
     public ParticleSystem poisonEF;
+    public Image respawnImgae;
     public PlayerInfo playerInfo;
 
     public PhotonView pv;
@@ -123,6 +124,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             dashEF.SetActive(true);
         else
             dashEF.SetActive(false);
+        if (currentStates == States.Die)
+            respawnImgae.rectTransform.sizeDelta = new Vector2((1 - (respawnCoolTime / 10f)) * 8.5f,(1 - (respawnCoolTime / 10f)) * 8.5f);
 
         if (pv.IsMine)
         {
@@ -422,7 +425,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     private List<GameObject> playerInRange = new List<GameObject>();
-    private float respawnCoolTime;
+    public float respawnCoolTime = 10;
     public void OnPlayerRespawn()
     {
         if (playerInRange.Count != 0)
@@ -703,6 +706,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(recoveryShield);
             stream.SendNext(skillsPos);
             stream.SendNext(elementalCode);
+            stream.SendNext(respawnCoolTime);
         }
         else
         {
@@ -713,6 +717,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             recoveryShield = (float)stream.ReceiveNext();
             skillsPos = (Vector3[])stream.ReceiveNext();
             elementalCode = (int)stream.ReceiveNext();
+            respawnCoolTime = (float)stream.ReceiveNext();
         }
     }
 

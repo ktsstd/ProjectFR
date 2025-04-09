@@ -136,7 +136,7 @@ public class Fire : PlayerController
     [PunRPC]
     public void FlameSprayTest()
     {
-        SoundManager.Instance.PlayPlayerSfx(11, transform.position);
+        SoundManager.Instance.PlayPlayerSfx(12, transform.position);
         isFlameSpray = !isFlameSpray;
         if (isFlameSpray)
         {
@@ -158,7 +158,7 @@ public class Fire : PlayerController
     [PunRPC]
     public void Grenade(Vector3 _targetPos, int _grenadeType)
     {
-        SoundManager.Instance.PlayPlayerSfx(12, transform.position);
+        SoundManager.Instance.PlayPlayerSfx(13, transform.position);
         GameObject skill = Instantiate(grenade, transform.position, transform.rotation);
         Grenade grenadeScript = skill.GetComponent<Grenade>();
         grenadeScript.target = _targetPos;
@@ -169,9 +169,9 @@ public class Fire : PlayerController
     [PunRPC]
     public void FlameGrenadeTest(Vector3 _targetPos)
     {
-        SoundManager.Instance.PlayPlayerSfx(13, _targetPos);
-        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         SoundManager.Instance.PlayPlayerSfx(14, _targetPos);
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
+        SoundManager.Instance.PlayPlayerSfx(15, _targetPos);
         GameObject skill = Instantiate(flameGrenadeTest, _targetPos, fireRot);
         skill.GetComponent<FlameGrenadeTest>().damage = playerAtk;
     }
@@ -179,7 +179,7 @@ public class Fire : PlayerController
     [PunRPC]
     public void FinalTest(Vector3 _targetPos)
     {
-        SoundManager.Instance.PlayPlayerSfx(15, _targetPos);
+        SoundManager.Instance.PlayPlayerSfx(16, _targetPos);
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(finalTest, _targetPos, fireRot);
         skill.GetComponent<FinalTest>().damage = playerAtk;
