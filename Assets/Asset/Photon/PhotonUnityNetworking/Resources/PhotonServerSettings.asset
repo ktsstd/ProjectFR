@@ -89,6 +89,7 @@ MonoBehaviour:
   - StunEffect
   - Skill3Success
   - AddPlayer
+  - CharacterImgpos
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
