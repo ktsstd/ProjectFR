@@ -11,6 +11,7 @@ public class Drog : MonsterAI
     private float FirPatternbreakupHealth = 1500f;
     private float FirPatternHealth;
     private int BossPhase;
+    private float Boss2PhaseHp = 13000f;
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
     public bool is3Patterning;
@@ -35,6 +36,11 @@ public class Drog : MonsterAI
     public override void Start()
     {
         base.Start();
+        if (PhotonNetwork.PlayerList.Length <= 1)
+        {
+            Boss2PhaseHp /= 2;
+        }
+            
         animator = GetComponentInChildren<Animator>();
         BossPhase = 1;
     }
@@ -234,7 +240,7 @@ public class Drog : MonsterAI
                 if (BossPhase < 2)
                 {
                     photonView.RPC("PunAttack", RpcTarget.All, 2);
-                    CurHp = 13000f;
+                    CurHp = Boss2PhaseHp;
                     monsterInfo.damage = 100f;
                     BossPhase = 2;
                 }

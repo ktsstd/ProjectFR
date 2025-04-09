@@ -28,7 +28,16 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         agent = GetComponent<NavMeshAgent>();
         agent.avoidancePriority = 50;
         monsterInfo = Instantiate(monsterInfoScript);
-        CurHp = monsterInfo.health;
+        if (PhotonNetwork.PlayerList.Length > 1)
+        {
+            CurHp = monsterInfo.health;
+        }
+        else
+        {
+            CurHp = monsterInfo.health / 2; 
+            monsterInfo.damage = monsterInfo.damage / 2;
+        }
+        
         agent.speed = monsterInfo.speed;
         monsterInfo.attackTimer = monsterInfo.attackCooldown;
         animator = GetComponent<Animator>();
@@ -168,7 +177,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             }
             if (animator != null)
                 animator.SetTrigger("Die");
-            Invoke("DestroyMonster", 4f);
+            Invoke("DestroyMonster", 1f);
         }
     }
     public virtual void DestroyMonster()
