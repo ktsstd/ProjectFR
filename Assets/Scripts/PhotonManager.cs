@@ -61,6 +61,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("로비에 접속했습니다.");
     }
+    public void OnEnterRoom()
+    {
+        string roomName = RoomData.selectedRoomName; 
+
+        PhotonNetwork.JoinRoom(roomName); 
+    }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {

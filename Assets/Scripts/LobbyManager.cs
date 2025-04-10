@@ -126,10 +126,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void CharacterParentSet()
     {
-        CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
-        CharacterObj.transform.localPosition = Vector3.zero;
-        CharacterObj.transform.localEulerAngles = Vector3.zero;
-        CharacterObj.transform.localScale = Vector3.one;
+        //CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
+        //CharacterObj.transform.localPosition = Vector3.zero;
+        //CharacterObj.transform.localEulerAngles = Vector3.zero;
+        //CharacterObj.transform.localScale = Vector3.one;
+        if (localPlayerIndex  == 0)
+        {
+            CharacterObj.transform.rotation = Quaternion.Euler(0, 139, 0);
+        }
+        else if (localPlayerIndex == 1)
+        {
+            CharacterObj.transform.rotation = Quaternion.Euler(0, 158, 0);
+        }
+        else if (localPlayerIndex == 2)
+        {
+            CharacterObj.transform.rotation = Quaternion.Euler(0, 202, 0);
+        }
+        else if (localPlayerIndex == 3)
+        {
+            CharacterObj.transform.rotation = Quaternion.Euler(0, 221, 0);
+        }
         CharacterObj.transform.localScale = new Vector3(0.4647731f, 0.4647731f, 0.4647731f);
     }
 
@@ -277,12 +293,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         CharacterImgParent.transform.position = CharacterUIPos[localPlayerIndex].position;
         PhotonNetwork.Destroy(CharacterObj);
-        CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
-        CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
-        CharacterObj.transform.localPosition = Vector3.zero;
-        CharacterObj.transform.localEulerAngles = Vector3.zero;
-        CharacterObj.transform.localScale = Vector3.one;
-
+        //CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
+        //CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
+        //CharacterObj.transform.localPosition = Vector3.zero;
+        //CharacterObj.transform.localEulerAngles = Vector3.zero;
+        //CharacterObj.transform.localScale = Vector3.one;
+        photonView.RPC("CharacterParentSet", RpcTarget.All);
         if (localPlayerIndex >= 0 && localPlayerIndex < CharacterUIPos.Length)
         {
             

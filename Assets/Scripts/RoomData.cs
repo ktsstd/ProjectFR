@@ -11,6 +11,7 @@ public class RoomData : MonoBehaviour
     private TMP_Text roomInfoText;
     // PhotonManager 접근 변수
     private PhotonManager photonManager;
+    public static string selectedRoomName;
 
     // 프로퍼티 정의
     public RoomInfo RoomInfo
@@ -35,9 +36,8 @@ public class RoomData : MonoBehaviour
         photonManager = GameObject.Find("PhotonManager").GetComponent<PhotonManager>();
     }
 
-    void OnEnterRoom(string roomName)
+    public void OnClickRoomSelected()
     {
-        // 룸 접속
-        PhotonNetwork.JoinRoom(roomName);
+        selectedRoomName = _roomInfo.Name;
     }
 }
