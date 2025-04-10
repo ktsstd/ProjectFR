@@ -375,6 +375,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1932543640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8167735
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8167736}
+  - component: {fileID: 8167738}
+  - component: {fileID: 8167737}
+  m_Layer: 5
+  m_Name: Lock_Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8167736
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8167735}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1268619889}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 30, y: 40}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8167737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8167735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 61640edd9551a36429c30ae8437aa417, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 1
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &8167738
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8167735}
+  m_CullTransparentMesh: 1
 --- !u!1 &25396844
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,63 +1974,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 299833007}
   m_CullTransparentMesh: 1
---- !u!1001 &306198000
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3153797109240502577, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_Name
-      value: FX_Cloud
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.3838602
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 45.394203
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 8.1559925
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.83943504
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.5343464
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.07686224
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.06256897
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -62.558002
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 25.157001
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153797109240502578, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -23.965002
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
 --- !u!1 &310297602
 GameObject:
   m_ObjectHideFlags: 0
@@ -4061,7 +4079,7 @@ GameObject:
   - component: {fileID: 633136406}
   - component: {fileID: 633136405}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Glass_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5657,7 +5675,6 @@ MonoBehaviour:
   isFusionSkillReady: 0
   skillPosObj: {fileID: 1704366581}
   FireAndLightningEF: {fileID: 2174127215071450264, guid: 05dcfeb06fdd0254c9998e130543971f, type: 3}
-  FusionSkillCoolTime: 0
 --- !u!114 &974281111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7562,6 +7579,7 @@ RectTransform:
   - {fileID: 951719800}
   - {fileID: 925674764}
   - {fileID: 1129588561}
+  - {fileID: 8167736}
   - {fileID: 633136404}
   m_Father: {fileID: 1081920181}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12908,8 +12926,14 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e1db5e6ce42446c448306db65e76bdde, type: 3}
   - {fileID: 21300000, guid: 91ef71e0b37b9754583bcd41764f4883, type: 3}
   fusionSkillIconImage: {fileID: 1129588562}
+  fusionSkillLockImage: {fileID: 8167737}
+  fusionSkillGlassImage: {fileID: 633136405}
   fusionSkillIcon:
   - {fileID: 21300000, guid: 099d3ce026fae124b8b40dcb88c1e449, type: 3}
+  - {fileID: 21300000, guid: 29384e37d9e4ffc4a9a8c7567e113ffd, type: 3}
+  fusionSkillGlassSprite:
+  - {fileID: 21300000, guid: be4d277208982274da485b40ae615cce, type: 3}
+  - {fileID: 21300000, guid: f7c41ffaf8839354bbc496d1a5df7c10, type: 3}
   FusionHoldSlider: {fileID: 925674765}
   otherPlayerUi:
   - {fileID: 1677520572}
@@ -55874,4 +55898,3 @@ SceneRoots:
   - {fileID: 1460322834791371155}
   - {fileID: 507896708}
   - {fileID: 4299272}
-  - {fileID: 306198000}

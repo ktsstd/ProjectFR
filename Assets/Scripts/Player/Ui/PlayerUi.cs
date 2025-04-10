@@ -20,7 +20,10 @@ public class PlayerUi : MonoBehaviour
     public Image[] elementalCodeImage;
     public Sprite[] elementalCodeSprite;
     public Image fusionSkillIconImage;
+    public Image fusionSkillLockImage;
+    public Image fusionSkillGlassImage;
     public Sprite[] fusionSkillIcon;
+    public Sprite[] fusionSkillGlassSprite;
     public Slider FusionHoldSlider;
 
     public GameObject[] otherPlayerUi;

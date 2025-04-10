@@ -19,7 +19,8 @@ public class FusionSkill : MonoBehaviour
 
     public GameObject FireAndLightningEF;
 
-    public float FusionSkillCoolTime;
+    float fusionSkillCoolTime;
+    float fusionSkillMaxCoolTime;
 
     private void Start()
     {
@@ -30,6 +31,8 @@ public class FusionSkill : MonoBehaviour
 
     private void Update()
     {
+        if (fusionSkillCoolTime >= 0)
+            fusionSkillCoolTime -= Time.deltaTime;
         if (PhotonNetwork.IsMasterClient)
         {
             if (elementalSet[0] != 10 && elementalSet[1] != 10)
@@ -115,7 +118,8 @@ public class FusionSkill : MonoBehaviour
         }
         else if ((elementalSet[0] == 3 && elementalSet[1] == 1) || (elementalSet[0] == 1 && elementalSet[1] == 3)) // L&W
         {
-            // ??
+            pv.RPC("UseFireAndLightning", RpcTarget.All, null);
+
         }
         else
         {
@@ -169,5 +173,18 @@ public class FusionSkill : MonoBehaviour
                 player.GetComponent<PlayerController>().UsingFusionSkill(false);
             }
         }
+    }
+
+    [PunRPC]
+    public IEnumerator UseWaterAndLightning()
+    {
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Water(Clone)" || player.name == "Lightning(Clone)")
+            {
+                player.GetComponent<PlayerController>().UsingFusionSkill(true);
+            }
+        }
+        yield return null;
     }
 }
