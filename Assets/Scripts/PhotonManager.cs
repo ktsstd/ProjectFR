@@ -8,6 +8,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 {
     private Dictionary<string, GameObject> rooms = new Dictionary<string, GameObject>();
     public TMP_InputField userIF;
+    public TMP_InputField roomNameIF;
 
     private GameObject roomItemPrefab;
     public Transform scrollContent;
@@ -143,9 +144,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             IsOpen = true,       // 룸 오픈 여부
             IsVisible = true     // 로비에서 룸 목록에 노출 여부
         };
-
+        string roomName = "";
         // 룸 이름을 랜덤으로 생성하여 룸 생성
-        string roomName = $"ROOM_{Random.Range(1, 101):000}";
+        if (string.IsNullOrEmpty(roomNameIF.text))
+        {
+            roomName = $"ROOM_{Random.Range(1, 101):000}";
+        }
+        else
+        {
+            roomName = roomNameIF.text;
+        }
         Debug.Log($"룸 이름: {roomName}");
         PhotonNetwork.CreateRoom(roomName, ro);
     }
