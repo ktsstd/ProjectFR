@@ -13,6 +13,7 @@ using Photon.Pun.Demo.PunBasics;
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public GameObject playerRespawnZone;
+    public ParticleSystem respawnEF;
     public GameObject recoveryShileObject;
     public GameObject recoveryShileDestroy;
     public GameObject recoveryEF;
@@ -294,7 +295,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                         {
                             if (player.GetComponent<PlayerController>().elementalCode == fusion.RetrunFusionSkillReady(elementalCode))
                             {
-                                if (Vector3.Distance(gameObject.transform.position, player.transform.position) < 3f)
+                                if (Vector3.Distance(gameObject.transform.position, player.transform.position) < 3f && player.GetComponent<PlayerController>().currentStates != States.Die)
                                 {
                                     fusion.UseFusionSkill(GetSkillRange(10f));
                                 }
@@ -425,7 +426,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     private List<GameObject> playerInRange = new List<GameObject>();
-    public float respawnCoolTime = 10;
+    public float respawnCoolTime = 6;
     public void OnPlayerRespawn()
     {
         if (playerInRange.Count != 0)
@@ -439,20 +440,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             }
             if (respawnCoolTime <= 0)
             {
-                respawnCoolTime = 10;
+                respawnCoolTime = 6;
                 GameObject targetPlayer = playerInRange[0];
                 pv.RPC("PlayerRespawn", RpcTarget.All, null);
             }
         }
         else
         {
-            respawnCoolTime = 10;
+            respawnCoolTime = 6;
         }
     }
 
     [PunRPC]
     public void PlayerRespawn()
     {
+        respawnEF.Play();
         playerRespawnZone.SetActive(false);
         PlayTriggerAnimation("reset");
         if (pv.IsMine)
