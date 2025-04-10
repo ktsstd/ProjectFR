@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class synchronization : MonoBehaviour
+public class synchronization : MonoBehaviour, IPunObservable
 {
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

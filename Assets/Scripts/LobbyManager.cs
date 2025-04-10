@@ -14,6 +14,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject StartObj;
     private bool isReady;
     public int CharacterIndex;
+    int localPlayerIndex;
     public GameObject[] CharacterImg;
     public GameObject CharacterImgParent;
     public Transform[] CharacterPos;
@@ -45,11 +46,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         UpdatePlayerListUI();
         // 로컬 플레이어의 인덱스를 playerList에서 찾은 후 해당 슬롯의 위치로 이동
-        int localPlayerIndex = GetLocalPlayerIndex();
+        localPlayerIndex = GetLocalPlayerIndex();
         if (localPlayerIndex >= 0 && localPlayerIndex < CharacterUIPos.Length)
         {
             CharacterImgParent.transform.position = CharacterUIPos[localPlayerIndex].position;
-            CharacterObj.transform.position = CharacterPos[localPlayerIndex].position;
         }
     }
 
@@ -110,7 +110,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             playerPrefab = "Fire";
         }
-        int localPlayerIndex = GetLocalPlayerIndex();
+        localPlayerIndex = GetLocalPlayerIndex();
         for (int i = 0; i < CharacterImg.Length; i++)
         {
             if (CharacterImg[i] != null)
@@ -120,15 +120,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         //if (CharacterIndex >= 0 && CharacterIndex < CharacterImg.Length)
         CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
-        photonView.RPC("CharacterParentSet", RpcTarget.AllBuffered);
 
+        photonView.RPC("CharacterParentSet", RpcTarget.All);
     }
     [PunRPC]
     public void CharacterParentSet()
     {
-        int localPlayerIndex = GetLocalPlayerIndex();
         CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
         CharacterObj.transform.localPosition = Vector3.zero;
+        CharacterObj.transform.localEulerAngles = Vector3.zero;
+        CharacterObj.transform.localScale = Vector3.one;
+        CharacterObj.transform.localScale = new Vector3(0.4647731f, 0.4647731f, 0.4647731f);
     }
 
     // Ready 버튼 클릭 시 처리
@@ -156,7 +158,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
         isReady = !isReady;
-        int localPlayerIndex = GetLocalPlayerIndex();
+        localPlayerIndex = GetLocalPlayerIndex();
         if (localPlayerIndex < 0 || localPlayerIndex >= CharacterUIPos.Length)
         {
             Debug.LogError("로컬 플레이어의 인덱스가 올바르지 않습니다.");
@@ -267,29 +269,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (indexToRemove < ReadyObj.Length && ReadyObj[indexToRemove] != null)
             {
                 ReadyObj[indexToRemove].SetActive(false);
-                PhotonNetwork.Destroy(CharacterObj);
             }
         }
 
         UpdatePlayerListUI();
+        localPlayerIndex = GetLocalPlayerIndex();
 
-        // 로컬 플레이어의 UI 위치 갱신 (playerList 순서를 기준)
-        int localPlayerIndex = GetLocalPlayerIndex();
+        CharacterImgParent.transform.position = CharacterUIPos[localPlayerIndex].position;
+        PhotonNetwork.Destroy(CharacterObj);
+        CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
+        CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
+        CharacterObj.transform.localPosition = Vector3.zero;
+        CharacterObj.transform.localEulerAngles = Vector3.zero;
+        CharacterObj.transform.localScale = Vector3.one;
+
         if (localPlayerIndex >= 0 && localPlayerIndex < CharacterUIPos.Length)
         {
-            CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
-            CharacterImgParent.transform.position = CharacterUIPos[localPlayerIndex].position;
-            CharacterObj.transform.position = CharacterPos[localPlayerIndex].position;            
+            
         }
+
     }
 
-    // playerList에서 해당 플레이어의 인덱스 반환
     private int GetLocalPlayerIndex()
     {
         return playerList.FindIndex(p => p.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber);
     }
-
-    // Ready 상태를 설정할 때 playerList 기준 인덱스 사용
     private void SetReadyState(Player player, bool isReady)
     {
         int index = playerList.FindIndex(p => p.ActorNumber == player.ActorNumber);
