@@ -49,6 +49,7 @@ public class FusionSkill : MonoBehaviour
         }
 
         playerUi.elementalData(elementalSet[0], elementalSet[1]);
+        playerUi.InputFusionSkillData(fusionSkillCoolTime, fusionSkillMaxCoolTime);
     }
 
     public void PlayerListSetting()
@@ -89,6 +90,14 @@ public class FusionSkill : MonoBehaviour
             return 10;
     }
 
+    public bool FusionSkillCoolTimeCheck()
+    {
+        if (fusionSkillCoolTime >= 0)
+            return false;
+        else
+            return true;
+    }
+
     public void FusionSkillSetting(Vector3 _skillPos)
     {
         if ((elementalSet[0] == 3 && elementalSet[1] == 1) || (elementalSet[0] == 1 && elementalSet[1] == 3)) // F&L
@@ -115,20 +124,38 @@ public class FusionSkill : MonoBehaviour
         {
             skillPosObj.SetActive(false);
             pv.RPC("UseFireAndLightning", RpcTarget.All, _skillPos);
+            pv.RPC("FusionSkillCoolTime", RpcTarget.All, 30f);
         }
         else if ((elementalSet[0] == 3 && elementalSet[1] == 1) || (elementalSet[0] == 1 && elementalSet[1] == 3)) // L&W
         {
             pv.RPC("UseFireAndLightning", RpcTarget.All, null);
-
+            pv.RPC("FusionSkillCoolTime", RpcTarget.All, 30f);
         }
         else
         {
-            // misfire
+            pv.RPC("FusionSkillCoolTime", RpcTarget.All, 5f);
+            pv.RPC("GlassImageCrack", RpcTarget.All, null);
         }
 
         elementalSet[0] = 10;
         elementalSet[1] = 10;
         pv.RPC("ElementalSetting", RpcTarget.All, elementalSet);
+    }
+
+
+    [PunRPC]
+    public void FusionSkillCoolTime(float _time)
+    {
+        fusionSkillCoolTime = _time;
+        fusionSkillMaxCoolTime = _time;
+    }
+
+    [PunRPC]
+    public IEnumerator GlassImageCrack()
+    {
+        playerUi.GlassImageCrack(true);
+        yield return new WaitForSeconds(5);
+        playerUi.GlassImageCrack(false);
     }
 
     [PunRPC]

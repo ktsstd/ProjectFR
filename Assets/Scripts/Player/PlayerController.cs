@@ -307,7 +307,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 else
                 {
-                    fusion.pv.RPC("ElementalSettingMaster", RpcTarget.MasterClient, elementalCode);
+                    if (fusion.FusionSkillCoolTimeCheck())
+                        fusion.pv.RPC("ElementalSettingMaster", RpcTarget.MasterClient, elementalCode);
                 }
             }
         }

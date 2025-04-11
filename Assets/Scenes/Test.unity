@@ -2910,9 +2910,12 @@ MonoBehaviour:
   SfxText: {fileID: 312614428}
   SfxMonsterText: {fileID: 1042975510}
   SettingUI: {fileID: 25396844}
+  userIF: {fileID: 0}
+  roomNameIF: {fileID: 0}
   BgmSlider: {fileID: 1481149631}
   SfxSlider: {fileID: 1443583024}
   SfxMonsterSlider: {fileID: 2082349852}
+  canUseEsc: 1
 --- !u!4 &507896708
 Transform:
   m_ObjectHideFlags: 0

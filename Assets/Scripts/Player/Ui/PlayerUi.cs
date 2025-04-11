@@ -115,6 +115,19 @@ public class PlayerUi : MonoBehaviour
         playerMaxDash = _playerMaxDash;
     }
 
+    public void InputFusionSkillData(float _time, float _maxTime)
+    {
+        fusionSkillLockImage.fillAmount = _time / _maxTime;
+    }
+
+    public void GlassImageCrack(bool _bool)
+    {
+        if (!_bool)
+            fusionSkillGlassImage.sprite = fusionSkillGlassSprite[0];
+        else
+            fusionSkillGlassImage.sprite = fusionSkillGlassSprite[1];
+    }
+
     public void InputSkillData(float[] _skillCoolTime, float[] _skillMaxCoolTime)
     {
         currntskillCoolTime[0] = _skillCoolTime[0];
