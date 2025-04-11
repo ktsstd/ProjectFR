@@ -14,11 +14,13 @@ public class TitleFadeInOut : MonoBehaviour
 
     [SerializeField] private GameObject Title;
     [SerializeField] private GameObject Panel;
+    [SerializeField] private SaveManager SaveS;
 
     void Start()
     {
         tmpText = GetComponent<TextMeshProUGUI>();
         originalColor = tmpText.color;
+        SaveS.canUseEsc = false;
 
         StartCoroutine(FadeLoop());
     }
@@ -28,6 +30,7 @@ public class TitleFadeInOut : MonoBehaviour
         {
             isTouch = true;
             SoundManager.Instance.PlayUISfxShot(0); // Edit
+            SaveS.canUseEsc = true;
             StopAllCoroutines();
             Title.SetActive(false);
             Panel.SetActive(true);

@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -15,7 +17,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private bool isReady;
     public int CharacterIndex;
     int localPlayerIndex;
-    public GameObject[] CharacterImg;
+    //public GameObject[] CharacterImg;
     public GameObject CharacterImgParent;
     public Transform[] CharacterPos;
     public Transform[] CharacterUIPos;
@@ -61,7 +63,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             WarningTexts(3);
             return;
         }
-        if (CharacterIndex < CharacterImg.Length - 1)
+        if (CharacterIndex < 4)
         {
             CharacterIndex += 1;
         }
@@ -86,7 +88,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            CharacterIndex = CharacterImg.Length - 1;
+            CharacterIndex = 3;
         }
         UpdateCharacterImg();
     }
@@ -111,14 +113,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             playerPrefab = "Fire";
         }
         localPlayerIndex = GetLocalPlayerIndex();
-        for (int i = 0; i < CharacterImg.Length; i++)
-        {
-            if (CharacterImg[i] != null)
-            {
-                PhotonNetwork.Destroy(CharacterObj);
-            }
-        }
-        //if (CharacterIndex >= 0 && CharacterIndex < CharacterImg.Length)
+        PhotonNetwork.Destroy(CharacterObj);
         CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
 
         photonView.RPC("CharacterParentSet", RpcTarget.All);
@@ -188,10 +183,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
-    public void OnClickUISfx()
-    {
-        SoundManager.Instance.PlayUISfxShot(0);
-    }
 
     // 경고 메시지 처리
     private void WarningTexts(int ErrorCode)
@@ -226,12 +217,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         isFadeOut = false;
     }
-
-    public void OnClickLeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
-
     // 플레이어 프로퍼티가 업데이트 될 때 UI 갱신 (매핑 시 playerList 기준 사용)
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
@@ -274,7 +259,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         UpdatePlayerListUI();
     }
-
+    public void OnClickLeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("Main"); // 방을 떠나면 새로운 씬으로 이동
+    }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         int indexToRemove = playerList.FindIndex(p => p.ActorNumber == otherPlayer.ActorNumber);
@@ -292,12 +284,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         localPlayerIndex = GetLocalPlayerIndex();
 
         CharacterImgParent.transform.position = CharacterUIPos[localPlayerIndex].position;
-        PhotonNetwork.Destroy(CharacterObj);
-        //CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
-        //CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
-        //CharacterObj.transform.localPosition = Vector3.zero;
-        //CharacterObj.transform.localEulerAngles = Vector3.zero;
-        //CharacterObj.transform.localScale = Vector3.one;
+        PhotonNetwork.DestroyAll(CharacterObj);
+        CharacterObj = PhotonNetwork.Instantiate("Lobby/" + playerPrefab, CharacterPos[localPlayerIndex].position, Quaternion.identity, 0);
         photonView.RPC("CharacterParentSet", RpcTarget.All);
         if (localPlayerIndex >= 0 && localPlayerIndex < CharacterUIPos.Length)
         {

@@ -127,9 +127,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount == 1)
             {
-                Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-                PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
-                //StartCoroutine(InstantiateMonsters(Mugolin, 15));
+                //Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                //PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+                StartCoroutine(InstantiateMonsters(Mugolin, 15));
             }
             else if (WaveCount == 2)
             {
