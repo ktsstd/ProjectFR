@@ -6,14 +6,16 @@ public class grave : MonsterAI
 {
     private float hp = 800f;
     private float radius = 5f;
-    // PhotonNetwork.Instantiate("Monster/Solborn", spawnPositions[sp].position, Quaternion.identity);
+    public GameObject Solborn;
     public IEnumerator Start()
     {
         yield return new WaitForSeconds(3.5f);
         while (true)
         {
             Vector3 randomPos = GetRandomPos();
-            PhotonNetwork.Instantiate("Monster/Solborn", randomPos, Quaternion.identity);
+            //PhotonNetwork.Instantiate("Monster/Solborn", randomPos, Quaternion.identity);
+            Instantiate(Solborn, randomPos, Quaternion.identity);
+            SoundManager.Instance.PlayMonsterSfx(5, transform.position);
             yield return new WaitForSeconds(6f);
         }
     }

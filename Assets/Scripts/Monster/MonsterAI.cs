@@ -68,6 +68,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             if (distance <= monsterInfo.attackRange)
             {
                 agent.velocity = Vector3.zero;
+                if (animator != null)
+                    animator.SetBool("Run", false);
                 if (monsterInfo.attackTimer <= 0)
                 {
                     Attack();
@@ -76,21 +78,19 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 else
                 {
                     agent.ResetPath(); // todo -> Idle animation
+                    Vector3 directionToTarget = target.position - transform.position;
+                    if (directionToTarget != Vector3.zero)
+                    {
+                        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
+                    }
                 }
-                if (animator != null)
-                    animator.SetBool("Run", false);
             }
             else
             {
                 agent.SetDestination(target.position); // todo -> moving animation
                 if (animator != null)
                     animator.SetBool("Run", true);
-            }
-            Vector3 directionToTarget = target.position - transform.position;
-            if (directionToTarget != Vector3.zero)
-            {
-                Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
             }
         }
         else if (!canMove && agent.enabled)
@@ -101,6 +101,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 animator.SetBool("Run", false);
             target = GetClosestTarget();
         }
+
         if (monsterInfo.attackTimer > 0)
         {
             monsterInfo.attackTimer -= Time.deltaTime;

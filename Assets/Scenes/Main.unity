@@ -18125,6 +18125,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1f8bc2b64590884489ab96b443b23fa5, type: 3}
   - {fileID: 8300000, guid: 3eb42edd60aa88b4594589c87b9c1d1e, type: 3}
   - {fileID: 8300000, guid: e1f0000594ed83b4389ec9d65b9efca6, type: 3}
+  - {fileID: 8300000, guid: aaee7966590c2f94c98381981aafd607, type: 3}
   BgmAudio:
   - {fileID: 8300000, guid: 70444e25a7375fc478fe6e37f15cc45d, type: 3}
   - {fileID: 8300000, guid: fe0437a160241e444aa49a72cf9ae07d, type: 3}
@@ -41018,6 +41019,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   canMove: 1
   animator: {fileID: 0}
+  Solborn: {fileID: 0}
 --- !u!1001 &1325608362
 PrefabInstance:
   m_ObjectHideFlags: 0
