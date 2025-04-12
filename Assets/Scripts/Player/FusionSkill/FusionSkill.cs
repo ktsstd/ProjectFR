@@ -18,6 +18,8 @@ public class FusionSkill : MonoBehaviour
     float elementalResetTime = 10;
 
     public GameObject FireAndLightningEF;
+    public GameObject WaterAndLightningEF;
+    public GameObject CloudEF;
 
     float fusionSkillCoolTime;
     float fusionSkillMaxCoolTime;
@@ -126,9 +128,9 @@ public class FusionSkill : MonoBehaviour
             pv.RPC("UseFireAndLightning", RpcTarget.All, _skillPos);
             pv.RPC("FusionSkillCoolTime", RpcTarget.All, 30f);
         }
-        else if ((elementalSet[0] == 3 && elementalSet[1] == 1) || (elementalSet[0] == 1 && elementalSet[1] == 3)) // L&W
+        else if ((elementalSet[0] == 0 && elementalSet[1] == 1) || (elementalSet[0] == 1 && elementalSet[1] == 0)) // L&W
         {
-            pv.RPC("UseFireAndLightning", RpcTarget.All, null);
+            pv.RPC("UseWaterAndLightning", RpcTarget.All, null);
             pv.RPC("FusionSkillCoolTime", RpcTarget.All, 30f);
         }
         else
@@ -205,6 +207,8 @@ public class FusionSkill : MonoBehaviour
     [PunRPC]
     public IEnumerator UseWaterAndLightning()
     {
+        GameManager.Instance.StartCoroutine(GameManager.Instance.FusionSkybox());
+        GameObject cloud = null;
         foreach (GameObject player in playerList)
         {
             if (player.name == "Water(Clone)" || player.name == "Lightning(Clone)")
@@ -212,6 +216,47 @@ public class FusionSkill : MonoBehaviour
                 player.GetComponent<PlayerController>().UsingFusionSkill(true);
             }
         }
-        yield return null;
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Water(Clone)")
+            {
+                player.GetComponent<Water>().WaterAndLightning();
+            }
+        }
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Lightning(Clone)")
+            {
+                player.GetComponent<Lightning>().LightningAndWater();
+            }
+        }
+        yield return new WaitForSeconds(1f);
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Lightning(Clone)")
+            {
+                cloud = Instantiate(CloudEF, player.transform.position + Vector3.up * 25, FireAndLightningEF.transform.rotation);
+            }
+        }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate("Blessing & Thunder", Vector3.zero, WaterAndLightningEF.transform.rotation);
+        }
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Water(Clone)" || player.name == "Lightning(Clone)")
+            {
+                player.GetComponent<PlayerController>().pv.RPC("LookAtTarget", RpcTarget.All, cloud.name, 2f);
+            }
+        }
+        yield return new WaitForSeconds(2f);
+        Destroy(cloud);
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Water(Clone)" || player.name == "Lightning(Clone)")
+            {
+                player.GetComponent<PlayerController>().UsingFusionSkill(false);
+            }
+        }
     }
 }

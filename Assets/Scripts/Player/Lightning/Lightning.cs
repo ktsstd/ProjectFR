@@ -232,11 +232,21 @@ public class Lightning : PlayerController
         }
     }
 
-    public void LightningAniAndFire()
+    public void LightningFusionAni()
     {
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(dagger, transform.position, fireRot);
         skill.GetComponent<Dagger>().target = fusionSkillPos;
+    }
+
+    [PunRPC]
+    public void LightningAndWater()
+    {
+        fusionSkillPos = transform.position + Vector3.up * 10;
+        if (pv.IsMine)
+        {
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "L&W");
+        }
     }
 
     public void StateReset()

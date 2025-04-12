@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private Transform WaveThirdPos4;
     [SerializeField] private GameObject Quit;
     [SerializeField] private Material SkyBoxMat;
+    [SerializeField] private Material WLSkyBoxMat;
     [SerializeField] private Light DLight;
     public int WaveCount = 0;
     public bool isSpawn = false;
@@ -356,5 +357,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public void OnClickUISfx()
     {
         SoundManager.Instance.PlayUISfxShot(0);
+    }
+
+    public IEnumerator FusionSkybox()
+    {
+        Material material = RenderSettings.skybox;
+        RenderSettings.skybox = WLSkyBoxMat;
+        yield return new WaitForSeconds(10);
+        RenderSettings.skybox = material;
     }
 }

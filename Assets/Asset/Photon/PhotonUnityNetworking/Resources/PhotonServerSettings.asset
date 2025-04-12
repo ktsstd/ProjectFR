@@ -94,6 +94,14 @@ MonoBehaviour:
   - UseWaterAndLightning
   - FusionSkillCoolTime
   - GlassImageCrack
+  - LightningAndWater
+  - WaterAndLightning
+  - thunderSuat
+  - thunderShoot
+  - thunderStrike
+  - ThunderPosSetting
+  - BossAttack
+  - EnemyAttack
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

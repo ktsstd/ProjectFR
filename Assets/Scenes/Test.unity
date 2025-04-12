@@ -770,6 +770,7 @@ MonoBehaviour:
   WaveThirdPos4: {fileID: 317905394}
   Quit: {fileID: 0}
   SkyBoxMat: {fileID: 2100000, guid: 6ec48676840f64041b1495d5c76f95a1, type: 2}
+  WLSkyBoxMat: {fileID: 2100000, guid: 82b660520bdecce4daf45d270ec93fe4, type: 2}
   DLight: {fileID: 1509758183}
   WaveCount: 0
   isSpawn: 0
@@ -5678,6 +5679,8 @@ MonoBehaviour:
   isFusionSkillReady: 0
   skillPosObj: {fileID: 1704366581}
   FireAndLightningEF: {fileID: 2174127215071450264, guid: 05dcfeb06fdd0254c9998e130543971f, type: 3}
+  WaterAndLightningEF: {fileID: 3603895753907368959, guid: ee060b0bc3c239e4f8caeeb901e15a2a, type: 3}
+  CloudEF: {fileID: 3153797109240502577, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
 --- !u!114 &974281111
 MonoBehaviour:
   m_ObjectHideFlags: 0

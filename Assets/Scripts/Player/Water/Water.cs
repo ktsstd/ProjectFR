@@ -161,4 +161,13 @@ public class Water : PlayerController
         skill.GetComponent<CallOfTheSea>().damage = playerAtk;
         SoundManager.Instance.PlayPlayerSfx(3, _targetPos);
     }
+
+    [PunRPC]
+    public void WaterAndLightning()
+    {
+        if (pv.IsMine)
+        {
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "W&L");
+        }
+    }
 }

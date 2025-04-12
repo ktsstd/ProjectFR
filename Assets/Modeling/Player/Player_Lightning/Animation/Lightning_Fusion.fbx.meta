@@ -56,7 +56,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.59390867
-        functionName: LightningAniAndFire
+        functionName: LightningFusionAni
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: f5365083da0aaca488576430e989b48a, type: 3}
         floatParameter: 0
