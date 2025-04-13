@@ -60,6 +60,7 @@ public class BossSkill2Script : MonoBehaviour
 
     void StartEffect()
     {
+        GameManager.Instance.OnCameraShake(1);
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = Instantiate(BossSkill2, transform.position, 
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));

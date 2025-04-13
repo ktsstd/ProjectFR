@@ -63,7 +63,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             WarningTexts(3);
             return;
         }
-        if (CharacterIndex < 4)
+        if (CharacterIndex < 3)
         {
             CharacterIndex += 1;
         }
