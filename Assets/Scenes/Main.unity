@@ -18116,9 +18116,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cf3509cd6be6aaf478375cf8ec973d45, type: 3}
   - {fileID: 8300000, guid: f5212e724da303543a7e082867ffbac9, type: 3}
   - {fileID: 8300000, guid: e6430c17e0d391744b99c940c064b5aa, type: 3}
-  - {fileID: 8300000, guid: c6efa92464a7091409dc3c5876ff738a, type: 3}
+  - {fileID: 8300000, guid: 798d19edbf09a8248ab7d1ea701a8a79, type: 3}
   - {fileID: 8300000, guid: 825db49dcb744244f8543f4930a2fa5c, type: 3}
   - {fileID: 8300000, guid: d30f73136b0864d41a503fc411729a90, type: 3}
+  - {fileID: 8300000, guid: ba561c09dbf04cc4eb876438b7e43c34, type: 3}
+  - {fileID: 8300000, guid: cc617847b52048c4880aa1633c6528a0, type: 3}
+  - {fileID: 8300000, guid: 30415cd69ccc79246b5afc50abfa143e, type: 3}
   SfxMonsterAudio:
   - {fileID: 8300000, guid: 7016f3b5df63e9747b0aeb16be758a4c, type: 3}
   - {fileID: 8300000, guid: 825c3d6bbb49a5a4d9ab40c828ee9e5e, type: 3}

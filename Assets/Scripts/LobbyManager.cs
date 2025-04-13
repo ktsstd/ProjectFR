@@ -106,7 +106,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         else if (CharacterIndex == 2)
         {
-            playerPrefab = "Fire";
+            playerPrefab = "Earth";
         }
         else if (CharacterIndex == 3)
         {

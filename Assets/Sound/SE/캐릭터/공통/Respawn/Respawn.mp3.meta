@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: c6efa92464a7091409dc3c5876ff738a
-AssetOrigin:
-  serializedVersion: 1
-  productId: 157651
-  packageName: Epic Toon VFX 2
-  packageVersion: 1.3
-  assetPath: Assets/Hovl Studio/Epic Toon VFX 2/Sounds/Toon ground explosion.wav
-  uploadId: 719287
+guid: ba561c09dbf04cc4eb876438b7e43c34
 AudioImporter:
   externalObjects: {}
   serializedVersion: 7

@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if ((int)character == 1)
             prefabName = "Lightning";
         if ((int)character == 2)
-            prefabName = "Fire";
+            prefabName = "Earth";
         else if ((int)character == 3)
             prefabName = "Fire";
         PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);

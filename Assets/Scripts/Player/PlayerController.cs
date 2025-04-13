@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         else
             dashEF.SetActive(false);
         if (currentStates == States.Die)
-            respawnImgae.rectTransform.sizeDelta = new Vector2((1 - (respawnCoolTime / 10f)) * 8.5f,(1 - (respawnCoolTime / 10f)) * 8.5f);
+            respawnImgae.rectTransform.sizeDelta = new Vector2((1 - (respawnCoolTime / 6)) * 8.5f,(1 - (respawnCoolTime / 6)) * 8.5f);
 
         if (pv.IsMine)
         {
@@ -323,6 +323,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             currentStates = States.Idle;
     }
 
+    public virtual float OtherShield(float _damage) { return 0f; }
+
     float damageDelayTime;
     [PunRPC]
     public void OnPlayerHit(float _damage)
@@ -336,6 +338,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 float currentDamage = _damage;
                 if (damageDelayTime <= 0)
                 {
+                    currentDamage = OtherShield(currentDamage);
                     if (recoveryShield != 0)
                     {
                         if (recoveryShield < currentDamage)
@@ -455,6 +458,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void PlayerRespawn()
     {
+        SoundManager.Instance.PlayPlayerSfx(17, transform.position);
         respawnEF.Play();
         playerRespawnZone.SetActive(false);
         PlayTriggerAnimation("reset");

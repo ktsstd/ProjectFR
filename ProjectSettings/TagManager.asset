@@ -8,6 +8,8 @@ TagManager:
   - TestObject
   - Object
   - SafeZone
+  - Bullet
+  - Summon
   layers:
   - Default
   - TransparentFX

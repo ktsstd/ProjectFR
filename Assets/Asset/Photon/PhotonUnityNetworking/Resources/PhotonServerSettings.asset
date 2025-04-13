@@ -102,6 +102,11 @@ MonoBehaviour:
   - ThunderPosSetting
   - BossAttack
   - EnemyAttack
+  - Shockwave
+  - Protection
+  - ProtectionBroken
+  - SummonAnimationEffect
+  - Guardian
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
