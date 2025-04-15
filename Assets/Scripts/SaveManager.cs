@@ -1,11 +1,6 @@
-using Cinemachine;
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SaveManager : MonoBehaviour
@@ -16,6 +11,7 @@ public class SaveManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI SfxMonsterText;
     [SerializeField] GameObject SettingUI;
     [SerializeField] TMP_InputField userIF;
+    [SerializeField] TextMeshProUGUI userName;
     [SerializeField] TextMeshProUGUI roomNameIF;
     public Slider BgmSlider;
     public Slider SfxSlider;
@@ -66,6 +62,10 @@ public class SaveManager : MonoBehaviour
         SfxMonsterSlider.onValueChanged.AddListener(OnSliderSfxMonsterValueChanged);
         if (roomNameIF != null)
             roomNameIF.text = PhotonNetwork.CurrentRoom.Name;
+        if (userIF != null)
+            userIF.text = PhotonNetwork.NickName;
+        if (userName != null)
+            userName.text = PhotonNetwork.NickName;
     }
 
     private void Update()

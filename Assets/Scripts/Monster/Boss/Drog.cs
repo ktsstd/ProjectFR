@@ -137,7 +137,6 @@ public class Drog : MonsterAI
                 Vector3 AttackObj2local = AttackObj2.transform.localPosition;
                 AttackObj2local.y = -0.85f;
                 AttackObj2.transform.localPosition = AttackObj2local;
-                GameManager.Instance.OnCameraShake(1);
                 break;
             case 2:
                 BossSkill3Obj.SetActive(true);
