@@ -190,7 +190,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.Destroy(gameObject);
         GameManager.Instance.CheckMonster();
     }
-
+    [PunRPC]
     public void OnMonsterKnockBack(Transform _transform)
     {
         if (monsterInfo.isBoss) return;
