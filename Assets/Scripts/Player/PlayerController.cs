@@ -323,7 +323,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             currentStates = States.Idle;
     }
 
-    public virtual float OtherShield(float _damage) { return 0f; }
+    public virtual float OtherShield(float _damage) { return _damage; }
 
     float damageDelayTime;
     [PunRPC]
