@@ -126,8 +126,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                     if (playerCtrl != null && playerCtrl.playerHp <= 0)
                         continue;
                 }
+                else if (possibleTarget.CompareTag("Summon"))
+                {
 
-                float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);
+                }
+
+                    float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);
 
                 if (distance < closestDistance)
                 {

@@ -18018,14 +18018,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 825c3d6bbb49a5a4d9ab40c828ee9e5e, type: 3}
   - {fileID: 8300000, guid: 1f8bc2b64590884489ab96b443b23fa5, type: 3}
   - {fileID: 8300000, guid: 3eb42edd60aa88b4594589c87b9c1d1e, type: 3}
-  - {fileID: 8300000, guid: e1f0000594ed83b4389ec9d65b9efca6, type: 3}
+  - {fileID: 8300000, guid: e5f7026e50643eb48a52bf14735175bc, type: 3}
   - {fileID: 8300000, guid: aaee7966590c2f94c98381981aafd607, type: 3}
   BgmAudio:
   - {fileID: 8300000, guid: 70444e25a7375fc478fe6e37f15cc45d, type: 3}
-  - {fileID: 8300000, guid: fe0437a160241e444aa49a72cf9ae07d, type: 3}
+  - {fileID: 8300000, guid: 7a649a87749a6754590c1d1d5a89d96b, type: 3}
   - {fileID: 8300000, guid: 0acbb55b938626c428d092f5d71297ec, type: 3}
   UISfxAudio:
-  - {fileID: 8300000, guid: 90f261c2fa71b8d4796334dbdd39a224, type: 3}
+  - {fileID: 8300000, guid: 9b8c899a8b7d8bf4484fbe090330e4c8, type: 3}
   Bgm: {fileID: 647502726}
   Sfx: {fileID: 0}
   UISfx: {fileID: 0}
@@ -38736,6 +38736,7 @@ MonoBehaviour:
   SfxMonsterText: {fileID: 156485235}
   SettingUI: {fileID: 784278355}
   userIF: {fileID: 1590944302}
+  userName: {fileID: 0}
   roomNameIF: {fileID: 0}
   BgmSlider: {fileID: 854330872}
   SfxSlider: {fileID: 1820341955}
