@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 //Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
                 //PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
-                StartCoroutine(InstantiateMonsters(Mugolin, 15));
+                StartCoroutine(InstantiateMonsters(Mugolin, 1));
             }
             else if (WaveCount == 2)
             {
@@ -365,5 +365,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         RenderSettings.skybox = WLSkyBoxMat;
         yield return new WaitForSeconds(10);
         RenderSettings.skybox = material;
+    }
+    [SerializeField] GameObject WaveIcon;
+    public void OnClickIconUp()
+    {
+
     }
 }

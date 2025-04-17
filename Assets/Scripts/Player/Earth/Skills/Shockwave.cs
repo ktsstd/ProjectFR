@@ -23,7 +23,7 @@ public class Shockwave : MonoBehaviour
             MonsterAI monsterAI = other.GetComponent<MonsterAI>();
             monsterAI.MonsterDmged(100f + (damage * 0.2f));
             //if (!monsterAI.monsterInfo.isBoss)
-            //    monsterAI.OnMonsterKnockBack(transform);
+            monsterAI.OnMonsterKnockBack(transform);            
             Instantiate(EarthHitEF, other.transform);
         }
     }

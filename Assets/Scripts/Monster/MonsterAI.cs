@@ -190,21 +190,30 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.Destroy(gameObject);
         GameManager.Instance.CheckMonster();
     }
-    [PunRPC]
+    Transform knockbackTransform;
     public void OnMonsterKnockBack(Transform _transform)
+    {
+        knockbackTransform = _transform;
+        if (CurHp <= 0) return;
+        photonView.RPC("OnMonsterKnockBackStart", RpcTarget.All);
+    }
+    [PunRPC]
+    public void OnMonsterKnockBackStart()
     {
         if (monsterInfo.isBoss) return;
         canMove = false;
         agent.enabled = false;
 
-        Vector3 vec = transform.position - _transform.position;
-        vec.x = Mathf.Sign(vec.x) * 2;
+        Vector3 vec = transform.position - knockbackTransform.position;
+        vec.x = Mathf.Sign(vec.x) * 3f;
         vec.y = 0;
-        vec.z = Mathf.Sign(vec.z) * 2;
+        vec.z = Mathf.Sign(vec.z) * 3f;
         rigidbody.AddForce(vec, ForceMode.Impulse);
+        knockbackTransform = null;
 
         OnMonsterStun(0.5f);
     }
+
 
     private Coroutine stunCoroutine;
     public void OnMonsterStun(float _time)
