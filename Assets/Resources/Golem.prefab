@@ -879,6 +879,7 @@ GameObject:
   - component: {fileID: 4229253391383392992}
   - component: {fileID: 5832827105329565856}
   - component: {fileID: 8173274901509742599}
+  - component: {fileID: -6337264540948971107}
   m_Layer: 0
   m_Name: Golem
   m_TagString: Summon
@@ -1037,7 +1038,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba87ec06b4f6b7447b29b584c5da0fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHp: 0
+  MaxHp: 0
+  Atk: 0
+  speed: 0
+  summonTime: 0
+  currentStates: 0
   summonEF: {fileID: 8840957093601076963, guid: b4ec71828725f4245a6785d78d15b0c2, type: 3}
+--- !u!195 &-6337264540948971107
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3917443208820035527}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.25
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4235813393423931654
 GameObject:
   m_ObjectHideFlags: 0

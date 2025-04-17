@@ -3,15 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Golem : MonoBehaviour
+public class Golem : SummonAI
 {
     PhotonView pv;
+    Animator animator;
     
     public GameObject summonEF;
+
+    Vector3 targetPos;
 
     private void Start()
     {
         pv = GetComponent<PhotonView>();
+        animator = GetComponent<Animator>();
     }
 
     public void UseSummonAnimationEffect()
