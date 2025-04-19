@@ -101,7 +101,11 @@ public class Earth : PlayerController
     public void UseProtection()
     {
         if (pv.IsMine)
+        {
             pv.RPC("Protection", RpcTarget.All, null);
+            if (golem != null)
+                golem.GetComponent<Golem>().pv.RPC("Protection", RpcTarget.All, null);
+        }
     }
 
     public void UseGuardian()
@@ -136,15 +140,20 @@ public class Earth : PlayerController
         earthShieldEF.SetActive(false);
     }
 
+    GameObject golem = null;
     [PunRPC]
     public void Guardian(Vector3 _sumonPos)
     {
-        PhotonNetwork.Instantiate("Golem", _sumonPos, transform.rotation);
+        if (pv.IsMine)
+        {
+            golem = PhotonNetwork.Instantiate("Golem", _sumonPos, transform.rotation);
+            golem.GetComponent<Golem>().maxHp = playerMaxHp * 1.5f;
+        }
     }
 
     public override float OtherShield(float _damage)
     {
-        float damage = 0;
+        float damage = _damage;
         if (earthShield != 0)
         {
             if (earthShield < _damage)

@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,59 +8,111 @@ using UnityEngine.AI;
 public class SummonAI : MonoBehaviourPunCallbacks
 {
     public float currentHp;
-    public float MaxHp;
-    public float Atk;
+    public float maxHp;
+    public float atk;
+    public float attackRange;
     public float speed;
     public float summonTime;
+    bool isDie;
+    bool isRun;
+    Coroutine summonCoroutine;
 
     NavMeshAgent agent;
+    public Animator animator;
+    public PhotonView pv;
 
-    public enum States // idle, attack, die
-    {
-        Idle,
-        Move,
-        Attack,
-        Die
-    }
-    public States currentStates;
 
     public virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        currentStates = States.Idle;
+        pv = GetComponent<PhotonView>();
+        animator = GetComponent<Animator>();
+
+        agent.speed = speed;
+        isDie = false;
+
+        summonCoroutine = StartCoroutine("SummonAICoroutine");
         Invoke("SelfDestroy", summonTime);
-        StartCoroutine("SummonAICoroutine");
     }
 
-    private void Update()
+    public void Update()
     {
-        switch (currentStates)
+        if (damageDelayTime > 0)
+            damageDelayTime -= Time.deltaTime;
+
+        if (targetPos != null && targetPos != Vector3.zero)
         {
-            case States.Idle:
-                break;
-            case States.Move:
-                break;
-            case States.Attack:
-                break;
-            case States.Die:
-                break;
+            if (Vector3.Distance(targetPos, transform.position) <= 0.5f)
+                isRun = false;
+            else
+                isRun = true;
+
+            animator.SetBool("isRun", isRun);
         }
 
+        if (Input.GetKeyDown(KeyCode.Keypad9))
+        {
+            OnSummonHit(1000f);
+        }
     }
+
+    float damageDelayTime = 0.2f;
+    [PunRPC]
+    public void OnSummonHit(float _damage)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (!isDie)
+            {
+                float currentDamage = _damage;
+                if (damageDelayTime <= 0)
+                {
+                    currentDamage = Shield(currentDamage);
+
+                    currentHp -= currentDamage;
+                    damageDelayTime = 0.2f;
+                    Debug.Log(currentDamage);
+                }
+
+                if (currentHp <= 0)
+                {
+                    currentHp = 0;
+                    isDie = true;
+                    StopCoroutine(summonCoroutine);
+                    animator.SetTrigger("Die");
+                    Invoke("SelfDestroy", 3f);
+                }
+            }
+        }
+    }
+
+    public virtual float Shield(float _damage) { return _damage; }
 
     Vector3 targetPos;
     IEnumerator SummonAICoroutine()
     {
         yield return new WaitForSeconds(2f);
-        while (currentStates != States.Die)
+        while (!isDie)
         {
-            targetPos = GetTargetPos(2f);
-            transform.rotation = Quaternion.LookRotation(targetPos);
-            agent.destination = targetPos;
-            yield return new WaitForSeconds(1f);
+            targetPos = GetTargetPos(attackRange);
+            if (targetPos == Vector3.zero)
+            {
+                yield return new WaitForSeconds(0.5f);
+                continue;
+            }
+            agent.SetDestination(targetPos);
+            yield return new WaitForSeconds(0.5f);
+            if (Vector3.Distance(transform.position, targetMonster.transform.position) <= attackRange + 1f)
+            {
+                animator.SetTrigger("AttackAni");
+                yield return new WaitForSeconds(2f);
+            }
         }
     }
 
+    public virtual void AttackAnimation() { }
+
+    GameObject targetMonster = null;
     public Vector3 GetTargetPos(float _attackRange)
     {
         GameObject closeMonster = null;
@@ -80,12 +133,19 @@ public class SummonAI : MonoBehaviourPunCallbacks
                 }
             }
         }
+        targetMonster = closeMonster;
 
         Vector3 direction = transform.position - closeMonster.transform.position;
         float distance = direction.magnitude;
 
         direction = direction.normalized;
         return closeMonster.transform.position + direction * _attackRange;
+    }
+
+    [PunRPC]
+    public void PlayTriggerAnimation(string _name)
+    {
+        animator.SetTrigger(_name);
     }
 
     public void SelfDestroy()

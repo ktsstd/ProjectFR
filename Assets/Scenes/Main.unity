@@ -18013,6 +18013,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ba561c09dbf04cc4eb876438b7e43c34, type: 3}
   - {fileID: 8300000, guid: cc617847b52048c4880aa1633c6528a0, type: 3}
   - {fileID: 8300000, guid: 30415cd69ccc79246b5afc50abfa143e, type: 3}
+  - {fileID: 8300000, guid: c9a6119d7c5098e40b43f6f7f5c75e82, type: 3}
+  - {fileID: 8300000, guid: eaf41d51c2818df48811eeaf6dd076f6, type: 3}
+  - {fileID: 8300000, guid: 0fadbcbb313c2394ebcb1a414f88e5cf, type: 3}
+  - {fileID: 8300000, guid: 938fae2ed042e104c8f16897d33f5371, type: 3}
+  - {fileID: 8300000, guid: a1af7a4c2d59517459d62f5d3528a861, type: 3}
   SfxMonsterAudio:
   - {fileID: 8300000, guid: 7016f3b5df63e9747b0aeb16be758a4c, type: 3}
   - {fileID: 8300000, guid: 825c3d6bbb49a5a4d9ab40c828ee9e5e, type: 3}

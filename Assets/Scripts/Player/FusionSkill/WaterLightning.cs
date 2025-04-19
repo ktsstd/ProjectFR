@@ -12,6 +12,7 @@ public class WaterLightning : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.PlayPlayerSfx(23, transform.position);
         pv = GetComponent<PhotonView>();
         Invoke("SelfDestroy", 10.5f);
     }
@@ -61,6 +62,7 @@ public class WaterLightning : MonoBehaviour
     [PunRPC]
     public void EnemyAttack(Vector3[] _targetPos)
     {
+        SoundManager.Instance.PlayPlayerSfx(24, transform.position);
         for (int i = 0; i < 3; i++)
         {
             Instantiate(thunder, _targetPos[i], thunder.transform.rotation);

@@ -1,21 +1,39 @@
 using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Golem : SummonAI
 {
-    PhotonView pv;
-    Animator animator;
-    
+    float earthShield = 0;
+
+    public Transform attackPos;
+    public GameObject attackEF;
     public GameObject summonEF;
+    public GameObject earthShieldEF;
 
     Vector3 targetPos;
 
-    private void Start()
+    public override void Start()
     {
-        pv = GetComponent<PhotonView>();
-        animator = GetComponent<Animator>();
+        base.Start();
+        currentHp = maxHp;
+    }
+
+    public override void AttackAnimation()
+    {
+        SoundManager.Instance.PlayPlayerSfx(21, transform.position);
+        GameObject skill = Instantiate(attackEF, attackPos.position, attackEF.transform.rotation);
+        skill.GetComponent<Shockwave>().damage = atk;
+    }
+
+    [PunRPC]
+    public IEnumerator Protection()
+    {
+        earthShieldEF.SetActive(true);
+        earthShield = maxHp * 0.05f;
+        yield return new WaitForSeconds(5f);
+        earthShieldEF.SetActive(false);
+        earthShield = 0;
     }
 
     public void UseSummonAnimationEffect()
@@ -27,6 +45,34 @@ public class Golem : SummonAI
     [PunRPC]
     public void SummonAnimationEffect()
     {
-        Instantiate(summonEF, transform.position, summonEF.transform.rotation);
+        SoundManager.Instance.PlayPlayerSfx(20, transform.position);
+        GameObject skill = Instantiate(summonEF, transform.position, summonEF.transform.rotation);
+        skill.GetComponent<SumonDamage>().damage = atk;
+    }
+    public override float Shield(float _damage)
+    {
+        float damage = _damage;
+        if (earthShield != 0)
+        {
+            if (earthShield < _damage)
+            {
+                damage = _damage - earthShield;
+                earthShield = 0;
+                pv.RPC("ProtectionBroken", RpcTarget.All, null);
+            }
+            else
+            {
+                earthShield -= _damage;
+                damage = 0;
+            }
+        }
+        return damage;
+    }
+
+
+    [PunRPC]
+    public void ProtectionBroken()
+    {
+        earthShieldEF.SetActive(false);
     }
 }

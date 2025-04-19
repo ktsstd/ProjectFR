@@ -8,6 +8,7 @@ public class FireLightning : MonoBehaviour
 
     void Start()
     {
+        SoundManager.Instance.PlayPlayerSfx(22, transform.position);
         Invoke("SelfDestroy", 2f);
     }
 
