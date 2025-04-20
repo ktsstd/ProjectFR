@@ -20,6 +20,7 @@ MonoBehaviour:
   attackTimer: 0
   priTarget:
   - Player
+  - Summon
   attackboundary:
   - {fileID: 2883666133809043936, guid: 3b138ddbb8090cc40bb866a7821b05ac, type: 3}
   isBoss: 0

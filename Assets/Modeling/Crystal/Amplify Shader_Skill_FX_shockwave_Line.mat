@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Amplify Shader_Skill_FX_shockwave_Line
+  m_Shader: {fileID: 4800000, guid: 49a1429906b99a843900ba9a958f0664, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Main_Tex:
+        m_Texture: {fileID: 2800000, guid: a293981327e314d46b09c667a70fd7cc, type: 3}
+        m_Scale: {x: 3, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_tex:
+        m_Texture: {fileID: 2800000, guid: 7dafa5b81fffb8a41aaed27d6d1e7b58, type: 3}
+        m_Scale: {x: 2, y: 0.2}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Tex:
+        m_Texture: {fileID: 2800000, guid: 51fe2c9d5b236124d9f9e7ea528b0bea, type: 3}
+        m_Scale: {x: 2, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Dissolve: 0.485
+    - _Distotion: 0.356
+    - _Main_Power: 1.54
+    - _Main_ins: 1.69
+    - _Noise_UPanner: 0
+    - _Noise_VPanner: 0
+    - _Nomral_UPanner: 0
+    - _Nomral_VPanner: -0.5
+    - _Opacity_Ins: 2.63
+    - _Opacity_Power: 1
+    - __dirty: 0
+    m_Colors:
+    - _Main_Color: {r: 1, g: 1, b: 1, a: 0}

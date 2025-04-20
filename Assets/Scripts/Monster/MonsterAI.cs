@@ -128,7 +128,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 else if (possibleTarget.CompareTag("Summon"))
                 {
-
+                    SummonAI summonAIS = possibleTarget.GetComponent<SummonAI>();
+                    if (summonAIS != null && summonAIS.currentHp <= 0)
+                        continue;
                 }
 
                     float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);

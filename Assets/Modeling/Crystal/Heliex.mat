@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Heliex
+  m_Shader: {fileID: 4800000, guid: 668efd3ff2ee43f468400514e0825b0b, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Main_TEx:
+        m_Texture: {fileID: 2800000, guid: f6b96a20d72301c47ad1cf73991dbdbb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_Tex:
+        m_Texture: {fileID: 2800000, guid: 6ceab10556534e74a9ea2ade08ffb2be, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _normal_Tex:
+        m_Texture: {fileID: 2800000, guid: 80ecb39da161ed04995587998c56e863, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Main_Power: 1
+    - _NOise_UPanner: -0.4
+    - _NOise_VPanner: 0
+    - _Opacity: 1
+    - __dirty: 0
+    - _distotion: 0.424
+    - _normal_UPanner: -0.23
+    - _normal_VPanner: 0
+    m_Colors:
+    - _Main_color: {r: 1.1353015, g: 1.1353015, b: 1.1353015, a: 0}

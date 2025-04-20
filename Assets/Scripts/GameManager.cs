@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.UIElements;
-using Unity.VisualScripting;
-using System.Security.Cryptography;
 using Cinemachine;
-using Photon.Pun.Demo.PunBasics;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -28,7 +26,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private Material SkyBoxMat;
     [SerializeField] private Material WLSkyBoxMat;
     [SerializeField] private Light DLight;
+    [SerializeField] private TextMeshProUGUI WaveText;
+    [SerializeField] private TextMeshProUGUI WaveAllMonsterCountText;
+    [SerializeField] GameObject TopBar;
+    public int WaveAllMonster;
     public int WaveCount = 0;
+    public int AllWaveCount;
     public bool isSpawn = false;
     //private bool QuitOn = false;
 
@@ -87,6 +90,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             RenderSettings.skybox = SkyBoxMat;
             DLight.color = new Color(1f, 0.3216f, 0f, 1f);
         }
+        WaveAllMonsterCountText.text = (GameObject.FindGameObjectsWithTag("Enemy").Length + "/" + WaveAllMonster);
+        WaveText.text = ("Wave " + WaveCount + "/5");
     }
 
     public IEnumerator CheckMonsterC()
@@ -130,21 +135,25 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 //Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
                 //PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
-                StartCoroutine(InstantiateMonsters(Mugolin, 1));
+                WaveAllMonster = 15;
+                StartCoroutine(InstantiateMonsters(Mugolin, 15));                
             }
             else if (WaveCount == 2)
             {
+                WaveAllMonster = 25;
                 StartCoroutine(InstantiateMonsters(Mugolin, 15));
                 StartCoroutine(InstantiateMonsters(Sleebam, 10));
             }
             else if (WaveCount == 3)
             {
+                WaveAllMonster = 33;
                 StartCoroutine(InstantiateMonsters(Mugolin, 20));
                 StartCoroutine(InstantiateMonsters(Sleebam, 10));
                 StartCoroutine(InstantiateMonsters(Grave, 3));
             }
             else if (WaveCount == 4)
             {
+                WaveAllMonster = 46;
                 StartCoroutine(InstantiateMonsters(Mugolin, 25));
                 StartCoroutine(InstantiateMonsters(Sleebam, 15));
                 StartCoroutine(InstantiateMonsters(Grave, 6));
@@ -366,9 +375,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(10);
         RenderSettings.skybox = material;
     }
-    [SerializeField] GameObject WaveIcon;
     public void OnClickIconUp()
     {
-
+        RectTransform TopBarRect = TopBar.GetComponent<RectTransform>();
+        if (TopBarRect.anchoredPosition.y == 31)
+            TopBarRect.anchoredPosition = new Vector2(0, 0);
+        else
+            TopBarRect.anchoredPosition = new Vector2(0, 31);
     }
 }

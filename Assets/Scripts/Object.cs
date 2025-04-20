@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Playables;
 
 public class Object : MonoBehaviourPunCallbacks
 {
-    private float health = 550000f;
+    public float health = 550000f;
+    private bool GameOver = false;
     private GameObject[] Monster;
     private int MonsterCount;
     private float detectRadius = 15.5f;
+    [SerializeField] private PlayableDirector DefeatEffect;
 
     private void Update()
     {
@@ -33,10 +36,14 @@ public class Object : MonoBehaviourPunCallbacks
     [PunRPC]
     public void Damaged(float damage)
     {
+        if (GameOver) return;
         health -= damage;
         if (health <= 0)
         {
-            DestroyImmediate(gameObject);
+            PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            playerS.photonView.RPC("LookAtTarget", RpcTarget.All, gameObject.name, 55555f);
+            DefeatEffect.Play();
+            GameOver = true;
         }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
