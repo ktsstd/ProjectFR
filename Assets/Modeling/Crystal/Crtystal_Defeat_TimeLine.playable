@@ -247,6 +247,7 @@ MonoBehaviour:
   searchHierarchy: 0
   active: 1
   postPlayback: 2
+  directorOnClipEnd: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,11 +262,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 0
   m_Tracks:
-  - {fileID: -5187646576089860858}
   - {fileID: -4530565645545562930}
+  - {fileID: -5187646576089860858}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
+    m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: 3449300427688258399}
 --- !u!114 &3449300427688258399
