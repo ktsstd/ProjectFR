@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using Unity.VisualScripting;
 
 public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 {
