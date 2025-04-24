@@ -120,27 +120,27 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             isSpawn = true;
             WaveCount += 1;
             Debug.Log("Wave Start at 5sec / TestMod");
-            if (WaveCount == 1)
-            {
-                WaveAllMonster = 15;
-            }
-            else if (WaveCount == 2)
-            {
-                WaveAllMonster = 25;
-            }
-            else if (WaveCount == 3)
-            {
-                WaveAllMonster = 33;
-            }
-            else if (WaveCount == 4)
-            {
-                WaveAllMonster = 46;
-            }
         }
     }
 
     IEnumerator WaveStart()
     {
+        if (WaveCount == 1)
+        {
+            WaveAllMonster = 15;
+        }
+        else if (WaveCount == 2)
+        {
+            WaveAllMonster = 25;
+        }
+        else if (WaveCount == 3)
+        {
+            WaveAllMonster = 33;
+        }
+        else if (WaveCount == 4)
+        {
+            WaveAllMonster = 46;
+        }
         if (PhotonNetwork.IsMasterClient)
         {
             yield return new WaitForSeconds(5);
