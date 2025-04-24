@@ -12,10 +12,13 @@ public class PlayerUi : MonoBehaviour
 
     public Sprite[] hpSprits;
 
+    public Image playerIcon;
+    public Sprite[] playerIconSprite;
     public Image[] skillsIcon;
     public Sprite[] fireSkillIcon;
     public Sprite[] waterSkillIcon;
     public Sprite[] lightningSkillIcon;
+
 
     public Image[] elementalCodeImage;
     public Sprite[] elementalCodeSprite;
@@ -28,6 +31,7 @@ public class PlayerUi : MonoBehaviour
 
     public GameObject[] otherPlayerUi;
     public Slider[] otherPlayerHp;
+    public Image[] otherPlayerIcon;
     List <GameObject> otherPlayerList = new List<GameObject>();
 
     float playerHp;
@@ -51,6 +55,7 @@ public class PlayerUi : MonoBehaviour
         playerMaxHp = 1;
         if ((int)character == 0)
         {
+            playerIcon.sprite = playerIconSprite[0];
             playerHpImage.sprite = hpSprits[0];
             skillsIcon[0].sprite = waterSkillIcon[0];
             skillsIcon[1].sprite = waterSkillIcon[1];
@@ -58,6 +63,7 @@ public class PlayerUi : MonoBehaviour
         }
         else if ((int)character == 1)
         {
+            playerIcon.sprite = playerIconSprite[1];
             playerHpImage.sprite = hpSprits[1];
             skillsIcon[0].sprite = lightningSkillIcon[0];
             skillsIcon[1].sprite = lightningSkillIcon[1];
@@ -65,6 +71,7 @@ public class PlayerUi : MonoBehaviour
         }
         else if ((int)character == 3)
         {
+            playerIcon.sprite = playerIconSprite[3];
             playerHpImage.sprite = hpSprits[3];
             skillsIcon[0].sprite = fireSkillIcon[0];
             skillsIcon[1].sprite = fireSkillIcon[1];
@@ -89,6 +96,8 @@ public class PlayerUi : MonoBehaviour
             for (int i = 0; i < otherPlayerList.Count; i++)
             {
                 otherPlayerHp[i].value = otherPlayerList[i].GetComponent<PlayerController>().playerHp / otherPlayerList[i].GetComponent<PlayerController>().playerMaxHp;
+                if (otherPlayerIcon[i].sprite == null)
+                    otherPlayerIcon[i].sprite = playerIconSprite[otherPlayerList[i].GetComponent<PlayerController>().elementalCode];
             }
         }
     }

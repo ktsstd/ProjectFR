@@ -6075,7 +6075,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 21880a8d1f3b35549aaede2ca53050de, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17340,7 +17340,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 21880a8d1f3b35549aaede2ca53050de, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17522,7 +17522,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 21880a8d1f3b35549aaede2ca53050de, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21880,6 +21880,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 71922643734318344a674fc21ab79986, type: 3}
   - {fileID: 21300000, guid: 71922643734318344a674fc21ab79986, type: 3}
   - {fileID: 21300000, guid: 71922643734318344a674fc21ab79986, type: 3}
+  playerIcon: {fileID: 691253645}
+  playerIconSprite:
+  - {fileID: 21300000, guid: 259fae45af934ed42b7fe6e50db46468, type: 3}
+  - {fileID: 21300000, guid: 77f99e8a345e9854b8f976560cd7dfca, type: 3}
+  - {fileID: 21300000, guid: 91f1461ebff30764b8b5ab80a755ad90, type: 3}
+  - {fileID: 21300000, guid: 91f1461ebff30764b8b5ab80a755ad90, type: 3}
   skillsIcon:
   - {fileID: 2015447313}
   - {fileID: 1825828502}
@@ -21923,6 +21929,10 @@ MonoBehaviour:
   - {fileID: 1811199638}
   - {fileID: 1508200}
   - {fileID: 1670679693}
+  otherPlayerIcon:
+  - {fileID: 1677520574}
+  - {fileID: 537075805}
+  - {fileID: 1672810079}
   FusionHoldTime: 2
   skillCoolTime:
   - {fileID: 661058717}
