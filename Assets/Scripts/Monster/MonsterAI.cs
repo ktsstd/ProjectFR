@@ -193,7 +193,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         GameManager.Instance.CheckMonster();
     }
     Transform knockbackTransform;
-    public void OnMonsterKnockBack(Transform _transform)
+    public virtual void OnMonsterKnockBack(Transform _transform)
     {
         knockbackTransform = _transform;
         if (CurHp <= 0) return;

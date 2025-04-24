@@ -7,10 +7,11 @@ public class grave : MonsterAI
     private float hp = 800f;
     private float radius = 5f;
     public GameObject Solborn;
+    private bool canSpawn = true;
     public IEnumerator Start()
     {
         yield return new WaitForSeconds(3.5f);
-        while (true)
+        while (canSpawn)
         {
             Vector3 randomPos = GetRandomPos();
             //PhotonNetwork.Instantiate("Monster/Solborn", randomPos, Quaternion.identity);
@@ -33,6 +34,10 @@ public class grave : MonsterAI
     {
 
     }
+    public override void OnMonsterKnockBack(Transform _transform)
+    {
+
+    }
 
     Vector3 GetRandomPos()
     {
@@ -42,10 +47,16 @@ public class grave : MonsterAI
     }
     public override void MonsterDmged(float damage)
     {
-        hp -= damage;
-        if (hp <= 0)
+        if (CurHp > 0)
         {
-            PhotonNetwork.Destroy(gameObject);
+            CurHp -= damage;
+        }
+        else if (CurHp <= 0 && canMove)
+        {
+            canSpawn = false;
+            if (animator != null)
+                animator.SetTrigger("Die");
+            Invoke("DestroyMonster", 1f);
         }
     }
 }
