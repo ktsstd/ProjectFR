@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private TextMeshProUGUI WaveAllMonsterCountText;
     [SerializeField] GameObject TopBar;
     [SerializeField] GameObject BossHpBar;
-    public int WaveAllMonster;
+    public int WaveAllMonster = 15;
     public int WaveCount = 0;
     public int AllWaveCount;
     public bool isSpawn = false;
