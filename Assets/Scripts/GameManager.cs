@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private TextMeshProUGUI WaveText;
     [SerializeField] private TextMeshProUGUI WaveAllMonsterCountText;
     [SerializeField] GameObject TopBar;
+    [SerializeField] GameObject WaveBar;
     [SerializeField] GameObject BossHpBar;
     public int WaveAllMonster = 15;
     public int WaveCount = 0;
@@ -98,7 +99,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            TopBar.SetActive(false);
+            WaveBar.SetActive(false);
             BossHpBar.SetActive(true);
         }
     }

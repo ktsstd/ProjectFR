@@ -1644,7 +1644,8 @@ MonoBehaviour:
   DLight: {fileID: 1509758183}
   WaveText: {fileID: 1243498204}
   WaveAllMonsterCountText: {fileID: 133504658}
-  TopBar: {fileID: 1144168593}
+  TopBar: {fileID: 1475098636}
+  WaveBar: {fileID: 1144168593}
   BossHpBar: {fileID: 1467699645}
   WaveAllMonster: 0
   WaveCount: 0
@@ -17670,7 +17671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb4a2f0c4bd628443a45ccb762ba56d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 55
   DefeatEffect: {fileID: 4068352902344429501}
 --- !u!95 &1677099127
 Animator:
