@@ -6,13 +6,17 @@ using UnityEngine.Playables;
 
 public class Object : MonoBehaviourPunCallbacks
 {
-    public float health = 550000f;
+    private float health = 550000f;
     private bool GameOver = false;
     private GameObject[] Monster;
     private int MonsterCount;
     private float detectRadius = 15.5f;
     [SerializeField] private PlayableDirector DefeatEffect;
 
+    private void Start()
+    {
+        health = 550000f;
+    }
     private void Update()
     {
         Monster = GameObject.FindGameObjectsWithTag("Enemy");
