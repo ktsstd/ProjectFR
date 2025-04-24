@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private TextMeshProUGUI WaveText;
     [SerializeField] private TextMeshProUGUI WaveAllMonsterCountText;
     [SerializeField] GameObject TopBar;
+    [SerializeField] GameObject BossHpBar;
     public int WaveAllMonster;
     public int WaveCount = 0;
     public int AllWaveCount;
@@ -91,7 +92,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             DLight.color = new Color(1f, 0.3216f, 0f, 1f);
         }
         WaveAllMonsterCountText.text = (GameObject.FindGameObjectsWithTag("Enemy").Length + "/" + WaveAllMonster);
-        WaveText.text = ("Wave " + WaveCount + "/5");
+        if (WaveCount != 5)
+        {
+            WaveText.text = ("Wave " + WaveCount + "/5");
+        }
+        else
+        {
+            TopBar.SetActive(false);
+            BossHpBar.SetActive(true);
+        }
     }
 
     public IEnumerator CheckMonsterC()

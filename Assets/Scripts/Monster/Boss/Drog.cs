@@ -10,7 +10,7 @@ public class Drog : MonsterAI
 {
     private float FirPatternbreakupHealth = 1500f;
     private float FirPatternHealth;
-    private int BossPhase;
+    public int BossPhase;
     private float Boss2PhaseHp = 13000f;
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
