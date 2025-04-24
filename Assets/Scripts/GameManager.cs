@@ -120,6 +120,22 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             isSpawn = true;
             WaveCount += 1;
             Debug.Log("Wave Start at 5sec / TestMod");
+            if (WaveCount == 1)
+            {
+                WaveAllMonster = 15;
+            }
+            else if (WaveCount == 2)
+            {
+                WaveAllMonster = 25;
+            }
+            else if (WaveCount == 3)
+            {
+                WaveAllMonster = 33;
+            }
+            else if (WaveCount == 4)
+            {
+                WaveAllMonster = 46;
+            }
         }
     }
 
@@ -144,25 +160,21 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 //Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
                 //PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
-                WaveAllMonster = 15;
                 StartCoroutine(InstantiateMonsters(Mugolin, 15));                
             }
             else if (WaveCount == 2)
             {
-                WaveAllMonster = 25;
                 StartCoroutine(InstantiateMonsters(Mugolin, 15));
                 StartCoroutine(InstantiateMonsters(Sleebam, 10));
             }
             else if (WaveCount == 3)
             {
-                WaveAllMonster = 33;
                 StartCoroutine(InstantiateMonsters(Mugolin, 20));
                 StartCoroutine(InstantiateMonsters(Sleebam, 10));
                 StartCoroutine(InstantiateMonsters(Grave, 3));
             }
             else if (WaveCount == 4)
             {
-                WaveAllMonster = 46;
                 StartCoroutine(InstantiateMonsters(Mugolin, 25));
                 StartCoroutine(InstantiateMonsters(Sleebam, 15));
                 StartCoroutine(InstantiateMonsters(Grave, 6));
