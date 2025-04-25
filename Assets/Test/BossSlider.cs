@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,14 +19,33 @@ public class BossSlider : MonoBehaviour
     {
         if (bossScript != null)
         {
-            bossScript = GameObject.Find("Boss").GetComponent<Drog>();
+            if (PhotonNetwork.PlayerList.Length > 1)
+            {
+                if (bossScript.BossPhase < 2)
+                {
+                    bossslider.value = bossScript.CurHp / bossScript.monsterInfo.health;
+                }
+                else
+                {
+                    bossslider.value = bossScript.CurHp / bossScript.Boss2PhaseHp;
+                }
+            }
+            else
+            {
+                if (bossScript.BossPhase < 2)
+                {
+                    bossslider.value = bossScript.CurHp / (bossScript.monsterInfo.health / 2);
+                }
+                else
+                {
+                    bossslider.value = bossScript.CurHp / bossScript.Boss2PhaseHp;
+                }
+            }
+            
         }
         else
         {
-            if (bossScript.BossPhase < 2)
-            {
-                bossslider.value = bossScript.CurHp / bossScript.monsterInfo.health;
-            }
+            bossScript = GameObject.Find("Boss(Clone)").GetComponent<Drog>();
         }
     }
 }

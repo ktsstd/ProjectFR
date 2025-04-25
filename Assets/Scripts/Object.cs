@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class Object : MonoBehaviourPunCallbacks
 {
-    private float health = 550000f;
+    private float health;
+    private float MaxHp = 5500f;
     private bool GameOver = false;
     private GameObject[] Monster;
     private int MonsterCount;
     private float detectRadius = 15.5f;
     [SerializeField] private PlayableDirector DefeatEffect;
+    [SerializeField] private Slider ObjectHp;
 
     private void Start()
     {
-        health = 550000f;
+        health = MaxHp;
     }
     private void Update()
     {
         Monster = GameObject.FindGameObjectsWithTag("Enemy");
         MonsterCount = Monster.Length;
+        ObjectHp.value = health / MaxHp;
 
         foreach (GameObject monster in Monster)
         {

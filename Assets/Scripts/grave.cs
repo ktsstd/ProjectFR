@@ -10,6 +10,7 @@ public class grave : MonsterAI
     private bool canSpawn = true;
     public IEnumerator Start()
     {
+        canSpawn = true;
         yield return new WaitForSeconds(3.5f);
         while (canSpawn)
         {
@@ -47,16 +48,7 @@ public class grave : MonsterAI
     }
     public override void MonsterDmged(float damage)
     {
-        if (CurHp > 0)
-        {
-            CurHp -= damage;
-        }
-        else if (CurHp <= 0 && canMove)
-        {
-            canSpawn = false;
-            if (animator != null)
-                animator.SetTrigger("Die");
-            Invoke("DestroyMonster", 1f);
-        }
+        base.MonsterDmged(damage);
+        canSpawn = false;
     }
 }

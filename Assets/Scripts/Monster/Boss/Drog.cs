@@ -11,7 +11,7 @@ public class Drog : MonsterAI
     private float FirPatternbreakupHealth = 1500f;
     private float FirPatternHealth;
     public int BossPhase;
-    private float Boss2PhaseHp = 13000f;
+    public float Boss2PhaseHp = 13000f;
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
     public bool is3Patterning;
@@ -36,6 +36,7 @@ public class Drog : MonsterAI
     public override void Start()
     {
         base.Start();
+
         if (PhotonNetwork.PlayerList.Length <= 1)
         {
             Boss2PhaseHp /= 2;

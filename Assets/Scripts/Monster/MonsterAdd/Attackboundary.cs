@@ -54,7 +54,7 @@ public class Attackboundary : MonoBehaviour
             yield return null;
         }
         isFadeIn = true;
-        Invoke("DestroyBoundary", 0.2f);
+        Invoke("DestroyBoundary", 0.12f);
         yield break;
     }
 

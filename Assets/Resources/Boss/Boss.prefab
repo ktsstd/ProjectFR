@@ -1284,6 +1284,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   canMove: 1
   animator: {fileID: 4341194438148248126}
+  BossPhase: 0
   BossMonsterSkillCooldowns:
   - 3
   - 10

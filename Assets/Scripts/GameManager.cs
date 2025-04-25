@@ -31,9 +31,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject TopBar;
     [SerializeField] GameObject WaveBar;
     [SerializeField] GameObject BossHpBar;
-    public int WaveAllMonster = 15;
-    public int WaveCount = 0;
-    public int AllWaveCount;
+    private int WaveAllMonster;
+    private int WaveCount = 0;
+    //public int AllWaveCount;
     public bool isSpawn = false;
     //private bool QuitOn = false;
 
@@ -74,25 +74,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    if (!QuitOn)
-        //    {
-        //        Quit.SetActive(true);
-        //        QuitOn = true;
-        //    }
-        //    else
-        //    {
-        //        Quit.SetActive(false);
-        //        QuitOn = false;
-        //    }
-        //}
-        if (WaveCount == 5 && !isSpawn)
-        {
-            RenderSettings.skybox = SkyBoxMat;
-            DLight.color = new Color(1f, 0.3216f, 0f, 1f);
-        }
         WaveAllMonsterCountText.text = (GameObject.FindGameObjectsWithTag("Enemy").Length + "/" + WaveAllMonster);
+        
         if (WaveCount != 5)
         {
             WaveText.text = ("Wave " + WaveCount + "/5");
@@ -101,6 +84,27 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             WaveBar.SetActive(false);
             BossHpBar.SetActive(true);
+        }
+        if (WaveCount == 1)
+        {
+            WaveAllMonster = 15;
+        }
+        else if (WaveCount == 2)
+        {
+            WaveAllMonster = 25;
+        }
+        else if (WaveCount == 3)
+        {
+            WaveAllMonster = 33;
+        }
+        else if (WaveCount == 4)
+        {
+            WaveAllMonster = 46;
+        }
+        else if (WaveCount == 5 && !isSpawn)
+        {
+            RenderSettings.skybox = SkyBoxMat;
+            DLight.color = new Color(1f, 0.3216f, 0f, 1f);
         }
     }
 
@@ -126,22 +130,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     IEnumerator WaveStart()
     {
-        if (WaveCount == 1)
-        {
-            WaveAllMonster = 15;
-        }
-        else if (WaveCount == 2)
-        {
-            WaveAllMonster = 25;
-        }
-        else if (WaveCount == 3)
-        {
-            WaveAllMonster = 33;
-        }
-        else if (WaveCount == 4)
-        {
-            WaveAllMonster = 46;
-        }
+        isSpawn = true;
         if (PhotonNetwork.IsMasterClient)
         {
             yield return new WaitForSeconds(5);
@@ -161,7 +150,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 //Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
                 //PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
-                StartCoroutine(InstantiateMonsters(Mugolin, 15));                
+                StartCoroutine(InstantiateMonsters(Mugolin, 15));
             }
             else if (WaveCount == 2)
             {
@@ -184,6 +173,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
                 PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+                isSpawn = false;
             }
         }
         else
