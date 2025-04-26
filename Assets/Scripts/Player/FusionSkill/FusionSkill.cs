@@ -24,6 +24,11 @@ public class FusionSkill : MonoBehaviour
     float fusionSkillCoolTime;
     float fusionSkillMaxCoolTime;
 
+    public Image[] cutScene;
+    public Sprite[] playerCutIn;
+    public RectTransform[] movePos;
+    public RectTransform[] returnPos;
+
     private void Start()
     {
         pv = GetComponent<PhotonView>();
@@ -139,9 +144,45 @@ public class FusionSkill : MonoBehaviour
             pv.RPC("GlassImageCrack", RpcTarget.All, null);
         }
 
+        StartCoroutine("FusionSkillCutIn");
         elementalSet[0] = 10;
         elementalSet[1] = 10;
         pv.RPC("ElementalSetting", RpcTarget.All, elementalSet);
+    }
+
+    public IEnumerator FusionSkillCutIn()
+    {
+        cutScene[0].gameObject.SetActive(true);
+        cutScene[1].gameObject.SetActive(true);
+        if (elementalSet[0] != 10 && elementalSet[1] != 10)
+        {
+            cutScene[0].sprite = playerCutIn[elementalSet[0]];
+            cutScene[1].sprite = playerCutIn[elementalSet[1]];
+        }
+        else
+        {
+            cutScene[0].sprite = playerCutIn[1];
+            cutScene[1].sprite = playerCutIn[1];
+        }
+
+        while (Vector2.Distance(cutScene[0].rectTransform.anchoredPosition, movePos[0].anchoredPosition) > 0.1f)
+        {
+            cutScene[0].rectTransform.anchoredPosition = Vector2.MoveTowards(cutScene[0].rectTransform.anchoredPosition, movePos[0].anchoredPosition, 15);
+            cutScene[1].rectTransform.anchoredPosition = Vector2.MoveTowards(cutScene[1].rectTransform.anchoredPosition, movePos[1].anchoredPosition, 15);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
+        while (Vector2.Distance(cutScene[0].rectTransform.anchoredPosition, returnPos[0].anchoredPosition) > 0.1f)
+        {
+            cutScene[0].rectTransform.anchoredPosition = Vector2.MoveTowards(cutScene[0].rectTransform.anchoredPosition, returnPos[0].anchoredPosition, 15);
+            cutScene[1].rectTransform.anchoredPosition = Vector2.MoveTowards(cutScene[1].rectTransform.anchoredPosition, returnPos[1].anchoredPosition, 15);
+            yield return null;
+        }
+
+        cutScene[0].gameObject.SetActive(false);
+        cutScene[1].gameObject.SetActive(false);
     }
 
 
@@ -163,6 +204,7 @@ public class FusionSkill : MonoBehaviour
     [PunRPC]
     public IEnumerator UseFireAndLightning(Vector3 _skillPos) // F&L
     {
+        StartCoroutine("FusionSkillCutIn");
         foreach (GameObject player in playerList)
         {
             if (player.name == "Fire(Clone)" || player.name == "Lightning(Clone)")
@@ -207,6 +249,7 @@ public class FusionSkill : MonoBehaviour
     [PunRPC]
     public IEnumerator UseWaterAndLightning()
     {
+        StartCoroutine("FusionSkillCutIn");
         GameManager.Instance.StartCoroutine(GameManager.Instance.FusionSkybox());
         GameObject cloud = null;
         foreach (GameObject player in playerList)
