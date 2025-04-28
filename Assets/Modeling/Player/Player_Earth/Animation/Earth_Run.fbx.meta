@@ -55,17 +55,17 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.32994923
+      - time: 0.3323782
         functionName: MoveAniSound
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: c9f0edda985010848b363fb487eebf85, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 499c9bea11fcda14b83fe7d792e603b3, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.748731
+      - time: 0.6676218
         functionName: MoveAniSound
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: c9f0edda985010848b363fb487eebf85, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 499c9bea11fcda14b83fe7d792e603b3, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 006191fccb338f147bff9d3efc5686a7
+guid: 211f45d72ed378d4a8edac96384d5131
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Earth_Skill_2
-      takeName: Earth_Idle
-      internalID: 6019093033581221087
+      name: Fusion_Crystal_Spawn
+      takeName: Fusion_Crystal
+      internalID: -1184603410709686969
       firstFrame: 0
-      lastFrame: 25
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -54,21 +54,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.50143266
-        functionName: UseProtection
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 499c9bea11fcda14b83fe7d792e603b3, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.9942694
-        functionName: StopAnimation
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 499c9bea11fcda14b83fe7d792e603b3, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
