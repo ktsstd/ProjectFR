@@ -10674,6 +10674,7 @@ MonoBehaviour:
   respawnCoolTime: 6
   shockwave: {fileID: 5494163618266672174, guid: c9bac5fa159d65349b3e97d6b499aa10, type: 3}
   earthShieldEF: {fileID: 6567348943022744590}
+  crystal: {fileID: 3177620961321224121, guid: 7f128df81235c1542a31253f614665b2, type: 3}
 --- !u!95 &5066354852081453304
 Animator:
   serializedVersion: 7
@@ -10756,6 +10757,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: skill3
+  - Type: 9
+    SynchronizeType: 0
+    Name: E&F
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

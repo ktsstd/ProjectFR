@@ -20,6 +20,7 @@ public class FusionSkill : MonoBehaviour
     public GameObject FireAndLightningEF;
     public GameObject WaterAndLightningEF;
     public GameObject CloudEF;
+    public GameObject EarthAndFireEF;
 
     float fusionSkillCoolTime;
     float fusionSkillMaxCoolTime;
@@ -116,6 +117,11 @@ public class FusionSkill : MonoBehaviour
         {
             // ??
         }
+        else if ((elementalSet[0] == 3 && elementalSet[1] == 2) || (elementalSet[0] == 2 && elementalSet[1] == 3)) // E&F
+        {
+            skillPosObj.SetActive(true);
+            skillPosObj.transform.position = _skillPos;
+        }
         else
             return;
     }
@@ -136,6 +142,11 @@ public class FusionSkill : MonoBehaviour
         else if ((elementalSet[0] == 0 && elementalSet[1] == 1) || (elementalSet[0] == 1 && elementalSet[1] == 0)) // L&W
         {
             pv.RPC("UseWaterAndLightning", RpcTarget.All, null);
+            pv.RPC("FusionSkillCoolTime", RpcTarget.All, 30f);
+        }
+        else if ((elementalSet[0] == 2 && elementalSet[1] == 3) || (elementalSet[0] == 3 && elementalSet[1] == 2)) // E&F
+        {
+            pv.RPC("UseEarthAndFire", RpcTarget.All, _skillPos);
             pv.RPC("FusionSkillCoolTime", RpcTarget.All, 30f);
         }
         else
@@ -247,7 +258,7 @@ public class FusionSkill : MonoBehaviour
     }
 
     [PunRPC]
-    public IEnumerator UseWaterAndLightning()
+    public IEnumerator UseWaterAndLightning() // W&L
     {
         StartCoroutine("FusionSkillCutIn");
         GameManager.Instance.StartCoroutine(GameManager.Instance.FusionSkybox());
@@ -297,6 +308,50 @@ public class FusionSkill : MonoBehaviour
         foreach (GameObject player in playerList)
         {
             if (player.name == "Water(Clone)" || player.name == "Lightning(Clone)")
+            {
+                player.GetComponent<PlayerController>().UsingFusionSkill(false);
+            }
+        }
+    }
+
+    [PunRPC]
+    public IEnumerator UseEarthAndFire(Vector3 _skillPos)
+    {
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Earth(Clone)" || player.name == "Fire(Clone)")
+            {
+                player.GetComponent<PlayerController>().UsingFusionSkill(true);
+            }
+        }
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Earth(Clone)")
+            {
+                player.GetComponent<Earth>().EarthAndFire(_skillPos);
+            }
+        }
+        yield return new WaitForSeconds(0.5f);
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Fire(Clone)")
+            {
+                player.GetComponent<Fire>().FireAndEarth(_skillPos);
+            }
+        }
+        yield return new WaitForSeconds(2f);
+        GameObject skill = Instantiate(EarthAndFireEF, _skillPos, EarthAndFireEF.transform.rotation);
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Earth(Clone)" || player.name == "Fire(Clone)")
+            {
+                player.GetComponent<PlayerController>().pv.RPC("LookAtTarget", RpcTarget.All, skill.name, 2f);
+            }
+        }
+        yield return new WaitForSeconds(2);
+        foreach (GameObject player in playerList)
+        {
+            if (player.name == "Earth(Clone)" || player.name == "Fire(Clone)")
             {
                 player.GetComponent<PlayerController>().UsingFusionSkill(false);
             }

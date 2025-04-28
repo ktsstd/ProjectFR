@@ -193,11 +193,28 @@ public class Fire : PlayerController
         transform.rotation = Quaternion.LookRotation(_pos - transform.position);
         if (pv.IsMine)
         {
-            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "F&L");
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "F&L"); 
         }
     }
 
     public void FireAndLightningAni()
+    {
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
+        GameObject skill = Instantiate(grenadeBundle, transform.position, fireRot);
+        skill.GetComponent<FusionGrenade>().target = fusionSkillPos;
+    }
+
+    [PunRPC]
+    public void FireAndEarth(Vector3 _pos)
+    {
+        fusionSkillPos = _pos;
+        transform.rotation = Quaternion.LookRotation(_pos - transform.position);
+        if (pv.IsMine)
+        {
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "F&E");
+        }
+    }
+    public void FireAndEarthAni()
     {
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(grenadeBundle, transform.position, fireRot);

@@ -8,6 +8,8 @@ public class Earth : PlayerController
     public GameObject shockwave;
     public GameObject earthShieldEF;
 
+    public GameObject crystal;
+
     float earthShield = 0;
 
     public override void StartStatSet()
@@ -149,6 +151,23 @@ public class Earth : PlayerController
             golem = PhotonNetwork.Instantiate("Golem", _sumonPos, transform.rotation);
             golem.GetComponent<Golem>().maxHp = playerMaxHp * 1.5f;
         }
+    }
+
+    Vector3 fusionSkillPos;
+    [PunRPC]
+    public void EarthAndFire(Vector3 _pos)
+    {
+        fusionSkillPos = _pos;
+        transform.rotation = Quaternion.LookRotation(_pos - transform.position);
+        if (pv.IsMine)
+        {
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "E&F");
+        }
+    }
+
+    public void EarthAndFireFusionAni()
+    {
+        GameObject skill = Instantiate(crystal, fusionSkillPos, crystal.transform.rotation);
     }
 
     public override float OtherShield(float _damage)

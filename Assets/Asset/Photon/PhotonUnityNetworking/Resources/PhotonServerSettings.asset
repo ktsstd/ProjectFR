@@ -110,6 +110,9 @@ MonoBehaviour:
   - OnMonsterKnockBack
   - OnMonsterKnockBackStart
   - OnSummonHit
+  - EarthAndFire
+  - FireAndEarth
+  - UseEarthAndFire
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
