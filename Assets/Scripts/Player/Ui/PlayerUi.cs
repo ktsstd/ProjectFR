@@ -18,6 +18,7 @@ public class PlayerUi : MonoBehaviour
     public Sprite[] fireSkillIcon;
     public Sprite[] waterSkillIcon;
     public Sprite[] lightningSkillIcon;
+    public Sprite[] earthSkillIcon;
 
 
     public Image[] elementalCodeImage;
@@ -68,6 +69,14 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[0].sprite = lightningSkillIcon[0];
             skillsIcon[1].sprite = lightningSkillIcon[1];
             skillsIcon[2].sprite = lightningSkillIcon[2];
+        }
+        else if ((int)character == 2)
+        {
+            playerIcon.sprite = playerIconSprite[2];
+            playerHpImage.sprite = hpSprits[1];
+            skillsIcon[0].sprite = earthSkillIcon[0];
+            skillsIcon[1].sprite = earthSkillIcon[1];
+            skillsIcon[2].sprite = earthSkillIcon[2];
         }
         else if ((int)character == 3)
         {

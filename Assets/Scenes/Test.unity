@@ -10416,7 +10416,7 @@ MonoBehaviour:
   playerCutIn:
   - {fileID: 21300000, guid: 516c60e8396ede34db0a5903c2989a27, type: 3}
   - {fileID: 21300000, guid: 3413237c156cc804f9fc8d69c4d5c12f, type: 3}
-  - {fileID: 21300000, guid: 516c60e8396ede34db0a5903c2989a27, type: 3}
+  - {fileID: 21300000, guid: d154b29c0cc7c1e4fa7197ec56cc0d79, type: 3}
   - {fileID: 21300000, guid: 0485376b69625c94fbd6386e74fff407, type: 3}
   movePos:
   - {fileID: 871209871}
@@ -23116,7 +23116,7 @@ MonoBehaviour:
   playerIconSprite:
   - {fileID: 21300000, guid: 259fae45af934ed42b7fe6e50db46468, type: 3}
   - {fileID: 21300000, guid: 77f99e8a345e9854b8f976560cd7dfca, type: 3}
-  - {fileID: 21300000, guid: 91f1461ebff30764b8b5ab80a755ad90, type: 3}
+  - {fileID: 21300000, guid: 998eb7db031903c41839bcb385bea1c9, type: 3}
   - {fileID: 21300000, guid: 91f1461ebff30764b8b5ab80a755ad90, type: 3}
   skillsIcon:
   - {fileID: 2015447313}
@@ -23134,6 +23134,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cc4495442d06df3459651c673b3884f7, type: 3}
   - {fileID: 21300000, guid: cbdd128d7bc05b44bb14fb12f5554b9b, type: 3}
   - {fileID: 21300000, guid: 2a58b0da58bae654a8ada575ac1392bc, type: 3}
+  earthSkillIcon:
+  - {fileID: 21300000, guid: 508ebbb94943c2d4996041c7f5390b42, type: 3}
+  - {fileID: 21300000, guid: e5a6ac5b46ca8f14fbb5e57da3fea12f, type: 3}
+  - {fileID: 21300000, guid: 86f16f4188314ac4ca3ee772a44e416d, type: 3}
   elementalCodeImage:
   - {fileID: 1535350577}
   - {fileID: 951719798}
