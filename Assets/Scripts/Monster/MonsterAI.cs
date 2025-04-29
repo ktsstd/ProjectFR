@@ -1,49 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using Photon.Pun;
-using Unity.VisualScripting;
+using UnityEngine.AI;
 
-public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
+public class MonsterAI : MonoBehaviourPun, IPunObservable
 {
-    public MonsterInfo monsterInfoScript;
-    public MonsterInfo monsterInfo;
-    public float monsterSlowCurTime;
-    public float CurHp;
-    public GameObject sloweffect;
-    public GameObject AttackBoundary;
+    public MonsterInfo monsterinfo;
 
+    public float CurHp;
+    public float damage;
+    public float attackRange;
+    public float attackCooldown;
+    public float attackTimer;
+    public float attackSpeed;
+    public float recognizedistance;
+    public float monsterSlowCurTime;
+    public float targetSearchTime = 0.5f;
+    public float targetSearchTimer;
+
+    public bool canMove;
+    public bool isDie;
 
     public Transform target;
-    private Rigidbody rigidbody;
-    private List<(float slowtime, float slowmoveSpeed)> slowEffects = new List<(float, float)>();
 
+    public GameObject attackboundary;
+    public GameObject sloweffect;
+
+    //public string[] priTarget;
+
+    public CapsuleCollider targetCollider;
+    public Rigidbody rigid;
     public NavMeshAgent agent;
-    public bool canMove = true;
     public Animator animator;
-    Transform closestTarget;
+
+    public List<(float slowtime, float slowmoveSpeed)> slowEffects = new List<(float, float)>();
 
     public virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.avoidancePriority = 50;
-        monsterInfo = Instantiate(monsterInfoScript);
+        animator = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
+        agent.speed = monsterinfo.speed;
+        damage = monsterinfo.damage;
+        attackRange = monsterinfo.attackRange;
+        attackCooldown = monsterinfo.attackCooldown;
+        attackSpeed = monsterinfo.attackSpeed;
+        recognizedistance = monsterinfo.redistance;
+        attackTimer = monsterinfo.attackTimer;
+        monsterSlowCurTime = 0;
+        canMove = true;
         if (PhotonNetwork.PlayerList.Length > 1)
         {
-            CurHp = monsterInfo.health;
+            CurHp = monsterinfo.health;
         }
         else
         {
-            CurHp = monsterInfo.health / 2; 
-            monsterInfo.damage = monsterInfo.damage / 2;
+            CurHp = monsterinfo.health / 2;
+            damage = monsterinfo.damage / 2;
         }
-        
-        agent.speed = monsterInfo.speed;
-        monsterInfo.attackTimer = monsterInfo.attackCooldown;
-        animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
-        monsterSlowCurTime = 0;
     }
     public virtual void Update()
     {
@@ -56,29 +71,34 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 main.startRotation = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
             }
         }
-        target = GetClosestTarget();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            targetSearchTimer -= Time.deltaTime;
+            if (targetSearchTimer <= 0f)
+            {
+                photonView.RPC("GetClosestTarget", RpcTarget.All);
+                targetSearchTimer = targetSearchTime;
+            }
+        }
         if (target == null) return;
-        CapsuleCollider coll = target.GetComponent<CapsuleCollider>();
-        Vector3 targetPos = coll.ClosestPoint(transform.position);
-        if (target != null && canMove)
+        targetCollider = target.GetComponent<CapsuleCollider>();
+        Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
+        if (canMove)
         {
             float distance = Vector3.Distance(transform.position, targetPos);
-            if (animator != null)
-                animator.SetBool("Run", true);
-
-            if (distance <= monsterInfo.attackRange)
+            if (distance <= attackRange)
             {
+                agent.ResetPath();
                 agent.velocity = Vector3.zero;
-                if (animator != null)
-                    animator.SetBool("Run", false);
-                if (monsterInfo.attackTimer <= 0)
+                animator.SetBool("Run", false);
+                if (attackTimer <= 0)
                 {
-                    Attack();
                     canMove = false;
+                    Attack();                   
                 }
                 else
                 {
-                    agent.ResetPath(); // todo -> Idle animation
                     Vector3 directionToTarget = target.position - transform.position;
                     if (directionToTarget != Vector3.zero)
                     {
@@ -89,31 +109,23 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             }
             else
             {
-                agent.SetDestination(target.position); // todo -> moving animation
-                if (animator != null)
-                    animator.SetBool("Run", true);
+                agent.SetDestination(target.position);
+                animator.SetBool("Run", true);
             }
         }
-        else if (!canMove && agent.enabled)
-        {
-            agent.velocity = Vector3.zero;
-            agent.ResetPath(); // todo -> Idle animation
-            if (animator != null)
-                animator.SetBool("Run", false);
-            target = GetClosestTarget();
-        }
 
-        if (monsterInfo.attackTimer > 0)
+        if (attackTimer > 0)
         {
-            monsterInfo.attackTimer -= Time.deltaTime;
+            attackTimer -= Time.deltaTime;
         }
     }
-    protected Transform GetClosestTarget()
+    [PunRPC]
+    public void GetClosestTarget()
     {
-        float closestDistance = monsterInfo.redistance;
+        float closestDistance = recognizedistance;
         Transform tempClosestTarget = null;
 
-        foreach (string targetTag in monsterInfo.priTarget)
+        foreach (string targetTag in monsterinfo.priTarget)
         {
             GameObject[] possibleTargets = GameObject.FindGameObjectsWithTag(targetTag);
             if (possibleTargets == null || possibleTargets.Length == 0)
@@ -134,7 +146,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                         continue;
                 }
 
-                    float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);
+                float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);
 
                 if (distance < closestDistance)
                 {
@@ -144,53 +156,30 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
-        if (tempClosestTarget == null && !monsterInfo.isBoss)
+        if (tempClosestTarget == null && !monsterinfo.isBoss)
         {
             GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
             if (objectTarget != null)
                 tempClosestTarget = objectTarget.transform;
         }
 
-        return tempClosestTarget;
+        target = tempClosestTarget;
     }
-
-
     public virtual void Attack() // todo -> attacking animation
     {
-        if (animator != null)
-            animator.SetTrigger("StartAttack");
-        AttackBoundary.SetActive(true);
-        Attackboundary attackboundaryScript = AttackBoundary.GetComponent<Attackboundary>();
-        attackboundaryScript.Starting();
+        animator.SetTrigger("StartAttack");
+        attackboundary.SetActive(true);
+        Attackboundary attackboundaryScript = attackboundary.GetComponent<Attackboundary>();
+        attackboundaryScript.Starting(attackSpeed);
     }
 
-    public virtual void AttackSuccess(GameObject Obj, int damage)
+    [PunRPC]
+    public void AfterAttack()
     {
-        Debug.Log("attack success: " + Obj + ":" + damage);
-        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        attackTimer = attackCooldown;
         canMove = true;
     }
-    public virtual void MonsterDmged(float damage)
-    {
-        CurHp -= damage;
-        if (CurHp <= 0)
-        {
-            canMove = false;
-            if (AttackBoundary != null && AttackBoundary.activeSelf)
-            {
-                AttackBoundary.SetActive(false);
-                canMove = false;
-            }
-            if (animator != null)
-                animator.SetTrigger("Die");
-            Invoke("DestroyMonster", 1f);
-        }
-    }
-    public virtual void DestroyMonster()
-    {
-        PhotonNetwork.Destroy(gameObject);
-        GameManager.Instance.CheckMonster();
-    }
+ 
     Transform knockbackTransform;
     public virtual void OnMonsterKnockBack(Transform _transform)
     {
@@ -201,7 +190,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void OnMonsterKnockBackStart()
     {
-        if (monsterInfo.isBoss) return;
+        if (monsterinfo.isBoss) return;
         canMove = false;
         agent.enabled = false;
 
@@ -209,12 +198,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         vec.x = Mathf.Sign(vec.x) * 3f;
         vec.y = 0;
         vec.z = Mathf.Sign(vec.z) * 3f;
-        rigidbody.AddForce(vec, ForceMode.Impulse);
+        rigid.AddForce(vec, ForceMode.Impulse);
         knockbackTransform = null;
 
         OnMonsterStun(0.5f);
     }
-
 
     private Coroutine stunCoroutine;
     public void OnMonsterStun(float _time)
@@ -227,19 +215,19 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator MonsterStun(float _time)
     {
         yield return new WaitForSeconds(_time);
-        rigidbody.velocity = Vector3.zero;
+        rigid.velocity = Vector3.zero;
         agent.enabled = true;
         canMove = true;
     }
 
     public virtual void OnMonsterSpeedDown(float _time, float _moveSpeed)
     {
-        if (monsterSlowCurTime > 0 && !monsterInfo.isBoss)
+        if (monsterSlowCurTime > 0 && !monsterinfo.isBoss)
         {
             slowEffects.Add((_time, _moveSpeed));
             slowEffects.Sort((a, b) => b.slowmoveSpeed.CompareTo(a.slowmoveSpeed));
         }
-        else if (monsterSlowCurTime <= 0 && !monsterInfo.isBoss)
+        else if (monsterSlowCurTime <= 0 && !monsterinfo.isBoss)
         {
             OnMonsterSpeedDownStart(_time, _moveSpeed);
         }
@@ -285,6 +273,33 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             sloweffect.SetActive(false);
         }
     }
+    public virtual void MonsterDmged(float damage)
+    {
+        photonView.RPC("OnMonsterHit", RpcTarget.All, damage);
+    }
+    [PunRPC]
+    public virtual void OnMonsterHit(float damage)
+    {
+        if (CurHp > 0)
+        {
+            CurHp -= damage;
+            if (CurHp <= 0)
+            {
+                canMove = false;
+                if (attackboundary != null && attackboundary.activeSelf)
+                {
+                    attackboundary.SetActive(false);
+                }
+                animator.SetTrigger("Die");
+                Invoke("DestroyMonster", 1f);
+            }
+        }        
+    }
+    public virtual void DestroyMonster()
+    {
+        PhotonNetwork.Destroy(gameObject);
+        GameManager.Instance.CheckMonster();
+    }
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -293,6 +308,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(transform.rotation);
             stream.SendNext(CurHp);
             stream.SendNext(canMove);
+            stream.SendNext(target);
         }
         else
         {
@@ -300,6 +316,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             transform.rotation = (Quaternion)stream.ReceiveNext();
             CurHp = (float)stream.ReceiveNext();
             canMove = (bool)stream.ReceiveNext();
+            target = (Transform)stream.ReceiveNext();
         }
     }
 }

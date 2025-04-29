@@ -110,7 +110,6 @@ GameObject:
   - component: {fileID: 5674261799158079686}
   - component: {fileID: 7476988765758386766}
   - component: {fileID: -607189568335985167}
-  - component: {fileID: 3795424687792184038}
   m_Layer: 8
   m_Name: Solborn
   m_TagString: Enemy
@@ -153,15 +152,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13d638878731e643a88687061c7d410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterInfoScript: {fileID: 11400000, guid: 1d4c10f8027bf5c4186bddf8d8c76e02, type: 2}
-  monsterInfo: {fileID: 0}
-  monsterSlowCurTime: 0
+  monsterinfo: {fileID: 11400000, guid: 1d4c10f8027bf5c4186bddf8d8c76e02, type: 2}
   CurHp: 0
-  sloweffect: {fileID: 799814624188140137}
-  AttackBoundary: {fileID: 3996520940328539406}
-  target: {fileID: 0}
-  agent: {fileID: 0}
+  damage: 0
+  attackRange: 0
+  attackCooldown: 0
+  attackTimer: 0
+  attackSpeed: 0
+  recognizedistance: 0
+  monsterSlowCurTime: 0
   canMove: 1
+  target: {fileID: 0}
+  attackboundary: {fileID: 3996520940328539406}
+  sloweffect: {fileID: 799814624188140137}
+  targetCollider: {fileID: 0}
+  rigid: {fileID: 0}
+  agent: {fileID: 0}
   animator: {fileID: 1260669589879390211}
   SolbornEffect: {fileID: 7994799769189385059}
 --- !u!95 &1260669589879390211
@@ -206,6 +212,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 650183321098388588}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -281,22 +288,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &3795424687792184038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1164089347319104310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &1253148103872711362
 GameObject:
   m_ObjectHideFlags: 0

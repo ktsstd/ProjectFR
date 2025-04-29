@@ -13,7 +13,7 @@ public class VideoManager : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
-        DLight.color = new Color(1f, 0.3216f, 0f, 1f);
+        //DLight.color = new Color(1f, 0.3216f, 0f, 1f);
     }
 
     public override void OnConnectedToMaster()

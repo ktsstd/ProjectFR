@@ -9,35 +9,12 @@ public class Attackboundary : MonoBehaviour
     [SerializeField] MonsterAI monsterAIScript;
     float attackDuration = 2f;
     // Start is called before the first frame update
-    public void Starting()
+    public void Starting(float Time)
     {
-        Animator animator = monsterAIScript.animator;
-        if (animator != null && animator.runtimeAnimatorController != null)
+        if (Time > 0)
         {
-            foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
-            {
-                if (clip.name == "Attack")
-                {
-                    attackDuration = clip.length - 0.5f;
-                    break;
-                }
-                else if (clip.name == "SolbornAttack")
-                {
-                    attackDuration = 1.5f;
-                    break;
-                }
-                else if (clip.name == "Sleebam_Attack")
-                {
-                    attackDuration = 1.5f;
-                    break;
-                }
-            }
+            attackDuration = Time;
         }
-        else
-        {
-            Debug.Log("NO Animator");
-        }
-
         StartCoroutine(FadeIn());
     }
 
@@ -63,25 +40,22 @@ public class Attackboundary : MonoBehaviour
         if (isFadeIn && other.CompareTag("Player"))
         {
             PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
-            playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, monsterAIScript.monsterInfo.damage);
-            monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
-            monsterAIScript.canMove = true;
+            playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, monsterAIScript.damage);
+            monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
             gameObject.SetActive(false);
         }
         else if (isFadeIn && other.CompareTag("Object"))
         {
             Object objectS = other.gameObject.GetComponent<Object>();
-            objectS.photonView.RPC("Damaged", RpcTarget.All, monsterAIScript.monsterInfo.damage);
-            monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
-            monsterAIScript.canMove = true;
+            objectS.photonView.RPC("Damaged", RpcTarget.All, monsterAIScript.damage);
+            monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
             gameObject.SetActive(false);
         }
     }
 
     void DestroyBoundary()
     {
-        monsterAIScript.monsterInfo.attackTimer = monsterAIScript.monsterInfo.attackCooldown;
-        monsterAIScript.canMove = true;
+        monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
         isFadeIn = false;
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         gameObject.SetActive(false);

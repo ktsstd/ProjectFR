@@ -41,7 +41,7 @@ public class CallOfTheSea : MonoBehaviour
         {
             if (other.gameObject.TryGetComponent(out MonsterAI monster))
             {
-                if (!monster.monsterInfo.isBoss)
+                if (!monster.monsterinfo.isBoss)
                     monster.transform.position = Vector3.MoveTowards(monster.transform.position, transform.position, Time.deltaTime * 5f);
             }
         }

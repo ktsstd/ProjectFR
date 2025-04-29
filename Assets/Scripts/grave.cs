@@ -4,19 +4,20 @@ using Photon.Pun;
 
 public class grave : MonsterAI
 {
-    private float hp = 800f;
     private float radius = 5f;
-    public GameObject Solborn;
     private bool canSpawn = true;
-    public IEnumerator Start()
+    public override void Start()
+    {
+        StartCoroutine(StartSpawn());
+    }
+    private IEnumerator StartSpawn()
     {
         canSpawn = true;
         yield return new WaitForSeconds(3.5f);
         while (canSpawn)
         {
             Vector3 randomPos = GetRandomPos();
-            //PhotonNetwork.Instantiate("Monster/Solborn", randomPos, Quaternion.identity);
-            Instantiate(Solborn, randomPos, Quaternion.identity);
+            PhotonNetwork.Instantiate("Monster/Solborn", randomPos, Quaternion.identity);
             SoundManager.Instance.PlayMonsterSfx(5, transform.position);
             yield return new WaitForSeconds(6f);
         }

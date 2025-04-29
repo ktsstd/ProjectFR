@@ -39,7 +39,7 @@ public class WaterLightning : MonoBehaviour
     public void ThunderPosSetting()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (enemies[0].GetComponent<MonsterAI>().monsterInfo.isBoss == true)
+        if (enemies[0].GetComponent<MonsterAI>().monsterinfo.isBoss == true)
         {
             pv.RPC("BossAttack", RpcTarget.All, enemies[0].transform.position);
         }

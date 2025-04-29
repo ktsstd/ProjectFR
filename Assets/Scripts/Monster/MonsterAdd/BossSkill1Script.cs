@@ -16,8 +16,8 @@ public class BossSkill1Script : MonoBehaviour
     public void Starting()
     {
         bossScript = GetComponentInParent<Drog>();
-        damage += 50 + (bossScript.monsterInfo.damage / 2);
-        bool isdamaged = false;
+        damage += 50 + (bossScript.damage / 2);
+        isdamaged = false;
         StartCoroutine(FadeIn());
     }
 
@@ -50,10 +50,6 @@ public class BossSkill1Script : MonoBehaviour
             if (!isdamaged)
             {
                 isdamaged = true;
-                //GameObject HitEffect
-                //= Instantiate(BossHit, PlayerObj,
-                //Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-                //HitEffect.transform.SetParent(other.transform);
                 playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
             }
         }
@@ -65,7 +61,7 @@ public class BossSkill1Script : MonoBehaviour
         GameObject Skill1Obj = Instantiate(BossSkill1, transform.position,
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
         bossScript.BossMonsterSkillTimers[0] = bossScript.BossMonsterSkillCooldowns[0];
-        bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
+        bossScript.attackTimer = bossScript.attackCooldown;
         bossScript.canMove = true;
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         isFadeIn = false;

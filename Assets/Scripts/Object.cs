@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Object : MonoBehaviourPunCallbacks
 {
     private float health;
-    private float MaxHp = 5500f;
+    private float MaxHp = 550000000000000000f;
     private bool GameOver = false;
     private GameObject[] Monster;
     private int MonsterCount;

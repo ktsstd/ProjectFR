@@ -19,7 +19,7 @@ public class Mugolin : MonsterAI
     {
         base.Start();
         //InSafeZone = false;
-        monsterInfo.attackTimer = 99999f;
+        attackTimer = 99999f;
         defaultspeed = agent.speed;
         Increasespeed = defaultspeed * 2;
         IncreasePerspeed = (Increasespeed - defaultspeed) / 5;
@@ -61,8 +61,8 @@ public class Mugolin : MonsterAI
         GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
         Object ObjectS = ObjectObj.GetComponent<Object>();
         SoundManager.Instance.PlayMonsterSfx(0, transform.position); // Edit
-        ObjectS.photonView.RPC("Damaged", RpcTarget.All, monsterInfo.damage);
-        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        ObjectS.photonView.RPC("Damaged", RpcTarget.All, damage);
+        attackTimer = attackCooldown;
         canMove = true;
     }
 
@@ -119,7 +119,7 @@ public class Mugolin : MonsterAI
         canMove = false;
         animator.SetTrigger("isUp");
         agent.velocity = Vector3.zero;
-        monsterInfo.attackTimer = monsterInfo.attackCooldown;
+        attackTimer = attackCooldown;
         if (monsterSlowCurTime > 0)
         {
             float slowSpeed = Increasespeed - agent.speed;

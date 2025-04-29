@@ -113,6 +113,9 @@ MonoBehaviour:
   - EarthAndFire
   - FireAndEarth
   - UseEarthAndFire
+  - GetClosestTarget
+  - OnMonsterHit
+  - AfterAttack
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

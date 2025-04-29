@@ -14,7 +14,7 @@ public class BossSkill2Script : MonoBehaviour
     void Start()
     {
         bossScript = GetComponentInParent<Drog>();
-        damage += 250 + (bossScript.monsterInfo.damage / 2);
+        damage += 250 + (bossScript.damage / 2);
         StartCoroutine(FadeIn());
     }
 
@@ -65,7 +65,7 @@ public class BossSkill2Script : MonoBehaviour
         GameObject Skill1Obj = Instantiate(BossSkill2, transform.position, 
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
         bossScript.BossMonsterSkillTimers[1] = bossScript.BossMonsterSkillCooldowns[1];
-        bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
+        bossScript.attackTimer = bossScript.attackCooldown;
         Collider collider = bossScript.GetComponent<Drog>().GetComponent<Collider>();
         collider.enabled = true;
         bossScript.canMove = true;

@@ -11,9 +11,9 @@ public class Sleebam : MonsterAI
 
     private IEnumerator SleebamAttack()
     {
-        AttackBoundary.SetActive(true);
-        Attackboundary attackboundaryScript = AttackBoundary.GetComponent<Attackboundary>();
-        attackboundaryScript.Starting();
+        attackboundary.SetActive(true);
+        Attackboundary attackboundaryScript = attackboundary.GetComponent<Attackboundary>();
+        attackboundaryScript.Starting(attackSpeed);
         yield return new WaitForSeconds(1f);
         if (animator != null)
             animator.SetTrigger("StartAttack");

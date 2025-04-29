@@ -11,7 +11,7 @@ public class BossSkill4 : MonoBehaviour
         Drog bossScript = GameObject.FindWithTag("Enemy").GetComponent<Drog>();
         yield return new WaitForSeconds(GetComponent<ParticleSystem>().main.duration);
         bossScript.BossMonsterSkillTimers[3] = bossScript.BossMonsterSkillCooldowns[3];
-        bossScript.monsterInfo.attackTimer = bossScript.monsterInfo.attackCooldown;
+        bossScript.attackTimer = bossScript.attackCooldown;
         bossScript.canMove = true;
         DestroyImmediate(gameObject);
     }

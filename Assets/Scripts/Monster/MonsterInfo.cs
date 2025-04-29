@@ -10,7 +10,7 @@ public class MonsterInfo : ScriptableObject
     public float health;
 
     public float attackRange;
-    //public float attackSpeed; 
+    public float attackSpeed;
     public float attackCooldown; 
     public float attackTimer; 
 

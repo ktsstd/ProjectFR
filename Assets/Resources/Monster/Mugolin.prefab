@@ -479,7 +479,6 @@ GameObject:
   - component: {fileID: 1581586115015890742}
   - component: {fileID: 4721847789063338420}
   - component: {fileID: -6193657084722641074}
-  - component: {fileID: 2599572409222202877}
   m_Layer: 8
   m_Name: Mugolin
   m_TagString: Enemy
@@ -549,7 +548,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 2519382254315546434}
-  - {fileID: 2599572409222202877}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -565,15 +564,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1fc6d15c6aa9842a87cd8213f2cc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterInfoScript: {fileID: 11400000, guid: 26599306d6b16e347b7aef68e8f8aa25, type: 2}
-  monsterInfo: {fileID: 0}
-  monsterSlowCurTime: 0
+  monsterinfo: {fileID: 11400000, guid: 26599306d6b16e347b7aef68e8f8aa25, type: 2}
   CurHp: 0
-  sloweffect: {fileID: 4648877231927561889}
-  AttackBoundary: {fileID: 0}
-  target: {fileID: 0}
-  agent: {fileID: 0}
+  damage: 0
+  attackRange: 0
+  attackCooldown: 0
+  attackTimer: 0
+  attackSpeed: 0
+  recognizedistance: 0
+  monsterSlowCurTime: 0
   canMove: 1
+  target: {fileID: 0}
+  attackboundary: {fileID: 0}
+  sloweffect: {fileID: 4648877231927561889}
+  targetCollider: {fileID: 0}
+  rigid: {fileID: 0}
+  agent: {fileID: 0}
   animator: {fileID: 4241399915846016407}
   MugolinEffect: {fileID: 5522399060792921784}
   StunEffect: {fileID: 1648365385247600455}
@@ -747,22 +753,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &2599572409222202877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3742495228493169063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &3808697760785488207
 GameObject:
   m_ObjectHideFlags: 0
