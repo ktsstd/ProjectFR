@@ -549,6 +549,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 2519382254315546434}
+  - {fileID: 2599572409222202877}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -609,8 +610,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0d8c57ae25b0a544789547953eb8e24a, type: 3}
-  m_Resource: {fileID: 8300000, guid: 0d8c57ae25b0a544789547953eb8e24a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 23d7ca6ba011b9841964385a5ad1fdeb, type: 3}
+  m_Resource: {fileID: 8300000, guid: 23d7ca6ba011b9841964385a5ad1fdeb, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.339
   m_Pitch: 1

@@ -33,7 +33,7 @@ public class Mugolin : MonsterAI
         animator.SetBool("isRolling", IsRolling);
         if (IsRolling && canMove)
         {
-            audioS.volume = SoundManager.Instance.SfxVolume / 2;
+            audioS.volume = SoundManager.Instance.SfxMonsterVolume / 3;
             if (!audioS.isPlaying)
                 audioS.Play();
         }
