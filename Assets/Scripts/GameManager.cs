@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject BossHpBar;
 
     private int WaveAllMonster;
-    private int WaveCount = 0;
+    private int WaveCount = 4;
     public bool isSpawn = false;
 
     private static GameManager _instance;
@@ -139,9 +139,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount == 1)
             {
-                //StartCoroutine(InstantiateMonsters(Mugolin, 15));
-                StartCoroutine(InstantiateMonsters(Sleebam, 1));
-                StartCoroutine(InstantiateMonsters(Grave, 1));
+                StartCoroutine(InstantiateMonsters(Mugolin, 15));
+                //StartCoroutine(InstantiateMonsters(Sleebam, 1));
+                //StartCoroutine(InstantiateMonsters(Grave, 1));
             }
             else if (WaveCount == 2)
             {

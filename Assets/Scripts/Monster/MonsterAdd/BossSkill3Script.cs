@@ -10,14 +10,14 @@ public class BossSkill3Script : MonoBehaviour
     [SerializeField] Drog bossScript;
     [SerializeField] Collider thiscollider;
     float attackDuration = 0.9f;
-    //GameObject rootPlayerObj;
+    
     public void Starting(float Time)
     {
+        thiscollider.enabled = false;
         if (Time > 0)
         {
             attackDuration = Time;
         }
-        //rootPlayerObj = null;
         StartCoroutine(FadeIn());
     }
 
@@ -39,27 +39,17 @@ public class BossSkill3Script : MonoBehaviour
         Invoke("DestroyBoundary", 0.12f);
         yield break;
     }
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (isFadeIn && other.CompareTag("Player"))
-    //    {
-    //        rootPlayerObj = other.transform.root.gameObject;
-    //        if (!bossScript.FSkill3Obj.Contains(rootPlayerObj))
-    //        {
-    //            bossScript.FSkill3Obj.Add(rootPlayerObj);
-    //            bossScript.F3Skill3Script.Add(rootPlayerObj.GetComponent<PlayerController>());
-    //            bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
-    //        }
-    //    }
-    //}
     private void OnTriggerEnter(Collider other)
     {
+        if (bossScript.swallowedTarget.Contains(other.gameObject)) return;
+
         if (other.CompareTag("Player") && PhotonNetwork.IsMasterClient)
         {
-            //bossScript.Skill3Obj.Add(other.gameObject);
+            bossScript.swallowedTarget.Add(other.gameObject);
             bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
             thiscollider.enabled = false;
+            gameObject.SetActive(false);
+            gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         }
     }
 

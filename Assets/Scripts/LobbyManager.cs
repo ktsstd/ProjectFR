@@ -42,12 +42,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             playerList.Add(player);
             bool playerIsReady = player.CustomProperties.TryGetValue("isReady", out object readyState) && (bool)readyState;
-            // UI 슬롯은 플레이어 리스트의 순서를 기준으로 함.
             SetReadyState(player, playerIsReady);
         }
 
         UpdatePlayerListUI();
-        // 로컬 플레이어의 인덱스를 playerList에서 찾은 후 해당 슬롯의 위치로 이동
         localPlayerIndex = GetLocalPlayerIndex();
         if (localPlayerIndex >= 0 && localPlayerIndex < CharacterUIPos.Length)
         {
@@ -121,10 +119,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void CharacterParentSet()
     {
-        //CharacterObj.transform.SetParent(CharacterPos[localPlayerIndex].transform, false);
-        //CharacterObj.transform.localPosition = Vector3.zero;
-        //CharacterObj.transform.localEulerAngles = Vector3.zero;
-        //CharacterObj.transform.localScale = Vector3.one;
         if (localPlayerIndex  == 0)
         {
             CharacterObj.transform.rotation = Quaternion.Euler(0, 139, 0);
@@ -153,7 +147,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        // 다른 플레이어와 캐릭터 중복 선택 체크 (playerList를 순회)
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)

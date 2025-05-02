@@ -27,7 +27,8 @@ public class Drog : MonsterAI
 
     [SerializeField] Transform MouthPos;
 
-    public List<GameObject> Skill3Obj;
+    //public List<GameObject> Skill3Obj;
+    public HashSet<GameObject> swallowedTarget = new HashSet<GameObject>();
 
     public override void Start()
     {
@@ -55,11 +56,14 @@ public class Drog : MonsterAI
         }
         if (PatternHealth > 0)
         {
-            foreach (GameObject playerObj in Skill3Obj)
+            foreach (GameObject obj in swallowedTarget)
             {
-                playerObj.transform.position = gameObject.transform.position;
+                if (obj != null)
+                {
+                    obj.transform.position = gameObject.transform.position;
+                }
             }
-        }
+        }        
     }
 
     public override void Attack()
@@ -161,7 +165,7 @@ public class Drog : MonsterAI
     }
     public void Skill3Start()
     {
-        foreach (GameObject playerObj in Skill3Obj)
+        foreach (GameObject playerObj in swallowedTarget)
         {
             PlayerController playerS = playerObj.GetComponent<PlayerController>();
             playerS.photonView.RPC("OnPlayerSuppressed", RpcTarget.All, 15f);
@@ -171,13 +175,13 @@ public class Drog : MonsterAI
     IEnumerator Skill3PatternStart()
     {
         yield return new WaitForSeconds(15f);
-        foreach (GameObject playerObj in Skill3Obj)
+        foreach (GameObject playerObj in swallowedTarget)
         {
             PlayerController playerS = playerObj.GetComponent<PlayerController>();
             playerS.photonView.RPC("OnPlayerHit", RpcTarget.AllBuffered, 20000f);
             playerS.photonView.RPC("PlayerStunClear", RpcTarget.AllBuffered);
         }
-        Skill3Obj.Clear();
+        swallowedTarget.Clear();
         PatternHealth = 0;
         animator.SetTrigger("Skill3__1");
         yield return new WaitForSeconds(2f);
@@ -189,13 +193,13 @@ public class Drog : MonsterAI
     IEnumerator Spititout()
     {
         StopCoroutine(skill3Coroutine);
-        foreach (GameObject playerObj in Skill3Obj)
+        foreach (GameObject playerObj in swallowedTarget)
         {
             PlayerController playerS = playerObj.GetComponent<PlayerController>();
             playerS.photonView.RPC("PlayerStunClear", RpcTarget.AllBuffered);
             playerS.transform.position = MouthPos.transform.position;
         }
-        Skill3Obj.Clear();
+        swallowedTarget.Clear();
         animator.SetTrigger("Skill3_2");
         yield return new WaitForSeconds(2f);
         canMove = true;
