@@ -5,59 +5,49 @@ using Photon.Pun;
 
 public class Attackboundary : MonoBehaviour
 {
-    bool isFadeIn = false;
     [SerializeField] MonsterAI monsterAIScript;
-    float attackDuration = 2f;
-    // Start is called before the first frame update
-    public void Starting(float Time)
+    [SerializeField] Collider thiscollider;
+    HashSet<GameObject> damagedTargets = new HashSet<GameObject>();
+
+    public void Starting(float onTime, float delayTime)
     {
-        if (Time > 0)
-        {
-            attackDuration = Time;
-        }
-        StartCoroutine(FadeIn());
+        damagedTargets.Clear();
+        thiscollider.enabled = false;
+        StartCoroutine(ShowAttackBoundary(onTime, delayTime));
     }
 
-    IEnumerator FadeIn()
+    IEnumerator ShowAttackBoundary(float onTime, float delayTime)
     {
-        float elapsedTime = 0f; // 누적 경과 시간
-        float fadedTime = attackDuration; // 총 소요 시간
+        yield return new WaitForSeconds(onTime);
+        monsterAIScript.AttackAnimation();
+        
+        yield return new WaitForSeconds(delayTime);
 
-        while (elapsedTime <= fadedTime)
-        {
-            gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, Mathf.Lerp(0, 1, elapsedTime / fadedTime));
+        thiscollider.enabled = true;
+        yield return new WaitForSeconds(0.1f);
 
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        isFadeIn = true;
-        Invoke("DestroyBoundary", 0.12f);
-        yield break;
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (isFadeIn && other.CompareTag("Player"))
-        {
-            PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
-            playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, monsterAIScript.damage);
-            monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
-            gameObject.SetActive(false);
-        }
-        else if (isFadeIn && other.CompareTag("Object"))
-        {
-            Object objectS = other.gameObject.GetComponent<Object>();
-            objectS.photonView.RPC("Damaged", RpcTarget.All, monsterAIScript.damage);
-            monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
-            gameObject.SetActive(false);
-        }
-    }
-
-    void DestroyBoundary()
-    {
+        thiscollider.enabled = false;
         monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
-        isFadeIn = false;
-        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         gameObject.SetActive(false);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (damagedTargets.Contains(other.gameObject)) return;
+
+        if (other.CompareTag("Player"))
+        {
+            damagedTargets.Add(other.gameObject);
+            PlayerController playerS = other.GetComponent<PlayerController>();
+            playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, monsterAIScript.damage);
+            monsterAIScript.AttackSound();
+        }
+        else if (other.CompareTag("Object"))
+        {
+            damagedTargets.Add(other.gameObject);
+            Object objectS = other.GetComponent<Object>();
+            objectS.photonView.RPC("Damaged", RpcTarget.All, monsterAIScript.damage);
+            monsterAIScript.AttackSound();
+        }
+    }
+
 }

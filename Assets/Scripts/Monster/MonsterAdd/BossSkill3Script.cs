@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 [RequireComponent(typeof(MeshFilter))]
-public class BossSkill3Script : MonoBehaviour 
+public class BossSkill3Script : MonoBehaviour
 {
     bool isFadeIn = false;
     [SerializeField] Drog bossScript;
@@ -24,11 +24,11 @@ public class BossSkill3Script : MonoBehaviour
     IEnumerator FadeIn()
     {
         float elapsedTime = 0f;
-        float fadedTime = attackDuration; 
+        float fadedTime = attackDuration;
 
         while (elapsedTime <= fadedTime)
         {
-            gameObject.GetComponent<MeshRenderer>().material.color 
+            gameObject.GetComponent<MeshRenderer>().material.color
                 = new Color(1, 0, 0, Mathf.Lerp(0, 0.8f, elapsedTime / fadedTime));
 
             elapsedTime += Time.deltaTime;
@@ -40,19 +40,19 @@ public class BossSkill3Script : MonoBehaviour
         yield break;
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (isFadeIn && other.CompareTag("Player"))
-        {
-            //rootPlayerObj = other.transform.root.gameObject;
-            //if (!bossScript.FSkill3Obj.Contains(rootPlayerObj))
-            //{
-            //    bossScript.FSkill3Obj.Add(rootPlayerObj);
-            //    bossScript.F3Skill3Script.Add(rootPlayerObj.GetComponent<PlayerController>());
-            //    bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
-            //}
-        }
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (isFadeIn && other.CompareTag("Player"))
+    //    {
+    //        rootPlayerObj = other.transform.root.gameObject;
+    //        if (!bossScript.FSkill3Obj.Contains(rootPlayerObj))
+    //        {
+    //            bossScript.FSkill3Obj.Add(rootPlayerObj);
+    //            bossScript.F3Skill3Script.Add(rootPlayerObj.GetComponent<PlayerController>());
+    //            bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
+    //        }
+    //    }
+    //}
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && PhotonNetwork.IsMasterClient)
@@ -74,7 +74,7 @@ public class BossSkill3Script : MonoBehaviour
             bossScript.BossMonsterSkillTimers[2] = bossScript.BossMonsterSkillCooldowns[2];
             bossScript.canMove = true;
             gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
-        } 
+        }
         //if (isFadeIn)
         //{
         //    isFadeIn = false;

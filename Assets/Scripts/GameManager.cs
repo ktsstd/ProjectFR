@@ -9,7 +9,6 @@ using TMPro;
 public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView pv;
-
     private CinemachineVirtualCamera virtualCamera;
 
     [SerializeField] private Transform SpawnPos;
@@ -31,11 +30,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject TopBar;
     [SerializeField] GameObject WaveBar;
     [SerializeField] GameObject BossHpBar;
+
     private int WaveAllMonster;
     private int WaveCount = 0;
-    //public int AllWaveCount;
     public bool isSpawn = false;
-    //private bool QuitOn = false;
 
     private static GameManager _instance;
     public static GameManager Instance
@@ -49,7 +47,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             return _instance;
         }
     }
-    // Start is called before the first frame update
+
     void Start()
     {
         pv = GetComponent<PhotonView>();
@@ -59,14 +57,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         if ((int)character == 0)
             prefabName = "Water";
-        if ((int)character == 1)
+        else if ((int)character == 1)
             prefabName = "Lightning";
-        if ((int)character == 2)
+        else if ((int)character == 2)
             prefabName = "Earth";
         else if ((int)character == 3)
             prefabName = "Fire";
+
         PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);
-        Debug.Log("Wave Start at 5sec / TestMod");
+
         StartCoroutine(WaveStart());
         StartCoroutine(CheckMonsterC());
         WaveCount += 1;
@@ -75,7 +74,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     void Update()
     {
         WaveAllMonsterCountText.text = (GameObject.FindGameObjectsWithTag("Enemy").Length + "/" + WaveAllMonster);
-        
+
         if (WaveCount != 5)
         {
             WaveText.text = ("Wave " + WaveCount + "/5");
@@ -85,22 +84,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             WaveBar.SetActive(false);
             BossHpBar.SetActive(true);
         }
+
         if (WaveCount == 1)
-        {
             WaveAllMonster = 15;
-        }
         else if (WaveCount == 2)
-        {
             WaveAllMonster = 25;
-        }
         else if (WaveCount == 3)
-        {
             WaveAllMonster = 33;
-        }
         else if (WaveCount == 4)
-        {
             WaveAllMonster = 46;
-        }
         else if (WaveCount == 5 && !isSpawn)
         {
             RenderSettings.skybox = SkyBoxMat;
@@ -124,7 +116,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             StartCoroutine(WaveStart());
             isSpawn = true;
             WaveCount += 1;
-            Debug.Log("Wave Start at 5sec / TestMod");
         }
     }
 
@@ -148,10 +139,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount == 1)
             {
-                //Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-                //PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
-                StartCoroutine(InstantiateMonsters(Mugolin, 15));
-                //StartCoroutine(InstantiateMonsters(Sleebam, 2));
+                //StartCoroutine(InstantiateMonsters(Mugolin, 15));
+                StartCoroutine(InstantiateMonsters(Sleebam, 1));
+                StartCoroutine(InstantiateMonsters(Grave, 1));
             }
             else if (WaveCount == 2)
             {
@@ -176,10 +166,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
                 isSpawn = false;
             }
-        }
-        else
-        {
-            Debug.Log("you are not a master client");
         }
     }
 
@@ -285,17 +271,17 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             switch (b)
             {
-                case 1:
-                    spawnPositions = GetChildTransforms(WaveEastFirstPos);
+                case 1: 
+                    spawnPositions = GetChildTransforms(WaveEastFirstPos); 
                     break;
-                case 2:
-                    spawnPositions = GetChildTransforms(WaveWestFirstPos);
+                case 2: 
+                    spawnPositions = GetChildTransforms(WaveWestFirstPos); 
                     break;
-                case 3:
-                    spawnPositions = GetChildTransforms(WaveSouthFirstPos);
+                case 3: 
+                    spawnPositions = GetChildTransforms(WaveSouthFirstPos); 
                     break;
-                case 4:
-                    spawnPositions = GetChildTransforms(WaveNorthFirstPos);
+                case 4: 
+                    spawnPositions = GetChildTransforms(WaveNorthFirstPos); 
                     break;
             }
         }
@@ -307,23 +293,16 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             switch (b)
             {
-                case 1:
-                    spawnPositions = GetChildTransforms(WaveThirdPos1);
-                    break;
-                case 2:
-                    spawnPositions = GetChildTransforms(WaveThirdPos2);
-                    break;
-                case 3:
-                    spawnPositions = GetChildTransforms(WaveThirdPos3);
-                    break;
-                case 4:
-                    spawnPositions = GetChildTransforms(WaveThirdPos4);
-                    break;
+                case 1: spawnPositions = GetChildTransforms(WaveThirdPos1); break;
+                case 2: spawnPositions = GetChildTransforms(WaveThirdPos2); break;
+                case 3: spawnPositions = GetChildTransforms(WaveThirdPos3); break;
+                case 4: spawnPositions = GetChildTransforms(WaveThirdPos4); break;
             }
         }
 
         return spawnPositions;
     }
+
     private Transform[] GetChildTransforms(Transform parent)
     {
         List<Transform> childTransforms = new List<Transform>();

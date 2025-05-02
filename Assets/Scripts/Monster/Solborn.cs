@@ -21,19 +21,22 @@ public class Solborn : MonsterAI
     }
     public override void Attack() // todo -> attacking animation
     {
-        StartCoroutine(SolbornAttack());
+        base.Attack();
+    }
+    public override void AttackSound() 
+    {
+        SolbornEffect.Play();
+        SoundManager.Instance.PlayMonsterSfx(1, transform.position);
     }
 
     private IEnumerator SolbornAttack()
     {
         attackboundary.SetActive(true);
         Attackboundary attackboundaryScript = attackboundary.GetComponent<Attackboundary>();
-        attackboundaryScript.Starting(attackSpeed);
+        //attackboundaryScript.Starting(attackSpeed);
         yield return new WaitForSeconds(1.17f);
         if (animator != null)
             animator.SetTrigger("StartAttack");
         yield return new WaitForSeconds(0.2f);
-        SolbornEffect.Play();
-        SoundManager.Instance.PlayMonsterSfx(1, transform.position); // Edit
     }
 }

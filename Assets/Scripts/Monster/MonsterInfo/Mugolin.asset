@@ -16,8 +16,10 @@ MonoBehaviour:
   damage: 100
   health: 500
   attackRange: 2
+  attackSpeed: 0
   attackCooldown: 1.2
   attackTimer: 0
+  AttackAnimationDelay: 0.5217
   priTarget:
   - Object
   attackboundary:

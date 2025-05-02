@@ -50,6 +50,24 @@ public class grave : MonsterAI
     public override void MonsterDmged(float damage)
     {
         base.MonsterDmged(damage);
-        canSpawn = false;
+    }
+    [PunRPC]
+    public override void OnMonsterHit(float damage)
+    {
+        if (CurHp > 0)
+        {
+            CurHp -= damage;
+            if (CurHp <= 0)
+            {
+                canMove = false;
+                if (attackboundary != null && attackboundary.activeSelf)
+                {
+                    attackboundary.SetActive(false);
+                }
+                animator.SetTrigger("Die");
+                Invoke("DestroyMonster", 1f);
+                canSpawn = false;
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
     public float attackCooldown;
     public float attackTimer;
     public float attackSpeed;
+    public float attackAnimationDelay;
     public float recognizedistance;
     public float monsterSlowCurTime;
     public float targetSearchTime = 0.5f;
@@ -46,6 +47,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
         attackRange = monsterinfo.attackRange;
         attackCooldown = monsterinfo.attackCooldown;
         attackSpeed = monsterinfo.attackSpeed;
+        attackAnimationDelay = monsterinfo.AttackAnimationDelay;
         recognizedistance = monsterinfo.redistance;
         attackTimer = monsterinfo.attackTimer;
         monsterSlowCurTime = 0;
@@ -81,10 +83,14 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
                 targetSearchTimer = targetSearchTime;
             }
         }
+        else
+        {
+
+        }
         if (target == null) return;
         targetCollider = target.GetComponent<CapsuleCollider>();
         Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
-        if (canMove)
+        if (canMove && CurHp > 0)
         {
             float distance = Vector3.Distance(transform.position, targetPos);
             if (distance <= attackRange)
@@ -95,7 +101,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
                 if (attackTimer <= 0)
                 {
                     canMove = false;
-                    Attack();                   
+                    Attack();
                 }
                 else
                 {
@@ -167,11 +173,17 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
     }
     public virtual void Attack() // todo -> attacking animation
     {
-        animator.SetTrigger("StartAttack");
         attackboundary.SetActive(true);
         Attackboundary attackboundaryScript = attackboundary.GetComponent<Attackboundary>();
-        attackboundaryScript.Starting(attackSpeed);
+        attackboundaryScript.Starting(attackSpeed, attackAnimationDelay);
     }
+
+    public virtual void AttackAnimation()
+    {
+        animator.SetTrigger("StartAttack");
+    }
+
+    public virtual void AttackSound() { }
 
     [PunRPC]
     public void AfterAttack()
@@ -179,7 +191,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
         attackTimer = attackCooldown;
         canMove = true;
     }
- 
+
     Transform knockbackTransform;
     public virtual void OnMonsterKnockBack(Transform _transform)
     {
@@ -191,7 +203,10 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
     public void OnMonsterKnockBackStart()
     {
         if (monsterinfo.isBoss) return;
-        canMove = false;
+        if (canMove)
+        {
+            canMove = false;
+        }  
         agent.enabled = false;
 
         Vector3 vec = transform.position - knockbackTransform.position;
@@ -217,7 +232,10 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
         yield return new WaitForSeconds(_time);
         rigid.velocity = Vector3.zero;
         agent.enabled = true;
-        canMove = true;
+        if (attackboundary != null && !attackboundary.activeSelf)
+        {
+            canMove = true;
+        }     
     }
 
     public virtual void OnMonsterSpeedDown(float _time, float _moveSpeed)
@@ -293,7 +311,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
                 animator.SetTrigger("Die");
                 Invoke("DestroyMonster", 1f);
             }
-        }        
+        }
     }
     public virtual void DestroyMonster()
     {
@@ -308,7 +326,6 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
             stream.SendNext(transform.rotation);
             stream.SendNext(CurHp);
             stream.SendNext(canMove);
-            stream.SendNext(target);
         }
         else
         {
@@ -316,7 +333,6 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
             transform.rotation = (Quaternion)stream.ReceiveNext();
             CurHp = (float)stream.ReceiveNext();
             canMove = (bool)stream.ReceiveNext();
-            target = (Transform)stream.ReceiveNext();
         }
     }
 }

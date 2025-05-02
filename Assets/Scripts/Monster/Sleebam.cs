@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class Sleebam : MonsterAI
 {
-    public override void Attack() // todo -> attacking animation
+    public override void Attack()
     {
-        StartCoroutine(SleebamAttack());
+        base.Attack();
+    }
+    public override void AttackSound()
+    {
+        SoundManager.Instance.PlayMonsterSfx(2, transform.position);
     }
 
-    private IEnumerator SleebamAttack()
-    {
-        attackboundary.SetActive(true);
-        Attackboundary attackboundaryScript = attackboundary.GetComponent<Attackboundary>();
-        attackboundaryScript.Starting(attackSpeed);
-        yield return new WaitForSeconds(1f);
-        if (animator != null)
-            animator.SetTrigger("StartAttack");
-        yield return new WaitForSeconds(0.15f);
-        SoundManager.Instance.PlayMonsterSfx(2, transform.position); // Edit
-    }
+    //private IEnumerator SleebamAttack()
+    //{
+    //    attackboundary.SetActive(true);
+    //    Attackboundary attackboundaryScript = attackboundary.GetComponent<Attackboundary>();
+    //    attackboundaryScript.Starting(attackSpeed);
+    //    yield return new WaitForSeconds(1f);
+    //    if (animator != null)
+    //        animator.SetTrigger("StartAttack");
+    //    yield return new WaitForSeconds(0.15f);
+    //    SoundManager.Instance.PlayMonsterSfx(2, transform.position); // Edit
+    //}
 }

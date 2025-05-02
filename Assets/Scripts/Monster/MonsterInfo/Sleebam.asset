@@ -19,6 +19,7 @@ MonoBehaviour:
   attackSpeed: 1.2
   attackCooldown: 2
   attackTimer: 0
+  AttackAnimationDelay: 0.53333
   priTarget:
   - Player
   - Summon
