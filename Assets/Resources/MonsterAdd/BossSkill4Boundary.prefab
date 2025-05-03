@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7875046959887151201}
   - component: {fileID: 8138498551132310040}
   - component: {fileID: 3054813175631710640}
-  - component: {fileID: 1347612265658037107}
   - component: {fileID: 4101400947082424138}
   - component: {fileID: 3709791516911914144}
   m_Layer: 0
@@ -88,18 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1347612265658037107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2838887698864355486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c08f9dfef3b48cc43b9234e8d793cf09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &4101400947082424138
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -135,4 +122,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossSkill4: {fileID: 6113128672718374927, guid: d4a9ee6f62c20f0408396bf5fc01db35, type: 3}
-  damage: 0
+  bossScript: {fileID: 0}

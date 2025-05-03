@@ -36,7 +36,6 @@ public class Drog : MonsterAI
         Skill3Speed = 0.9f;
         PatternbreakupHealth = 1500f;
         BossPhase2Hp = 13000f;
-        PatternHealth = PatternbreakupHealth;
         animator = GetComponentInChildren<Animator>();
         if (PhotonNetwork.PlayerList.Length <= 1)
         {
@@ -158,6 +157,10 @@ public class Drog : MonsterAI
     [PunRPC]
     public void Skill3Success()
     {
+        foreach (GameObject playerObj in swallowedTarget)
+        {
+            Debug.Log(playerObj);
+        }
         PatternHealth = PatternbreakupHealth;
         canMove = false;
         Skill3Start();
