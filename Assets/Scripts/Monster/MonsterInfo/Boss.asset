@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   damage: 80
-  health: 3000
+  health: 12000
   attackRange: 8
+  attackSpeed: 0
   attackCooldown: 5
   attackTimer: 0
+  AttackAnimationDelay: 0
   priTarget:
   - Player
   - Summon

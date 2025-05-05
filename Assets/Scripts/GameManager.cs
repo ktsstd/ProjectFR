@@ -140,8 +140,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             if (WaveCount == 1)
             {
                 StartCoroutine(InstantiateMonsters(Mugolin, 15));
-                //StartCoroutine(InstantiateMonsters(Sleebam, 1));
-                //StartCoroutine(InstantiateMonsters(Grave, 1));
             }
             else if (WaveCount == 2)
             {
@@ -366,13 +364,5 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         RenderSettings.skybox = WLSkyBoxMat;
         yield return new WaitForSeconds(10);
         RenderSettings.skybox = material;
-    }
-    public void OnClickIconUp()
-    {
-        RectTransform TopBarRect = TopBar.GetComponent<RectTransform>();
-        if (TopBarRect.anchoredPosition.y == 31)
-            TopBarRect.anchoredPosition = new Vector2(0, 0);
-        else
-            TopBarRect.anchoredPosition = new Vector2(0, 31);
     }
 }

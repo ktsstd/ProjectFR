@@ -6,7 +6,7 @@ using Photon.Pun;
 [RequireComponent(typeof(MeshFilter))]
 public class BossSkill3Script : MonoBehaviour
 {
-    bool isFadeIn = false;
+    bool isSwallowed = false;
     [SerializeField] Drog bossScript;
     [SerializeField] Collider thiscollider;
     float attackDuration = 0.9f;
@@ -14,6 +14,7 @@ public class BossSkill3Script : MonoBehaviour
     public void Starting(float Time)
     {
         thiscollider.enabled = false;
+        isSwallowed = false;
         if (Time > 0)
         {
             attackDuration = Time;
@@ -43,22 +44,21 @@ public class BossSkill3Script : MonoBehaviour
     {
         if (bossScript.swallowedTarget.Contains(other.gameObject)) return;
 
-        if (other.CompareTag("Player") && PhotonNetwork.IsMasterClient)
+        if (other.CompareTag("Player"))
         {
             bossScript.swallowedTarget.Add(other.gameObject);
             bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
-            thiscollider.enabled = false;
-            gameObject.SetActive(false);
             gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+            isSwallowed = true;
         }
     }
 
     void DestroyBoundary()
     {
-        if (thiscollider.enabled)
-        {
-            thiscollider.enabled = false;
-            gameObject.SetActive(false);
+        thiscollider.enabled = false;
+        gameObject.SetActive(false);
+        if (!isSwallowed)
+        {            
             bossScript.animator.SetTrigger("Skill3Over");
             bossScript.attackTimer = bossScript.attackCooldown;
             bossScript.BossMonsterSkillTimers[2] = bossScript.BossMonsterSkillCooldowns[2];

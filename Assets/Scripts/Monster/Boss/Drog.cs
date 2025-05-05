@@ -7,7 +7,6 @@ public class Drog : MonsterAI
 {
     float PatternbreakupHealth;
     float PatternHealth;
-    float Skill3Speed;
     public float BossPhase2Hp;
     public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
@@ -33,9 +32,8 @@ public class Drog : MonsterAI
     public override void Start()
     {
         base.Start();
-        Skill3Speed = 0.9f;
         PatternbreakupHealth = 1500f;
-        BossPhase2Hp = 13000f;
+        BossPhase2Hp = 39000f;
         animator = GetComponentInChildren<Animator>();
         if (PhotonNetwork.PlayerList.Length <= 1)
         {
@@ -139,7 +137,7 @@ public class Drog : MonsterAI
                 break;
             case 2:
                 BossSkill3Obj.SetActive(true);
-                boss3Script.Starting(Skill3Speed);
+                boss3Script.Starting(0.9f);
                 yield return new WaitForSeconds(0.6f);
                 animator.SetTrigger("Skill3");
                 break;
