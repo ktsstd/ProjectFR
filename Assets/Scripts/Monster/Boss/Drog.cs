@@ -8,7 +8,7 @@ public class Drog : MonsterAI
     float PatternbreakupHealth;
     float PatternHealth;
     public float BossPhase2Hp;
-    public float[] BossMonsterSkillCooldowns = { 3f, 109999f, 3f, 10234324234f };
+    public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
     public float[] BossMonsterSkillTimers = new float[4];
 
     public int BossPhase = 1;
@@ -48,7 +48,66 @@ public class Drog : MonsterAI
 
     public override void Update()
     {
-        base.Update();
+        if (sloweffect != null)
+        {
+            ParticleSystem ps = sloweffect.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                var main = ps.main;
+                main.startRotation = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
+            }
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            targetSearchTimer -= Time.deltaTime;
+            if (targetSearchTimer <= 0f)
+            {
+                photonView.RPC("GetClosestTarget", RpcTarget.All);
+                targetSearchTimer = targetSearchTime;
+            }
+        }
+        else
+        {
+
+        }
+        if (target == null) return;
+        targetCollider = target.GetComponent<CapsuleCollider>();
+        Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
+        if (canMove && CurHp > 0)
+        {
+            float distance = Vector3.Distance(transform.position, targetPos);
+            if (distance <= attackRange)
+            {
+                agent.ResetPath();
+                agent.velocity = Vector3.zero;
+                animator.SetBool("Run", false);
+                if (attackTimer <= 0)
+                {
+                    canMove = false;
+                    Attack();
+                }
+                else
+                {
+                    Vector3 directionToTarget = target.position - transform.position;
+                    if (directionToTarget != Vector3.zero || swallowedTarget == null)
+                    {
+                        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
+                    }
+                }
+            }
+            else
+            {
+                agent.SetDestination(target.position);
+                animator.SetBool("Run", true);
+            }
+        }
+
+        if (attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
+        }
         for (int i = 0; i < BossMonsterSkillTimers.Length; i++)
         {
             if (BossMonsterSkillTimers[i] > 0f)
@@ -66,6 +125,10 @@ public class Drog : MonsterAI
                 }
             }
         }        
+        if (Input.GetKeyDown(KeyCode.Keypad8))
+            {
+                photonView.RPC("OnMonsterHit", RpcTarget.All, 1005f);
+            }
     }
 
     public override void Attack()
@@ -167,6 +230,9 @@ public class Drog : MonsterAI
         PatternHealth = PatternbreakupHealth;
         canMove = false;
         Skill3Start();
+        animator.ResetTrigger("Skill3__1");
+        animator.ResetTrigger("Skill3Over");
+        animator.ResetTrigger("Skill3_2");
         animator.SetTrigger("Skill3_1");
     }
     public void Skill3Start()
@@ -181,6 +247,10 @@ public class Drog : MonsterAI
     IEnumerator Skill3PatternStart()
     {
         yield return new WaitForSeconds(15f);
+        if (swallowedTarget == null)
+        {
+            yield break;
+        }
         foreach (GameObject playerObj in swallowedTarget)
         {
             PlayerController playerS = playerObj.GetComponent<PlayerController>();
@@ -199,16 +269,17 @@ public class Drog : MonsterAI
     [PunRPC]
     public void Spititout()
     {
+        StopCoroutine(skill3Coroutine);
         StartCoroutine(SpititoutC());
     }
     IEnumerator SpititoutC()
-    {
-        StopCoroutine(Skill3PatternStart());
+    {        
         foreach (GameObject playerObj in swallowedTarget)
         {
             PlayerController playerS = playerObj.GetComponent<PlayerController>();
             playerS.photonView.RPC("PlayerStunClear", RpcTarget.AllBuffered);
             playerS.transform.position = MouthPos.transform.position;
+            playerObj.transform.position = new Vector3(playerObj.transform.position.x, 0, playerObj.transform.position.z);
         }
         photonView.RPC("ClearHash", RpcTarget.All);
         animator.SetTrigger("Skill3_2");
