@@ -8,7 +8,7 @@ public class Drog : MonsterAI
     float PatternbreakupHealth;
     float PatternHealth;
     public float BossPhase2Hp;
-    public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
+    public float[] BossMonsterSkillCooldowns = { 3f, 109999f, 3f, 10234324234f };
     public float[] BossMonsterSkillTimers = new float[4];
 
     public int BossPhase = 1;
@@ -32,12 +32,17 @@ public class Drog : MonsterAI
     public override void Start()
     {
         base.Start();
-        PatternbreakupHealth = 1500f;
+        PatternbreakupHealth = 1f;
         BossPhase2Hp = 39000f;
         animator = GetComponentInChildren<Animator>();
         if (PhotonNetwork.PlayerList.Length <= 1)
         {
             BossPhase2Hp /= 2;
+        }
+        for (int i = 0; i < BossMonsterSkillCooldowns.Length; i++)
+        {
+            BossMonsterSkillCooldowns[i] = BossMonsterSkillCooldowns[i];
+            BossMonsterSkillTimers[i] = BossMonsterSkillCooldowns[i];
         }
     }
 
@@ -182,7 +187,7 @@ public class Drog : MonsterAI
             playerS.photonView.RPC("OnPlayerHit", RpcTarget.AllBuffered, 20000f);
             playerS.photonView.RPC("PlayerStunClear", RpcTarget.AllBuffered);
         }
-        swallowedTarget.Clear();
+        photonView.RPC("ClearHash", RpcTarget.All);
         PatternHealth = 0;
         animator.SetTrigger("Skill3__1");
         yield return new WaitForSeconds(2f);
@@ -191,16 +196,21 @@ public class Drog : MonsterAI
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
         attackTimer = attackCooldown;
     }
-    IEnumerator Spititout()
+    [PunRPC]
+    public void Spititout()
     {
-        StopCoroutine(skill3Coroutine);
+        StartCoroutine(SpititoutC());
+    }
+    IEnumerator SpititoutC()
+    {
+        StopCoroutine(Skill3PatternStart());
         foreach (GameObject playerObj in swallowedTarget)
         {
             PlayerController playerS = playerObj.GetComponent<PlayerController>();
             playerS.photonView.RPC("PlayerStunClear", RpcTarget.AllBuffered);
             playerS.transform.position = MouthPos.transform.position;
         }
-        swallowedTarget.Clear();
+        photonView.RPC("ClearHash", RpcTarget.All);
         animator.SetTrigger("Skill3_2");
         yield return new WaitForSeconds(2f);
         canMove = true;
@@ -225,7 +235,10 @@ public class Drog : MonsterAI
                 }
                 else
                 {
-                    animator.SetTrigger("Die");
+                    animator.SetTrigger("Die"); 
+                    PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+                    playerS.photonView.RPC("LookAtTarget", RpcTarget.All, gameObject.name, 55555f);
+                    Invoke("GameEnd", 6f);
                 }
             }
         }
@@ -234,8 +247,18 @@ public class Drog : MonsterAI
             PatternHealth -= damage;
             if (PatternHealth <= 0)
             {
-                StartCoroutine(Spititout());
+                photonView.RPC("Spititout", RpcTarget.All);
             }
         }
+    }
+    [PunRPC]
+    public void ClearHash()
+    {
+        swallowedTarget.Clear();
+    }
+
+    public virtual void GameEnd()
+    {
+        GameManager.Instance.GoToMain();
     }
 }

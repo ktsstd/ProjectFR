@@ -364,6 +364,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     currentStates = States.Die;
                     pv.RPC("OnPlayerDie", RpcTarget.All, null);
                     pv.RPC("PlayTriggerAnimation", RpcTarget.All, "die");
+                    GameManager.Instance.CheckPlayer();
                 }
             }
 

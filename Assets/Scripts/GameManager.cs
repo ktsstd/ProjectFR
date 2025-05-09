@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject TopBar;
     [SerializeField] GameObject WaveBar;
     [SerializeField] GameObject BossHpBar;
+    [SerializeField] Object objectS;
 
     private int WaveAllMonster;
     private int WaveCount = 4;
@@ -117,6 +118,23 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             isSpawn = true;
             WaveCount += 1;
         }
+    }
+
+    public void CheckPlayer()
+    {
+        if (GameObject.FindGameObjectsWithTag("Player").Length == 0)
+        {
+            objectS.photonView.RPC("Damaged", RpcTarget.All, 99999999999999999f);
+        }
+    }
+
+    public void GoToMain()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("Main"); // 방을 떠나면 새로운 씬으로 이동
     }
 
     IEnumerator WaveStart()

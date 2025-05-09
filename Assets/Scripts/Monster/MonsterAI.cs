@@ -293,7 +293,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
     }
     public virtual void MonsterDmged(float damage)
     {
-        photonView.RPC("OnMonsterHit", RpcTarget.All, damage);
+        photonView.RPC("OnMonsterHit", RpcTarget.All, damage);     
     }
     [PunRPC]
     public virtual void OnMonsterHit(float damage)
