@@ -285,7 +285,7 @@ public class FusionSkill : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(1f);
-        // StartCoroutine("WaterAndLightningRecovery");
+        StartCoroutine("WaterAndLightningRecovery");
         foreach (GameObject player in playerList)
         {
             if (player.name == "Lightning(Clone)")
@@ -322,7 +322,7 @@ public class FusionSkill : MonoBehaviour
         {
             foreach (GameObject player in playerList)
             {
-                player.GetComponent <PlayerController>().pv.RPC("OnPlayerRecovery", RpcTarget.All, 50);
+                player.GetComponent <PlayerController>().pv.RPC("OnPlayerRecovery", RpcTarget.All, 50f);
             }
             yield return new WaitForSeconds(1);
             count += 1;
