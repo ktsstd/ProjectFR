@@ -32,7 +32,7 @@ public class Drog : MonsterAI
     public override void Start()
     {
         base.Start();
-        PatternbreakupHealth = 1f;
+        PatternbreakupHealth = 3000f;
         BossPhase2Hp = 39000f;
         animator = GetComponentInChildren<Animator>();
         if (PhotonNetwork.PlayerList.Length <= 1)

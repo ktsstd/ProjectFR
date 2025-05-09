@@ -236,7 +236,8 @@ public class Fire : PlayerController
             fireParticle.Stop();
             audioSource.Stop();
             flameSpray.SetActive(false);
-            playerSpeed += 1;
+            if (pv.IsMine)
+                playerSpeed += 1;
         }
     }
 
@@ -247,7 +248,8 @@ public class Fire : PlayerController
             fireParticle.Stop();
             audioSource.Stop();
             flameSpray.SetActive(false);
-            playerSpeed += 1;
+            if (pv.IsMine)
+                playerSpeed += 1;
         }
     }
 }

@@ -177,6 +177,14 @@ public class PlayerUi : MonoBehaviour
         {
             fusionSkillIconImage.sprite = fusionSkillIcon[1];
         }
+        else if ((_code_1 == 3 && _code_2 == 2) || (_code_1 == 2 && _code_2 == 3))
+        {
+            fusionSkillIconImage.sprite = fusionSkillIcon[2];
+        }
+        else if ((_code_1 == 0 && _code_2 == 2) || (_code_1 == 2 && _code_2 == 0))
+        {
+            fusionSkillIconImage.sprite = fusionSkillIcon[3];
+        }
         else
             fusionSkillIconImage.sprite = elementalCodeSprite[4];
     }

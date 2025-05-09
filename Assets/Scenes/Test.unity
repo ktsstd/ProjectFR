@@ -1722,6 +1722,7 @@ MonoBehaviour:
   TopBar: {fileID: 1475098636}
   WaveBar: {fileID: 1144168593}
   BossHpBar: {fileID: 1467699645}
+  objectS: {fileID: 0}
   isSpawn: 0
 --- !u!4 &93261086
 Transform:
@@ -4486,7 +4487,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -25.994568, y: -4.889496}
+  m_AnchoredPosition: {x: -25.994629, y: -4.8894653}
   m_SizeDelta: {x: 92.81482, y: 26.180481}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &324762910
@@ -23229,7 +23230,9 @@ MonoBehaviour:
   fusionSkillGlassImage: {fileID: 633136405}
   fusionSkillIcon:
   - {fileID: 21300000, guid: 099d3ce026fae124b8b40dcb88c1e449, type: 3}
-  - {fileID: 21300000, guid: 29384e37d9e4ffc4a9a8c7567e113ffd, type: 3}
+  - {fileID: 21300000, guid: 5b432597105e4184db56d297afe431fe, type: 3}
+  - {fileID: 21300000, guid: b16b2b83300f3484fb6ea6f2b81938a5, type: 3}
+  - {fileID: 21300000, guid: 4d11e6743b6454447b346073d1962666, type: 3}
   fusionSkillGlassSprite:
   - {fileID: 21300000, guid: be4d277208982274da485b40ae615cce, type: 3}
   - {fileID: 21300000, guid: f7c41ffaf8839354bbc496d1a5df7c10, type: 3}
