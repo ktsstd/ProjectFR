@@ -17,6 +17,7 @@ public class Drog : MonsterAI
     [SerializeField] GameObject BossJumpSkill;
     [SerializeField] GameObject BossLandSkill;
     [SerializeField] GameObject BossSkill3Obj;
+    [SerializeField] GameObject BossSkill3_2Obj;
     [SerializeField] GameObject BossSkill4Obj;
 
     [SerializeField] BossSkill1Script boss1Script;
@@ -102,6 +103,12 @@ public class Drog : MonsterAI
                 agent.SetDestination(target.position);
                 animator.SetBool("Run", true);
             }
+        }
+        else
+        {
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+            animator.SetBool("Run", false);
         }
 
         if (attackTimer > 0)
@@ -283,6 +290,9 @@ public class Drog : MonsterAI
         }
         photonView.RPC("ClearHash", RpcTarget.All);
         animator.SetTrigger("Skill3_2");
+        ParticleSystem BossSkill32P = BossSkill3_2Obj.GetComponent<ParticleSystem>();
+        BossSkill32P.Play();
+        BossSkill3_2Obj.SetActive(true);
         yield return new WaitForSeconds(2f);
         canMove = true;
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];

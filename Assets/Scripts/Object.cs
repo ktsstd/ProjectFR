@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Object : MonoBehaviourPunCallbacks
 {
     private float health;
-    private float MaxHp = 5500f;
+    private float MaxHp = 11000f;
     private bool GameOver = false;
     private GameObject[] Monster;
     private int MonsterCount;
@@ -40,11 +40,14 @@ public class Object : MonoBehaviourPunCallbacks
             }
         }
     }
-
-    [PunRPC]
     public void Damaged(float damage)
     {
-        if (GameOver && !PhotonNetwork.IsMasterClient) return;
+        if (GameOver || !PhotonNetwork.IsMasterClient) return;
+        photonView.RPC("ObjDmged", RpcTarget.All, damage);
+    }
+    [PunRPC]
+    public void ObjDmged(float damage)
+    {
         health -= damage;
         if (health <= 0)
         {

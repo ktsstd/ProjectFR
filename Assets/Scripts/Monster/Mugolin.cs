@@ -61,7 +61,7 @@ public class Mugolin : MonsterAI
         GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
         Object ObjectS = ObjectObj.GetComponent<Object>();
         SoundManager.Instance.PlayMonsterSfx(0, transform.position); // Edit
-        ObjectS.photonView.RPC("Damaged", RpcTarget.All, damage);
+        ObjectS.Damaged(damage);
         attackTimer = attackCooldown;
         canMove = true;
     }

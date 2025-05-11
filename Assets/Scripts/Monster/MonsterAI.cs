@@ -119,6 +119,12 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
                 animator.SetBool("Run", true);
             }
         }
+        else
+        {
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+            animator.SetBool("Run", false);
+        }
 
         if (attackTimer > 0)
         {
@@ -181,6 +187,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
     public virtual void AttackAnimation()
     {
         animator.SetTrigger("StartAttack");
+        Debug.Log("AttackAnimation Called");
     }
 
     public virtual void AttackSound() { }
@@ -293,6 +300,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
     }
     public virtual void MonsterDmged(float damage)
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         photonView.RPC("OnMonsterHit", RpcTarget.All, damage);     
     }
     [PunRPC]

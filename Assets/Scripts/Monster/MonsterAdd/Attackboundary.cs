@@ -45,7 +45,7 @@ public class Attackboundary : MonoBehaviour
         {
             damagedTargets.Add(other.gameObject);
             Object objectS = other.GetComponent<Object>();
-            objectS.photonView.RPC("Damaged", RpcTarget.All, monsterAIScript.damage);
+            objectS.Damaged(monsterAIScript.damage);
             monsterAIScript.AttackSound();
         }
     }
