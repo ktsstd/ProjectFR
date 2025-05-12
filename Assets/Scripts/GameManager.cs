@@ -122,7 +122,18 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void CheckPlayer()
     {
-        if (GameObject.FindGameObjectsWithTag("Player").Length == 0)
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        bool AllPlayerAlive = false;
+        foreach (GameObject player in players)
+        {
+            PlayerController playerS = player.GetComponent<PlayerController>();
+            if (playerS.playerHp > 0)
+            {
+                AllPlayerAlive = true;
+                break;
+            }
+        }
+        if (!AllPlayerAlive)
         {
             objectS.photonView.RPC("Damaged", RpcTarget.All, 99999999999999999f);
         }
@@ -130,6 +141,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void GoToMain()
     {
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        {
+            { "isReady", null },
+            { "selectedCharacter", null }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+        //SaveManager saveS = GameObject.Find("SaveManager").GetComponent<SaveManager>();
+        //saveS.OnClickResetSetting();
+
         PhotonNetwork.LeaveRoom();
     }
     public override void OnLeftRoom()

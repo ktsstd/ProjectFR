@@ -55,6 +55,7 @@ public class SoundManager : MonoBehaviour
         {
             BgmVolume = PlayerPrefs.GetFloat("BgmVolume");
         }
+
         if (!PlayerPrefs.HasKey("MonsterSfxVolume"))
         {
             PlayerPrefs.SetFloat("MonsterSfxVolume", SfxMonsterVolume);

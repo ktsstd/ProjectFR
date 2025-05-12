@@ -5,22 +5,27 @@ using Photon.Pun;
 public class grave : MonsterAI
 {
     private float radius = 5f;
-    private bool canSpawn = true;
     public override void Start()
     {
         StartCoroutine(StartSpawn());
+        CurHp = 700f;
+        animator = GetComponent<Animator>();
     }
     private IEnumerator StartSpawn()
     {
-        canSpawn = true;
         yield return new WaitForSeconds(3.5f);
-        while (canSpawn)
+        while (CurHp > 0 && PhotonNetwork.IsMasterClient)
         {
             Vector3 randomPos = GetRandomPos();
             PhotonNetwork.Instantiate("Monster/Solborn", randomPos, Quaternion.identity);
-            SoundManager.Instance.PlayMonsterSfx(5, transform.position);
+            photonView.RPC("PlaySound", RpcTarget.All);
             yield return new WaitForSeconds(6f);
         }
+    }
+    [PunRPC]
+    public void PlaySound()
+    {
+        SoundManager.Instance.PlayMonsterSfx(5, transform.position);
     }
     public override void Update()
     {
@@ -46,28 +51,5 @@ public class grave : MonsterAI
         Vector2 randomCircle = Random.insideUnitCircle * radius;
         Vector3 randomPos = new Vector3(randomCircle.x, 0, randomCircle.y);
         return transform.position + randomPos;
-    }
-    public override void MonsterDmged(float damage)
-    {
-        base.MonsterDmged(damage);
-    }
-    [PunRPC]
-    public override void OnMonsterHit(float damage)
-    {
-        if (CurHp > 0)
-        {
-            CurHp -= damage;
-            if (CurHp <= 0)
-            {
-                canMove = false;
-                if (attackboundary != null && attackboundary.activeSelf)
-                {
-                    attackboundary.SetActive(false);
-                }
-                animator.SetTrigger("Die");
-                Invoke("DestroyMonster", 1f);
-                canSpawn = false;
-            }
-        }
     }
 }

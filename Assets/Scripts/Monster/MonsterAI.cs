@@ -317,7 +317,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
                     attackboundary.SetActive(false);
                 }
                 animator.SetTrigger("Die");
-                Invoke("DestroyMonster", 1f);
+                Invoke("DestroyMonster", 1.5f);
             }
         }
     }
