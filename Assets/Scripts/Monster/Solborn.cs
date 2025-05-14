@@ -23,9 +23,17 @@ public class Solborn : MonsterAI
     {
         base.Attack();
     }
-    public override void AttackSound() 
+    public override void AttackEffect()
     {
         SolbornEffect.Play();
+    }
+    public override void AttackAnimation()
+    {
+        animator.SetTrigger("StartAttack");
+        Debug.Log("AttackAnimation Called");
+    }
+    public override void AttackSound() 
+    {        
         SoundManager.Instance.PlayMonsterSfx(1, transform.position);
     }
 

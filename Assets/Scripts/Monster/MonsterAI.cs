@@ -17,7 +17,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
     public float attackAnimationDelay;
     public float recognizedistance;
     public float monsterSlowCurTime;
-    public float targetSearchTime = 0.5f;
+    public float targetSearchTime = 2f; 
     public float targetSearchTimer;
 
     public bool canMove;
@@ -189,6 +189,8 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
         animator.SetTrigger("StartAttack");
         Debug.Log("AttackAnimation Called");
     }
+
+    public virtual void AttackEffect() { }
 
     public virtual void AttackSound() { }
 

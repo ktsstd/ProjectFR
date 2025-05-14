@@ -22,6 +22,7 @@ public class Attackboundary : MonoBehaviour
         monsterAIScript.AttackAnimation();
         
         yield return new WaitForSeconds(delayTime);
+        monsterAIScript.AttackEffect();
 
         thiscollider.enabled = true;
         yield return new WaitForSeconds(0.1f);

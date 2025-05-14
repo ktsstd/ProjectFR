@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Sleebam : MonsterAI
 {
+    [SerializeField] GameObject SleebamAttackEffect;
     public override void Attack()
     {
         base.Attack();
+    }
+    public override void AttackEffect()
+    {
+        ParticleSystem AttackE = SleebamAttackEffect.GetComponent<ParticleSystem>();
+        AttackE.Play();
+        SleebamAttackEffect.SetActive(true);
     }
     public override void AttackSound()
     {
