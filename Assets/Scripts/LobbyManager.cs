@@ -233,10 +233,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             StartObj.SetActive(state);
         }
     }
-
+    bool Starting = false;
     public void OnClickGameStart()
     {
-        bool Starting = false;
         if (!Starting)
         {
             Starting = true;

@@ -137,4 +137,11 @@ public class Mugolin : MonsterAI
         yield return new WaitForSeconds(0.6f);
         canMove = true;
     }
+    public override IEnumerator MonsterStun(float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        rigid.velocity = Vector3.zero;
+        agent.enabled = true;
+        canMove = true;
+    }
 }

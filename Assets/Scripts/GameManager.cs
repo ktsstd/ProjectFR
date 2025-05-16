@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         if (!AllPlayerAlive)
         {
-            objectS.photonView.RPC("Damaged", RpcTarget.All, 99999999999999999f);
+            objectS.Damaged(9999999999999f);
         }
     }
 
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
             { "isReady", null },
-            { "selectedCharacter", null }
+            { "selectedCharacter", -1 }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
         //SaveManager saveS = GameObject.Find("SaveManager").GetComponent<SaveManager>();

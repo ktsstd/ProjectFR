@@ -59,7 +59,7 @@ public class BossSkill3Script : MonoBehaviour
     {
         thiscollider.enabled = false;
         gameObject.SetActive(false);
-        if (bossScript.swallowedTarget == null)
+        if (bossScript.swallowedTarget.Count == 0)
         {            
             bossScript.animator.SetTrigger("Skill3Over");
             bossScript.attackTimer = bossScript.attackCooldown;
@@ -67,18 +67,5 @@ public class BossSkill3Script : MonoBehaviour
             bossScript.canMove = true;
             gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         }
-        //if (isFadeIn)
-        //{
-        //    isFadeIn = false;
-        //    gameObject.SetActive(false);
-        //    if (!bossScript.is3Patterning)
-        //    {
-        //        bossScript.animator.SetTrigger("Skill3Over");
-        //        bossScript.attackTimer = bossScript.attackCooldown;
-        //        bossScript.BossMonsterSkillTimers[2] = bossScript.BossMonsterSkillCooldowns[2];
-        //        bossScript.canMove = true;
-        //    }
-        //    gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
-        //} 
     }
 }

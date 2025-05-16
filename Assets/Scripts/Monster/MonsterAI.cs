@@ -51,6 +51,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
         recognizedistance = monsterinfo.redistance;
         attackTimer = monsterinfo.attackTimer;
         monsterSlowCurTime = 0;
+        targetSearchTime = 2f;
         canMove = true;
         if (PhotonNetwork.PlayerList.Length > 1)
         {
@@ -236,7 +237,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
 
         stunCoroutine = StartCoroutine(MonsterStun(_time));
     }
-    IEnumerator MonsterStun(float _time)
+    public virtual IEnumerator MonsterStun(float _time)
     {
         yield return new WaitForSeconds(_time);
         rigid.velocity = Vector3.zero;
@@ -244,7 +245,7 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
         if (attackboundary != null && !attackboundary.activeSelf)
         {
             canMove = true;
-        }     
+        }
     }
 
     public virtual void OnMonsterSpeedDown(float _time, float _moveSpeed)

@@ -1722,7 +1722,7 @@ MonoBehaviour:
   TopBar: {fileID: 1475098636}
   WaveBar: {fileID: 1144168593}
   BossHpBar: {fileID: 1467699645}
-  objectS: {fileID: 0}
+  objectS: {fileID: 1677099126}
   isSpawn: 0
 --- !u!4 &93261086
 Transform:
