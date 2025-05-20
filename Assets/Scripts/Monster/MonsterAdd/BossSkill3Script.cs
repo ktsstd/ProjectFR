@@ -45,11 +45,11 @@ public class BossSkill3Script : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (bossScript.swallowedTarget.Contains(other.gameObject)) return;
+        if (bossScript.swallowedTarget.Contains(other.gameObject) && !PhotonNetwork.IsMasterClient) return;
 
         if (other.CompareTag("Player"))
         {
-            bossScript.swallowedTarget.Add(other.gameObject);
+            bossScript.photonView.RPC("AddSwallowedTarget", RpcTarget.All, other.gameObject.name);
             bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
             gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         }

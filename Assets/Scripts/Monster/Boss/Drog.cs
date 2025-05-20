@@ -137,6 +137,13 @@ public class Drog : MonsterAI
                 photonView.RPC("OnMonsterHit", RpcTarget.All, 1005f);
             }
     }
+    [PunRPC]
+    public void AddSwallowedTarget(string objname)
+    {
+        GameObject playerobj = GameObject.Find(objname);
+        swallowedTarget.Add(playerobj);
+        Debug.Log(objname);
+    }
 
     public override void Attack()
     {

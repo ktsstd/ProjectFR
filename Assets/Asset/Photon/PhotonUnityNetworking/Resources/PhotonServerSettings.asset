@@ -119,6 +119,9 @@ MonoBehaviour:
   - ClearHash
   - ObjDmged
   - PlaySound
+  - SwallowedTarget
+  - AddSwallowTarget
+  - AddSwallowedTarget
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

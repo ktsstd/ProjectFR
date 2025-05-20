@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] Object objectS;
 
     private int WaveAllMonster;
-    private int WaveCount = 0;
+    private int WaveCount = 4;
     public bool isSpawn = false;
 
     private static GameManager _instance;
