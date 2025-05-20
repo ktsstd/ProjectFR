@@ -102,10 +102,14 @@ public class SummonAI : MonoBehaviourPunCallbacks
             }
             agent.SetDestination(targetPos);
             yield return new WaitForSeconds(0.5f);
-            if (Vector3.Distance(transform.position, targetMonster.transform.position) <= attackRange + 1f)
+            if (targetMonster != null)
             {
-                animator.SetTrigger("AttackAni");
-                yield return new WaitForSeconds(2f);
+                if (Vector3.Distance(transform.position, targetMonster.transform.position) <= attackRange + 1f)
+                {
+                    transform.rotation = Quaternion.LookRotation(targetMonster.transform.position - transform.position);
+                    animator.SetTrigger("AttackAni");
+                    yield return new WaitForSeconds(2f);
+                }
             }
         }
     }
