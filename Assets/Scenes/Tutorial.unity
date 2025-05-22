@@ -15596,12 +15596,12 @@ GameObject:
   - component: {fileID: 1441310393}
   - component: {fileID: 1441310392}
   m_Layer: 5
-  m_Name: WarningMessae
+  m_Name: TutorialMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1441310391
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15641,8 +15641,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD29C\uD1A0\uB9AC\uC5BC \uC548\uB0B4 \uBA54\uC2DC\uC9C0 \uC774\uB7F0\uB290\uB08C
-    \uBCC4\uB85C\uC784?"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c16532d08082bd64291b0e4209f6b90e, type: 2}
   m_sharedMaterial: {fileID: -5283300883188771937, guid: c16532d08082bd64291b0e4209f6b90e, type: 2}
