@@ -10375,6 +10375,7 @@ MonoBehaviour:
   WaterAndLightningEF: {fileID: 3603895753907368959, guid: ee060b0bc3c239e4f8caeeb901e15a2a, type: 3}
   CloudEF: {fileID: 3153797109240502577, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
   EarthAndFireEF: {fileID: 3375187435828653642, guid: 21c64483288299a48aa4e71ade0fc041, type: 3}
+  EarthAndWaterEF: {fileID: 4360680377855529226, guid: dc1f0dea04555aa4abdacbfad0ffee50, type: 3}
   cutScene:
   - {fileID: 512114659}
   - {fileID: 300868044}

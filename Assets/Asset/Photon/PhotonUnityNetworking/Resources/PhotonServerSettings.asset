@@ -122,6 +122,9 @@ MonoBehaviour:
   - SwallowedTarget
   - AddSwallowTarget
   - AddSwallowedTarget
+  - EarthAndWater
+  - UseWaterAndEarth
+  - WaterAndEarth
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

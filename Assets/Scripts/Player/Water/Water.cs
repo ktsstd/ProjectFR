@@ -170,4 +170,13 @@ public class Water : PlayerController
             pv.RPC("PlayTriggerAnimation", RpcTarget.All, "W&L");
         }
     }
+
+    [PunRPC]
+    public void WaterAndEarth()
+    {
+        if (pv.IsMine)
+        {
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "W&E");
+        }
+    }
 }

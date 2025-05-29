@@ -170,6 +170,16 @@ public class Earth : PlayerController
         GameObject skill = Instantiate(crystal, fusionSkillPos, crystal.transform.rotation);
     }
 
+    [PunRPC]
+    public void EarthAndWater()
+    {
+        transform.rotation = Quaternion.LookRotation(Vector3.zero - transform.position);
+        if (pv.IsMine)
+        {
+            pv.RPC("PlayTriggerAnimation", RpcTarget.All, "E&W");
+        }
+    }
+
     public override float OtherShield(float _damage)
     {
         float damage = _damage;
