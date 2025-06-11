@@ -9957,6 +9957,52 @@ RectTransform:
   m_AnchoredPosition: {x: -4.9, y: 4.5}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &955542764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 955542766}
+  - component: {fileID: 955542765}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &955542765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955542764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1fb8881ab0006f468830adc10a2faab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TutorialText: {fileID: 1441310392}
+  virtualCamera: {fileID: 515437896}
+--- !u!4 &955542766
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955542764}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &955588158
 GameObject:
   m_ObjectHideFlags: 0
@@ -10376,6 +10422,7 @@ MonoBehaviour:
   WaterAndLightningEF: {fileID: 3603895753907368959, guid: ee060b0bc3c239e4f8caeeb901e15a2a, type: 3}
   CloudEF: {fileID: 3153797109240502577, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
   EarthAndFireEF: {fileID: 3375187435828653642, guid: 21c64483288299a48aa4e71ade0fc041, type: 3}
+  EarthAndWaterEF: {fileID: 0}
   cutScene:
   - {fileID: 512114659}
   - {fileID: 300868044}
@@ -121090,3 +121137,4 @@ SceneRoots:
   - {fileID: 1460322834791371155}
   - {fileID: 507896708}
   - {fileID: 4299272}
+  - {fileID: 955542766}
