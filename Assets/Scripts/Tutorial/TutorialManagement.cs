@@ -8,6 +8,8 @@ public class TutorialManagement : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI TutorialText;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
+    [SerializeField] GameObject arrowPoint;
+    [SerializeField] GameObject herepoint;
     int curTutorialProcess;
     bool canTouch = false;
     GameObject Pltransform;
