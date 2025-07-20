@@ -36,7 +36,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public void OnChangeNickname()
     {
-        string userId = userIF.text.Trim();  // 새 닉네임 입력값
+        string userId = userIF.text.Trim();
 
         if (string.IsNullOrEmpty(userIF.text))
         {
@@ -47,7 +47,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             userId = userIF.text;
         }
 
-        // Photon 네트워크에 새 닉네임 설정
         PhotonNetwork.NickName = userId;
         PlayerPrefs.SetString("UserId", userId);
     }
@@ -90,9 +89,43 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("현재 마스터 클라이언트입니다.");
-            PhotonNetwork.LoadLevel("Lobby");
+            if (!clickedTut)
+            {
+                PhotonNetwork.LoadLevel("Lobby");
+            }
+            else
+            {
+                PhotonNetwork.LoadLevel("Tutorial");
+            }            
         }
+    }
+    bool clickedTut = false;
+    public void OnClickTutorialStart()
+    {
+        if (clickedTut) return;
+        clickedTut = true;
+        RoomOptions ro = new RoomOptions
+        {
+            MaxPlayers = 1,     // 최대 접속자 수
+            IsOpen = false,       // 룸 오픈 여부
+            IsVisible = false     // 로비에서 룸 목록에 노출 여부
+        };
+        string roomName = "";
+        // 룸 이름을 랜덤으로 생성하여 룸 생성
+        if (string.IsNullOrEmpty(roomNameIF.text))
+        {
+            roomName = $"ROOM_{Random.Range(1, 101):000}";
+        }
+        else
+        {
+            roomName = roomNameIF.text;
+        }
+        PhotonNetwork.CreateRoom(roomName, ro);
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        {
+            { "selectedCharacter", 3 }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Cinemachine;
@@ -8,15 +9,36 @@ public class TutorialManagement : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI TutorialText;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
-    [SerializeField] GameObject arrowPoint;
     [SerializeField] GameObject herepoint;
-    int curTutorialProcess;
+    [SerializeField] GameObject FirstPoint;
+    [SerializeField] GameObject SecondPoint;
+    [SerializeField] GameObject ThirdPoint;
+    [SerializeField] Transform SpawnPos;
+    public int curTutorialProcess;
     bool canTouch = false;
-    GameObject Pltransform;
+
+    private static TutorialManagement _instance;
+    public static TutorialManagement Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.Find("TutorialManager").GetComponent<TutorialManagement>();
+            }
+            return _instance;
+        }
+    }
+
+    private void Awake()
+    {
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
+        PhotonNetwork.Instantiate("Fire", SpawnPos.position, Quaternion.identity);
+    }
     // Start is called before the first frame update
     void Start()
     {
-        curTutorialProcess = 10;
+        curTutorialProcess = 1;
         TutorialProcess(curTutorialProcess);
         // LookAtTarget
     }
@@ -24,6 +46,7 @@ public class TutorialManagement : MonoBehaviour
     {
         if (canTouch && Input.GetMouseButtonDown(0))
         {
+            canTouch = false;
             NextProcess();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -62,9 +85,10 @@ public class TutorialManagement : MonoBehaviour
         else if (TutorialProcessCode == 5)
         {
             TutorialText.text = "지정된 곳까지 이동해보세요";
-            Pltransform = virtualCamera.LookAt.gameObject;
-            // 위치 만들기
-            //LookAtTarget(오브젝트, 3f);
+            herepoint.SetActive(true);
+            herepoint.transform.position = FirstPoint.transform.position;
+            PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            playerS.photonView.RPC("LookAtTarget", RpcTarget.All, FirstPoint.name, 3f);
         }
         else if (TutorialProcessCode == 6)
         {
@@ -111,13 +135,13 @@ public class TutorialManagement : MonoBehaviour
         {
             TutorialText.text = "해당 맵에선 가운데의 수정을 보호하는 기믹입니다.\n수정은 맵의 정가운데에 있습니다.";
             GameObject Crystal = GameObject.Find("Crystal");
-            LookAtTarget(Crystal, 99999f);
+            //LookAtTarget(Crystal, 99999f);
             canTouch = true;
         }
         else if (TutorialProcessCode == 15)
         {
-            StopCoroutine(LookAtTarget(Pltransform, 0f));
-            virtualCamera.LookAt = Pltransform.transform;
+            //StopCoroutine(LookAtTarget(Pltransform, 0f));
+            //virtualCamera.LookAt = Pltransform.transform;
             TutorialText.text = "수정의 체력은 미니맵의 하단에 있습니다.";
             canTouch = true;
         }
@@ -171,15 +195,8 @@ public class TutorialManagement : MonoBehaviour
     //    }
     //    isFadeOut = false;
     //}
-    private IEnumerator LookAtTarget(GameObject obj, float _time)
-    { 
-        virtualCamera.LookAt = obj.transform;
-        yield return new WaitForSeconds(_time);
-        virtualCamera.LookAt = Pltransform.transform;
-    }
-    private void NextProcess()
+    public void NextProcess()
     {
         TutorialProcess(curTutorialProcess += 1);
-        canTouch = false;
     }
 }
