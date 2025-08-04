@@ -27,14 +27,14 @@ public class Fire : PlayerController
         audioSource = GetComponent<AudioSource>();
     }
 
-    public override void OnTriggerEnter(Collider other)
+    public override void OnCollisionEnter(Collision collision)
     {
-        base.OnTriggerEnter(other);
+        base.OnCollisionEnter(collision);
         if (currentStates == States.Dash)
         {
-            if (other.tag == "Enemy")
+            if (collision.gameObject.tag == "Enemy")
             {
-                other.GetComponent<MonsterAI>().MonsterDmged(5f + playerAtk * 0.1f);
+                collision.gameObject.GetComponent<MonsterAI>().MonsterDmged(5f + playerAtk * 0.1f);
             }
         }
     }

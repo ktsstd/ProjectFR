@@ -214,6 +214,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 0.1f);
             transform.position = Vector3.MoveTowards(transform.position, targetPos, playerSpeed * Time.deltaTime);
 
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                targetPos += transform.position;
+                isMoving = false;
+            }
+
             if (Vector3.Distance(transform.position, targetPos) < 0.1f)
             {
                 isMoving = false;
@@ -235,10 +241,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 transform.rotation = lookRotation;
                 transform.position = Vector3.MoveTowards(transform.position, dashPos, 30 * Time.deltaTime);
 
+                RaycastHit dashRayHit;
+                if (Physics.Raycast(transform.position + Vector3.up - transform.forward * 0.5f, transform.forward, out dashRayHit, 1.5f))
+                {
+                    if (dashRayHit.transform.tag == "BackGroundObj" || dashRayHit.transform.tag == "Object")
+                    {
+                        dashPos = transform.position;
+                        animator.SetBool("isDash", false);
+                        currentStates = States.Idle;
+                    }
+                }
+
                 if (Vector3.Distance(transform.position, dashPos) < 0.1f)
                 {
                     animator.SetBool("isDash", false);
-                    collider.isTrigger = false;
+                    // collider.isTrigger = false;
                     currentStates = States.Idle;
                 }
             }
@@ -253,7 +270,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     currentDashCoolTime = dashCoolTime;
                     targetPos = transform.position;
                     isMoving = false;
-                    collider.isTrigger = true;
+                    // collider.isTrigger = true;
                     dashPos = GetSkillRange(5);
                     currentStates = States.Dash;
                     SoundManager.Instance.PlayPlayerSfx(7, transform.position);
@@ -598,13 +615,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
-    public virtual void OnTriggerEnter(Collider other)
+    public virtual void OnCollisionEnter(Collision collision)
     {
         if (currentStates == States.Die)
         {
-            if (other.tag == "Player")
+            if (collision.gameObject.tag == "Player")
             {
-                playerInRange.Add(other.gameObject);
+                playerInRange.Add(collision.gameObject);
             }
         }
     }

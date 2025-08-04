@@ -36,12 +36,12 @@ public class Lightning : PlayerController
             playerSpeed = playerSpeedUp[0];
     }
 
-    public override void OnTriggerEnter(Collider other)
+    public override void OnCollisionEnter(Collision collision)
     {
-        base.OnTriggerEnter(other);
+        base.OnCollisionEnter(collision);
         if (currentStates == States.Dash)
         {
-            if (other.tag == "Enemy")
+            if (collision.gameObject.tag == "Enemy")
             {
                 pv.RPC("OnPlayerSpeedUp", RpcTarget.All, null);
             }

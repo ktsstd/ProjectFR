@@ -20,6 +20,17 @@ public class Earth : PlayerController
     {
         base.Update();
     }
+    public override void OnCollisionEnter(Collision collision)
+    {
+        base.OnCollisionEnter(collision);
+        if (currentStates == States.Dash)
+        {
+            if (collision.gameObject.tag == "Enemy")
+            {
+                collision.gameObject.GetComponent<MonsterAI>().OnMonsterSpeedDown(3f, 1f);
+            }
+        }
+    }
 
     public override void Attack()
     {

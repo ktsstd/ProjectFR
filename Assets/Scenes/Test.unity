@@ -24411,6 +24411,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBoulder06
       objectReference: {fileID: 0}
+    - target: {fileID: 4597331050479594672, guid: 4d38972f26c914a42aafcbf6165ce543, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24843,6 +24847,10 @@ PrefabInstance:
     - target: {fileID: 5150060326554111039, guid: 50672c63997335b429946ee360aeb249, type: 3}
       propertyPath: m_Name
       value: Rockboulder25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150060326554111039, guid: 50672c63997335b429946ee360aeb249, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     - target: {fileID: 5490838165044811397, guid: 50672c63997335b429946ee360aeb249, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26177,6 +26185,10 @@ PrefabInstance:
     - target: {fileID: 8916268167964072884, guid: 4f5cd279b3c9d2d459396544997ecdca, type: 3}
       propertyPath: m_Name
       value: RockBoulder05 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916268167964072884, guid: 4f5cd279b3c9d2d459396544997ecdca, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29131,84 +29143,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &1020447970347000435
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7802777949543429770}
-    m_Modifications:
-    - target: {fileID: 490336694946090589, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2389988537996491415, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_SelectedEditorRenderState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 26.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.17
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.82441235
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.39858142
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.016784983
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.40149164
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -40.069
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -332.974
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -61.949
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191177356521937730, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      propertyPath: m_Name
-      value: RockBoulder20
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4191177356521937730, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4747106155621527086}
-  m_SourcePrefab: {fileID: 100100000, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
---- !u!4 &1020447970347000436 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3558368400513614328, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-  m_PrefabInstance: {fileID: 1020447970347000435}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1020447970347000437 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4191177356521937730, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
-  m_PrefabInstance: {fileID: 1020447970347000435}
-  m_PrefabAsset: {fileID: 0}
 --- !u!33 &1022716357593075143
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -30560,6 +30494,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBoulder05
       objectReference: {fileID: 0}
+    - target: {fileID: 8916268167964072884, guid: 4f5cd279b3c9d2d459396544997ecdca, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31406,6 +31344,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock10
       objectReference: {fileID: 0}
+    - target: {fileID: 6789151008076343764, guid: 70e69419353de1e4f81cac5e09d3ddc2, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31947,6 +31889,10 @@ PrefabInstance:
     - target: {fileID: 3729952897701339070, guid: f10c0094c7ca3d24581bc2f3828d739e, type: 3}
       propertyPath: m_Name
       value: SkeletonsRibs (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3729952897701339070, guid: f10c0094c7ca3d24581bc2f3828d739e, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     - target: {fileID: 4073687047810647300, guid: f10c0094c7ca3d24581bc2f3828d739e, type: 3}
       propertyPath: m_LocalScale.x
@@ -32901,6 +32847,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock05
       objectReference: {fileID: 0}
+    - target: {fileID: 8516206809291709524, guid: 7d6b14db454138346992646ea962c10e, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     - target: {fileID: 9035474658671462126, guid: 7d6b14db454138346992646ea962c10e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.607
@@ -33322,6 +33272,10 @@ PrefabInstance:
     - target: {fileID: 8916268167964072884, guid: 4f5cd279b3c9d2d459396544997ecdca, type: 3}
       propertyPath: m_Name
       value: RockBoulder05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916268167964072884, guid: 4f5cd279b3c9d2d459396544997ecdca, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -33868,6 +33822,10 @@ PrefabInstance:
     - target: {fileID: 4253615563293910336, guid: a860a86502790854fa95beefc09b76f8, type: 3}
       propertyPath: m_Name
       value: RockBoulder07
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253615563293910336, guid: a860a86502790854fa95beefc09b76f8, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -35497,6 +35455,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rockboulder29
       objectReference: {fileID: 0}
+    - target: {fileID: 833659787813102696, guid: 69f5f80f768be1c4b92071fc039d2a61, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36429,6 +36391,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rockboulder23
       objectReference: {fileID: 0}
+    - target: {fileID: 1822574498911656772, guid: d9a2b7802af878c43a021e793215d79b, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37138,6 +37104,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rockboulder27 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7813392906436680504, guid: 62a8d424346572742af01a6b4a073a73, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37719,6 +37689,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBoulder20
       objectReference: {fileID: 0}
+    - target: {fileID: 4191177356521937730, guid: 72418cd5d1b4c6e4584180120d095176, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37777,6 +37751,10 @@ PrefabInstance:
     - target: {fileID: 5861239107501786112, guid: 617e73d00f6bef542a3c508c91e145c9, type: 3}
       propertyPath: m_Name
       value: Rockboulder36 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5861239107501786112, guid: 617e73d00f6bef542a3c508c91e145c9, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     - target: {fileID: 6493237689300934330, guid: 617e73d00f6bef542a3c508c91e145c9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -38330,90 +38308,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650217836434494044}
   m_Mesh: {fileID: -6532321746346446259, guid: 6e4f4e9237a2e0a4b8a0581cd2b2b938, type: 3}
---- !u!1001 &3027387484386152198
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7802777949543429770}
-    m_Modifications:
-    - target: {fileID: -9203674337350566565, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 36b58479c3596694eb09b29cb0fc27da, type: 2}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 9.56856
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.20999923
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 31.730196
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -3649099913677440228, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 62708a0f95431824b8a409d1f2b6020d, type: 2}
-    - target: {fileID: 919132149155446097, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-      propertyPath: m_Name
-      value: Building08
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: -5373333146387337857, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-    - {fileID: 4071862880979812516, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
---- !u!4 &3027387484386152199 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e0cb7021d698324ab5dfba58ffbc92f, type: 3}
-  m_PrefabInstance: {fileID: 3027387484386152198}
-  m_PrefabAsset: {fileID: 0}
 --- !u!33 &3039468647536138875
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -38707,6 +38601,10 @@ PrefabInstance:
     - target: {fileID: 1590472684508194210, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
       propertyPath: m_Name
       value: RockBoulder03 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590472684508194210, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     - target: {fileID: 2114913735308148504, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
       propertyPath: m_LocalScale.x
@@ -40429,6 +40327,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBoulder12 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2034344826780166349, guid: 065caedbe97f1ce428c58a49b3d118e5, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -40693,6 +40595,10 @@ PrefabInstance:
     - target: {fileID: 7813392906436680504, guid: 62a8d424346572742af01a6b4a073a73, type: 3}
       propertyPath: m_Name
       value: Rockboulder27 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7813392906436680504, guid: 62a8d424346572742af01a6b4a073a73, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -42843,6 +42749,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rockboulder27 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7813392906436680504, guid: 62a8d424346572742af01a6b4a073a73, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -43292,6 +43202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBoulder03 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1590472684508194210, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     - target: {fileID: 2114913735308148504, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.569986
@@ -43680,6 +43594,10 @@ PrefabInstance:
     - target: {fileID: 1822574498911656772, guid: d9a2b7802af878c43a021e793215d79b, type: 3}
       propertyPath: m_Name
       value: Rockboulder23 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822574498911656772, guid: d9a2b7802af878c43a021e793215d79b, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44198,6 +44116,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBoulder09
       objectReference: {fileID: 0}
+    - target: {fileID: 1116568793869411501, guid: 0efb0351602819745856268efb0b0d0a, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -44470,6 +44392,10 @@ PrefabInstance:
     - target: {fileID: 1991763685632771580, guid: cafc501006b6880449182640ba7eab93, type: 3}
       propertyPath: m_Name
       value: RockBoulder11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991763685632771580, guid: cafc501006b6880449182640ba7eab93, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44930,6 +44856,10 @@ PrefabInstance:
     - target: {fileID: 108333706652843500, guid: 5d906732fa1657240a2093d936929970, type: 3}
       propertyPath: m_Name
       value: Rockboulder28
+      objectReference: {fileID: 0}
+    - target: {fileID: 108333706652843500, guid: 5d906732fa1657240a2093d936929970, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     - target: {fileID: 777768421693466454, guid: 5d906732fa1657240a2093d936929970, type: 3}
       propertyPath: m_LocalScale.y
@@ -45792,18 +45722,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1198085872}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4747106155621527086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020447970347000437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &4751377265096558586
 Transform:
   m_ObjectHideFlags: 0
@@ -46113,6 +46031,10 @@ PrefabInstance:
     - target: {fileID: 1590472684508194210, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
       propertyPath: m_Name
       value: RockBoulder03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590472684508194210, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     - target: {fileID: 2114913735308148504, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
       propertyPath: m_LocalScale.x
@@ -49004,6 +48926,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rockboulder26
       objectReference: {fileID: 0}
+    - target: {fileID: 3753410790332513674, guid: 1c7147af219a97241bddb40c8d7b0d43, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     - target: {fileID: 4565835931224074032, guid: 1c7147af219a97241bddb40c8d7b0d43, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.021
@@ -49069,6 +48995,10 @@ PrefabInstance:
     - target: {fileID: 1590472684508194210, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
       propertyPath: m_Name
       value: RockBoulder03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590472684508194210, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     - target: {fileID: 2114913735308148504, guid: c86cc2ca46b206042888cfc466b79834, type: 3}
       propertyPath: m_LocalScale.y
@@ -49433,6 +49363,10 @@ PrefabInstance:
     - target: {fileID: 108333706652843500, guid: 5d906732fa1657240a2093d936929970, type: 3}
       propertyPath: m_Name
       value: Rockboulder28
+      objectReference: {fileID: 0}
+    - target: {fileID: 108333706652843500, guid: 5d906732fa1657240a2093d936929970, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     - target: {fileID: 777768421693466454, guid: 5d906732fa1657240a2093d936929970, type: 3}
       propertyPath: m_LocalPosition.x
@@ -50869,6 +50803,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rockboulder27
       objectReference: {fileID: 0}
+    - target: {fileID: 7813392906436680504, guid: 62a8d424346572742af01a6b4a073a73, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -51341,18 +51279,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5863235301389315312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9083215131132056827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5864857763664920077
 GameObject:
   m_ObjectHideFlags: 0
@@ -52580,6 +52506,10 @@ PrefabInstance:
     - target: {fileID: 2034344826780166349, guid: 065caedbe97f1ce428c58a49b3d118e5, type: 3}
       propertyPath: m_Name
       value: RockBoulder12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2034344826780166349, guid: 065caedbe97f1ce428c58a49b3d118e5, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -58637,6 +58567,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBoulder13
       objectReference: {fileID: 0}
+    - target: {fileID: 1370580528544392879, guid: 605bb54525ef3c7488f4c33fc0640f1b, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     - target: {fileID: 1751503426799598613, guid: 605bb54525ef3c7488f4c33fc0640f1b, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.46342
@@ -60420,7 +60354,6 @@ Transform:
   - {fileID: 4424810600833192326}
   - {fileID: 6159086984960167603}
   - {fileID: 3459887168258394608}
-  - {fileID: 1020447970347000436}
   - {fileID: 2700273036988470188}
   - {fileID: 3512502028244195326}
   - {fileID: 4022814219793971134}
@@ -60434,14 +60367,12 @@ Transform:
   - {fileID: 8696876014038761092}
   - {fileID: 2896072147432108328}
   - {fileID: 1817082953381165838}
-  - {fileID: 9083215131132056826}
   - {fileID: 210807092617796532}
   - {fileID: 5435014614923163177}
   - {fileID: 2345024448764491890}
   - {fileID: 2553364870601481535}
   - {fileID: 9057246898182129722}
   - {fileID: 1882460586797823266}
-  - {fileID: 3027387484386152199}
   - {fileID: 4249386114522072181}
   m_Father: {fileID: 4589649088214919060}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -64291,6 +64222,10 @@ PrefabInstance:
     - target: {fileID: 5861239107501786112, guid: 617e73d00f6bef542a3c508c91e145c9, type: 3}
       propertyPath: m_Name
       value: Rockboulder36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5861239107501786112, guid: 617e73d00f6bef542a3c508c91e145c9, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
       objectReference: {fileID: 0}
     - target: {fileID: 6493237689300934330, guid: 617e73d00f6bef542a3c508c91e145c9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -120163,6 +120098,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rockboulder27
       objectReference: {fileID: 0}
+    - target: {fileID: 7813392906436680504, guid: 62a8d424346572742af01a6b4a073a73, type: 3}
+      propertyPath: m_TagString
+      value: BackGroundObj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -120285,84 +120224,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1001 &9083215131132056825
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7802777949543429770}
-    m_Modifications:
-    - target: {fileID: 4633183630181422718, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_SelectedEditorRenderState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -18.038155
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.3530005
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 6.326664
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578812955875473323, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_Name
-      value: RockBoulder02
-      objectReference: {fileID: 0}
-    - target: {fileID: 7469405520857572020, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6578812955875473323, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5863235301389315312}
-  m_SourcePrefab: {fileID: 100100000, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
---- !u!4 &9083215131132056826 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5766704473774861585, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-  m_PrefabInstance: {fileID: 9083215131132056825}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &9083215131132056827 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6578812955875473323, guid: 348b1f09fbd0dd84f8d1d2b1fada5ae2, type: 3}
-  m_PrefabInstance: {fileID: 9083215131132056825}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9085405315829575343
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,14 +20,14 @@ public class Water : PlayerController
         AllPlayers = FindObjectsOfType<PlayerController>();
     }
 
-    public override void OnTriggerEnter(Collider other)
+    public override void OnCollisionEnter(Collision collision)
     {
-        base.OnTriggerEnter(other);
+        base.OnCollisionEnter(collision);
         if (currentStates == States.Dash)
         {
-            if (other.tag == "Player")
+            if (collision.gameObject.tag == "Player")
             {
-                other.GetComponent<PlayerController>().pv.RPC("OnPlayerRecovery", RpcTarget.All, (playerMaxHp * 0.02f));
+                collision.gameObject.GetComponent<PlayerController>().pv.RPC("OnPlayerRecovery", RpcTarget.All, (playerMaxHp * 0.02f));
             }
         }
     }
