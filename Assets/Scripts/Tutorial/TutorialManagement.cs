@@ -4,10 +4,12 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class TutorialManagement : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI TutorialText;
+    [SerializeField] GameObject LightningCharacter;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
     [SerializeField] GameObject herepoint;
     [SerializeField] GameObject FirstPoint;
@@ -16,6 +18,7 @@ public class TutorialManagement : MonoBehaviour
     [SerializeField] Transform SpawnPos;
     public int curTutorialProcess;
     bool canTouch = false;
+    PlayerController playerS;
 
     private static TutorialManagement _instance;
     public static TutorialManagement Instance
@@ -38,8 +41,9 @@ public class TutorialManagement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        curTutorialProcess = 1;
+        curTutorialProcess = 18;
         TutorialProcess(curTutorialProcess);
+        playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         // LookAtTarget
     }
     private void Update()
@@ -81,96 +85,94 @@ public class TutorialManagement : MonoBehaviour
         {
             TutorialText.text = "마우스 오른쪽 클릭으로 이동할 수 있습니다.";
             canTouch = true;
-        }            
+        }
         else if (TutorialProcessCode == 5)
+        {
+            TutorialText.text = "스페이스바로 대쉬 할 수 있습니다..";
+            canTouch = true;
+        }
+        else if (TutorialProcessCode == 6)
         {
             TutorialText.text = "지정된 곳까지 이동해보세요";
             herepoint.SetActive(true);
             herepoint.transform.position = FirstPoint.transform.position;
-            PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
             playerS.photonView.RPC("LookAtTarget", RpcTarget.All, FirstPoint.name, 3f);
         }
-        else if (TutorialProcessCode == 6)
+        else if (TutorialProcessCode == 7)
         {
             TutorialText.text = "잘하셨습니다!";
             canTouch = true;
         }
-        else if (TutorialProcessCode == 7)
+        else if (TutorialProcessCode == 8)
         {             
             TutorialText.text = "이제 공격을 배워보겠습니다.";
             canTouch = true;
         }
-        else if (TutorialProcessCode == 8)
+        else if (TutorialProcessCode == 9)
         {
             TutorialText.text = "QWE를 사용하여 기본 스킬을 사용할 수 있습니다.";
             canTouch = true;
         }
-        else if (TutorialProcessCode == 9)
-        {
-            TutorialText.text = "Q는 기본 공격입니다.\n적에게 사용하여 처치해보세요!";
-            // 적 소환
-            //LookAtTarget(적, 3f);
-        }
         else if (TutorialProcessCode == 10)
         {
-            TutorialText.text = "잘하셨습니다!";
-            canTouch = true;
+            TutorialText.text = "Q는 기본 공격입니다.\n적에게 사용하여 처치해보세요!";
+            PhotonNetwork.Instantiate("Monster/Solborn", SecondPoint.transform.position, Quaternion.identity);
+            playerS.photonView.RPC("LookAtTarget", RpcTarget.All, SecondPoint.name, 3f);
         }
         else if (TutorialProcessCode == 11)
         {
-            TutorialText.text = "W와 E는 스킬입니다.\n적에게 사용하여 처치해보세요!";
-            // 적 소환
-        }
-        else if (TutorialProcessCode == 12)
-        {
             TutorialText.text = "잘하셨습니다!";
             canTouch = true;
         }
+        else if (TutorialProcessCode == 12)
+        {
+            TutorialText.text = "W와 E는 스킬입니다.\n해골이 계속 나오는 무덤을 파괴해보세요!!";
+            PhotonNetwork.Instantiate("Monster/Grave", SecondPoint.transform.position, Quaternion.identity);
+            playerS.photonView.RPC("LookAtTarget", RpcTarget.All, SecondPoint.name, 3f);
+            // 적 소환
+        }
         else if (TutorialProcessCode == 13)
         {
-            TutorialText.text = "각 맵마다 수행해야하는 목표가 다릅니다.";
+            TutorialText.text = "잘하셨습니다!";
             canTouch = true;
         }
         else if (TutorialProcessCode == 14)
         {
-            TutorialText.text = "해당 맵에선 가운데의 수정을 보호하는 기믹입니다.\n수정은 맵의 정가운데에 있습니다.";
-            GameObject Crystal = GameObject.Find("Crystal");
-            //LookAtTarget(Crystal, 99999f);
+            TutorialText.text = "각 맵마다 수행해야하는 목표가 다릅니다.";
             canTouch = true;
         }
         else if (TutorialProcessCode == 15)
+        {
+            TutorialText.text = "해당 맵에선 가운데의 수정을 보호하는 기믹입니다.\n수정은 맵의 정가운데에 있습니다.";
+            GameObject Crystal = GameObject.Find("Crystal");
+            playerS.photonView.RPC("LookAtTarget", RpcTarget.All, Crystal.name, 3f);
+            canTouch = true;
+        }
+        else if (TutorialProcessCode == 16)
         {
             //StopCoroutine(LookAtTarget(Pltransform, 0f));
             //virtualCamera.LookAt = Pltransform.transform;
             TutorialText.text = "수정의 체력은 미니맵의 하단에 있습니다.";
             canTouch = true;
         }
-        else if (TutorialProcessCode == 16)
-        {
-            TutorialText.text = "몬스터들로 부터 수정을 지키세요!";
-            // 적 소환
-            // LookAtTarget(적, 3f);
-        }
         else if (TutorialProcessCode == 17)
-        {
-            TutorialText.text = "잘하셨습니다!";
-        }
-        else if (TutorialProcessCode == 18)
         {
             TutorialText.text = "이제 게임의 메인 기믹인 합동기에 대해서 배워보겠습니다.";
             canTouch = true;
         }
-        else if (TutorialProcessCode == 19)
+        else if (TutorialProcessCode == 18)
         {
             TutorialText.text = "캐릭터마다 기본적인 원소가 존재하며\n적절한 원소를 배합하여 합동기를 사용할 수 있습니다.";
-            // 캐릭터 보여주기
+            Instantiate(LightningCharacter, ThirdPoint.transform.position, Quaternion.identity);
+            playerS.photonView.RPC("LookAtTarget", RpcTarget.All, LightningCharacter.name, 3f);
+            canTouch = true;
         }
-        else if (TutorialProcessCode == 20)
+        else if (TutorialProcessCode == 19)
         {
             TutorialText.text = "합동기는 캐릭터의 스킬을 연계하여\n강력한 공격을 할 수 있는 기술입니다.";
             canTouch = true;
         }
-        else if (TutorialProcessCode == 21)
+        else if (TutorialProcessCode == 20)
         {
             TutorialText.text = "R키를 키다운 하여 원소를 등록할 수 있습니다.\n불 원소를 등록해보세요!";
         }
@@ -178,23 +180,17 @@ public class TutorialManagement : MonoBehaviour
         {
             TutorialText.text = "알 수 없는 오류입니다.";
             TutorialProcess(1);
+
         }
         //StartCoroutine(FadeOutText());
     }
-
-    //bool isFadeOut = false;
-    //private IEnumerator FadeOutText()
-    //{
-    //    isFadeOut = true;
-    //    Color color = TutorialText.color;
-    //    while (color.a > 0f)
-    //    {
-    //        color.a -= Time.deltaTime / 2f;
-    //        TutorialText.color = color;
-    //        yield return null;
-    //    }
-    //    isFadeOut = false;
-    //}
+    public void CheckMonster()
+    {
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
+        {
+            NextProcess();
+        }
+    }
     public void NextProcess()
     {
         TutorialProcess(curTutorialProcess += 1);

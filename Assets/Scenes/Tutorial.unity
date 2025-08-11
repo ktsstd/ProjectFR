@@ -2855,7 +2855,7 @@ Transform:
   m_GameObject: {fileID: 214137539}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.6, y: -4.8, z: -2.24}
+  m_LocalPosition: {x: 12.4, y: -4.8, z: 14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8975,6 +8975,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 849690186}
   m_CullTransparentMesh: 1
+--- !u!1 &861049114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 861049115}
+  m_Layer: 0
+  m_Name: SecondPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &861049115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861049114}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.8, y: -4.8, z: 7.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &866849713
 GameObject:
   m_ObjectHideFlags: 0
@@ -9821,11 +9852,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TutorialText: {fileID: 1441310392}
+  LightningCharacter: {fileID: 6931300545983233113, guid: 036d3780dfa43434088d325cc57ea6c3, type: 3}
   virtualCamera: {fileID: 515437896}
   herepoint: {fileID: 2011289017}
   FirstPoint: {fileID: 214137539}
-  SecondPoint: {fileID: 0}
-  ThirdPoint: {fileID: 0}
+  SecondPoint: {fileID: 861049114}
+  ThirdPoint: {fileID: 2105843324}
   SpawnPos: {fileID: 730584255}
   curTutorialProcess: 0
 --- !u!4 &955542766
@@ -16305,7 +16337,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1475098637
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23595,6 +23627,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1485348984}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2105843324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2105843325}
+  m_Layer: 0
+  m_Name: ThirdPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2105843325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105843324}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.8, y: 0, z: -0.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2119949131
 GameObject:
@@ -36241,6 +36304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137711ed86338c44f909a66ab9cce105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Point: {fileID: 2011289017}
 --- !u!1 &2474787189494900202
 GameObject:
   m_ObjectHideFlags: 0
@@ -121089,3 +121153,5 @@ SceneRoots:
   - {fileID: 955542766}
   - {fileID: 2011289018}
   - {fileID: 214137540}
+  - {fileID: 861049115}
+  - {fileID: 2105843325}

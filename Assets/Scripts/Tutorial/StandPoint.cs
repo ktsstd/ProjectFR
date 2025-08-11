@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class StandPoint : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject Point;
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (TutorialManagement.Instance.curTutorialProcess == 5)
-            { 
-                TutorialManagement.Instance.NextProcess();
-            }
+            TutorialManagement.Instance.NextProcess();
+            Point.gameObject.SetActive(false);
         }
     }
 }

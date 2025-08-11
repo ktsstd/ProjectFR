@@ -327,7 +327,14 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
     public virtual void DestroyMonster()
     {
         PhotonNetwork.Destroy(gameObject);
-        GameManager.Instance.CheckMonster();
+        if (SceneManagerHelper.ActiveSceneName == "Tutorial")
+        {
+            TutorialManagement.Instance.CheckMonster();
+        }
+        else
+        {
+            GameManager.Instance.CheckMonster();
+        }
     }
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
