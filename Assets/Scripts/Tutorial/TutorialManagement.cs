@@ -4,9 +4,9 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Cinemachine;
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 
-public class TutorialManagement : MonoBehaviour
+public class TutorialManagement : MonoBehaviourPunCallbacks
 {
     [SerializeField] TextMeshProUGUI TutorialText;
     [SerializeField] GameObject LightningCharacter;
@@ -16,6 +16,7 @@ public class TutorialManagement : MonoBehaviour
     [SerializeField] GameObject SecondPoint;
     [SerializeField] GameObject ThirdPoint;
     [SerializeField] Transform SpawnPos;
+    [SerializeField] FusionSkill fusion;
     public int curTutorialProcess;
     bool canTouch = false;
     PlayerController playerS;
@@ -35,13 +36,13 @@ public class TutorialManagement : MonoBehaviour
 
     private void Awake()
     {
-        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
+        //PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         PhotonNetwork.Instantiate("Fire", SpawnPos.position, Quaternion.identity);
     }
     // Start is called before the first frame update
     void Start()
     {
-        curTutorialProcess = 18;
+        curTutorialProcess = 1;
         TutorialProcess(curTutorialProcess);
         playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         // LookAtTarget
@@ -56,6 +57,14 @@ public class TutorialManagement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // 대충 스킵 할거냐는 메시지
+        }
+        if (curTutorialProcess == 20 && Input.GetKeyDown(KeyCode.R))
+        {
+            NextProcess();
+        }
+        if (curTutorialProcess == 21 && fusion.fusionSkillCoolTime >= 0)
+        {
+            NextProcess();
         }
     }
     private void TutorialProcess(int TutorialProcessCode)
@@ -164,7 +173,6 @@ public class TutorialManagement : MonoBehaviour
         {
             TutorialText.text = "캐릭터마다 기본적인 원소가 존재하며\n적절한 원소를 배합하여 합동기를 사용할 수 있습니다.";
             Instantiate(LightningCharacter, ThirdPoint.transform.position, Quaternion.identity);
-            playerS.photonView.RPC("LookAtTarget", RpcTarget.All, LightningCharacter.name, 3f);
             canTouch = true;
         }
         else if (TutorialProcessCode == 19)
@@ -174,7 +182,21 @@ public class TutorialManagement : MonoBehaviour
         }
         else if (TutorialProcessCode == 20)
         {
-            TutorialText.text = "R키를 키다운 하여 원소를 등록할 수 있습니다.\n불 원소를 등록해보세요!";
+            TutorialText.text = "R을 사용 하여 원소를 등록할 수 있습니다.\n불 원소를 등록해보세요!";
+            fusion.pv.RPC("ElementalSettingMaster", RpcTarget.MasterClient, 1);
+        }
+        else if (TutorialProcessCode == 21)
+        {
+            TutorialText.text = "R키를 키다운 하여 합동기를 사용할 수 있습니다.\n이제 합동기를 사용해보세요!";
+        }
+        else if (TutorialProcessCode == 22)
+        {
+            TutorialText.text = "축하합니다! 튜토리얼을 완료하셨습니다!\n이제 본격적으로 게임을 즐겨보세요!";
+            canTouch = true;
+        }
+        else if (TutorialProcessCode == 23)
+        {
+            GoToMain();
         }
         else
         {
@@ -183,6 +205,21 @@ public class TutorialManagement : MonoBehaviour
 
         }
         //StartCoroutine(FadeOutText());
+    }
+    public void GoToMain()
+    {
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        {
+            { "isReady", null },
+            { "selectedCharacter", -1 }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+
+        PhotonNetwork.LeaveRoom();
+    }
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("Main"); 
     }
     public void CheckMonster()
     {

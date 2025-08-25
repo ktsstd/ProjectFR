@@ -23,7 +23,7 @@ public class FusionSkill : MonoBehaviour
     public GameObject EarthAndFireEF;
     public GameObject EarthAndWaterEF;
 
-    float fusionSkillCoolTime;
+    public float fusionSkillCoolTime;
     float fusionSkillMaxCoolTime;
 
     public Image[] cutScene;

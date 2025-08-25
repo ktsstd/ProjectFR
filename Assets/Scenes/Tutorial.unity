@@ -8176,7 +8176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &790781159
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9852,13 +9852,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TutorialText: {fileID: 1441310392}
-  LightningCharacter: {fileID: 6931300545983233113, guid: 036d3780dfa43434088d325cc57ea6c3, type: 3}
+  LightningCharacter: {fileID: 6931300545983233113, guid: 5b258501a7427d645b3ac29a77d1f89a, type: 3}
   virtualCamera: {fileID: 515437896}
   herepoint: {fileID: 2011289017}
   FirstPoint: {fileID: 214137539}
   SecondPoint: {fileID: 861049114}
   ThirdPoint: {fileID: 2105843324}
   SpawnPos: {fileID: 730584255}
+  fusion: {fileID: 974281110}
   curTutorialProcess: 0
 --- !u!4 &955542766
 Transform:
@@ -10295,6 +10296,7 @@ MonoBehaviour:
   CloudEF: {fileID: 3153797109240502577, guid: b5dcf1938562549498cfb904efd6bb91, type: 3}
   EarthAndFireEF: {fileID: 3375187435828653642, guid: 21c64483288299a48aa4e71ade0fc041, type: 3}
   EarthAndWaterEF: {fileID: 0}
+  fusionSkillCoolTime: 0
   cutScene:
   - {fileID: 512114659}
   - {fileID: 300868044}
@@ -15401,7 +15403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035156, y: -52}
+  m_AnchoredPosition: {x: -0.000061035156, y: -108}
   m_SizeDelta: {x: 567.5045, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1441310392
@@ -23653,7 +23655,7 @@ Transform:
   m_GameObject: {fileID: 2105843324}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.8, y: 0, z: -0.02}
+  m_LocalPosition: {x: 9.61, y: 0, z: -0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
