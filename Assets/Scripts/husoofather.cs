@@ -14,7 +14,7 @@ public class husoofather : MonsterAI
     public TextMeshProUGUI Damage;
     public TextMeshProUGUI Dps;
     public TextMeshProUGUI Timer;
-    public override void Start()
+    public override void Awake()
     {
         Damage.text = "Damage: " + Dmg;
         Dps.text = "Dps: " + Dmg / (SecTime);

@@ -5,7 +5,7 @@ using Photon.Pun;
 public class grave : MonsterAI
 {
     private float radius = 5f;
-    public override void Start()
+    public override void Awake()
     {
         StartCoroutine(StartSpawn());
         CurHp = 700f;

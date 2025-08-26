@@ -1358,27 +1358,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dfb6a3238fc4a941be326121a52edd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterinfo: {fileID: 11400000, guid: 8e3fd7c3e89b24c4e93d5b0333c164f3, type: 2}
+  monsterInfo: {fileID: 11400000, guid: 8e3fd7c3e89b24c4e93d5b0333c164f3, type: 2}
+  animator: {fileID: 0}
+  rigid: {fileID: 0}
+  target: {fileID: 0}
+  agent: {fileID: 0}
+  targetCollider: {fileID: 0}
+  StunningEffect: {fileID: 0}
+  sloweffect: {fileID: 1442044073078283307}
+  isMoving: 0
   CurHp: 0
   damage: 0
   attackRange: 0
   attackCooldown: 0
   attackTimer: 0
-  attackSpeed: 0
-  attackAnimationDelay: 0
   recognizedistance: 0
   monsterSlowCurTime: 0
   targetSearchTime: 0.5
   targetSearchTimer: 0
-  canMove: 1
-  isDie: 0
-  target: {fileID: 0}
-  attackboundary: {fileID: 9119882308870723857}
-  sloweffect: {fileID: 1442044073078283307}
-  targetCollider: {fileID: 0}
-  rigid: {fileID: 0}
-  agent: {fileID: 0}
-  animator: {fileID: 0}
+  currentState: 0
   SleebamAttackEffect: {fileID: 5605697148009995603}
 --- !u!65 &3707032082862620589
 BoxCollider:
@@ -1441,8 +1439,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 7751137938845659073}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

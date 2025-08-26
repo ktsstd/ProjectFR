@@ -62,7 +62,7 @@ public class BossSkill1Script : MonoBehaviour
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
         bossScript.BossMonsterSkillTimers[0] = bossScript.BossMonsterSkillCooldowns[0];
         bossScript.attackTimer = bossScript.attackCooldown;
-        bossScript.canMove = true;
+        bossScript.currentState = Drog.States.Idle;
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         isFadeIn = false;
     }

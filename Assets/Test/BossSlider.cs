@@ -23,7 +23,7 @@ public class BossSlider : MonoBehaviour
             {
                 if (bossScript.BossPhase < 2)
                 {
-                    bossslider.value = bossScript.CurHp / bossScript.monsterinfo.health;
+                    bossslider.value = bossScript.CurHp / bossScript.monsterInfo.health;
                 }
                 else
                 {
@@ -34,7 +34,7 @@ public class BossSlider : MonoBehaviour
             {
                 if (bossScript.BossPhase < 2)
                 {
-                    bossslider.value = bossScript.CurHp / (bossScript.monsterinfo.health / 2);
+                    bossslider.value = bossScript.CurHp / (bossScript.monsterInfo.health / 2);
                 }
                 else
                 {

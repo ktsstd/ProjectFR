@@ -12,7 +12,7 @@ public class BossSkill4 : MonoBehaviour
         yield return new WaitForSeconds(GetComponent<ParticleSystem>().main.duration);
         bossScript.BossMonsterSkillTimers[3] = bossScript.BossMonsterSkillCooldowns[3];
         bossScript.attackTimer = bossScript.attackCooldown;
-        bossScript.canMove = true;
+        bossScript.currentState = Drog.States.Idle;
         DestroyImmediate(gameObject);
     }
     private void OnTriggerStay(Collider other)

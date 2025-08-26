@@ -30,9 +30,9 @@ public class Drog : MonsterAI
     //public List<GameObject> Skill3Obj;
     public HashSet<GameObject> swallowedTarget = new HashSet<GameObject>();
 
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
         PatternbreakupHealth = 3000f;
         BossPhase2Hp = 39000f;
         animator = GetComponentInChildren<Animator>();
@@ -49,72 +49,7 @@ public class Drog : MonsterAI
 
     public override void Update()
     {
-        if (sloweffect != null)
-        {
-            ParticleSystem ps = sloweffect.GetComponent<ParticleSystem>();
-            if (ps != null)
-            {
-                var main = ps.main;
-                main.startRotation = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
-            }
-        }
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            targetSearchTimer -= Time.deltaTime;
-            if (targetSearchTimer <= 0f)
-            {
-                photonView.RPC("GetClosestTarget", RpcTarget.All);
-                targetSearchTimer = targetSearchTime;
-            }
-        }
-        else
-        {
-
-        }
-        if (target == null) return;
-        targetCollider = target.GetComponent<CapsuleCollider>();
-        Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
-        if (canMove && CurHp > 0)
-        {
-            float distance = Vector3.Distance(transform.position, targetPos);
-            if (distance <= attackRange)
-            {
-                agent.ResetPath();
-                agent.velocity = Vector3.zero;
-                animator.SetBool("Run", false);
-                if (attackTimer <= 0)
-                {
-                    canMove = false;
-                    Attack();
-                }
-                else
-                {
-                    Vector3 directionToTarget = target.position - transform.position;
-                    if (directionToTarget != Vector3.zero || swallowedTarget == null)
-                    {
-                        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
-                    }
-                }
-            }
-            else
-            {
-                agent.SetDestination(target.position);
-                animator.SetBool("Run", true);
-            }
-        }
-        else
-        {
-            agent.ResetPath();
-            agent.velocity = Vector3.zero;
-            animator.SetBool("Run", false);
-        }
-
-        if (attackTimer > 0)
-        {
-            attackTimer -= Time.deltaTime;
-        }
+        base.Update();
         for (int i = 0; i < BossMonsterSkillTimers.Length; i++)
         {
             if (BossMonsterSkillTimers[i] > 0f)
@@ -147,6 +82,7 @@ public class Drog : MonsterAI
 
     public override void Attack()
     {
+        currentState = States.Attack;
         if (PhotonNetwork.IsMasterClient)
         {
             int randomskill = GetRandomSkill();
@@ -187,14 +123,12 @@ public class Drog : MonsterAI
         else
         {
             attackTimer = attackCooldown;
-            canMove = true;
         }
         return -1;
     }
     [PunRPC]
     public IEnumerator PunAttack(int randomskill)
     {
-        canMove = false;
         switch (randomskill)
         {
             case 0:
@@ -229,7 +163,7 @@ public class Drog : MonsterAI
                 boss4Script.Starting();
                 break;
             default:
-                canMove = true;
+                currentState = States.Idle;
                 yield break;
         }
     }
@@ -242,7 +176,6 @@ public class Drog : MonsterAI
             Debug.Log(playerObj);
         }
         PatternHealth = PatternbreakupHealth;
-        canMove = false;
         Skill3Start();
         animator.ResetTrigger("Skill3__1");
         animator.ResetTrigger("Skill3Over");
@@ -276,7 +209,7 @@ public class Drog : MonsterAI
         animator.SetTrigger("Skill3__1");
         yield return new WaitForSeconds(2f);
         target = null;
-        canMove = true;
+        currentState = States.Idle;
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
         attackTimer = attackCooldown;
     }
@@ -301,7 +234,7 @@ public class Drog : MonsterAI
         BossSkill32P.Play();
         BossSkill3_2Obj.SetActive(true);
         yield return new WaitForSeconds(2f);
-        canMove = true;
+        currentState = States.Idle;
         BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
         attackTimer = attackCooldown;
     }
@@ -311,9 +244,8 @@ public class Drog : MonsterAI
         if (PatternHealth <= 0)
         {
             CurHp -= damage;
-            if (CurHp <= 0 && canMove)
+            if (CurHp <= 0 && currentState != States.Die)
             {
-                canMove = false;
                 if (BossPhase < 2)
                 {
                     photonView.RPC("PunAttack", RpcTarget.All, 2);

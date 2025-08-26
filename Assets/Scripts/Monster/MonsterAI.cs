@@ -1,261 +1,178 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using Photon.Pun;
 using UnityEngine.AI;
 
-public class MonsterAI : MonoBehaviourPun, IPunObservable
+public class MonsterAI : MonoBehaviourPunCallbacks
 {
-    public MonsterInfo monsterinfo;
-
-    public float CurHp;
-    public float damage;
-    public float attackRange;
-    public float attackCooldown;
-    public float attackTimer;
-    public float attackSpeed;
-    public float attackAnimationDelay;
-    public float recognizedistance;
-    public float monsterSlowCurTime;
-    public float targetSearchTime = 2f; 
-    public float targetSearchTimer;
-
-    public bool canMove;
-    public bool isDie;
-
+    public MonsterInfo monsterInfo;
+    public Animator animator;
+    public Rigidbody rigid;
     public Transform target;
+    public NavMeshAgent agent;
+    public CapsuleCollider targetCollider;
 
-    public GameObject attackboundary;
+    public GameObject StunningEffect;
     public GameObject sloweffect;
 
-    //public string[] priTarget;
+    public bool isMoving = false;
 
-    public CapsuleCollider targetCollider;
-    public Rigidbody rigid;
-    public NavMeshAgent agent;
-    public Animator animator;
+    public float CurHp; // 체력
+    public float damage; // 공격력
+    public float attackRange; // 사거리
+    public float attackCooldown; // 공속
+    public float attackTimer; // 공속 타이머
+    public float recognizedistance; // 인지 범위
+    public float monsterSlowCurTime; // 구속 현재 시간
+    public float targetSearchTime = 2f; // 인지 재탐색 시간
+    public float targetSearchTimer; // 인지 타이머
 
     public List<(float slowtime, float slowmoveSpeed)> slowEffects = new List<(float, float)>();
 
-    public virtual void Start()
+    public States currentState;
+
+    public enum States
+    {
+        Idle,
+        Stop,
+        Attack,
+        Dash,
+        Stun,
+        Die
+    }
+    public virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
-        agent.speed = monsterinfo.speed;
-        damage = monsterinfo.damage;
-        attackRange = monsterinfo.attackRange;
-        attackCooldown = monsterinfo.attackCooldown;
-        attackSpeed = monsterinfo.attackSpeed;
-        attackAnimationDelay = monsterinfo.AttackAnimationDelay;
-        recognizedistance = monsterinfo.redistance;
-        attackTimer = monsterinfo.attackTimer;
-        monsterSlowCurTime = 0;
-        targetSearchTime = 2f;
-        canMove = true;
-        if (PhotonNetwork.PlayerList.Length > 1)
-        {
-            CurHp = monsterinfo.health;
-        }
-        else
-        {
-            CurHp = monsterinfo.health / 2;
-            damage = monsterinfo.damage / 2;
-        }
+
+        currentState = States.Idle;
+        CurHp = monsterInfo.health;
+        damage = monsterInfo.damage;
+        attackRange = monsterInfo.attackRange;
+        attackCooldown = monsterInfo.attackCooldown;
+        attackTimer = attackCooldown;
+        recognizedistance = monsterInfo.redistance;
+        targetSearchTimer = targetSearchTime;
+        agent.speed = monsterInfo.speed;
+
+        isMoving = false;
     }
     public virtual void Update()
-    {
-        if (sloweffect != null)
-        {
-            ParticleSystem ps = sloweffect.GetComponent<ParticleSystem>();
-            if (ps != null)
-            {
-                var main = ps.main;
-                main.startRotation = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
-            }
-        }
-
+    {        
         if (PhotonNetwork.IsMasterClient)
         {
-            targetSearchTimer -= Time.deltaTime;
+            switch (currentState)
+            {
+                case States.Idle:
+                    photonView.RPC("Move", RpcTarget.AllBuffered);
+                    photonView.RPC("Attack", RpcTarget.AllBuffered); 
+                    break;
+                case States.Stop:
+                    break;
+                case States.Attack:
+                    break;
+                case States.Die:
+                    photonView.RPC("StopMoving", RpcTarget.AllBuffered);
+                    break;
+                case States.Stun:
+                    photonView.RPC("StunEffect", RpcTarget.AllBuffered);
+                    break;
+            }
+
             if (targetSearchTimer <= 0f)
             {
-                photonView.RPC("GetClosestTarget", RpcTarget.All);
+                photonView.RPC("RecognizePlayer", RpcTarget.AllBuffered);
                 targetSearchTimer = targetSearchTime;
             }
         }
-        else
-        {
+        targetSearchTimer -= Time.deltaTime;
+        attackTimer -= Time.deltaTime;
+    }
 
-        }
+    [PunRPC]
+    public virtual void Move()
+    {
         if (target == null) return;
+        isMoving = true;
         targetCollider = target.GetComponent<CapsuleCollider>();
         Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
-        if (canMove && CurHp > 0)
-        {
-            float distance = Vector3.Distance(transform.position, targetPos);
-            if (distance <= attackRange)
-            {
-                agent.ResetPath();
-                agent.velocity = Vector3.zero;
-                animator.SetBool("Run", false);
-                if (attackTimer <= 0)
-                {
-                    canMove = false;
-                    Attack();
-                }
-                else
-                {
-                    Vector3 directionToTarget = target.position - transform.position;
-                    if (directionToTarget != Vector3.zero)
-                    {
-                        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 8f);
-                    }
-                }
-            }
-            else
-            {
-                agent.SetDestination(target.position);
-                animator.SetBool("Run", true);
-            }
-        }
-        else
+        float distance = Vector3.Distance(transform.position, targetPos);
+        if (distance <= attackRange)
         {
             agent.ResetPath();
             agent.velocity = Vector3.zero;
             animator.SetBool("Run", false);
-        }
-
-        if (attackTimer > 0)
-        {
-            attackTimer -= Time.deltaTime;
-        }
-    }
-    [PunRPC]
-    public void GetClosestTarget()
-    {
-        float closestDistance = recognizedistance;
-        Transform tempClosestTarget = null;
-
-        foreach (string targetTag in monsterinfo.priTarget)
-        {
-            GameObject[] possibleTargets = GameObject.FindGameObjectsWithTag(targetTag);
-            if (possibleTargets == null || possibleTargets.Length == 0)
-                continue;
-
-            foreach (GameObject possibleTarget in possibleTargets)
+            if (attackTimer <= 0)
             {
-                if (possibleTarget.CompareTag("Player"))
+                isMoving = false;
+                Attack();
+            }
+            else
+            {
+                Vector3 directionToTarget = target.position - transform.position;
+                if (directionToTarget != Vector3.zero)
                 {
-                    PlayerController playerCtrl = possibleTarget.GetComponent<PlayerController>();
-                    if (playerCtrl != null && playerCtrl.playerHp <= 0)
-                        continue;
-                }
-                else if (possibleTarget.CompareTag("Summon"))
-                {
-                    SummonAI summonAIS = possibleTarget.GetComponent<SummonAI>();
-                    if (summonAIS != null && summonAIS.currentHp <= 0)
-                        continue;
-                }
-
-                float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);
-
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    tempClosestTarget = possibleTarget.transform;
+                    Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 30f);
                 }
             }
         }
-
-        if (tempClosestTarget == null && !monsterinfo.isBoss)
+        else
         {
-            GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
-            if (objectTarget != null)
-                tempClosestTarget = objectTarget.transform;
+            agent.SetDestination(target.position);
+            animator.SetBool("Run", true);
         }
-
-        target = tempClosestTarget;
-    }
-    public virtual void Attack() // todo -> attacking animation
-    {
-        attackboundary.SetActive(true);
-        Attackboundary attackboundaryScript = attackboundary.GetComponent<Attackboundary>();
-        attackboundaryScript.Starting(attackSpeed, attackAnimationDelay);
     }
 
-    public virtual void AttackAnimation()
+    //[PunRPC]
+    public virtual void Attack() 
     {
         animator.SetTrigger("StartAttack");
-        Debug.Log("AttackAnimation Called");
     }
 
     public virtual void AttackEffect() { }
 
     public virtual void AttackSound() { }
+    public virtual void AttackAnimation() { }
+
+    public virtual void OnMonsterKnockBack(Transform _transform) { }
 
     [PunRPC]
-    public void AfterAttack()
+    public void StunEffect()
     {
-        attackTimer = attackCooldown;
-        canMove = true;
+        StunningEffect.SetActive(true);
+        animator.SetTrigger("Stun");
+        isMoving = false;
     }
-
-    Transform knockbackTransform;
-    public virtual void OnMonsterKnockBack(Transform _transform)
-    {
-        knockbackTransform = _transform;
-        if (CurHp <= 0) return;
-        photonView.RPC("OnMonsterKnockBackStart", RpcTarget.All);
-    }
-    [PunRPC]
-    public void OnMonsterKnockBackStart()
-    {
-        if (monsterinfo.isBoss) return;
-        if (canMove)
-        {
-            canMove = false;
-        }  
-        agent.enabled = false;
-
-        Vector3 vec = transform.position - knockbackTransform.position;
-        vec.x = Mathf.Sign(vec.x) * 3f;
-        vec.y = 0;
-        vec.z = Mathf.Sign(vec.z) * 3f;
-        rigid.AddForce(vec, ForceMode.Impulse);
-        knockbackTransform = null;
-
-        OnMonsterStun(0.5f);
-    }
-
     private Coroutine stunCoroutine;
     public void OnMonsterStun(float _time)
     {
         if (stunCoroutine != null)
             StopCoroutine(stunCoroutine);
+        currentState = States.Stun;
 
         stunCoroutine = StartCoroutine(MonsterStun(_time));
     }
+
     public virtual IEnumerator MonsterStun(float _time)
     {
         yield return new WaitForSeconds(_time);
         rigid.velocity = Vector3.zero;
-        agent.enabled = true;
-        if (attackboundary != null && !attackboundary.activeSelf)
-        {
-            canMove = true;
-        }
+        currentState = States.Idle;
+        // 공격 정지
     }
 
     public virtual void OnMonsterSpeedDown(float _time, float _moveSpeed)
     {
-        if (monsterSlowCurTime > 0 && !monsterinfo.isBoss)
+        if (monsterSlowCurTime > 0 && !monsterInfo.isBoss)
         {
             slowEffects.Add((_time, _moveSpeed));
             slowEffects.Sort((a, b) => b.slowmoveSpeed.CompareTo(a.slowmoveSpeed));
         }
-        else if (monsterSlowCurTime <= 0 && !monsterinfo.isBoss)
+        else if (monsterSlowCurTime <= 0 && !monsterInfo.isBoss)
         {
             OnMonsterSpeedDownStart(_time, _moveSpeed);
         }
@@ -301,10 +218,59 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
             sloweffect.SetActive(false);
         }
     }
+
+    [PunRPC]
+    public void RecognizePlayer()
+    {
+        isMoving = false;
+        float closestDistance = recognizedistance;
+        Transform tempClosestTarget = null;
+
+        foreach (string targetTag in monsterInfo.priTarget)
+        {
+            GameObject[] possibleTargets = GameObject.FindGameObjectsWithTag(targetTag);
+            if (possibleTargets == null || possibleTargets.Length == 0)
+                continue;
+
+            foreach (GameObject possibleTarget in possibleTargets)
+            {
+                if (possibleTarget.CompareTag("Player"))
+                {
+                    PlayerController playerCtrl = possibleTarget.GetComponent<PlayerController>();
+                    if (playerCtrl != null && playerCtrl.playerHp <= 0)
+                        continue;
+                }
+                else if (possibleTarget.CompareTag("Summon"))
+                {
+                    SummonAI summonAIS = possibleTarget.GetComponent<SummonAI>();
+                    if (summonAIS != null && summonAIS.currentHp <= 0)
+                        continue;
+                }
+
+                float distance = Vector3.Distance(transform.position, possibleTarget.transform.position);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    tempClosestTarget = possibleTarget.transform;
+                }
+            }
+        }
+
+        if (tempClosestTarget == null && !monsterInfo.isBoss)
+        {
+            GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
+            if (objectTarget != null)
+                tempClosestTarget = objectTarget.transform;
+        }
+
+        target = tempClosestTarget;
+    }
+
     public virtual void MonsterDmged(float damage)
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        photonView.RPC("OnMonsterHit", RpcTarget.All, damage);     
+        photonView.RPC("OnMonsterHit", RpcTarget.All, damage);
     }
     [PunRPC]
     public virtual void OnMonsterHit(float damage)
@@ -314,15 +280,18 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
             CurHp -= damage;
             if (CurHp <= 0)
             {
-                canMove = false;
-                if (attackboundary != null && attackboundary.activeSelf)
-                {
-                    attackboundary.SetActive(false);
-                }
+                currentState = States.Die;
+                // 공격 취소
                 animator.SetTrigger("Die");
                 Invoke("DestroyMonster", 1.5f);
             }
         }
+    }
+    [PunRPC]
+    public void StopMoving()
+    {
+        isMoving = false;
+        agent.ResetPath();
     }
     public virtual void DestroyMonster()
     {
@@ -342,15 +311,11 @@ public class MonsterAI : MonoBehaviourPun, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(CurHp);
-            stream.SendNext(canMove);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
-            CurHp = (float)stream.ReceiveNext();
-            canMove = (bool)stream.ReceiveNext();
         }
     }
 }

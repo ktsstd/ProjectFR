@@ -7,31 +7,32 @@ using JetBrains.Annotations;
 public class Solborn : MonsterAI
 {
     [SerializeField] ParticleSystem SolbornEffect;
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
+        currentState = States.Stop;
         animator.SetTrigger("Spawn");
-        canMove = false;
         StartCoroutine(StartMove());
     }
     private IEnumerator StartMove()
     {
         yield return new WaitForSeconds(1.1f);
-        canMove = true;
+        currentState = States.Idle;
     }
     public override void Attack() // todo -> attacking animation
     {
         base.Attack();
+        SolbornEffect.Play();
     }
     public override void AttackEffect()
     {
         SolbornEffect.Play();
     }
-    public override void AttackAnimation()
-    {
-        animator.SetTrigger("StartAttack");
-        Debug.Log("AttackAnimation Called");
-    }
+    //public override void AttackAnimation()
+    //{
+    //    animator.SetTrigger("StartAttack");
+    //    Debug.Log("AttackAnimation Called");
+    //}
     public override void AttackSound() 
     {        
         SoundManager.Instance.PlayMonsterSfx(1, transform.position);
@@ -39,8 +40,8 @@ public class Solborn : MonsterAI
 
     private IEnumerator SolbornAttack()
     {
-        attackboundary.SetActive(true);
-        Attackboundary attackboundaryScript = attackboundary.GetComponent<Attackboundary>();
+        //attackboundary.SetActive(true);
+        //Attackboundary attackboundaryScript = attackboundary.GetComponent<Attackboundary>();
         //attackboundaryScript.Starting(attackSpeed);
         yield return new WaitForSeconds(1.17f);
         if (animator != null)

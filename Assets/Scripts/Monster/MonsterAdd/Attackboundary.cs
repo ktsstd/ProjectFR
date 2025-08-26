@@ -20,7 +20,7 @@ public class Attackboundary : MonoBehaviour
     {
         yield return new WaitForSeconds(onTime);
         monsterAIScript.AttackAnimation();
-        
+
         yield return new WaitForSeconds(delayTime);
         monsterAIScript.AttackEffect();
 

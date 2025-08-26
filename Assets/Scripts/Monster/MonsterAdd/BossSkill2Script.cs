@@ -68,7 +68,7 @@ public class BossSkill2Script : MonoBehaviour
         bossScript.attackTimer = bossScript.attackCooldown;
         Collider collider = bossScript.GetComponent<Drog>().GetComponent<Collider>();
         collider.enabled = true;
-        bossScript.canMove = true;
+        bossScript.currentState = Drog.States.Idle;
         DestroyImmediate(gameObject);
     }
 }

@@ -7,7 +7,6 @@ public class Mugolin : MonsterAI
 {
     //private bool InSafeZone;
     [SerializeField] private GameObject MugolinEffect;
-    [SerializeField] private GameObject StunEffect;
     [SerializeField] private AudioSource audioS;
     //[SerializeField] private GameObject RunEffect;
     private bool IsRolling;
@@ -15,11 +14,9 @@ public class Mugolin : MonsterAI
     private float defaultspeed;
     private float Increasespeed;
     private float IncreasePerspeed;
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
-        //InSafeZone = false;
-        attackTimer = 99999f;
+        base.Awake();
         defaultspeed = agent.speed;
         Increasespeed = defaultspeed * 2;
         IncreasePerspeed = (Increasespeed - defaultspeed) / 5;
@@ -31,13 +28,13 @@ public class Mugolin : MonsterAI
         base.Update();
         MugolinEffect.SetActive(IsRolling);
         animator.SetBool("isRolling", IsRolling);
-        if (IsRolling && canMove)
+        if (IsRolling && isMoving)
         {
             audioS.volume = SoundManager.Instance.SfxMonsterVolume / 3;
             if (!audioS.isPlaying)
                 audioS.Play();
         }
-        else if (!IsRolling && canMove)
+        else if (!IsRolling && isMoving)
         {
             StartCoroutine(RunEffectStart());
             audioS.Stop();
@@ -51,6 +48,7 @@ public class Mugolin : MonsterAI
 
     public override void Attack() // todo -> attacking animation
     {
+        currentState = States.Attack;
         if (animator != null)
             animator.SetTrigger("StartAttack");
         Invoke("DamageObj", 0.767f);
@@ -63,7 +61,7 @@ public class Mugolin : MonsterAI
         SoundManager.Instance.PlayMonsterSfx(0, transform.position); // Edit
         ObjectS.Damaged(damage);
         attackTimer = attackCooldown;
-        canMove = true;
+        currentState = States.Idle;
     }
 
     private IEnumerator StartMove() // todo -> speedup, rolling animationStart, speedup -> damageup
@@ -80,9 +78,8 @@ public class Mugolin : MonsterAI
     private IEnumerator StopMove()
     {
         StopCoroutine(StartMove()); // todo -> stun Effect
-        animator.SetTrigger("Stun");
-        StunEffect.SetActive(true);
-        canMove = false;
+        currentState = States.Stun;
+        animator.SetTrigger("Stun");        
         IsRolling = false;
         agent.velocity = Vector3.zero;        
         if (monsterSlowCurTime > 0)
@@ -95,8 +92,7 @@ public class Mugolin : MonsterAI
             agent.speed = defaultspeed;
         }
         yield return new WaitForSeconds(1.333f); // todo stun duration
-        canMove = true;
-        StunEffect.SetActive(false);
+        currentState = States.Idle;
         StartCoroutine(StartMove());
     }
 
@@ -116,7 +112,6 @@ public class Mugolin : MonsterAI
     {
         if (!IsRolling) return;
         IsRolling = false;
-        canMove = false;
         animator.SetTrigger("isUp");
         agent.velocity = Vector3.zero;
         attackTimer = attackCooldown;
@@ -129,19 +124,5 @@ public class Mugolin : MonsterAI
         {
             agent.speed = defaultspeed;
         }
-        StartCoroutine(Standing());
-    }
-
-    private IEnumerator Standing()
-    {
-        yield return new WaitForSeconds(0.6f);
-        canMove = true;
-    }
-    public override IEnumerator MonsterStun(float _time)
-    {
-        yield return new WaitForSeconds(_time);
-        rigid.velocity = Vector3.zero;
-        agent.enabled = true;
-        canMove = true;
     }
 }
