@@ -68,7 +68,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks
             {
                 case States.Idle:
                     photonView.RPC("Move", RpcTarget.AllBuffered);
-                    photonView.RPC("Attack", RpcTarget.AllBuffered); 
                     break;
                 case States.Stop:
                     break;
@@ -105,9 +104,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks
             agent.ResetPath();
             agent.velocity = Vector3.zero;
             animator.SetBool("Run", false);
-            if (attackTimer <= 0)
+            if (attackTimer <= 0 && currentState != States.Attack)
             {
                 isMoving = false;
+                //photonView.RPC("Attack", RpcTarget.AllBuffered);
                 Attack();
             }
             else
@@ -127,11 +127,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         }
     }
 
-    //[PunRPC]
     public virtual void Attack() 
     {
-        animator.SetTrigger("StartAttack");
+        if (animator != null && photonView.IsMine) 
+            animator.SetTrigger("StartAttack");
+        currentState = States.Attack;
     }
+
+    public virtual void AttackEvent() { }
 
     public virtual void AttackEffect() { }
 
@@ -275,7 +278,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     [PunRPC]
     public virtual void OnMonsterHit(float damage)
     {
-        if (CurHp > 0)
+        if (CurHp > 0 && currentState != States.Die)
         {
             CurHp -= damage;
             if (CurHp <= 0)

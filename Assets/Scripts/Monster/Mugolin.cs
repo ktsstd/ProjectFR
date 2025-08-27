@@ -48,13 +48,10 @@ public class Mugolin : MonsterAI
 
     public override void Attack() // todo -> attacking animation
     {
-        currentState = States.Attack;
-        if (animator != null)
-            animator.SetTrigger("StartAttack");
-        Invoke("DamageObj", 0.767f);
+        base.Attack();
     }
 
-    public void DamageObj()
+    public override void AttackEvent()
     {
         GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
         Object ObjectS = ObjectObj.GetComponent<Object>();
