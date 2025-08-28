@@ -74,10 +74,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks
                 case States.Attack:
                     break;
                 case States.Die:
-                    photonView.RPC("StopMoving", RpcTarget.AllBuffered);
                     break;
                 case States.Stun:
-                    photonView.RPC("StunEffect", RpcTarget.AllBuffered);
                     break;
             }
 
@@ -106,8 +104,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks
             animator.SetBool("Run", false);
             if (attackTimer <= 0 && currentState != States.Attack)
             {
-                isMoving = false;
-                //photonView.RPC("Attack", RpcTarget.AllBuffered);
+                currentState = States.Attack;
+                isMoving = false;                
                 Attack();
             }
             else
@@ -129,9 +127,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
 
     public virtual void Attack() 
     {
-        if (animator != null && photonView.IsMine) 
-            animator.SetTrigger("StartAttack");
-        currentState = States.Attack;
+        animator.SetTrigger("StartAttack");
     }
 
     public virtual void AttackEvent() { }
@@ -141,7 +137,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     public virtual void AttackSound() { }
     public virtual void AttackAnimation() { }
 
-    public virtual void OnMonsterKnockBack(Transform _transform) { }
+    public virtual void OnMonsterKnockBack(Transform _transform) { } // 진짜 하기도싫고 생각하기도 귀찮다
 
     [PunRPC]
     public void StunEffect()
@@ -162,6 +158,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
 
     public virtual IEnumerator MonsterStun(float _time)
     {
+        photonView.RPC("StunEffect", RpcTarget.AllBuffered);
         yield return new WaitForSeconds(_time);
         rigid.velocity = Vector3.zero;
         currentState = States.Idle;
@@ -225,7 +222,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RecognizePlayer()
     {
-        isMoving = false;
         float closestDistance = recognizedistance;
         Transform tempClosestTarget = null;
 
@@ -284,17 +280,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks
             if (CurHp <= 0)
             {
                 currentState = States.Die;
+                agent.ResetPath();
                 // 공격 취소
                 animator.SetTrigger("Die");
                 Invoke("DestroyMonster", 1.5f);
             }
         }
-    }
-    [PunRPC]
-    public void StopMoving()
-    {
-        isMoving = false;
-        agent.ResetPath();
     }
     public virtual void DestroyMonster()
     {

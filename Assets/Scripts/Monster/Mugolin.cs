@@ -46,13 +46,16 @@ public class Mugolin : MonsterAI
         yield return new WaitForSeconds(0.5f);
     }
 
-    public override void Attack() // todo -> attacking animation
-    {
-        base.Attack();
-    }
-
     public override void AttackEvent()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+        photonView.RPC("AttackEventRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void AttackEventRPC()
+    {
+        Debug.Log("3");
         GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
         Object ObjectS = ObjectObj.GetComponent<Object>();
         SoundManager.Instance.PlayMonsterSfx(0, transform.position); // Edit
