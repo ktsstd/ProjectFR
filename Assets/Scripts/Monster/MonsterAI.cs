@@ -62,12 +62,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     }
     public virtual void Update()
     {        
-        if (PhotonNetwork.IsMasterClient)
-        {
+        //if (!PhotonNetwork.IsMasterClient) return;
             switch (currentState)
             {
                 case States.Idle:
-                    photonView.RPC("Move", RpcTarget.AllBuffered);
+                    Move();
                     break;
                 case States.Stop:
                     break;
@@ -79,17 +78,16 @@ public class MonsterAI : MonoBehaviourPunCallbacks
                     break;
             }
 
-            if (targetSearchTimer <= 0f)
+            if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC("RecognizePlayer", RpcTarget.AllBuffered);
                 targetSearchTimer = targetSearchTime;
             }
-        }
         targetSearchTimer -= Time.deltaTime;
         attackTimer -= Time.deltaTime;
     }
 
-    [PunRPC]
+    //[PunRPC]
     public virtual void Move()
     {
         if (target == null) return;

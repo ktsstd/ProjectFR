@@ -7,29 +7,54 @@ public class Attackboundary : MonoBehaviour
 {
     [SerializeField] MonsterAI monsterAIScript;
     [SerializeField] Collider thiscollider;
+    //[SerializeField] GameObject Effect;
+    //[SerializeField] Animator animator;
     HashSet<GameObject> damagedTargets = new HashSet<GameObject>();
 
-    public void Starting(float onTime, float delayTime)
+    //public void Awake()
+    //{
+    //    AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+    //}
+    //public void Starting(float onTime, float delayTime)
+    //{
+    //    damagedTargets.Clear();
+    //    thiscollider.enabled = false;
+    //    StartCoroutine(ShowAttackBoundary(onTime, delayTime));
+    //}
+
+    //IEnumerator ShowAttackBoundary(float onTime, float delayTime)
+    //{
+    //    yield return new WaitForSeconds(onTime);
+    //    monsterAIScript.AttackAnimation();
+
+    //    yield return new WaitForSeconds(delayTime);
+    //    monsterAIScript.AttackEffect();
+
+    //    thiscollider.enabled = true;
+    //    yield return new WaitForSeconds(0.1f);
+
+    //    thiscollider.enabled = false;
+    //    monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
+    //    gameObject.SetActive(false);
+    //}
+
+    private void Start()
     {
-        damagedTargets.Clear();
-        thiscollider.enabled = false;
-        StartCoroutine(ShowAttackBoundary(onTime, delayTime));
+        transform.localScale = new Vector3(transform.localScale.x, monsterAIScript.attackRange, transform.localScale.z);
     }
-
-    IEnumerator ShowAttackBoundary(float onTime, float delayTime)
+    public void EnterPlayer()
     {
-        yield return new WaitForSeconds(onTime);
-        monsterAIScript.AttackAnimation();
-
-        yield return new WaitForSeconds(delayTime);
-        monsterAIScript.AttackEffect();
-
         thiscollider.enabled = true;
-        yield return new WaitForSeconds(0.1f);
-
-        thiscollider.enabled = false;
         monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
-        gameObject.SetActive(false);
+        //Effect.SetActive(true);
+        Invoke("OffCollider", 0.1f);    
+    }
+    private void OffCollider()
+    {
+        thiscollider.enabled = false;
+        damagedTargets.Clear();
+        monsterAIScript.currentState = MonsterAI.States.Idle;
+        monsterAIScript.attackTimer = monsterAIScript.attackCooldown;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -40,14 +65,12 @@ public class Attackboundary : MonoBehaviour
             damagedTargets.Add(other.gameObject);
             PlayerController playerS = other.GetComponent<PlayerController>();
             playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, monsterAIScript.damage);
-            monsterAIScript.AttackSound();
         }
         else if (other.CompareTag("Object"))
         {
             damagedTargets.Add(other.gameObject);
             Object objectS = other.GetComponent<Object>();
             objectS.Damaged(monsterAIScript.damage);
-            monsterAIScript.AttackSound();
         }
     }
 

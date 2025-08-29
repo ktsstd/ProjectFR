@@ -1378,6 +1378,7 @@ MonoBehaviour:
   targetSearchTimer: 0
   currentState: 0
   SleebamAttackEffect: {fileID: 5605697148009995603}
+  atkboundary: {fileID: 0}
 --- !u!65 &3707032082862620589
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2035,7 +2036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4619590913834827026
 Transform:
   m_ObjectHideFlags: 0
@@ -2228,11 +2229,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 196063428720133966, guid: 8ecfeb268e027bd49b1b033c115ff59c, type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 196063429019132035, guid: 8ecfeb268e027bd49b1b033c115ff59c, type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 196063429245043110, guid: 8ecfeb268e027bd49b1b033c115ff59c, type: 3}
       propertyPath: m_LocalScale.x
@@ -2292,7 +2293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 196063429245043111, guid: 8ecfeb268e027bd49b1b033c115ff59c, type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 196063429245043113, guid: 8ecfeb268e027bd49b1b033c115ff59c, type: 3}
       propertyPath: m_Name
@@ -2300,11 +2301,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 196063429245043113, guid: 8ecfeb268e027bd49b1b033c115ff59c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 196063429419146173, guid: 8ecfeb268e027bd49b1b033c115ff59c, type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

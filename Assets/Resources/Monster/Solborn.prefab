@@ -172,6 +172,7 @@ MonoBehaviour:
   targetSearchTimer: 0
   currentState: 0
   SolbornEffect: {fileID: 7994799769189385059}
+  atkboundary: {fileID: 0}
 --- !u!95 &1260669589879390211
 Animator:
   serializedVersion: 7
@@ -1616,7 +1617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7820959237391997538, guid: 61fd944aa49ed9a40ac30bacc9fd6f4e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7820959237684736004, guid: 61fd944aa49ed9a40ac30bacc9fd6f4e, type: 3}
       propertyPath: playOnAwake
@@ -1629,8 +1630,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7820959237391997538, guid: 61fd944aa49ed9a40ac30bacc9fd6f4e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 400925377286784244}
   m_SourcePrefab: {fileID: 100100000, guid: 61fd944aa49ed9a40ac30bacc9fd6f4e, type: 3}
+--- !u!1 &7994799769189385053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7820959237391997538, guid: 61fd944aa49ed9a40ac30bacc9fd6f4e, type: 3}
+  m_PrefabInstance: {fileID: 178627711842375999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &400925377286784244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7994799769189385053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32d9ad6f04e29b4892129d578e9e8d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7994799769189385058 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7820959237391997533, guid: 61fd944aa49ed9a40ac30bacc9fd6f4e, type: 3}
@@ -1667,7 +1688,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4547264837846805365, guid: e267621adef052c45824808c7fdbf00a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7692083455327080493, guid: e267621adef052c45824808c7fdbf00a, type: 3}
       propertyPath: m_LocalScale.x
@@ -1751,7 +1772,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
