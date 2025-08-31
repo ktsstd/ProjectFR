@@ -10,14 +10,11 @@ public class MonsterInfo : ScriptableObject
     public float health;
 
     public float attackRange;
-    public float attackSpeed;
-    public float attackCooldown; 
-    //public float attackTimer;
-    public float AttackAnimationDelay;
+    public float attackCooldown;
+    public float[] skillRange;
+    public float[] skillCooldown;
 
     public string[] priTarget;
-    public GameObject[] attackboundary;
-    //public Vector3 attackPos;
 
     public bool isBoss;
     public float redistance;

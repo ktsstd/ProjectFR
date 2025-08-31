@@ -42,16 +42,21 @@ public class Attackboundary : MonoBehaviour
     {
         transform.localScale = new Vector3(transform.localScale.x, monsterAIScript.attackRange, transform.localScale.z);
     }
+    public void ShowBoundary()
+    {
+        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0.2f);
+    }
     public void EnterPlayer()
     {
         thiscollider.enabled = true;
-        monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
+        //monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
         //Effect.SetActive(true);
         Invoke("OffCollider", 0.1f);    
     }
     private void OffCollider()
     {
         thiscollider.enabled = false;
+        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         damagedTargets.Clear();
         monsterAIScript.currentState = MonsterAI.States.Idle;
         monsterAIScript.attackTimer = monsterAIScript.attackCooldown;

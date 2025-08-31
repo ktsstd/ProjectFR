@@ -1,4 +1,6 @@
+using NUnit.Framework.Internal;
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -23,6 +25,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     public float damage; // 공격력
     public float attackRange; // 사거리
     public float attackCooldown; // 공속
+    public float[] skillRange; // 스킬 사거리 
+    public float[] skillCooldown; // 스킬 쿨타임
+    public float[] skillTimer; // 스킬 타이머
     public float attackTimer; // 공속 타이머
     public float recognizedistance; // 인지 범위
     public float monsterSlowCurTime; // 구속 현재 시간
@@ -49,8 +54,26 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         rigid = GetComponent<Rigidbody>();
 
         currentState = States.Idle;
-        CurHp = monsterInfo.health;
-        damage = monsterInfo.damage;
+        if (PhotonNetwork.PlayerList.Length > 1)
+        {
+            CurHp = monsterInfo.health;
+            damage = monsterInfo.damage;
+        }
+        else
+        {
+            CurHp = monsterInfo.health / 2;
+            damage = monsterInfo.damage / 2;
+        }
+        skillCooldown = new float[monsterInfo.skillCooldown.Length];
+        skillTimer = new float[monsterInfo.skillCooldown.Length];
+        skillRange = new float[monsterInfo.skillCooldown.Length];
+        for (int i = 0; i < monsterInfo.skillCooldown.Length; i++)
+        {
+            skillCooldown[i] = monsterInfo.skillCooldown[i];
+            skillTimer[i] = skillCooldown[i];
+            skillRange[i] = monsterInfo.skillRange[i];
+        }
+        Array.Sort(skillRange);
         attackRange = monsterInfo.attackRange;
         attackCooldown = monsterInfo.attackCooldown;
         attackTimer = attackCooldown;
@@ -85,6 +108,13 @@ public class MonsterAI : MonoBehaviourPunCallbacks
             }
         targetSearchTimer -= Time.deltaTime;
         attackTimer -= Time.deltaTime;
+        for (int i = 0; i < skillTimer.Length; i++)
+        {
+            if (skillTimer[i] > 0f)
+            {
+                skillTimer[i] -= Time.deltaTime;
+            }
+        }
     }
 
     //[PunRPC]
@@ -112,7 +142,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
                 if (directionToTarget != Vector3.zero)
                 {
                     Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 30f);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 9f);
                 }
             }
         }
@@ -129,6 +159,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     }
 
     public virtual void AttackEvent() { }
+
+    public virtual void ShowAttackBoundary() { }
 
     public virtual void AttackEffect() { }
 

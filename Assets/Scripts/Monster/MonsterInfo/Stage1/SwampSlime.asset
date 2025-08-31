@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75cdb71b47fd5f14d8d7889a191554eb, type: 3}
-  m_Name: Solborn
+  m_Name: SwampSlime
   m_EditorClassIdentifier: 
-  speed: 5
-  damage: 80
+  speed: 4
+  damage: 70
   health: 500
-  attackRange: 1.5
-  attackSpeed: 1.2
-  attackCooldown: 4
-  attackTimer: 0
-  AttackAnimationDelay: 0.4
+  attackRange: 3
+  attackCooldown: 2.5
+  skillRange:
+  - 0
+  skillCooldown:
+  - 0
   priTarget:
   - Player
   - Summon
-  attackboundary:
-  - {fileID: 1104074487764874493, guid: 11973fd44c2a6794095890cef91164da, type: 3}
   isBoss: 0
   redistance: 10

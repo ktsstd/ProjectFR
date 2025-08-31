@@ -36,15 +36,15 @@ public class Mugolin : MonsterAI
         }
         else if (!IsRolling && isMoving)
         {
-            StartCoroutine(RunEffectStart());
+            //StartCoroutine(RunEffectStart());
             audioS.Stop();
         }
     }
 
-    IEnumerator RunEffectStart()
-    {
-        yield return new WaitForSeconds(0.5f);
-    }
+    //IEnumerator RunEffectStart()
+    //{
+    //    yield return new WaitForSeconds(0.5f);
+    //}
 
     public override void AttackEvent()
     {
@@ -55,7 +55,6 @@ public class Mugolin : MonsterAI
     [PunRPC]
     public void AttackEventRPC()
     {
-        Debug.Log("3");
         GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
         Object ObjectS = ObjectObj.GetComponent<Object>();
         SoundManager.Instance.PlayMonsterSfx(0, transform.position); // Edit
@@ -112,8 +111,10 @@ public class Mugolin : MonsterAI
     {
         if (!IsRolling) return;
         IsRolling = false;
+        currentState = States.Stop;
         animator.SetTrigger("isUp");
         agent.velocity = Vector3.zero;
+        currentState = States.Idle;
         attackTimer = attackCooldown;
         if (monsterSlowCurTime > 0)
         {

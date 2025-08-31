@@ -239,8 +239,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (!Starting)
         {
             Starting = true;
-            PhotonNetwork.LoadLevel("Test");
-        }        
+            PhotonNetwork.LoadLevel("Stage1");
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

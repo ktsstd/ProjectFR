@@ -16,17 +16,13 @@ MonoBehaviour:
   damage: 80
   health: 13000
   attackRange: 8
-  attackSpeed: 0
   attackCooldown: 5
-  attackTimer: 0
-  AttackAnimationDelay: 0
+  skillRange:
+  - 0
+  skillCooldown:
+  - 0
   priTarget:
   - Player
   - Summon
-  attackboundary:
-  - {fileID: 95736695149742261, guid: 026da11826be46142a7d986bc4b49965, type: 3}
-  - {fileID: 1104074487764874493, guid: 6319a936fa7d9af47981ea0e8cb206f1, type: 3}
-  - {fileID: 8749548841231393093, guid: d82ae7a6c72190040986c0aa6172c611, type: 3}
-  - {fileID: 2838887698864355486, guid: 06b4021e8e90a9b4f9d1717d1df96a7e, type: 3}
   isBoss: 1
   redistance: 1000
