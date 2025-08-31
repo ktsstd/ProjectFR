@@ -3,6 +3,7 @@ using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -125,12 +126,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         targetCollider = target.GetComponent<CapsuleCollider>();
         Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
         float distance = Vector3.Distance(transform.position, targetPos);
-        if (distance <= attackRange)
+        if (distance <= attackRange && currentState != States.Attack)
         {
             agent.ResetPath();
             agent.velocity = Vector3.zero;
             animator.SetBool("Run", false);
-            if (attackTimer <= 0 && currentState != States.Attack)
+            if (attackTimer <= 0)
             {
                 currentState = States.Attack;
                 isMoving = false;                
@@ -151,11 +152,31 @@ public class MonsterAI : MonoBehaviourPunCallbacks
             agent.SetDestination(target.position);
             animator.SetBool("Run", true);
         }
+
+        for (int i = 0; i < skillRange.Length; i++)
+        {
+            if (distance <= skillRange[i] && skillTimer[i] <= 0f && currentState != States.Attack)
+            {
+                agent.ResetPath();
+                agent.velocity = Vector3.zero;
+                animator.SetBool("Run", false);
+                currentState = States.Attack;
+                isMoving = false;
+                SkillAttack(i);
+                break;
+            }
+        }
     }
 
     public virtual void Attack() 
     {
         animator.SetTrigger("StartAttack");
+    }
+
+    public virtual void SkillAttack(int skillIndex)
+    {
+        //skillTimer[skillIndex] = skillCooldown[skillIndex];
+        //currentState = States.Idle;
     }
 
     public virtual void AttackEvent() { }
