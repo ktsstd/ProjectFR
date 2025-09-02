@@ -165,10 +165,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             yield return new WaitForSeconds(5);
 
             //string Firemonster = "TEMPMONSTER/Spirit of Fire";
-            string Sleebam = "Stage1/Monster/Sleebam";
-            string Mugolin = "Stage1/Monster/Mugolin";
-            string Grave = "Stage1/Monster/Grave";
-            string Boss = "Stage1/Boss/Boss";
+            string Sleebam = "Monster/Stage1/Sleebam";
+            string Mugolin = "Monster/Stage1/Mugolin";
+            string Grave = "Monster/Stage1/Grave";
+            string Boss = "Boss/Stage1/Boss";
 
             int a = Random.Range(1, 4);
             int b = Random.Range(1, 5);
