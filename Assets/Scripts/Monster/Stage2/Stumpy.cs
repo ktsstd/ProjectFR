@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrayWolf : MonsterAI
+public class Stumpy : MonsterAI
 {
     public override void AttackEvent()
     {
@@ -13,7 +13,7 @@ public class GrayWolf : MonsterAI
         switch (skillIndex)
         {
             case 0:
-                GrayWolfDash();
+                StumpyRoot();
                 break;
             default:
                 break;
@@ -21,8 +21,8 @@ public class GrayWolf : MonsterAI
         //skillTimer[skillIndex] = skillCooldown[skillIndex];
         //currentState = States.Idle;
     }
-    public void GrayWolfDash()
+    public void StumpyRoot()
     {
-        // 대충 애니메이션 0.5초 대기시간 하고 쭈우욱 돌진 플레이어한테 닿기전까지 모든 오브젝트 무시 이후 정지 
+        // 대충 애니메이션 0.2초 대기시간 하고 빨간색으로 표시놓고 Attackboundary 거기에놓고 올리면될듯
     }
 }

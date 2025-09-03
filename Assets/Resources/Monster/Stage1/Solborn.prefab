@@ -175,7 +175,7 @@ MonoBehaviour:
   targetSearchTimer: 0
   currentState: 0
   SolbornEffect: {fileID: 7994799769189385059}
-  atkboundary: {fileID: 0}
+  atkboundary: {fileID: 549089200435157967}
 --- !u!95 &1260669589879390211
 Animator:
   serializedVersion: 7
@@ -1753,6 +1753,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7222961739463665130}
   m_SourcePrefab: {fileID: 100100000, guid: e267621adef052c45824808c7fdbf00a, type: 3}
+--- !u!114 &549089200435157967 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1149436525515777460, guid: e267621adef052c45824808c7fdbf00a, type: 3}
+  m_PrefabInstance: {fileID: 607246914249490043}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3996520940328539406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08f9dfef3b48cc43b9234e8d793cf09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3996520940328539406 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4547264837846805365, guid: e267621adef052c45824808c7fdbf00a, type: 3}

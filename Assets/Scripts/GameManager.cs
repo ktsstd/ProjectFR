@@ -74,30 +74,37 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
-        WaveAllMonsterCountText.text = (GameObject.FindGameObjectsWithTag("Enemy").Length + "/" + WaveAllMonster);
+        if (SceneManagerHelper.ActiveSceneName == "Stage1")
+        {
+            WaveAllMonsterCountText.text = (GameObject.FindGameObjectsWithTag("Enemy").Length + "/" + WaveAllMonster);
 
-        if (WaveCount != 5)
-        {
-            WaveText.text = ("Wave " + WaveCount + "/5");
-        }
-        else
-        {
-            WaveBar.SetActive(false);
-            BossHpBar.SetActive(true);
-        }
+            if (WaveCount != 5)
+            {
+                WaveText.text = ("Wave " + WaveCount + "/5");
+            }
+            else
+            {
+                WaveBar.SetActive(false);
+                BossHpBar.SetActive(true);
+            }
 
-        if (WaveCount == 1)
-            WaveAllMonster = 15;
-        else if (WaveCount == 2)
-            WaveAllMonster = 25;
-        else if (WaveCount == 3)
-            WaveAllMonster = 33;
-        else if (WaveCount == 4)
-            WaveAllMonster = 46;
-        else if (WaveCount == 5 && !isSpawn)
+            if (WaveCount == 1)
+                WaveAllMonster = 15;
+            else if (WaveCount == 2)
+                WaveAllMonster = 25;
+            else if (WaveCount == 3)
+                WaveAllMonster = 33;
+            else if (WaveCount == 4)
+                WaveAllMonster = 46;
+            else if (WaveCount == 5 && !isSpawn)
+            {
+                RenderSettings.skybox = SkyBoxMat;
+                DLight.color = new Color(1f, 0.3216f, 0f, 1f);
+            }
+        }
+        else if (SceneManagerHelper.ActiveSceneName == "Stage2")
         {
-            RenderSettings.skybox = SkyBoxMat;
-            DLight.color = new Color(1f, 0.3216f, 0f, 1f);
+            
         }
     }
 
@@ -154,7 +161,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
     public override void OnLeftRoom()
     {
-        SceneManager.LoadScene("Main"); // 방을 떠나면 새로운 씬으로 이동
+        SceneManager.LoadScene("Main");
     }
 
     IEnumerator WaveStart()
@@ -200,6 +207,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
                 PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
                 isSpawn = false;
+            }
+
+            else if (WaveCount == 8)
+            {
+                StartCoroutine(InstantiateMonsters("Monster/Stage1/SwampSlime", 1));
             }
         }
     }

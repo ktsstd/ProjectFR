@@ -46,6 +46,10 @@ public class Attackboundary : MonoBehaviour
     {
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0.2f);
     }
+    public void HideBoundary()
+    {
+        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+    }
     public void EnterPlayer()
     {
         thiscollider.enabled = true;
@@ -76,6 +80,13 @@ public class Attackboundary : MonoBehaviour
             damagedTargets.Add(other.gameObject);
             Object objectS = other.GetComponent<Object>();
             objectS.Damaged(monsterAIScript.damage);
+        }
+
+        else if (other.CompareTag("Summon"))
+        {
+            damagedTargets.Add(other.gameObject);
+            SummonAI summonS = other.GetComponent<SummonAI>();
+            summonS.photonView.RPC("OnSummonHit", RpcTarget.All, monsterAIScript.damage);
         }
     }
 

@@ -7,23 +7,16 @@ public class SwampSlime : MonsterAI
 {
     [SerializeField] Transform ProjPos;
     [SerializeField] GameObject ProjObj;
-    public override void SkillAttack(int skillIndex)
+    [SerializeField] Attackboundary atkboundary;
+    public override void Attack()
     {
-        switch (skillIndex)
-        {
-            case 0:
-                SlimeProjectile();
-                break;
-            default:
-                break;
-        }
-        //skillTimer[skillIndex] = skillCooldown[skillIndex];
-        //currentState = States.Idle;
+        base.Attack();
+        currentState = States.Idle;
+        attackTimer = attackCooldown;
     }
 
-    private void SlimeProjectile()
+    public override void AttackEvent()
     {
-        //PhotonNetwork.Instantiate("MonsterAdd/")
-        Instantiate(ProjObj, ProjPos);
+        Instantiate(ProjObj, ProjPos.position, ProjPos.rotation);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrayWolf : MonsterAI
+public class ForestDarkSpider : MonsterAI
 {
     public override void AttackEvent()
     {
@@ -13,7 +13,7 @@ public class GrayWolf : MonsterAI
         switch (skillIndex)
         {
             case 0:
-                GrayWolfDash();
+                Hide();
                 break;
             default:
                 break;
@@ -21,8 +21,8 @@ public class GrayWolf : MonsterAI
         //skillTimer[skillIndex] = skillCooldown[skillIndex];
         //currentState = States.Idle;
     }
-    public void GrayWolfDash()
+    public void Hide()
     {
-        // 대충 애니메이션 0.5초 대기시간 하고 쭈우욱 돌진 플레이어한테 닿기전까지 모든 오브젝트 무시 이후 정지 
+        // 시작하자마자 65% 투명해지고 데미지 받으면 해제
     }
 }
