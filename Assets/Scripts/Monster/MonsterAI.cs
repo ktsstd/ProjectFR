@@ -162,7 +162,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
                 animator.SetBool("Run", false);
                 currentState = States.Attack;
                 isMoving = false;
-                SkillAttack(i);
+                SkillAttack(i); // Æ÷ÅæÀ¸·Î ¶òÅ· ¸¸µé±â
                 break;
             }
         }
@@ -175,8 +175,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks
 
     public virtual void SkillAttack(int skillIndex)
     {
-        //skillTimer[skillIndex] = skillCooldown[skillIndex];
-        //currentState = States.Idle;
+        skillTimer[skillIndex] = skillCooldown[skillIndex];
+        currentState = States.Idle;
     }
 
     public virtual void AttackEvent() { }

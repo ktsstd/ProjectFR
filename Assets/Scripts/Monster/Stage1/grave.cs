@@ -7,8 +7,9 @@ public class grave : MonsterAI
     private float radius = 5f;
     public override void Awake()
     {
-        StartCoroutine(StartSpawn());
+        currentState = States.Idle;
         CurHp = 700f;
+        StartCoroutine(StartSpawn());
         animator = GetComponent<Animator>();
     }
     private IEnumerator StartSpawn()

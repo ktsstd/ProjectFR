@@ -222,27 +222,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f03ad185da43540b04e5ddd07e2afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterinfo: {fileID: 0}
+  monsterInfo: {fileID: 0}
+  animator: {fileID: 0}
+  rigid: {fileID: 0}
+  target: {fileID: 0}
+  agent: {fileID: 0}
+  targetCollider: {fileID: 0}
+  StunningEffect: {fileID: 0}
+  sloweffect: {fileID: 0}
+  isMoving: 0
   CurHp: 0
   damage: 0
   attackRange: 0
   attackCooldown: 0
+  skillRange: []
+  skillCooldown: []
+  skillTimer: []
   attackTimer: 0
-  attackSpeed: 0
-  attackAnimationDelay: 0
   recognizedistance: 0
   monsterSlowCurTime: 0
   targetSearchTime: 0.5
   targetSearchTimer: 0
-  canMove: 1
-  isDie: 0
-  target: {fileID: 0}
-  attackboundary: {fileID: 0}
-  sloweffect: {fileID: 0}
-  targetCollider: {fileID: 0}
-  rigid: {fileID: 0}
-  agent: {fileID: 0}
-  animator: {fileID: 0}
+  currentState: 0
 --- !u!65 &6254733813102072434
 BoxCollider:
   m_ObjectHideFlags: 0
