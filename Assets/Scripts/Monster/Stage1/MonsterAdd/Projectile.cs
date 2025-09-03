@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    [SerializeField] MonsterAI monsterAIS;
     private float damage;
 
     void Awake()
     {
-        damage = 10f;
+        damage = monsterAIS.damage;
     }
 }
