@@ -60,7 +60,7 @@ public class BossSkill1Script : MonoBehaviour
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = Instantiate(BossSkill1, transform.position,
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-        bossScript.BossMonsterSkillTimers[0] = bossScript.BossMonsterSkillCooldowns[0];
+        bossScript.skillTimer[0] = bossScript.skillCooldown[0];
         bossScript.attackTimer = bossScript.attackCooldown;
         bossScript.currentState = Drog.States.Idle;
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);

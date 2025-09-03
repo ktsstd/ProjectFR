@@ -18,9 +18,12 @@ MonoBehaviour:
   attackRange: 8
   attackCooldown: 5
   skillRange:
-  - 0
+  - 8
   skillCooldown:
-  - 0
+  - 3
+  - 10
+  - 10
+  - 10
   priTarget:
   - Player
   - Summon

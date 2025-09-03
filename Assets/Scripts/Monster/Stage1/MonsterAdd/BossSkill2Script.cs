@@ -64,7 +64,7 @@ public class BossSkill2Script : MonoBehaviour
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = Instantiate(BossSkill2, transform.position, 
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-        bossScript.BossMonsterSkillTimers[1] = bossScript.BossMonsterSkillCooldowns[1];
+        bossScript.skillTimer[1] = bossScript.skillCooldown[1];
         bossScript.attackTimer = bossScript.attackCooldown;
         Collider collider = bossScript.GetComponent<Drog>().GetComponent<Collider>();
         collider.enabled = true;

@@ -8,8 +8,8 @@ public class Drog : MonsterAI
     float PatternbreakupHealth;
     float PatternHealth;
     public float BossPhase2Hp;
-    public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
-    public float[] BossMonsterSkillTimers = new float[4];
+    //public float[] BossMonsterSkillCooldowns = { 3f, 10f, 10f, 10f };
+    //public float[] BossMonsterSkillTimers = new float[4];
 
     public int BossPhase = 1;
 
@@ -40,23 +40,11 @@ public class Drog : MonsterAI
         {
             BossPhase2Hp /= 2;
         }
-        for (int i = 0; i < BossMonsterSkillCooldowns.Length; i++)
-        {
-            BossMonsterSkillCooldowns[i] = BossMonsterSkillCooldowns[i];
-            BossMonsterSkillTimers[i] = BossMonsterSkillCooldowns[i];
-        }
     }
 
     public override void Update()
     {
         base.Update();
-        for (int i = 0; i < BossMonsterSkillTimers.Length; i++)
-        {
-            if (BossMonsterSkillTimers[i] > 0f)
-            {
-                BossMonsterSkillTimers[i] -= Time.deltaTime;
-            }
-        }
         if (PatternHealth > 0)
         {
             foreach (GameObject obj in swallowedTarget)
@@ -68,9 +56,9 @@ public class Drog : MonsterAI
             }
         }        
         if (Input.GetKeyDown(KeyCode.Keypad8))
-            {
-                photonView.RPC("OnMonsterHit", RpcTarget.All, 1005f);
-            }
+        {
+            photonView.RPC("OnMonsterHit", RpcTarget.All, 1005f);
+        }
     }
     [PunRPC]
     public void AddSwallowedTarget(string objname)
@@ -81,6 +69,11 @@ public class Drog : MonsterAI
     }
 
     public override void Attack()
+    {
+        currentState = States.Idle;
+        attackTimer = attackCooldown;
+    }
+    public override void SkillAttack(int skillIndex)
     {
         currentState = States.Attack;
         if (PhotonNetwork.IsMasterClient)
@@ -93,13 +86,13 @@ public class Drog : MonsterAI
             Debug.Log("Not Master Client");
         }
     }
-    private int GetRandomSkill()
+    public override int GetRandomSkill()
     {
         List<int> availableSkills = new List<int>();
 
-        for (int i = 0; i < BossMonsterSkillTimers.Length; i++)
+        for (int i = 0; i < skillTimer.Length; i++)
         {
-            if (BossMonsterSkillTimers[i] <= 0f)
+            if (skillTimer[i] <= 0f)
             {
                 if (i == 2 || i == 3)
                 {
@@ -210,7 +203,7 @@ public class Drog : MonsterAI
         yield return new WaitForSeconds(2f);
         target = null;
         currentState = States.Idle;
-        BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
+        skillTimer[2] = skillCooldown[2];
         attackTimer = attackCooldown;
     }
     [PunRPC]
@@ -235,7 +228,7 @@ public class Drog : MonsterAI
         BossSkill3_2Obj.SetActive(true);
         yield return new WaitForSeconds(2f);
         currentState = States.Idle;
-        BossMonsterSkillTimers[2] = BossMonsterSkillCooldowns[2];
+        skillTimer[2] = skillCooldown[2];
         attackTimer = attackCooldown;
     }
     [PunRPC]

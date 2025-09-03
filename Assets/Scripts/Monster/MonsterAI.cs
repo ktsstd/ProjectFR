@@ -1,10 +1,7 @@
-using NUnit.Framework.Internal;
 using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -29,6 +26,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     public float[] skillRange; // 스킬 사거리 
     public float[] skillCooldown; // 스킬 쿨타임
     public float[] skillTimer; // 스킬 타이머
+    public float thinkTime = 3f; // 스킬 선택 쿨타임
+    public float thinkTimer; // 스킬 선택 타이머
     public float attackTimer; // 공속 타이머
     public float recognizedistance; // 인지 범위
     public float monsterSlowCurTime; // 구속 현재 시간
@@ -109,6 +108,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
             }
         targetSearchTimer -= Time.deltaTime;
         attackTimer -= Time.deltaTime;
+        thinkTimer -= Time.deltaTime;
         for (int i = 0; i < skillTimer.Length; i++)
         {
             if (skillTimer[i] > 0f)
@@ -126,6 +126,23 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         targetCollider = target.GetComponent<CapsuleCollider>();
         Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
         float distance = Vector3.Distance(transform.position, targetPos);
+        for (int i = 0; i < skillRange.Length; i++)
+        {
+            if (distance <= skillRange[i] && skillTimer[i] <= 0f && currentState != States.Attack && thinkTimer <= 0f)
+            {
+                agent.ResetPath();
+                agent.velocity = Vector3.zero;
+                animator.SetBool("Run", false);
+                currentState = States.Attack;
+                isMoving = false;
+                int randomSkill = GetRandomSkill();
+                if (randomSkill != -1)
+                {
+                    SkillAttack(randomSkill);
+                }
+                break;
+            }
+        }
         if (distance <= attackRange && currentState != States.Attack)
         {
             agent.ResetPath();
@@ -152,20 +169,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks
             agent.SetDestination(target.position);
             animator.SetBool("Run", true);
         }
-
-        for (int i = 0; i < skillRange.Length; i++)
-        {
-            if (distance <= skillRange[i] && skillTimer[i] <= 0f && currentState != States.Attack)
-            {
-                agent.ResetPath();
-                agent.velocity = Vector3.zero;
-                animator.SetBool("Run", false);
-                currentState = States.Attack;
-                isMoving = false;
-                SkillAttack(i); // 포톤으로 띵킹 만들기
-                break;
-            }
-        }
     }
 
     public virtual void Attack() 
@@ -176,7 +179,31 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     public virtual void SkillAttack(int skillIndex)
     {
         skillTimer[skillIndex] = skillCooldown[skillIndex];
+        thinkTimer = thinkTime;
         currentState = States.Idle;
+    }
+
+    public virtual int GetRandomSkill()
+    {
+        List<int> availableSkills = new List<int>();
+
+        for (int i = 0; i < skillTimer.Length; i++)
+        {
+            if (skillTimer[i] <= 0f)
+            {
+                availableSkills.Add(i);
+            }
+        }
+
+        if (availableSkills.Count > 0)
+        {
+            return availableSkills[UnityEngine.Random.Range(0, availableSkills.Count)];
+        }
+        else
+        {
+            thinkTimer = thinkTime;
+        }
+        return -1;
     }
 
     public virtual void AttackEvent() { }
