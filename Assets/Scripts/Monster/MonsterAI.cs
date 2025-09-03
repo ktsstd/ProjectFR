@@ -126,6 +126,15 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         targetCollider = target.GetComponent<CapsuleCollider>();
         Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
         float distance = Vector3.Distance(transform.position, targetPos);
+        if (currentState == States.Idle)
+        {
+            Vector3 directionToTarget = target.position - transform.position;
+            if (directionToTarget != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 9f);
+            }
+        }
         for (int i = 0; i < skillRange.Length; i++)
         {
             if (distance <= skillRange[i] && skillTimer[i] <= 0f && currentState != States.Attack && thinkTimer <= 0f)
@@ -142,6 +151,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks
                 }
                 break;
             }
+            else
+            {
+                agent.SetDestination(target.position);
+                animator.SetBool("Run", true);
+            }
         }
         if (distance <= attackRange && currentState != States.Attack)
         {
@@ -153,15 +167,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks
                 currentState = States.Attack;
                 isMoving = false;                
                 Attack();
-            }
-            else
-            {
-                Vector3 directionToTarget = target.position - transform.position;
-                if (directionToTarget != Vector3.zero)
-                {
-                    Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 9f);
-                }
             }
         }
         else
