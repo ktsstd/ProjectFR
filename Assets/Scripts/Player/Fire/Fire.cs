@@ -102,7 +102,7 @@ public class Fire : PlayerController
                         currentSkillsCoolTime[2] = skillsCoolTime[2];
                         currentStates = States.Attack;
                         grenadeType = 1;
-                        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill2");
+                        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "skill3");
                     }
                 }
             }

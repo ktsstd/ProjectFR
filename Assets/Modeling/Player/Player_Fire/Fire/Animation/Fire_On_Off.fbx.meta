@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6dd462180632ae741941e0ba6f663e50
+guid: db4eb9e802e94224fab0347755e74d56
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Fire_Run
-      takeName: Fire_Idle
-      internalID: -8942732132184233677
+      name: Fire_On_Off
+      takeName: Fire_On_Off
+      internalID: 8756375812117235790
       firstFrame: 0
-      lastFrame: 24
+      lastFrame: 35
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -55,17 +55,17 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.32951292
-        functionName: MoveAniSound
+      - time: 0.50716335
+        functionName: UseFireButton
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: c9f0edda985010848b363fb487eebf85, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: b7c560737d7525a49b39ff881db580e4, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.75931233
-        functionName: MoveAniSound
+      - time: 0.9971347
+        functionName: StopAnimation
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: c9f0edda985010848b363fb487eebf85, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: b7c560737d7525a49b39ff881db580e4, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
