@@ -19,6 +19,9 @@ MonoBehaviour:
   attackCooldown: 5
   skillRange:
   - 8
+  - 8
+  - 8
+  - 8
   skillCooldown:
   - 3
   - 10

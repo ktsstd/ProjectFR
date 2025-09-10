@@ -221,7 +221,23 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     public virtual void AttackSound() { }
     public virtual void AttackAnimation() { }
 
-    public virtual void OnMonsterKnockBack(Transform _transform) { } // 진짜 하기도싫고 생각하기도 귀찮다
+    public virtual void OnMonsterKnockBack(Transform _transform) 
+    {
+        agent.ResetPath();
+        agent.enabled = false;
+        currentState = States.Stun;
+        Vector3 knockbackDirection = (transform.position - _transform.position).normalized;
+        rigid.AddForce(knockbackDirection * 8f, ForceMode.Impulse);
+        agent.enabled = true;
+        Invoke("ResetState", 1f);
+    } 
+    public void ResetState()
+    {
+        if (currentState != States.Die)
+        {
+            currentState = States.Idle;
+        }
+    }
 
     [PunRPC]
     public void StunEffect()
@@ -246,7 +262,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(_time);
         rigid.velocity = Vector3.zero;
         currentState = States.Idle;
-        // 공격 정지
     }
 
     public virtual void OnMonsterSpeedDown(float _time, float _moveSpeed)

@@ -53,6 +53,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
+    void Update()
+    {
+        if (PhotonNetwork.IsMasterClient && Input.GetKeyDown(KeyCode.K))
+        {
+            PhotonNetwork.LoadLevel("Stage2");
+        }
+    }
+
     // 오른쪽 캐릭터 선택
     public void OnClickCharacterSelectRightButton()
     {

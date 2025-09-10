@@ -62,7 +62,10 @@ public class Attackboundary : MonoBehaviour
         thiscollider.enabled = false;
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         damagedTargets.Clear();
-        monsterAIScript.currentState = MonsterAI.States.Idle;
+        if (monsterAIScript.currentState != MonsterAI.States.Die)
+        {
+            monsterAIScript.currentState = MonsterAI.States.Idle;
+        }        
         monsterAIScript.attackTimer = monsterAIScript.attackCooldown;
     }
     private void OnTriggerEnter(Collider other)
