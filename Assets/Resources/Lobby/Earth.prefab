@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2111872380284894774}
   - component: {fileID: 3901446443497064548}
   - component: {fileID: 8429568668755996653}
-  - component: {fileID: 5550438762054694601}
   m_Layer: 0
   m_Name: Earth
   m_TagString: Untagged
@@ -67,26 +66,10 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3901446443497064548}
-  - {fileID: 5550438762054694601}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5550438762054694601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8411594210185482270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 0
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 1
-  m_UseLocal: 0
 --- !u!1001 &4787428620837089934
 PrefabInstance:
   m_ObjectHideFlags: 0

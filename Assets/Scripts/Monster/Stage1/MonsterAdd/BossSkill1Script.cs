@@ -61,7 +61,7 @@ public class BossSkill1Script : MonoBehaviour
         GameObject Skill1Obj = Instantiate(BossSkill1, transform.position,
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
         bossScript.skillTimer[0] = bossScript.skillCooldown[0];
-        bossScript.attackTimer = bossScript.attackCooldown;
+        bossScript.thinkTimer = bossScript.thinkTime;
         bossScript.currentState = Drog.States.Idle;
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         isFadeIn = false;

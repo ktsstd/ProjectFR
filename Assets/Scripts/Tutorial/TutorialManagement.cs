@@ -125,7 +125,7 @@ public class TutorialManagement : MonoBehaviourPunCallbacks
         else if (TutorialProcessCode == 10)
         {
             TutorialText.text = "Q는 기본 공격입니다.\n적에게 사용하여 처치해보세요!";
-            PhotonNetwork.Instantiate("Monster/Solborn", SecondPoint.transform.position, Quaternion.identity);
+            PhotonNetwork.Instantiate("Monster/Stage1/Solborn", SecondPoint.transform.position, Quaternion.identity);
             playerS.photonView.RPC("LookAtTarget", RpcTarget.All, SecondPoint.name, 3f);
         }
         else if (TutorialProcessCode == 11)
@@ -136,7 +136,7 @@ public class TutorialManagement : MonoBehaviourPunCallbacks
         else if (TutorialProcessCode == 12)
         {
             TutorialText.text = "W와 E는 스킬입니다.\n해골이 계속 나오는 무덤을 파괴해보세요!!";
-            PhotonNetwork.Instantiate("Monster/Grave", SecondPoint.transform.position, Quaternion.identity);
+            PhotonNetwork.Instantiate("Monster/Stage1/Grave", SecondPoint.transform.position, Quaternion.identity);
             playerS.photonView.RPC("LookAtTarget", RpcTarget.All, SecondPoint.name, 3f);
             // 적 소환
         }

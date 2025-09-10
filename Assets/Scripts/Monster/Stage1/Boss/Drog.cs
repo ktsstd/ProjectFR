@@ -33,6 +33,9 @@ public class Drog : MonsterAI
     public override void Awake()
     {
         base.Awake();
+        attackRange = 8f;
+        attackCooldown = 9999999f;
+        attackTimer = attackCooldown;
         PatternbreakupHealth = 3000f;
         BossPhase2Hp = 39000f;
         animator = GetComponentInChildren<Animator>();
@@ -75,24 +78,22 @@ public class Drog : MonsterAI
     }
     public override void SkillAttack(int skillIndex)
     {
-        currentState = States.Attack;
         if (PhotonNetwork.IsMasterClient)
         {
-            int randomskill = GetRandomSkill();
-            photonView.RPC("PunAttack", RpcTarget.All, randomskill);
+            photonView.RPC("PunAttack", RpcTarget.All, skillIndex);
         }
         else
         {
             Debug.Log("Not Master Client");
         }
     }
-    public override int GetRandomSkill()
+    public override int GetRandomSkill(float availSkillRange)
     {
         List<int> availableSkills = new List<int>();
 
         for (int i = 0; i < skillTimer.Length; i++)
         {
-            if (skillTimer[i] <= 0f)
+            if (skillTimer[i] <= 0f && skillRange[i] == availSkillRange)
             {
                 if (i == 2 || i == 3)
                 {
@@ -115,7 +116,8 @@ public class Drog : MonsterAI
         }
         else
         {
-            attackTimer = attackCooldown;
+            thinkTimer = thinkTime;
+            currentState = States.Idle;
         }
         return -1;
     }
@@ -239,14 +241,14 @@ public class Drog : MonsterAI
             CurHp -= damage;
             if (CurHp <= 0 && currentState != States.Die)
             {
-                if (BossPhase < 2)
+                if (BossPhase < 2 && currentState == States.Idle)
                 {
                     photonView.RPC("PunAttack", RpcTarget.All, 2);
                     CurHp = BossPhase2Hp;
                     damage = 100f;
                     BossPhase = 2;
                 }
-                else
+                else if (BossPhase >= 2 && currentState != States.Die)
                 {
                     animator.SetTrigger("Die"); 
                     PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();

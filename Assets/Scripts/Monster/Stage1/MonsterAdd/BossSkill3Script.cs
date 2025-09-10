@@ -62,7 +62,7 @@ public class BossSkill3Script : MonoBehaviour
         if (bossScript.swallowedTarget.Count == 0)
         {            
             bossScript.animator.SetTrigger("Skill3Over");
-            bossScript.attackTimer = bossScript.attackCooldown;
+            bossScript.thinkTimer = bossScript.thinkTime;
             bossScript.skillTimer[2] = bossScript.skillCooldown[2];
             bossScript.currentState = Drog.States.Idle;
             gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);

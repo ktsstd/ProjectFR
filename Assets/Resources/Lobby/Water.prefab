@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 471274438850629727}
   - component: {fileID: 5831794399101992254}
   - component: {fileID: 381338864607447792}
-  - component: {fileID: 8636577353560394875}
+  - component: {fileID: -30271882580309659}
   m_Layer: 0
   m_Name: Water
   m_TagString: Player
@@ -605,12 +605,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 8636577353560394875}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &8636577353560394875
+--- !u!114 &-30271882580309659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -619,42 +618,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 991246250229205733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Script: {fileID: 11500000, guid: b1ad1cbb7091d3f45b975979b523a7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 1
-    Name: isRun
-  - Type: 4
-    SynchronizeType: 1
-    Name: isDash
-  - Type: 9
-    SynchronizeType: 0
-    Name: skill1
-  - Type: 9
-    SynchronizeType: 0
-    Name: skill2
-  - Type: 9
-    SynchronizeType: 0
-    Name: skill3
-  - Type: 9
-    SynchronizeType: 0
-    Name: reset
-  - Type: 9
-    SynchronizeType: 0
-    Name: die
-  - Type: 9
-    SynchronizeType: 0
-    Name: W&L
-  - Type: 9
-    SynchronizeType: 0
-    Name: W&E
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!1 &1116386387376294850
 GameObject:
   m_ObjectHideFlags: 0

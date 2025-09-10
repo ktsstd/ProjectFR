@@ -93,7 +93,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
                     break;
                 case States.Stop:
                     break;
-                case States.Attack:
+                case States.Attack:                    
                     break;
                 case States.Die:
                     break;
@@ -137,21 +137,22 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         }
         for (int i = 0; i < skillRange.Length; i++)
         {
-            if (distance <= skillRange[i] && skillTimer[i] <= 0f && currentState != States.Attack && thinkTimer <= 0f)
+            if (distance <= skillRange[i] && skillTimer[i] <= 0f && currentState == States.Idle && thinkTimer <= 0f)
             {
                 agent.ResetPath();
                 agent.velocity = Vector3.zero;
                 animator.SetBool("Run", false);
+                agent.velocity = Vector3.zero;
                 currentState = States.Attack;
                 isMoving = false;
-                int randomSkill = GetRandomSkill();
+                int randomSkill = GetRandomSkill(skillRange[i]);
                 if (randomSkill != -1)
                 {
                     SkillAttack(randomSkill);
                 }
                 break;
             }
-            else
+            else if (distance > skillRange[i] && skillTimer[i] <= 0f && currentState == States.Idle && thinkTimer <= 0f)
             {
                 agent.SetDestination(target.position);
                 animator.SetBool("Run", true);
@@ -160,7 +161,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         if (distance <= attackRange && currentState != States.Attack)
         {
             agent.ResetPath();
-            agent.velocity = Vector3.zero;
             animator.SetBool("Run", false);
             if (attackTimer <= 0)
             {
@@ -169,7 +169,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
                 Attack();
             }
         }
-        else
+        else if (distance > attackRange && currentState != States.Attack)
         {
             agent.SetDestination(target.position);
             animator.SetBool("Run", true);
@@ -188,13 +188,13 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         currentState = States.Idle;
     }
 
-    public virtual int GetRandomSkill()
+    public virtual int GetRandomSkill(float availSkillRange)
     {
         List<int> availableSkills = new List<int>();
 
         for (int i = 0; i < skillTimer.Length; i++)
         {
-            if (skillTimer[i] <= 0f)
+            if (skillTimer[i] <= 0f && skillRange[i] == availSkillRange)
             {
                 availableSkills.Add(i);
             }
@@ -207,6 +207,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         else
         {
             thinkTimer = thinkTime;
+            currentState = States.Idle;
         }
         return -1;
     }
@@ -310,6 +311,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
 
         foreach (string targetTag in monsterInfo.priTarget)
         {
+
             GameObject[] possibleTargets = GameObject.FindGameObjectsWithTag(targetTag);
             if (possibleTargets == null || possibleTargets.Length == 0)
                 continue;

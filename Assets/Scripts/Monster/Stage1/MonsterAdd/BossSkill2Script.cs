@@ -65,7 +65,7 @@ public class BossSkill2Script : MonoBehaviour
         GameObject Skill1Obj = Instantiate(BossSkill2, transform.position, 
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
         bossScript.skillTimer[1] = bossScript.skillCooldown[1];
-        bossScript.attackTimer = bossScript.attackCooldown;
+        bossScript.thinkTimer = bossScript.thinkTime;
         Collider collider = bossScript.GetComponent<Drog>().GetComponent<Collider>();
         collider.enabled = true;
         bossScript.currentState = Drog.States.Idle;
