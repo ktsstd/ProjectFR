@@ -510,6 +510,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator PlayerStun(float _time)
     {
         currentStates = States.Stun;
+        animator.SetBool("isDash", false);
         yield return new WaitForSeconds(_time);
         pv.RPC("StunEffect", RpcTarget.All, false);
         if (currentStates != States.Die)
@@ -543,6 +544,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator PlayerSuppressed(float _time)
     {
         currentStates = States.Stun;
+        animator.SetBool("isDash", false);
         collider.isTrigger = true;
         rigidbody.useGravity = false;
         eatEffeck.SetActive(true);
@@ -569,7 +571,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (suppressedCoroutine != null)
         {
             StopCoroutine(suppressedCoroutine);
-
+            
             rigidbody.useGravity = true;
             collider.isTrigger = false;
             eatEffeck.SetActive(false);

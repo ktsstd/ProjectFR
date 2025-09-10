@@ -66,7 +66,7 @@ public class Fire : PlayerController
             }
             if (!skillRanges[0].activeSelf && !skillRanges[2].activeSelf)
             {
-                if (currentSkillsCoolTime[1] <= 0)
+                if (currentSkillsCoolTime[1] <= 0 && !isFlameSpray)
                 {
                     if (Input.GetKey(KeyCode.W))
                     {
@@ -87,7 +87,7 @@ public class Fire : PlayerController
             }
             if (!skillRanges[0].activeSelf && !skillRanges[1].activeSelf)
             {
-                if (currentSkillsCoolTime[2] <= 0)
+                if (currentSkillsCoolTime[2] <= 0 && !isFlameSpray)
                 {
                     if (Input.GetKey(KeyCode.E))
                     {
@@ -110,7 +110,7 @@ public class Fire : PlayerController
         }
     }
 
-    public void StopAnimation() // ¾Ö´Ï¸ÞÀÌ¼Ç Á¾·á½Ã ½ÇÇà½ÃÅ³ ÇÔ¼ö
+    public void StopAnimation() // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å³ ï¿½Ô¼ï¿½
     {
         currentStates = States.Idle;
     }
