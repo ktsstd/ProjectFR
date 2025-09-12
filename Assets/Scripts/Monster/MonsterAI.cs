@@ -54,15 +54,20 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         rigid = GetComponent<Rigidbody>();
 
         currentState = States.Idle;
-        if (PhotonNetwork.PlayerList.Length > 1)
+        if (PhotonNetwork.PlayerList.Length > 2)
         {
             CurHp = monsterInfo.health;
             damage = monsterInfo.damage;
         }
-        else
+        else if (PhotonNetwork.PlayerList.Length == 2)
         {
-            CurHp = monsterInfo.health / 2;
-            damage = monsterInfo.damage / 2;
+            CurHp = (monsterInfo.health * 0.6f);
+            damage = (monsterInfo.damage * 0.6f);
+        }
+        else if (PhotonNetwork.PlayerList.Length == 1)
+        {
+            CurHp = monsterInfo.health * 0.5f;
+            damage = monsterInfo.damage * 0.5f;
         }
         skillCooldown = new float[monsterInfo.skillCooldown.Length];
         skillTimer = new float[monsterInfo.skillCooldown.Length];
