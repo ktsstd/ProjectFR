@@ -52,6 +52,7 @@ public class Attackboundary : MonoBehaviour
     }
     public void EnterPlayer()
     {
+        HideBoundary();
         thiscollider.enabled = true;
         //monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
         //Effect.SetActive(true);
