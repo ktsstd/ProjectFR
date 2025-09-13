@@ -40106,6 +40106,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: e4b93920991602c4ba054893c85068e1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8164078558771037576, guid: e4b93920991602c4ba054893c85068e1, type: 3}
       propertyPath: m_Name
       value: Flame Spray Test
