@@ -168,6 +168,8 @@ MonoBehaviour:
   skillRange: []
   skillCooldown: []
   skillTimer: []
+  thinkTime: 3
+  thinkTimer: 0
   attackTimer: 0
   recognizedistance: 0
   monsterSlowCurTime: 0

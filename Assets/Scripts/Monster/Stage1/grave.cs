@@ -12,13 +12,37 @@ public class grave : MonsterAI
         StartCoroutine(StartSpawn());
         animator = GetComponent<Animator>();
     }
+    public override void Update()
+    {
+        //if (!PhotonNetwork.IsMasterClient) return;
+        switch (currentState)
+        {
+            case States.Idle:
+                break;
+            case States.Stop:
+                break;
+            case States.Attack:
+                break;
+            case States.Die:
+                break;
+            case States.Stun:
+                break;
+        }
+        Transform target = GameObject.FindWithTag("Object").transform;
+        Vector3 directionToTarget = target.position - transform.position;
+        if (directionToTarget != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2.5f);
+        }
+    }
     private IEnumerator StartSpawn()
     {
         yield return new WaitForSeconds(3.5f);
         while (CurHp > 0 && PhotonNetwork.IsMasterClient)
         {
             Vector3 randomPos = GetRandomPos();
-            PhotonNetwork.Instantiate("Monster/Solborn", randomPos, Quaternion.identity);
+            PhotonNetwork.Instantiate("Monster/Stage1/Solborn", randomPos, Quaternion.identity);
             photonView.RPC("PlaySound", RpcTarget.All);
             yield return new WaitForSeconds(6f);
         }
@@ -27,16 +51,6 @@ public class grave : MonsterAI
     public void PlaySound()
     {
         SoundManager.Instance.PlayMonsterSfx(5, transform.position);
-    }
-    public override void Update()
-    {
-        Transform target = GameObject.FindWithTag("Object").transform;
-        Vector3 directionToTarget = target.position - transform.position;
-        if (directionToTarget != Vector3.zero)
-        {
-            Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2.5f);
-        }
     }
     public override void OnMonsterSpeedDown(float _time, float _moveSpeed)
     {

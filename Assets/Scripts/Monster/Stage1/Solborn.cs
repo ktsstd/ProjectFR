@@ -24,4 +24,8 @@ public class Solborn : MonsterAI
         SolbornEffect.Play();
         SoundManager.Instance.PlayMonsterSfx(1, transform.position);
     }
+    public override void ShowAttackBoundary()
+    {
+        atkboundary.ShowBoundary();
+    }
 }

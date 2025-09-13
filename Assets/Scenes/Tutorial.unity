@@ -9852,7 +9852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TutorialText: {fileID: 1441310392}
-  LightningCharacter: {fileID: 6931300545983233113, guid: 5b258501a7427d645b3ac29a77d1f89a, type: 3}
+  LightningCharacter: {fileID: 2703713261860992481, guid: 5b258501a7427d645b3ac29a77d1f89a, type: 3}
   virtualCamera: {fileID: 515437896}
   herepoint: {fileID: 2011289017}
   FirstPoint: {fileID: 214137539}

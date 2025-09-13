@@ -379,18 +379,18 @@ public class MonsterAI : MonoBehaviourPunCallbacks
     [PunRPC]
     public virtual void OnMonsterHit(float damage)
     {
-        if (CurHp > 0 && currentState != States.Die)
+        CurHp -= damage;
+        if (CurHp <= 0 && currentState != States.Die)
         {
-            CurHp -= damage;
-            if (CurHp <= 0)
+            currentState = States.Die;
+            if (agent != null)
             {
-                currentState = States.Die;
                 agent.ResetPath();
-                // 공격 취소
-                animator.SetTrigger("Die");
-                Invoke("DestroyMonster", 1.5f);
             }
-        }
+            // 공격 취소
+            animator.SetTrigger("Die");
+            Invoke("DestroyMonster", 1.5f);
+        }   
     }
     public virtual void DestroyMonster()
     {
