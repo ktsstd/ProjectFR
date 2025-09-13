@@ -88362,7 +88362,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &3234262049972996290
 GameObject:
   m_ObjectHideFlags: 0
@@ -102062,7 +102062,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -3178576508544696699, guid: 3c610db9f5e89404988bf268fcf091fc, type: 3}
 --- !u!4 &5990816448472553378

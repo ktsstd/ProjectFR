@@ -1074,10 +1074,10 @@ MonoBehaviour:
     Name: isRun
   - Type: 9
     SynchronizeType: 0
-    Name: die
+    Name: AttackAni
   - Type: 9
     SynchronizeType: 0
-    Name: AttackAni
+    Name: Die
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
