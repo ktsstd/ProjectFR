@@ -15,7 +15,7 @@ MonoBehaviour:
   speed: 5
   damage: 80
   health: 500
-  attackRange: 1.5
+  attackRange: 2
   attackCooldown: 4
   skillRange:
   - 0

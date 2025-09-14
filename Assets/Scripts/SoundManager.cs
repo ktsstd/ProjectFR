@@ -117,7 +117,7 @@ public class SoundManager : MonoBehaviour
             case "Main":
                 Bgm.clip = BgmAudio[0];
                 break;
-            case "Test":
+            case "Stage1":
                 Bgm.clip = BgmAudio[1];
                 break;
             case "Boss":
