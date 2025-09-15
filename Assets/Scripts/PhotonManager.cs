@@ -178,15 +178,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             IsVisible = true     // 로비에서 룸 목록에 노출 여부
         };
         string roomName = "";
+        roomName = $"ROOM_{Random.Range(1, 101):000}";
         // 룸 이름을 랜덤으로 생성하여 룸 생성
-        if (string.IsNullOrEmpty(roomNameIF.text))
-        {
-            roomName = $"ROOM_{Random.Range(1, 101):000}";
-        }
-        else
-        {
-            roomName = roomNameIF.text;
-        }
+        //if (string.IsNullOrEmpty(roomNameIF.text))
+        //{
+        //    roomName = $"ROOM_{Random.Range(1, 101):000}";
+        //}
+        //else
+        //{
+        //    roomName = roomNameIF.text;
+        //}
         Debug.Log($"룸 이름: {roomName}");
         PhotonNetwork.CreateRoom(roomName, ro);
     }
