@@ -14,6 +14,7 @@ public class PlayerUi : MonoBehaviour
 
     public Image playerIcon;
     public Sprite[] playerIconSprite;
+    public Sprite[] otherPlayerIconSprite;
     public Image[] skillsIcon;
     public Sprite[] fireSkillIcon;
     public Sprite[] waterSkillIcon;
@@ -30,7 +31,7 @@ public class PlayerUi : MonoBehaviour
     public Sprite[] fusionSkillGlassSprite;
     public Slider FusionHoldSlider;
 
-    public GameObject[] otherPlayerUi;
+    public GameObject[] otherPlaerUi;
     public Slider[] otherPlayerHp;
     public Image[] otherPlayerIcon;
     List <GameObject> otherPlayerList = new List<GameObject>();
