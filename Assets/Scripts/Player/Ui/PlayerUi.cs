@@ -31,7 +31,7 @@ public class PlayerUi : MonoBehaviour
     public Sprite[] fusionSkillGlassSprite;
     public Slider FusionHoldSlider;
 
-    public GameObject[] otherPlaerUi;
+    public GameObject[] otherPlayerUi;
     public Slider[] otherPlayerHp;
     public Image[] otherPlayerIcon;
     List <GameObject> otherPlayerList = new List<GameObject>();
@@ -160,15 +160,16 @@ public class PlayerUi : MonoBehaviour
 
     public void elementalData(int _code_1, int _code_2)
     {
-        if(_code_1 == 10)
-            elementalCodeImage[0].sprite = elementalCodeSprite[4];
-        else
-            elementalCodeImage[0].sprite = elementalCodeSprite[_code_1];
 
-        if (_code_2 == 10)
-            elementalCodeImage[1].sprite = elementalCodeSprite[4];
-        else
-            elementalCodeImage[1].sprite = elementalCodeSprite[_code_2];
+        //if(_code_1 == 10)
+        //    elementalCodeImage[0].sprite = elementalCodeSprite[4];
+        //else
+        //    elementalCodeImage[0].sprite = elementalCodeSprite[_code_1];
+
+        //if (_code_2 == 10)
+        //    elementalCodeImage[1].sprite = elementalCodeSprite[4];
+        //else
+        //    elementalCodeImage[1].sprite = elementalCodeSprite[_code_2];
 
         if ((_code_1 == 3 && _code_2 == 1) || (_code_1 == 1 && _code_2 == 3))
         {
