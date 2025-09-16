@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class PlayerUi : MonoBehaviour
@@ -21,11 +22,10 @@ public class PlayerUi : MonoBehaviour
     public Sprite[] lightningSkillIcon;
     public Sprite[] earthSkillIcon;
 
-
-    public Image[] elementalCodeImage;
+    public Image[] playerElementalSet;
     public Sprite[] elementalCodeSprite;
+    public Sprite[] elementalCodeGraySprite;
     public Image fusionSkillIconImage;
-    public Image fusionSkillLockImage;
     public Image fusionSkillGlassImage;
     public Sprite[] fusionSkillIcon;
     public Sprite[] fusionSkillGlassSprite;
@@ -34,7 +34,7 @@ public class PlayerUi : MonoBehaviour
     public GameObject[] otherPlayerUi;
     public Slider[] otherPlayerHp;
     public Image[] otherPlayerIcon;
-    List <GameObject> otherPlayerList = new List<GameObject>();
+    List<GameObject> otherPlayerList = new List<GameObject>();
 
     float playerHp;
     float playerMaxHp;
@@ -45,6 +45,8 @@ public class PlayerUi : MonoBehaviour
     float[] currntskillCoolTime = new float[3];
 
     float[] MaxskillCoolTime = new float[3];
+
+    int myCode = 10;
 
     public float FusionHoldTime = 2;
 
@@ -62,6 +64,7 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[0].sprite = waterSkillIcon[0];
             skillsIcon[1].sprite = waterSkillIcon[1];
             skillsIcon[2].sprite = waterSkillIcon[2];
+            myCode = 0;
         }
         else if ((int)character == 1)
         {
@@ -70,6 +73,7 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[0].sprite = lightningSkillIcon[0];
             skillsIcon[1].sprite = lightningSkillIcon[1];
             skillsIcon[2].sprite = lightningSkillIcon[2];
+            myCode = 1;
         }
         else if ((int)character == 2)
         {
@@ -78,6 +82,7 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[0].sprite = earthSkillIcon[0];
             skillsIcon[1].sprite = earthSkillIcon[1];
             skillsIcon[2].sprite = earthSkillIcon[2];
+            myCode = 2;
         }
         else if ((int)character == 3)
         {
@@ -86,6 +91,7 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[0].sprite = fireSkillIcon[0];
             skillsIcon[1].sprite = fireSkillIcon[1];
             skillsIcon[2].sprite = fireSkillIcon[2];
+            myCode = 3;
         }
     }
 
@@ -96,7 +102,7 @@ public class PlayerUi : MonoBehaviour
 
         FusionHoldSlider.value = 1 - (FusionHoldTime / 2f);
 
-        for (int i = 0;i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             skillCoolTime[i].fillAmount = currntskillCoolTime[i] / MaxskillCoolTime[i];
         }
@@ -136,7 +142,7 @@ public class PlayerUi : MonoBehaviour
 
     public void InputFusionSkillData(float _time, float _maxTime)
     {
-        fusionSkillLockImage.fillAmount = _time / _maxTime;
+        playerElementalSet[3].fillAmount = 1 - (_time / _maxTime);
     }
 
     public void GlassImageCrack(bool _bool)
@@ -160,34 +166,41 @@ public class PlayerUi : MonoBehaviour
 
     public void elementalData(int _code_1, int _code_2)
     {
-
-        //if(_code_1 == 10)
-        //    elementalCodeImage[0].sprite = elementalCodeSprite[4];
-        //else
-        //    elementalCodeImage[0].sprite = elementalCodeSprite[_code_1];
-
-        //if (_code_2 == 10)
-        //    elementalCodeImage[1].sprite = elementalCodeSprite[4];
-        //else
-        //    elementalCodeImage[1].sprite = elementalCodeSprite[_code_2];
-
-        if ((_code_1 == 3 && _code_2 == 1) || (_code_1 == 1 && _code_2 == 3))
-        {
-            fusionSkillIconImage.sprite = fusionSkillIcon[0];
-        }
-        else if ((_code_1 == 0 && _code_2 == 1) || (_code_1 == 1 && _code_2 == 0))
-        {
-            fusionSkillIconImage.sprite = fusionSkillIcon[1];
-        }
-        else if ((_code_1 == 3 && _code_2 == 2) || (_code_1 == 2 && _code_2 == 3))
-        {
-            fusionSkillIconImage.sprite = fusionSkillIcon[2];
-        }
-        else if ((_code_1 == 0 && _code_2 == 2) || (_code_1 == 2 && _code_2 == 0))
-        {
-            fusionSkillIconImage.sprite = fusionSkillIcon[3];
-        }
+        if (_code_1 == myCode || _code_2 == myCode)
+            playerElementalSet[3].sprite = elementalCodeSprite[myCode];
         else
-            fusionSkillIconImage.sprite = elementalCodeSprite[4];
+            playerElementalSet[3].sprite = elementalCodeGraySprite[myCode];
+
+        for (int i = 0; i < otherPlayerList.Count; i++)
+        {
+            if (_code_1 == otherPlayerList[i].GetComponent<PlayerController>().elementalCode || _code_2 == otherPlayerList[i].GetComponent<PlayerController>().elementalCode)
+            {
+                playerElementalSet[i].sprite = elementalCodeSprite[otherPlayerList[i].GetComponent<PlayerController>().elementalCode];
+            }
+            else
+            {
+                playerElementalSet[i].sprite = elementalCodeGraySprite[otherPlayerList[i].GetComponent<PlayerController>().elementalCode];
+            }
+        }
+
+
+        //if ((_code_1 == 3 && _code_2 == 1) || (_code_1 == 1 && _code_2 == 3))
+        //{
+        //    fusionSkillIconImage.sprite = fusionSkillIcon[0];
+        //}
+        //else if ((_code_1 == 0 && _code_2 == 1) || (_code_1 == 1 && _code_2 == 0))
+        //{
+        //    fusionSkillIconImage.sprite = fusionSkillIcon[1];
+        //}
+        //else if ((_code_1 == 3 && _code_2 == 2) || (_code_1 == 2 && _code_2 == 3))
+        //{
+        //    fusionSkillIconImage.sprite = fusionSkillIcon[2];
+        //}
+        //else if ((_code_1 == 0 && _code_2 == 2) || (_code_1 == 2 && _code_2 == 0))
+        //{
+        //    fusionSkillIconImage.sprite = fusionSkillIcon[3];
+        //}
+        //else
+        //    fusionSkillIconImage.sprite = elementalCodeSprite[4];
     }
 }
