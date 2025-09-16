@@ -20,9 +20,9 @@ public class Water : PlayerController
         AllPlayers = FindObjectsOfType<PlayerController>();
     }
 
-    public override void OnCollisionEnter(Collision collision)
+    public override void OnTriggerEnter(Collider collision)
     {
-        base.OnCollisionEnter(collision);
+        base.OnTriggerEnter(collision);
         if (currentStates == States.Dash)
         {
             if (collision.gameObject.tag == "Player")

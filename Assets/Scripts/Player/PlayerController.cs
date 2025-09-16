@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 if (Vector3.Distance(transform.position, dashPos) < 0.1f)
                 {
                     animator.SetBool("isDash", false);
-                    // collider.isTrigger = false;
+                    collider.isTrigger = false;
                     currentStates = States.Idle;
                 }
             }
@@ -270,7 +270,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     currentDashCoolTime = dashCoolTime;
                     targetPos = transform.position;
                     isMoving = false;
-                    // collider.isTrigger = true;
+                    collider.isTrigger = true;
                     dashPos = GetSkillRange(5);
                     currentStates = States.Dash;
                     SoundManager.Instance.PlayPlayerSfx(7, transform.position);
@@ -422,6 +422,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public void OnPlayerDie()
     {
         playerRespawnZone.SetActive(true);
+        collider.enabled = false;
 
         PlayerDieEvent();
     }
@@ -477,6 +478,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public void PlayerRespawn()
     {
         SoundManager.Instance.PlayPlayerSfx(17, transform.position);
+        collider.enabled = true;
         respawnEF.Play();
         playerRespawnZone.SetActive(false);
         PlayTriggerAnimation("reset");
@@ -617,7 +619,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
-    public virtual void OnCollisionEnter(Collision collision)
+    public virtual void OnTriggerEnter(Collider collision)
     {
         if (currentStates == States.Die)
         {

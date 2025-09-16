@@ -27,9 +27,9 @@ public class Fire : PlayerController
         audioSource = GetComponent<AudioSource>();
     }
 
-    public override void OnCollisionEnter(Collision collision)
+    public override void OnTriggerEnter(Collider collision)
     {
-        base.OnCollisionEnter(collision);
+        base.OnTriggerEnter(collision);
         if (currentStates == States.Dash)
         {
             if (collision.gameObject.tag == "Enemy")
