@@ -169,7 +169,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             agent.ResetPath();
             animator.SetBool("Run", false);
-            if (attackTimer <= 0)
+            if (attackTimer <= 0 && currentState != States.Die)
             {
                 currentState = States.Attack;
                 isMoving = false;                
@@ -190,6 +190,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void SkillAttack(int skillIndex)
     {
+        if (currentState == States.Die) return;
         skillTimer[skillIndex] = skillCooldown[skillIndex];
         thinkTimer = thinkTime;
         currentState = States.Idle;
@@ -390,8 +391,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 agent.ResetPath();
                 agent.enabled = false;
             }
+            currentState = States.Die;
             // 공격 취소
             animator.SetTrigger("Die");
+            currentState = States.Die;
             Invoke("DestroyMonster", 1.5f);
         }   
     }
