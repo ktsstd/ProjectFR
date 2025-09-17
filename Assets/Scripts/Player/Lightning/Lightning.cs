@@ -149,6 +149,7 @@ public class Lightning : PlayerController
 
     public void AniReset()
     {
+        animator.ResetTrigger("skill2");
         animator.ResetTrigger("skill2_2");
         animator.ResetTrigger("skill3");
     }
