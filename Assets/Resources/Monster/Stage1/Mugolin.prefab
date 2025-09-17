@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 1581586115015890742}
   - component: {fileID: 4721847789063338420}
   - component: {fileID: -6193657084722641074}
+  - component: {fileID: -5342084614794722017}
   m_Layer: 8
   m_Name: Mugolin
   m_TagString: Enemy
@@ -518,7 +519,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 4
+  avoidancePriority: 1
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -546,7 +547,9 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 2519382254315546434}
+  - {fileID: -5342084614794722017}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -738,7 +741,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3742495228493169063}
   serializedVersion: 4
-  m_Mass: 0.5
+  m_Mass: 0.7
   m_Drag: 1
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -757,6 +760,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &-5342084614794722017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3742495228493169063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 0
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &3808697760785488207
 GameObject:
   m_ObjectHideFlags: 0

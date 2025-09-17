@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount != 5)
             {
-                WaveText.text = ("Wave " + WaveCount + "/5");
+                WaveText.text = ("Wave " + WaveCount + "/4");
             }
             else
             {
@@ -88,14 +88,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             }
 
             if (WaveCount == 1)
-                WaveAllMonster = 15;
+                WaveAllMonster = 10;
             else if (WaveCount == 2)
                 WaveAllMonster = 25;
             else if (WaveCount == 3)
-                WaveAllMonster = 33;
-            else if (WaveCount == 4)
-                WaveAllMonster = 46;
-            else if (WaveCount == 5 && !isSpawn)
+                WaveAllMonster = 24;
+            else if (WaveCount == 4 && !isSpawn)
             {
                 RenderSettings.skybox = SkyBoxMat;
                 DLight.color = new Color(1f, 0.3216f, 0f, 1f);
@@ -182,31 +180,53 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount == 1)
             {
-                StartCoroutine(InstantiateMonsters(Mugolin, 15));
+                StartCoroutine(InstantiateMonsters(Mugolin, 10));
             }
             else if (WaveCount == 2)
             {
-                StartCoroutine(InstantiateMonsters(Mugolin, 15));
-                StartCoroutine(InstantiateMonsters(Sleebam, 10));
+                StartCoroutine(InstantiateMonsters(Mugolin, 10));
+                StartCoroutine(InstantiateMonsters(Sleebam, 15));
             }
             else if (WaveCount == 3)
             {
-                StartCoroutine(InstantiateMonsters(Mugolin, 20));
+                StartCoroutine(InstantiateMonsters(Mugolin, 10));
                 StartCoroutine(InstantiateMonsters(Sleebam, 10));
-                StartCoroutine(InstantiateMonsters(Grave, 3));
+                StartCoroutine(InstantiateMonsters(Grave, 4));
             }
             else if (WaveCount == 4)
-            {
-                StartCoroutine(InstantiateMonsters(Mugolin, 25));
-                StartCoroutine(InstantiateMonsters(Sleebam, 15));
-                StartCoroutine(InstantiateMonsters(Grave, 6));
-            }
-            else if (WaveCount == 5)
             {
                 Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
                 PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
                 isSpawn = false;
             }
+
+            //if (WaveCount == 1)
+            //{
+            //    StartCoroutine(InstantiateMonsters(Mugolin, 15));
+            //}
+            //else if (WaveCount == 2)
+            //{
+            //    StartCoroutine(InstantiateMonsters(Mugolin, 15));
+            //    StartCoroutine(InstantiateMonsters(Sleebam, 10));
+            //}
+            //else if (WaveCount == 3)
+            //{
+            //    StartCoroutine(InstantiateMonsters(Mugolin, 20));
+            //    StartCoroutine(InstantiateMonsters(Sleebam, 10));
+            //    StartCoroutine(InstantiateMonsters(Grave, 3));
+            //}
+            //else if (WaveCount == 4)
+            //{
+            //    StartCoroutine(InstantiateMonsters(Mugolin, 25));
+            //    StartCoroutine(InstantiateMonsters(Sleebam, 15));
+            //    StartCoroutine(InstantiateMonsters(Grave, 6));
+            //}
+            //else if (WaveCount == 5)
+            //{
+            //    Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+            //    PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+            //    isSpawn = false;
+            //}
 
             else if (WaveCount == 8)
             {

@@ -112,14 +112,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         };
         string roomName = "";
         // 룸 이름을 랜덤으로 생성하여 룸 생성
-        if (string.IsNullOrEmpty(roomNameIF.text))
-        {
-            roomName = $"ROOM_{Random.Range(1, 101):000}";
-        }
-        else
-        {
-            roomName = roomNameIF.text;
-        }
+        roomName = $"ROOM_{Random.Range(1, 101):000}";
         PhotonNetwork.CreateRoom(roomName, ro);
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {

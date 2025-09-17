@@ -4,8 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
+using Photon.Realtime;
 
-public class MonsterAI : MonoBehaviourPunCallbacks
+public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 {
     public MonsterInfo monsterInfo;
     public Animator animator;
@@ -233,14 +235,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks
         currentState = States.Stun;
         Vector3 knockbackDirection = (transform.position - _transform.position).normalized;
         rigid.AddForce(knockbackDirection * 8f, ForceMode.Impulse);
-        agent.enabled = true;
-        Invoke("ResetState", 1f);
+        Invoke("ResetState", 0.6f);
     } 
     public void ResetState()
     {
         if (currentState != States.Die)
         {
-            currentState = States.Idle;
+            agent.enabled = true;
+            currentState = States.Idle;            
         }
     }
 
@@ -386,6 +388,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks
             if (agent != null)
             {
                 agent.ResetPath();
+                agent.enabled = false;
             }
             // 공격 취소
             animator.SetTrigger("Die");
