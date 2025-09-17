@@ -248,14 +248,19 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void StunEffect()
+    public void StunEffect(float _time)
     {
         StunningEffect.SetActive(true);
         animator.SetTrigger("Stun");
         isMoving = false;
+        Invoke("StopStunEffect", _time);
+    }
+    public void StopStunEffect()
+    {
+        StunningEffect.SetActive(false);
     }
     private Coroutine stunCoroutine;
-    public void OnMonsterStun(float _time)
+    public virtual void OnMonsterStun(float _time)
     {
         if (stunCoroutine != null)
             StopCoroutine(stunCoroutine);
@@ -266,10 +271,13 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual IEnumerator MonsterStun(float _time)
     {
-        photonView.RPC("StunEffect", RpcTarget.AllBuffered);
+        photonView.RPC("StunEffect", RpcTarget.AllBuffered, _time);
         yield return new WaitForSeconds(_time);
         rigid.velocity = Vector3.zero;
-        currentState = States.Idle;
+        if (currentState != States.Die)
+        {
+            currentState = States.Idle;
+        }        
     }
 
     public virtual void OnMonsterSpeedDown(float _time, float _moveSpeed)

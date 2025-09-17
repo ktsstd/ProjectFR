@@ -108,7 +108,7 @@ public class SoundManager : MonoBehaviour
         PlayBgm(scene.name);
     }
 
-    private void PlayBgm(string sceneName)
+    public void PlayBgm(string sceneName)
     {
         Bgm.Stop();
 

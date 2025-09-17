@@ -34,7 +34,7 @@ public class Drog : MonsterAI
     {
         base.Awake();
         attackRange = 8f;
-        attackCooldown = 9999999f;
+        attackCooldown = 9999999999f;
         attackTimer = attackCooldown;
         PatternbreakupHealth = 3000f;
         BossPhase2Hp = 39000f;
@@ -73,8 +73,7 @@ public class Drog : MonsterAI
 
     public override void Attack()
     {
-        currentState = States.Idle;
-        attackTimer = attackCooldown;
+
     }
     public override void SkillAttack(int skillIndex)
     {
@@ -158,7 +157,6 @@ public class Drog : MonsterAI
                 boss4Script.Starting();
                 break;
             default:
-                currentState = States.Idle;
                 yield break;
         }
     }
@@ -245,6 +243,7 @@ public class Drog : MonsterAI
             {
                 if (BossPhase < 2 && currentState == States.Idle)
                 {
+                    currentState = States.Attack;
                     photonView.RPC("PunAttack", RpcTarget.All, 2);
                     CurHp = BossPhase2Hp;
                     damage = 100f;
@@ -252,6 +251,7 @@ public class Drog : MonsterAI
                 }
                 else if (BossPhase >= 2 && currentState == States.Idle)
                 {
+                    currentState = States.Die;
                     animator.SetTrigger("Die"); 
                     PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
                     playerS.photonView.RPC("LookAtTarget", RpcTarget.All, gameObject.name, 55555f);
@@ -278,4 +278,6 @@ public class Drog : MonsterAI
     {
         GameManager.Instance.GoToMain();
     }
+    public override void OnMonsterKnockBack(Transform _transform) { }
+    public override void OnMonsterStun(float _time) { }
 }

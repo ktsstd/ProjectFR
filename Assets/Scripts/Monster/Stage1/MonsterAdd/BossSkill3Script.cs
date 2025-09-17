@@ -53,12 +53,6 @@ public class BossSkill3Script : MonoBehaviour
             bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
             gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         }
-        else if (other.CompareTag("Summon"))
-        {
-            bossScript.photonView.RPC("AddSwallowedTarget", RpcTarget.All, other.gameObject.name);
-            bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
-            gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
-        }
     }
 
     void DestroyBoundary()

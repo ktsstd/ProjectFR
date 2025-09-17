@@ -57,15 +57,11 @@ public class BossSkill2Script : MonoBehaviour
             else if (other.CompareTag("Summon"))
             {
                 SummonAI summonS = other.GetComponent<SummonAI>();
-                Vector3 PlayerObj = other.transform.position;
-                PlayerObj.y += 1f;
                 Vector3 currentEulerAngles = transform.eulerAngles;
                 if (!isdamaged)
                 {
                     isdamaged = true;
                     summonS.photonView.RPC("OnSummonHit", RpcTarget.All, damage);
-                    PlayerObj = new Vector3(PlayerObj.x + 0.00001f, PlayerObj.y - 1f, PlayerObj.z);
-                    other.transform.position = PlayerObj;
                 }
             }
         }
