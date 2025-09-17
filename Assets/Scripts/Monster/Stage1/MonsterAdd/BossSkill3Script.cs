@@ -53,13 +53,19 @@ public class BossSkill3Script : MonoBehaviour
             bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
             gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         }
+        else if (other.CompareTag("Summon"))
+        {
+            bossScript.photonView.RPC("AddSwallowedTarget", RpcTarget.All, other.gameObject.name);
+            bossScript.photonView.RPC("Skill3Success", RpcTarget.All);
+            gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+        }
     }
 
     void DestroyBoundary()
     {
         thiscollider.enabled = false;
         gameObject.SetActive(false);
-        if (bossScript.swallowedTarget.Count == 0)
+        if (bossScript.swallowedTarget.Count == 0 && bossScript.currentState != Drog.States.Die)
         {            
             bossScript.animator.SetTrigger("Skill3Over");
             bossScript.thinkTimer = bossScript.thinkTime;

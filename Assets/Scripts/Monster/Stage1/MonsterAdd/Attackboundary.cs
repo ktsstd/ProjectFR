@@ -66,7 +66,7 @@ public class Attackboundary : MonoBehaviour
         if (monsterAIScript.currentState != MonsterAI.States.Die)
         {
             monsterAIScript.currentState = MonsterAI.States.Idle;
-        }        
+        } 
         monsterAIScript.attackTimer = monsterAIScript.attackCooldown;
     }
     private void OnTriggerEnter(Collider other)

@@ -41,16 +41,31 @@ public class BossSkill1Script : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (isFadeIn && other.CompareTag("Player"))
+        if (isFadeIn)
         {
-            PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
-            Vector3 PlayerObj = other.transform.position;
-            PlayerObj.y += 1f;
-            Vector3 currentEulerAngles = transform.eulerAngles;
-            if (!isdamaged)
+            if (other.CompareTag("Player"))
             {
-                isdamaged = true;
-                playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
+                PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
+                Vector3 PlayerObj = other.transform.position;
+                PlayerObj.y += 1f;
+                Vector3 currentEulerAngles = transform.eulerAngles;
+                if (!isdamaged)
+                {
+                    isdamaged = true;
+                    playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
+                }
+            }
+            else if (other.CompareTag("Summon"))
+            {
+                SummonAI summonS = other.GetComponent<SummonAI>();
+                Vector3 PlayerObj = other.transform.position;
+                PlayerObj.y += 1f;
+                Vector3 currentEulerAngles = transform.eulerAngles;
+                if (!isdamaged)
+                {
+                    isdamaged = true;
+                    summonS.photonView.RPC("OnSummonHit", RpcTarget.All, damage);
+                }                
             }
         }
     }
@@ -60,9 +75,12 @@ public class BossSkill1Script : MonoBehaviour
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = Instantiate(BossSkill1, transform.position,
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-        bossScript.skillTimer[0] = bossScript.skillCooldown[0];
-        bossScript.thinkTimer = bossScript.thinkTime;
-        bossScript.currentState = Drog.States.Idle;
+        if (bossScript.currentState != Drog.States.Die)
+        {
+            bossScript.skillTimer[0] = bossScript.skillCooldown[0];
+            bossScript.thinkTimer = bossScript.thinkTime;
+            bossScript.currentState = Drog.States.Idle;
+        }
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
         isFadeIn = false;
     }

@@ -189,10 +189,6 @@ public class Drog : MonsterAI
     IEnumerator Skill3PatternStart()
     {
         yield return new WaitForSeconds(15f);
-        if (swallowedTarget == null)
-        {
-            yield break;
-        }
         foreach (GameObject playerObj in swallowedTarget)
         {
             PlayerController playerS = playerObj.GetComponent<PlayerController>();
@@ -204,9 +200,12 @@ public class Drog : MonsterAI
         animator.SetTrigger("Skill3__1");
         yield return new WaitForSeconds(2f);
         target = null;
-        currentState = States.Idle;
-        skillTimer[2] = skillCooldown[2];
-        attackTimer = attackCooldown;
+        if (currentState != States.Die)
+        {
+            currentState = States.Idle;
+            skillTimer[2] = skillCooldown[2];
+            attackTimer = attackCooldown;
+        }            
     }
     [PunRPC]
     public void Spititout()
@@ -229,9 +228,12 @@ public class Drog : MonsterAI
         BossSkill32P.Play();
         BossSkill3_2Obj.SetActive(true);
         yield return new WaitForSeconds(2f);
-        currentState = States.Idle;
-        skillTimer[2] = skillCooldown[2];
-        attackTimer = attackCooldown;
+        if (currentState != States.Die)
+        {
+            currentState = States.Idle;
+            skillTimer[2] = skillCooldown[2];
+            attackTimer = attackCooldown;
+        }            
     }
     [PunRPC]
     public override void OnMonsterHit(float damage)
@@ -248,7 +250,7 @@ public class Drog : MonsterAI
                     damage = 100f;
                     BossPhase = 2;
                 }
-                else if (BossPhase >= 2 && currentState != States.Die)
+                else if (BossPhase >= 2 && currentState == States.Idle)
                 {
                     animator.SetTrigger("Die"); 
                     PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();

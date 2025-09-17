@@ -38,22 +38,35 @@ public class BossSkill2Script : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (isFadeIn && other.CompareTag("Player"))
+        if (isFadeIn)
         {
-            PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
-            Vector3 PlayerObj = other.transform.position;
-            PlayerObj.y += 1f;
-            Vector3 currentEulerAngles = transform.eulerAngles;
-            if (!isdamaged)
+            if (other.CompareTag("Player"))
             {
-                isdamaged = true;
-                //GameObject HitEffect
-                //= Instantiate(BossHit, PlayerObj,
-                //Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-                //HitEffect.transform.SetParent(other.transform);
-                playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
-                PlayerObj = new Vector3(PlayerObj.x + 0.00001f, PlayerObj.y - 1f, PlayerObj.z);
-                other.transform.position = PlayerObj;
+                PlayerController playerS = other.gameObject.GetComponent<PlayerController>();
+                Vector3 PlayerObj = other.transform.position;
+                PlayerObj.y += 1f;
+                Vector3 currentEulerAngles = transform.eulerAngles;
+                if (!isdamaged)
+                {
+                    isdamaged = true;
+                    playerS.pv.RPC("OnPlayerHit", RpcTarget.All, damage);
+                    PlayerObj = new Vector3(PlayerObj.x + 0.00001f, PlayerObj.y - 1f, PlayerObj.z);
+                    other.transform.position = PlayerObj;
+                }
+            }
+            else if (other.CompareTag("Summon"))
+            {
+                SummonAI summonS = other.GetComponent<SummonAI>();
+                Vector3 PlayerObj = other.transform.position;
+                PlayerObj.y += 1f;
+                Vector3 currentEulerAngles = transform.eulerAngles;
+                if (!isdamaged)
+                {
+                    isdamaged = true;
+                    summonS.photonView.RPC("OnSummonHit", RpcTarget.All, damage);
+                    PlayerObj = new Vector3(PlayerObj.x + 0.00001f, PlayerObj.y - 1f, PlayerObj.z);
+                    other.transform.position = PlayerObj;
+                }
             }
         }
     }
@@ -64,11 +77,14 @@ public class BossSkill2Script : MonoBehaviour
         Vector3 currentEulerAngles = transform.eulerAngles;
         GameObject Skill1Obj = Instantiate(BossSkill2, transform.position, 
             Quaternion.Euler(-90, currentEulerAngles.y, currentEulerAngles.z));
-        bossScript.skillTimer[1] = bossScript.skillCooldown[1];
-        bossScript.thinkTimer = bossScript.thinkTime;
+        if (bossScript.currentState != Drog.States.Die)
+        {
+            bossScript.skillTimer[1] = bossScript.skillCooldown[1];
+            bossScript.thinkTimer = bossScript.thinkTime;
+            bossScript.currentState = Drog.States.Idle;
+        }            
         Collider collider = bossScript.GetComponent<Drog>().GetComponent<Collider>();
         collider.enabled = true;
-        bossScript.currentState = Drog.States.Idle;
         DestroyImmediate(gameObject);
     }
 }

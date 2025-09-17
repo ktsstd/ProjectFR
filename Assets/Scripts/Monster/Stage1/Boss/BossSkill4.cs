@@ -10,9 +10,12 @@ public class BossSkill4 : MonoBehaviour
     {
         Drog bossScript = GameObject.FindWithTag("Enemy").GetComponent<Drog>();
         yield return new WaitForSeconds(GetComponent<ParticleSystem>().main.duration);
-        bossScript.skillTimer[3] = bossScript.skillCooldown[3];
-        bossScript.thinkTimer = bossScript.thinkTime;
-        bossScript.currentState = Drog.States.Idle;
+        if (bossScript.currentState != Drog.States.Die)
+        {
+            bossScript.skillTimer[3] = bossScript.skillCooldown[3];
+            bossScript.thinkTimer = bossScript.thinkTime;
+            bossScript.currentState = Drog.States.Idle;
+        }        
         DestroyImmediate(gameObject);
     }
     private void OnTriggerStay(Collider other)
