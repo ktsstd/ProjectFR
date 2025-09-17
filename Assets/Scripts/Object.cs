@@ -48,10 +48,8 @@ public class Object : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ObjDmged(float damage)
     {
-        Debug.Log(health);
-        Debug.Log(damage);
         health -= damage;
-        Debug.Log("남은 체력:" + health);
+        // Debug.Log("남은 체력:" + health);
         if (health <= 0)
         {
             PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();

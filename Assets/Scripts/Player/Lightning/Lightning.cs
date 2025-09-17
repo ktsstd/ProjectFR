@@ -149,6 +149,12 @@ public class Lightning : PlayerController
 
     public void AniReset()
     {
+        pv.RPC("AniResetRPC", RpcTarget.All, null);
+    }
+
+    [PunRPC]
+    public void AniResetRPC()
+    {
         animator.ResetTrigger("skill2");
         animator.ResetTrigger("skill2_2");
         animator.ResetTrigger("skill3");
