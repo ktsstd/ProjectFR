@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] Object objectS;
 
     private int WaveAllMonster;
-    private int WaveCount = 0;
+    private int WaveCount = 3;
     public bool isSpawn = false;
 
     private static GameManager _instance;
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             WaveAllMonsterCountText.text = (GameObject.FindGameObjectsWithTag("Enemy").Length + "/" + WaveAllMonster);
 
-            if (WaveCount != 5)
+            if (WaveCount != 4)
             {
                 WaveText.text = ("Wave " + WaveCount + "/4");
             }

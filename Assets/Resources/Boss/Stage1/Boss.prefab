@@ -200,6 +200,8 @@ MonoBehaviour:
   skillRange: []
   skillCooldown: []
   skillTimer: []
+  thinkTime: 3
+  thinkTimer: 0
   attackTimer: 0
   recognizedistance: 0
   monsterSlowCurTime: 0
@@ -207,16 +209,6 @@ MonoBehaviour:
   targetSearchTimer: 0
   currentState: 0
   BossPhase2Hp: 0
-  BossMonsterSkillCooldowns:
-  - 3
-  - 10
-  - 10
-  - 10
-  BossMonsterSkillTimers:
-  - 0
-  - 0
-  - 0
-  - 0
   BossPhase: 1
   BossSkill1Obj: {fileID: 2416531081989343260}
   BossJumpSkill: {fileID: 3215405436011285547, guid: 8329b77b5195d34428ae7e41ac16277a, type: 3}

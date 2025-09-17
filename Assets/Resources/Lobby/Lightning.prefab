@@ -5452,7 +5452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9168437062992631781
 Transform:
   m_ObjectHideFlags: 0
@@ -37230,7 +37230,6 @@ GameObject:
   - component: {fileID: 8903153439411087742}
   - component: {fileID: 3534356759291322320}
   - component: {fileID: 3846956927386522247}
-  - component: {fileID: 6248196020066724340}
   - component: {fileID: 5648479270366345638}
   m_Layer: 0
   m_Name: Lightning
@@ -37249,7 +37248,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4647731, y: 0.4647731, z: 0.4647731}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2462644680980546911}
@@ -37311,58 +37310,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 6248196020066724340}
+  - {fileID: 5648479270366345638}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6248196020066724340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6931300545983233113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 1
-    Name: isRun
-  - Type: 4
-    SynchronizeType: 1
-    Name: isDash
-  - Type: 9
-    SynchronizeType: 0
-    Name: skill1
-  - Type: 9
-    SynchronizeType: 0
-    Name: skill2
-  - Type: 9
-    SynchronizeType: 0
-    Name: reset
-  - Type: 9
-    SynchronizeType: 0
-    Name: die
-  - Type: 9
-    SynchronizeType: 0
-    Name: skill3
-  - Type: 9
-    SynchronizeType: 0
-    Name: skill2_2
-  - Type: 9
-    SynchronizeType: 0
-    Name: L&F
-  - Type: 9
-    SynchronizeType: 0
-    Name: L&W
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!114 &5648479270366345638
 MonoBehaviour:
   m_ObjectHideFlags: 0
