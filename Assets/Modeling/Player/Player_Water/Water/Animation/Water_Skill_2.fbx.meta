@@ -42,7 +42,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -55,14 +55,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.50143266
+      - time: 0.32718393
         functionName: UseHealingBubble
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 9db12644cc4ef5748ac1049f01726496, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6762178
+      - time: 0.99782974
         functionName: StopAnimation
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 9db12644cc4ef5748ac1049f01726496, type: 3}
