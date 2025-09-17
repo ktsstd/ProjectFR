@@ -128,6 +128,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (currentStates == States.Die)
             respawnImgae.rectTransform.sizeDelta = new Vector2((1 - (respawnCoolTime / 6)) * 8.5f,(1 - (respawnCoolTime / 6)) * 8.5f);
 
+        if (playerHp <= 0 && currentStates != States.Die)
+        {
+            pv.RPC("DieRPC", RpcTarget.All, null);
+        }
+
+
         if (pv.IsMine)
         {
             RunAnimation();
@@ -183,6 +189,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             transform.position = Vector3.Lerp(transform.position, receivePos, Time.deltaTime * 10);
             transform.rotation = Quaternion.Slerp(transform.rotation, receiveRot, Time.deltaTime * 20);
         }
+    }
+
+    [PunRPC]
+    public void DieRPC()
+    {
+        playerHp = 0;
+        currentStates = States.Die;
+        pv.RPC("OnPlayerDie", RpcTarget.All, null);
+        pv.RPC("PlayTriggerAnimation", RpcTarget.All, "die");
+        GameManager.Instance.CheckPlayer();
+        OffSkills();
     }
 
     public virtual void RunAnimation()
