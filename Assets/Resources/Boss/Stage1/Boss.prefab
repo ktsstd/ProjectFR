@@ -77,6 +77,7 @@ GameObject:
   - component: {fileID: 5491785265307730161}
   - component: {fileID: 8470968613476126629}
   - component: {fileID: 6636595997948075103}
+  - component: {fileID: 6331480103771378226}
   m_Layer: 8
   m_Name: Boss
   m_TagString: Enemy
@@ -146,7 +147,9 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 6636595997948075103}
+  - {fileID: 6331480103771378226}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -221,6 +224,22 @@ MonoBehaviour:
   boss3Script: {fileID: 1444780405271257253}
   boss4Script: {fileID: 5469368627987951778}
   MouthPos: {fileID: 427829212039037414}
+--- !u!114 &6331480103771378226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351581466780516390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &540249864275362763
 GameObject:
   m_ObjectHideFlags: 0
