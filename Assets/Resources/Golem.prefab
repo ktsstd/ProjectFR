@@ -933,7 +933,7 @@ Transform:
   m_GameObject: {fileID: 3157298670919265270}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1331,6 +1331,7 @@ GameObject:
   - component: {fileID: 4229253391383392992}
   - component: {fileID: 5832827105329565856}
   - component: {fileID: 8173274901509742599}
+  - component: {fileID: 9092835806151951462}
   m_Layer: 0
   m_Name: Golem
   m_TagString: Summon
@@ -1471,6 +1472,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 5832827105329565856}
+  - {fileID: 9092835806151951462}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1516,7 +1518,7 @@ MonoBehaviour:
   currentHp: 0
   maxHp: 0
   atk: 130
-  attackRange: 2
+  attackRange: 4
   speed: 2
   summonTime: 25
   animator: {fileID: 0}
@@ -1525,6 +1527,22 @@ MonoBehaviour:
   attackEF: {fileID: 5494163618266672174, guid: c9bac5fa159d65349b3e97d6b499aa10, type: 3}
   summonEF: {fileID: 8840957093601076963, guid: b4ec71828725f4245a6785d78d15b0c2, type: 3}
   earthShieldEF: {fileID: 6260274676320647118}
+--- !u!114 &9092835806151951462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3917443208820035527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &4190038332561803892
 GameObject:
   m_ObjectHideFlags: 0
