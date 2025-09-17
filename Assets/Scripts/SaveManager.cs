@@ -26,6 +26,7 @@ public class SaveManager : MonoBehaviour
             SoundManager.Instance.BgmVolume = PlayerPrefs.GetFloat("BgmVolume");
             BgmSlider.value = SoundManager.Instance.BgmVolume;
             BgmText.text = "" + Mathf.Floor(SoundManager.Instance.BgmVolume * 100);
+            SoundManager.Instance.Bgm.volume = SoundManager.Instance.BgmVolume; // ¸ô¶ó
         }
         else
         {

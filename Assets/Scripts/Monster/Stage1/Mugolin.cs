@@ -59,8 +59,11 @@ public class Mugolin : MonsterAI
         Object ObjectS = ObjectObj.GetComponent<Object>();
         SoundManager.Instance.PlayMonsterSfx(0, transform.position); // Edit
         ObjectS.Damaged(damage);
-        attackTimer = attackCooldown;
-        currentState = States.Idle;
+        if (currentState != States.Die)
+        {
+            attackTimer = attackCooldown;
+            currentState = States.Idle;
+        }        
     }
 
     private IEnumerator StartMove() // todo -> speedup, rolling animationStart, speedup -> damageup

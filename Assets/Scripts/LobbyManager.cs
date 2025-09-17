@@ -266,6 +266,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void OnClickLeaveRoom()
     {
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        {
+            { "isReady", null },
+            { "selectedCharacter", -1 }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+
         PhotonNetwork.LeaveRoom();
     }
     public override void OnLeftRoom()
