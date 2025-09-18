@@ -54,7 +54,9 @@ public class Drog : MonsterAI
             {
                 if (obj != null)
                 {
-                    obj.transform.position = gameObject.transform.position;
+                    Vector3 pos = gameObject.transform.position;
+                    pos.y = obj.transform.position.y;
+                    obj.transform.position = pos;
                 }
             }
         }        

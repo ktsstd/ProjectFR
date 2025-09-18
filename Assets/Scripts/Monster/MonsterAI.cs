@@ -33,7 +33,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public float attackTimer; // 공속 타이머
     public float recognizedistance; // 인지 범위
     public float monsterSlowCurTime; // 구속 현재 시간
-    public float targetSearchTime = 2f; // 인지 재탐색 시간
+    public float targetSearchTime = 4f; // 인지 재탐색 시간
     public float targetSearchTimer; // 인지 타이머
 
     public List<(float slowtime, float slowmoveSpeed)> slowEffects = new List<(float, float)>();
@@ -91,28 +91,26 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         isMoving = false;
     }
     public virtual void Update()
-    {        
+    {
         //if (!PhotonNetwork.IsMasterClient) return;
-            switch (currentState)
-            {
-                case States.Idle:
-                    Move();
-                    break;
-                case States.Stop:
-                    break;
-                case States.Attack:                    
-                    break;
-                case States.Die:
-                    break;
-                case States.Stun:
-                    break;
-            }
-
-            if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("RecognizePlayer", RpcTarget.AllBuffered);
-                targetSearchTimer = targetSearchTime;
-            }
+        switch (currentState)
+        {
+            case States.Idle:
+                Move();
+                break;
+            case States.Stop:
+                break;
+            case States.Attack:
+                break;
+            case States.Die:
+                break;
+            case States.Stun:
+                break;
+        }
+        if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("RecognizePlayer", RpcTarget.AllBuffered);
+        }
         targetSearchTimer -= Time.deltaTime;
         attackTimer -= Time.deltaTime;
         thinkTimer -= Time.deltaTime;
@@ -139,7 +137,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             if (directionToTarget != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 9f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 6f);
             }
         }
         for (int i = 0; i < skillRange.Length; i++)
@@ -337,6 +335,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void RecognizePlayer()
     {
+        targetSearchTimer = targetSearchTime;
         float closestDistance = recognizedistance;
         Transform tempClosestTarget = null;
 
