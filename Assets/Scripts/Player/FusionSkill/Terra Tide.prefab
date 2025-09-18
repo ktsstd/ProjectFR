@@ -14695,7 +14695,6 @@ GameObject:
   - component: {fileID: 3168941459434357644}
   - component: {fileID: 3383060845969051455}
   - component: {fileID: 3511726439474529967}
-  - component: {fileID: 837940806834748805}
   - component: {fileID: -8227867306653401596}
   m_Layer: 0
   m_Name: Terra Tide
@@ -19537,19 +19536,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &837940806834748805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4360680377855529226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4960c320476ae224899830c5dfb5b649, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playableDirector: {fileID: 5072013035663616770}
 --- !u!114 &-8227867306653401596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19562,6 +19548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 781305a25a9c0f4468c4ab4e2f310917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playableDirector: {fileID: 5072013035663616770}
 --- !u!1 &6210174316951773215
 GameObject:
   m_ObjectHideFlags: 0
@@ -34294,15 +34281,13 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 107eedd5235b8f7458c6fdcafa41e0d6, type: 2}
-  m_InitialState: 1
+  m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 7505714093509514002, guid: 107eedd5235b8f7458c6fdcafa41e0d6, type: 2}
     value: {fileID: 423407421524952715}
-  - key: {fileID: -3353665593326974742, guid: 107eedd5235b8f7458c6fdcafa41e0d6, type: 2}
-    value: {fileID: 0}
   - key: {fileID: 8676830184107992352, guid: 107eedd5235b8f7458c6fdcafa41e0d6, type: 2}
     value: {fileID: 1378290846771385980}
   m_ExposedReferences:

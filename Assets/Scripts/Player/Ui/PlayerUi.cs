@@ -113,7 +113,7 @@ public class PlayerUi : MonoBehaviour
             {
                 otherPlayerHp[i].value = otherPlayerList[i].GetComponent<PlayerController>().playerHp / otherPlayerList[i].GetComponent<PlayerController>().playerMaxHp;
                 if (otherPlayerIcon[i].sprite == null)
-                    otherPlayerIcon[i].sprite = playerIconSprite[otherPlayerList[i].GetComponent<PlayerController>().elementalCode];
+                    otherPlayerIcon[i].sprite = otherPlayerIconSprite[otherPlayerList[i].GetComponent<PlayerController>().elementalCode];
             }
         }
     }
