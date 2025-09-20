@@ -19,7 +19,29 @@ public class BossSlider : MonoBehaviour
     {
         if (bossScript != null)
         {
-            if (PhotonNetwork.PlayerList.Length > 1)
+            if (PhotonNetwork.PlayerList.Length == 1)
+            {
+                if (bossScript.BossPhase < 2)
+                {
+                    bossslider.value = bossScript.CurHp / (bossScript.monsterInfo.health * 0.25f);
+                }
+                else
+                {
+                    bossslider.value = bossScript.CurHp / bossScript.BossPhase2Hp;
+                }
+            }
+            else if (PhotonNetwork.PlayerList.Length == 2)
+            {
+                if (bossScript.BossPhase < 2)
+                {
+                    bossslider.value = bossScript.CurHp / (bossScript.monsterInfo.health * 0.4f);
+                }
+                else
+                {
+                    bossslider.value = bossScript.CurHp / bossScript.BossPhase2Hp;
+                }
+            }
+            else if (PhotonNetwork.PlayerList.Length > 2)
             {
                 if (bossScript.BossPhase < 2)
                 {
@@ -30,18 +52,7 @@ public class BossSlider : MonoBehaviour
                     bossslider.value = bossScript.CurHp / bossScript.BossPhase2Hp;
                 }
             }
-            else
-            {
-                if (bossScript.BossPhase < 2)
-                {
-                    bossslider.value = bossScript.CurHp / (bossScript.monsterInfo.health / 2);
-                }
-                else
-                {
-                    bossslider.value = bossScript.CurHp / bossScript.BossPhase2Hp;
-                }
-            }
-            
+
         }
         else
         {

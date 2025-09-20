@@ -42,10 +42,14 @@ public class Drog : MonsterAI
         if (PhotonNetwork.PlayerList.Length == 1)
         {
             BossPhase2Hp *= 0.25f;
+            CurHp = monsterInfo.health * 0.25f;
+            damage = monsterInfo.damage * 0.25f;
         }
         else if (PhotonNetwork.PlayerList.Length == 2)
         {
             BossPhase2Hp *= 0.35f;
+            CurHp = (monsterInfo.health * 0.4f);
+            damage = (monsterInfo.damage * 0.4f);
         }
     }
 
@@ -258,7 +262,7 @@ public class Drog : MonsterAI
                 else if (BossPhase >= 2 && currentState == States.Idle)
                 {
                     currentState = States.Die;
-                    animator.SetTrigger("Die"); 
+                    animator.SetTrigger("Die");
                     PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
                     playerS.photonView.RPC("LookAtTarget", RpcTarget.All, gameObject.name, 55555f);
                     Invoke("GameEnd", 6f);
@@ -280,7 +284,7 @@ public class Drog : MonsterAI
         swallowedTarget.Clear();
     }
 
-    public virtual void GameEnd()
+    public void GameEnd()
     {
         GameManager.Instance.GoToMain();
     }

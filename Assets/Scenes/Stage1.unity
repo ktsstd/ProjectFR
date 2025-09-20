@@ -2461,6 +2461,7 @@ MonoBehaviour:
   DLight: {fileID: 1509758183}
   WaveText: {fileID: 1243498204}
   WaveAllMonsterCountText: {fileID: 133504658}
+  playerUi: {fileID: 2089755628}
   WaveBar: {fileID: 1904147170}
   BossHpBar: {fileID: 1467699645}
   objectS: {fileID: 1677099126}

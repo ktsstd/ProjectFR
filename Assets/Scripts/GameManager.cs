@@ -1,10 +1,12 @@
+using Cinemachine;
+using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Photon.Pun;
-using Cinemachine;
-using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private Light DLight;
     [SerializeField] private TextMeshProUGUI WaveText;
     [SerializeField] private TextMeshProUGUI WaveAllMonsterCountText;
+    [SerializeField] private PlayerUi playerUi;
     [SerializeField] GameObject WaveBar;
     [SerializeField] GameObject BossHpBar;
     [SerializeField] Object objectS;
@@ -114,6 +117,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public IEnumerator CheckPlayerC()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            CheckPlayer();
+        }
+    }
+
     public void CheckMonster()
     {
         if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn)
@@ -160,13 +172,24 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     HpHeal = playerS.playerInfo.hp * 0.15f;
                 }
-                else
+                else if (PhotonNetwork.PlayerList.Length >= 3)
                 {
                     HpHeal = playerS.playerInfo.hp * 0.1f;
                 }
                 playerS.playerHp += HpHeal;
+                if (playerS.playerHp > playerS.playerInfo.hp)
+                {
+                    playerS.playerHp = playerS.playerInfo.hp;
+                }
             }
         }
+        pv.RPC("AllHeal", RpcTarget.All);
+    }
+    [PunRPC]
+    public void AllHeal()
+    {
+        PlayerController playerS = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerUi.InputHpData(playerS.playerHp, playerS.playerInfo.hp);
     }
 
     public void GoToMain()
