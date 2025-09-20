@@ -39,9 +39,13 @@ public class Drog : MonsterAI
         PatternbreakupHealth = 3000f;
         BossPhase2Hp = 39000f;
         animator = GetComponentInChildren<Animator>();
-        if (PhotonNetwork.PlayerList.Length <= 1)
+        if (PhotonNetwork.PlayerList.Length == 1)
         {
-            BossPhase2Hp /= 2;
+            BossPhase2Hp *= 0.25f;
+        }
+        else if (PhotonNetwork.PlayerList.Length == 2)
+        {
+            BossPhase2Hp *= 0.35f;
         }
     }
 

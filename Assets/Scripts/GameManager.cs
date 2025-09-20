@@ -121,6 +121,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             StartCoroutine(WaveStart());
             isSpawn = true;
             WaveCount += 1;
+            HealPlayer();
         }
     }
 
@@ -140,6 +141,31 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (!AllPlayerAlive)
         {
             objectS.Damaged(9999999999999f);
+        }
+    }
+    float HpHeal;
+    public void HealPlayer()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            PlayerController playerS = player.GetComponent<PlayerController>();
+            if (playerS.playerHp > 0)
+            {
+                if (PhotonNetwork.PlayerList.Length == 1)
+                {
+                    HpHeal = playerS.playerInfo.hp * 0.3f;
+                }
+                else if (PhotonNetwork.PlayerList.Length == 2)
+                {
+                    HpHeal = playerS.playerInfo.hp * 0.15f;
+                }
+                else
+                {
+                    HpHeal = playerS.playerInfo.hp * 0.1f;
+                }
+                playerS.playerHp += HpHeal;
+            }
         }
     }
 
