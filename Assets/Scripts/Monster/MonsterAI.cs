@@ -109,7 +109,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
         if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("RecognizePlayer", RpcTarget.AllBuffered);
+            //photonView.RPC("RecognizePlayer", RpcTarget.AllBuffered);
+            RecognizePlayer();
         }
         targetSearchTimer -= Time.deltaTime;
         attackTimer -= Time.deltaTime;
@@ -332,7 +333,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    [PunRPC]
     public void RecognizePlayer()
     {
         targetSearchTimer = targetSearchTime;
