@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject BossHpBar;
     [SerializeField] Object objectS;
 
+    [SerializeField] CartMove cartS;
+
     private int WaveAllMonster;
     private int WaveCount = 0;
     public bool isSpawn = false;
@@ -69,9 +71,16 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);
 
-        StartCoroutine(WaveStart());
-        StartCoroutine(CheckMonsterC());
-        WaveCount += 1;
+        if (SceneManagerHelper.ActiveSceneName == "Stage1")
+        {
+            StartCoroutine(WaveStart());
+            StartCoroutine(CheckMonsterC());
+            WaveCount += 1;
+        }
+        else if (SceneManagerHelper.ActiveSceneName == "Stage2")
+        {
+            cartS.currentState = CartMove.States.Move; // 나중에 연출로 바꾸기
+        }
     }
 
     void Update()

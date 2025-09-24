@@ -134,6 +134,7 @@ MonoBehaviour:
   - AniResetRPC
   - DieRPC
   - AllHeal
+  - Settarget
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

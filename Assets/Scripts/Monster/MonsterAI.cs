@@ -333,6 +333,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    //[PunRPC]
     public void RecognizePlayer()
     {
         targetSearchTimer = targetSearchTime;
@@ -379,6 +380,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         target = tempClosestTarget;
+        photonView.RPC("Settarget", RpcTarget.AllBuffered, target.name);
+        //targetSearchTimer = targetSearchTime;
+
+    }
+    [PunRPC]
+    public void Settarget(string targetname)
+    {
+        target = GameObject.Find(targetname).transform;
     }
 
     public virtual void MonsterDmged(float damage)
