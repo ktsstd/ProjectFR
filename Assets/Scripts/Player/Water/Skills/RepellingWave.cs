@@ -7,8 +7,14 @@ public class RepellingWave : MonoBehaviour
     public Vector3 targetPos;
     public float damage;
 
+    public GameObject waterEF;
     public GameObject waterHitEF;
 
+
+    void Start()
+    {
+        Invoke("WaterEF", 0.8f);
+    }
 
     private void Update()
     {
@@ -18,6 +24,12 @@ public class RepellingWave : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void WaterEF()
+    {
+        Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 180));
+        Instantiate(waterEF, transform.position + Vector3.up * 0.05f, fireRot);
     }
 
     private void OnTriggerEnter(Collider other)

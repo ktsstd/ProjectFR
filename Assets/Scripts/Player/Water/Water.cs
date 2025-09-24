@@ -105,7 +105,7 @@ public class Water : PlayerController
         }
     }
 
-    public void StopAnimation() // ¾Ö´Ï¸ÞÀÌ¼Ç Á¾·á½Ã ½ÇÇà½ÃÅ³ ÇÔ¼ö
+    public void StopAnimation() // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å³ ï¿½Ô¼ï¿½
     {
         currentStates = States.Idle;
     }
@@ -116,7 +116,7 @@ public class Water : PlayerController
             pv.RPC("RepellingWave", RpcTarget.All, skillsPos[0]);
     }
 
-    public void UseHealingBubble() // ¾Ö´Ï¸ÞÀÌ¼Ç ÀÌº¥Æ®·Î ½ÇÇà½ÃÅ³ ÇÔ¼ö
+    public void UseHealingBubble() // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å³ ï¿½Ô¼ï¿½
     {
         if (pv.IsMine)
             pv.RPC("HealingBubble", RpcTarget.All, null);

@@ -4915,6 +4915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
   damage: 0
+  waterEF: {fileID: 7841107233517978772, guid: f2fe3e2266af1a142a0e75d943437aa4, type: 3}
   waterHitEF: {fileID: 2005856625639563914, guid: 1b2c11c075057b044a9be93f809a43d4, type: 3}
 --- !u!1 &2485333308036713755
 GameObject:
@@ -9845,7 +9846,7 @@ Transform:
   m_GameObject: {fileID: 2711537892906178768}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24760,7 +24761,7 @@ Transform:
   m_GameObject: {fileID: 5238664836602077132}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.04, y: 0.16, z: 0.06}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
