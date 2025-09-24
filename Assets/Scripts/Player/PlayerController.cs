@@ -612,7 +612,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 StopCoroutine(poisonCoroutine);
             }
         }
-        poisonEF.Play();
+        if (!poisonEF.isPlaying)
+            poisonEF.Play();
+
         poisontime[0] = Time.time;
         poisontime[1] = (float)_time;
         poisonCoroutine = StartCoroutine("PlayerPoison", _time);
