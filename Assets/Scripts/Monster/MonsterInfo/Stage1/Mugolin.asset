@@ -17,10 +17,12 @@ MonoBehaviour:
   health: 600
   attackRange: 2
   attackCooldown: 1.2
+  attackdDelay: 0.5
   skillRange:
   - 0
   skillCooldown:
   - 0
+  skillDelay: []
   priTarget:
   - Object
   isBoss: 0

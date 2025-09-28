@@ -25,9 +25,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public float damage; // 공격력
     public float attackRange; // 사거리
     public float attackCooldown; // 공속
+    public float attackDelay; // 공격 딜레이
     public float[] skillRange; // 스킬 사거리 
     public float[] skillCooldown; // 스킬 쿨타임
     public float[] skillTimer; // 스킬 타이머
+    public float[] skillDelay; // 스킬 딜레이
     public float thinkTime = 3f; // 스킬 선택 쿨타임
     public float thinkTimer; // 스킬 선택 타이머
     public float attackTimer; // 공속 타이머
@@ -79,11 +81,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             skillCooldown[i] = monsterInfo.skillCooldown[i];
             skillTimer[i] = skillCooldown[i];
             skillRange[i] = monsterInfo.skillRange[i];
+            skillDelay[i] = monsterInfo.skillDelay[i];
         }
         Array.Sort(skillRange);
         attackRange = monsterInfo.attackRange;
         attackCooldown = monsterInfo.attackCooldown;
         attackTimer = attackCooldown;
+        attackDelay = monsterInfo.attackdDelay;
+        thinkTimer = thinkTime;
         recognizedistance = monsterInfo.redistance;
         targetSearchTimer = targetSearchTime;
         agent.speed = monsterInfo.speed;
@@ -172,7 +177,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             {
                 currentState = States.Attack;
                 isMoving = false;                
-                Attack();
+                AttackStart();
             }
         }
         else if (distance > attackRange && currentState != States.Attack)
@@ -180,6 +185,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             agent.SetDestination(target.position);
             animator.SetBool("Run", true);
         }
+    }
+
+    public virtual void AttackStart()
+    {
+        Invoke("Attack", attackDelay);
     }
 
     public virtual void Attack() 

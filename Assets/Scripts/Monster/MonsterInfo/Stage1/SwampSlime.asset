@@ -17,10 +17,12 @@ MonoBehaviour:
   health: 500
   attackRange: 3
   attackCooldown: 2.5
+  attackdDelay: 0.25
   skillRange:
   - 0
   skillCooldown:
   - 0
+  skillDelay: []
   priTarget:
   - Player
   - Summon

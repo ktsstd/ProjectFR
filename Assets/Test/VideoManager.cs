@@ -48,6 +48,11 @@ public class VideoManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("룸에 입장했습니다.");
-        // 영상 재생 동기화 등 추가 로직
+        VideoStart();
+    }
+
+    public void VideoStart()
+    {
+
     }
 }

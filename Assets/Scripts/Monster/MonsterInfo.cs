@@ -11,8 +11,10 @@ public class MonsterInfo : ScriptableObject
 
     public float attackRange;
     public float attackCooldown;
+    public float attackdDelay;
     public float[] skillRange;
     public float[] skillCooldown;
+    public float[] skillDelay;
 
     public string[] priTarget;
 
