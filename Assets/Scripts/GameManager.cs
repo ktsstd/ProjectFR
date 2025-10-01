@@ -229,6 +229,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             //string Firemonster = "TEMPMONSTER/Spirit of Fire";
             string Sleebam = "Monster/Stage1/Sleebam";
             string Mugolin = "Monster/Stage1/Mugolin";
+            //string SwmapSlime = "Monster/Stage1/SwampSlime";
             string Grave = "Monster/Stage1/Grave";
             string Boss = "Boss/Stage1/Boss";
 

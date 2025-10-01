@@ -81,7 +81,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             skillCooldown[i] = monsterInfo.skillCooldown[i];
             skillTimer[i] = skillCooldown[i];
             skillRange[i] = monsterInfo.skillRange[i];
-            skillDelay[i] = monsterInfo.skillDelay[i];
+            //skillDelay[i] = monsterInfo.skillDelay[i];
         }
         Array.Sort(skillRange);
         attackRange = monsterInfo.attackRange;
