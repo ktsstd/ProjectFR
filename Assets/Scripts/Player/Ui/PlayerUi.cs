@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerUi : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerUi : MonoBehaviour
     public Image playerIcon;
     public Sprite[] playerIconSprite;
     public Sprite[] otherPlayerIconSprite;
+    public TextMeshProUGUI[] tooltipText;
     public Image[] skillsIcon;
     public Sprite[] fireSkillIcon;
     public Sprite[] waterSkillIcon;
@@ -42,8 +44,8 @@ public class PlayerUi : MonoBehaviour
     float playerDash;
     float playerMaxDash;
 
+    public TextMeshProUGUI[] skillCoolTimeText;
     float[] currntskillCoolTime = new float[3];
-
     float[] MaxskillCoolTime = new float[3];
 
     int myCode = 10;
@@ -65,6 +67,9 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[1].sprite = waterSkillIcon[1];
             skillsIcon[2].sprite = waterSkillIcon[2];
             myCode = 0;
+            tooltipText[0].text = TooltipTextSetting(myCode, 0);
+            tooltipText[1].text = TooltipTextSetting(myCode, 1);
+            tooltipText[2].text = TooltipTextSetting(myCode, 2);
         }
         else if ((int)character == 1)
         {
@@ -74,6 +79,9 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[1].sprite = lightningSkillIcon[1];
             skillsIcon[2].sprite = lightningSkillIcon[2];
             myCode = 1;
+            tooltipText[0].text = TooltipTextSetting(myCode, 0);
+            tooltipText[1].text = TooltipTextSetting(myCode, 1);
+            tooltipText[2].text = TooltipTextSetting(myCode, 2);
         }
         else if ((int)character == 2)
         {
@@ -83,6 +91,9 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[1].sprite = earthSkillIcon[1];
             skillsIcon[2].sprite = earthSkillIcon[2];
             myCode = 2;
+            tooltipText[0].text = TooltipTextSetting(myCode, 0);
+            tooltipText[1].text = TooltipTextSetting(myCode, 1);
+            tooltipText[2].text = TooltipTextSetting(myCode, 2);
         }
         else if ((int)character == 3)
         {
@@ -92,6 +103,9 @@ public class PlayerUi : MonoBehaviour
             skillsIcon[1].sprite = fireSkillIcon[1];
             skillsIcon[2].sprite = fireSkillIcon[2];
             myCode = 3;
+            tooltipText[0].text = TooltipTextSetting(myCode, 0);
+            tooltipText[1].text = TooltipTextSetting(myCode, 1);
+            tooltipText[2].text = TooltipTextSetting(myCode, 2);
         }
     }
 
@@ -105,6 +119,13 @@ public class PlayerUi : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             skillCoolTime[i].fillAmount = currntskillCoolTime[i] / MaxskillCoolTime[i];
+
+            skillCoolTimeText[i].text = ((int)(currntskillCoolTime[i])).ToString();
+
+            if (skillCoolTimeText[i].text == "0")
+                skillCoolTimeText[i].gameObject.SetActive(false);
+            else
+                skillCoolTimeText[i].gameObject.SetActive(true);
         }
 
         if (otherPlayerList.Count != 0)
@@ -182,25 +203,17 @@ public class PlayerUi : MonoBehaviour
                 playerElementalSet[i].sprite = elementalCodeGraySprite[otherPlayerList[i].GetComponent<PlayerController>().elementalCode];
             }
         }
+    }
 
+    public string TooltipTextSetting(int _code, int skillnum)
+    {
+        string[,] tooltipTexts = new string[4, 3] {
+        { "전방에 파도를 내보내 적중한 적의 이동 속도를 감소시키고 피해를 입힙니다", "주변 아군과 자신에게 보호막을 부여하고 지속시간 종료 시 보호막의 남은 잔량만큼 플레이어를 회복시킵니다", " 지정한 위치의 중심으로 적을 끌어당기며 피해를 입히는 강력한 소용돌이를 소환합니다" },
+        { "단검을 휘둘러 근처의 적에게 피해를 입힙니다", "전방으로 빠르게 돌진하며 지나간 자리에 있는 적에게 피해를 입힙니다", "플레이어가 잠시 무적 상태가 되어 범위 내의 적들을 연속으로 타격합니다" },
+        { "망치로 전방의 지면을 내리쳐 적에게 피해를 주고 밀쳐냅니다", "자신과 수호자에게 일정 시간 유지되는 보호막을 부여합니다", "지정한 위치에 수호자를 소환해 내리찍어 피해를 입히고 기절시킵니다. 이후 수호자는 가까운 적을 추격해 공격합니다." },
+        { "캐릭터의 전방에 불을 뿜어 공격합니다. \n 해당 스킬을 사용중일시 다른 스킬을 사용할수 없습니다", "지정한 위치에 수류탄을 던져 지속적으로 적에게 피해를 입힙니다.", "적을 추적하며 공격하는 강력한 화염 폭풍을 소환합니다 " } 
+        };
 
-        //if ((_code_1 == 3 && _code_2 == 1) || (_code_1 == 1 && _code_2 == 3))
-        //{
-        //    fusionSkillIconImage.sprite = fusionSkillIcon[0];
-        //}
-        //else if ((_code_1 == 0 && _code_2 == 1) || (_code_1 == 1 && _code_2 == 0))
-        //{
-        //    fusionSkillIconImage.sprite = fusionSkillIcon[1];
-        //}
-        //else if ((_code_1 == 3 && _code_2 == 2) || (_code_1 == 2 && _code_2 == 3))
-        //{
-        //    fusionSkillIconImage.sprite = fusionSkillIcon[2];
-        //}
-        //else if ((_code_1 == 0 && _code_2 == 2) || (_code_1 == 2 && _code_2 == 0))
-        //{
-        //    fusionSkillIconImage.sprite = fusionSkillIcon[3];
-        //}
-        //else
-        //    fusionSkillIconImage.sprite = elementalCodeSprite[4];
+        return tooltipTexts[_code, skillnum];
     }
 }
