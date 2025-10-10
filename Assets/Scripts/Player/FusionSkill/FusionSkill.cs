@@ -342,6 +342,7 @@ public class FusionSkill : MonoBehaviour
     [PunRPC]
     public IEnumerator UseEarthAndFire(Vector3 _skillPos)
     {
+        StartCoroutine("FusionSkillCutIn");
         foreach (GameObject player in playerList)
         {
             if (player.name == "Earth(Clone)" || player.name == "Fire(Clone)")
@@ -386,6 +387,7 @@ public class FusionSkill : MonoBehaviour
     [PunRPC]
     public IEnumerator UseWaterAndEarth()
     {
+        StartCoroutine("FusionSkillCutIn");
         foreach (GameObject player in playerList)
         {
             if (player.name == "Earth(Clone)" || player.name == "Water(Clone)")
