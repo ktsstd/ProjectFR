@@ -249,7 +249,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     } 
     public void ResetState()
     {
-        if (currentState != States.Die)
+        if (currentState != States.Die && CurHp > 0)
         {
             agent.enabled = true;
             currentState = States.Idle;            
