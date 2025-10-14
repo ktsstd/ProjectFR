@@ -165,7 +165,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             }
             else if (distance > skillRange[i] && skillTimer[i] <= 0f && currentState == States.Idle && thinkTimer <= 0f)
             {
-                agent.SetDestination(target.position);
+                agent.SetDestination(targetPos);
                 animator.SetBool("Run", true);
             }
         }
@@ -182,7 +182,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
         else if (distance > attackRange && currentState != States.Attack)
         {
-            agent.SetDestination(target.position);
+            agent.SetDestination(targetPos);
             animator.SetBool("Run", true);
         }
     }
@@ -408,8 +408,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public virtual void OnMonsterHit(float damage)
     {
-        CurHp -= damage;
-        if (CurHp <= 0 && currentState != States.Die)
+        if (CurHp > 0 && currentState != States.Die)
+        {
+            CurHp -= damage;
+        }        
+        else if (CurHp <= 0)
         {
             currentState = States.Die;
             if (agent != null)

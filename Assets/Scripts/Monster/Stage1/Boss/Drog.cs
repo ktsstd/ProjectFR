@@ -249,9 +249,9 @@ public class Drog : MonsterAI
         if (PatternHealth <= 0)
         {
             CurHp -= damage;
-            if (CurHp <= 0 && currentState != States.Die)
+            if (CurHp <= 0 && currentState == States.Idle)
             {
-                if (BossPhase < 2 && currentState == States.Idle)
+                if (BossPhase < 2)
                 {
                     currentState = States.Attack;
                     photonView.RPC("PunAttack", RpcTarget.All, 2);
@@ -259,7 +259,7 @@ public class Drog : MonsterAI
                     damage = 100f;
                     BossPhase = 2;
                 }
-                else if (BossPhase >= 2 && currentState == States.Idle)
+                else if (BossPhase >= 2)
                 {
                     currentState = States.Die;
                     animator.SetTrigger("Die");
