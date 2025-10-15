@@ -253,6 +253,7 @@ public class Drog : MonsterAI
             {
                 if (BossPhase < 2)
                 {
+                    agent.ResetPath();
                     currentState = States.Attack;
                     photonView.RPC("PunAttack", RpcTarget.All, 2);
                     CurHp = BossPhase2Hp;

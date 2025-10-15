@@ -240,10 +240,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             if (WaveCount == 1)
             {
                 StartCoroutine(InstantiateMonsters(Mugolin, 10));
-                StartCoroutine(InstantiateMonsters(Mugolin, 10));
-                StartCoroutine(InstantiateMonsters(Mugolin, 10));
-                StartCoroutine(InstantiateMonsters(Mugolin, 10));
-                StartCoroutine(InstantiateMonsters(Mugolin, 10));
             }
             else if (WaveCount == 2)
             {
