@@ -252,6 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c6352b2d26f7343a0b433b405e9495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  damageText: {fileID: 3229603941696183045}
 --- !u!111 &1490621290431600140
 Animation:
   m_ObjectHideFlags: 0
@@ -261,8 +263,9 @@ Animation:
   m_GameObject: {fileID: 603363470653231675}
   m_Enabled: 1
   serializedVersion: 4
-  m_Animation: {fileID: 0}
-  m_Animations: []
+  m_Animation: {fileID: 7400000, guid: b5aa89055320f1f46a3f11b1f8517681, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: b5aa89055320f1f46a3f11b1f8517681, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

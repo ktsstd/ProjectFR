@@ -38,6 +38,11 @@ public class RepellingWave : MonoBehaviour
         {
             MonsterAI monster = other.GetComponent<MonsterAI>();
             monster.MonsterDmged(120f + (damage * 0.25f));
+
+            GameObject damageText = PoolManager.Instance.text_Pools.Get();
+            damageText.transform.position = monster.transform.position;
+            damageText.GetComponent<DamageText>().damage = 120f + (damage * 0.25f);
+
             Instantiate(waterHitEF, other.transform);
             monster.OnMonsterSpeedDown(2f, 3f);
         }

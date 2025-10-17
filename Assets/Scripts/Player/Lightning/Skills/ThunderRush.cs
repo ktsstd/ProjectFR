@@ -17,6 +17,11 @@ public class ThunderRush : MonoBehaviour
         if (other.tag == "Enemy")
         {
             other.GetComponent<MonsterAI>().MonsterDmged(60f + (damage * 0.5f));
+
+            GameObject damageText = PoolManager.Instance.text_Pools.Get();
+            damageText.transform.position = other.transform.position;
+            damageText.GetComponent<DamageText>().damage = 60f + (damage * 0.5f);
+
             Instantiate(lightningHitEF, other.transform);
         }
     }

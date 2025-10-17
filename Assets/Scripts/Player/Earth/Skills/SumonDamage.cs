@@ -21,6 +21,11 @@ public class SumonDamage : MonoBehaviour
             {
                 MonsterAI monster = other.gameObject.GetComponent<MonsterAI>();
                 monster.MonsterDmged(150f + damage * 0.2f);
+
+                GameObject damageText = PoolManager.Instance.text_Pools.Get();
+                damageText.transform.position = monster.transform.position;
+                damageText.GetComponent<DamageText>().damage = 150f + damage * 0.2f;
+
                 monster.OnMonsterStun(1f);
             }
         }

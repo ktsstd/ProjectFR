@@ -37,6 +37,11 @@ public class FlameGrenadeTest : MonoBehaviour
 
                     MonsterAI monster = monsters.GetComponent<MonsterAI>();
                     monster.MonsterDmged(60f + (damage * 0.2f));
+
+                    GameObject damageText = PoolManager.Instance.text_Pools.Get();
+                    damageText.transform.position = monster.transform.position;
+                    damageText.GetComponent<DamageText>().damage = 60f + (damage * 0.2f);
+
                     Instantiate(fireHitEF, monsters.transform);
                     monster.OnMonsterSpeedDown(4f, 3f);
                 }

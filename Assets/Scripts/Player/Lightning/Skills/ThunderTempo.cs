@@ -33,6 +33,11 @@ public class ThunderTempo : MonoBehaviour
                         monsterInRange.Remove(monsters);
 
                     monsters.GetComponent<MonsterAI>().MonsterDmged(180f + damage * 0.1f);
+
+                    GameObject damageText = PoolManager.Instance.text_Pools.Get();
+                    damageText.transform.position = monsters.transform.position;
+                    damageText.GetComponent<DamageText>().damage = 180f + damage * 0.1f;
+
                     Instantiate(lightningHitEF, monsters.transform);
                 }
                 damageDelay = 0.15f;

@@ -38,6 +38,11 @@ public class FinalTest : MonoBehaviour
                     monsterInRange.Remove(monsters);
 
                 monsters.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
+
+                GameObject damageText = PoolManager.Instance.text_Pools.Get();
+                damageText.transform.position = monsters.transform.position;
+                damageText.GetComponent<DamageText>().damage = 100f + (damage * 0.2f);
+
                 Instantiate(fireHitEF, monsters.transform);
             }
 
