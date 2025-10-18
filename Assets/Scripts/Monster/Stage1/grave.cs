@@ -9,8 +9,19 @@ public class grave : MonsterAI
     {
         currentState = States.Idle;
         CurHp = 700f;
+        if (PhotonNetwork.PlayerList.Length == 2)
+        {
+            CurHp *= 0.6f;
+        }
+        else if (PhotonNetwork.PlayerList.Length == 1)
+        {
+            CurHp *= 0.5f;
+        }
+        
+        MaxHp = CurHp;
         StartCoroutine(StartSpawn());
         animator = GetComponent<Animator>();
+        HpBarObj.SetActive(false);
     }
     public override void Update()
     {

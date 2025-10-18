@@ -44,7 +44,7 @@ public class Attackboundary : MonoBehaviour
     }
     public void ShowBoundary()
     {
-        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0.2f);
+        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0.8f);
     }
     public void HideBoundary()
     {

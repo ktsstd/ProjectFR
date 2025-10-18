@@ -59,7 +59,7 @@ public class Mugolin : MonsterAI
         Object ObjectS = ObjectObj.GetComponent<Object>();
         SoundManager.Instance.PlayMonsterSfx(0, transform.position); // Edit
         ObjectS.Damaged(damage);
-        if (currentState != States.Die)
+        if (currentState == States.Attack)
         {
             attackTimer = attackCooldown;
             currentState = States.Idle;

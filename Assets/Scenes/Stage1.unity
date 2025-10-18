@@ -241,6 +241,7 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   radius: 50
   indicatorPrefab: {fileID: 7357854066178813573, guid: 6bab23998b1201345b22df576d0c0617, type: 3}
+  enemyIndicatorPrefab: {fileID: 7357854066178813573, guid: f76706d55c6df6b4d9796959c6211f6d, type: 3}
   minimapRect: {fileID: 404433311}
 --- !u!20 &4299271
 Camera:

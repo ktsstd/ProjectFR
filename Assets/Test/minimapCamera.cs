@@ -11,6 +11,7 @@ public class MinimapCamera : MonoBehaviour
     public float radius = 50f;
 
     [SerializeField] GameObject indicatorPrefab;
+    [SerializeField] GameObject enemyIndicatorPrefab;
     [SerializeField] RectTransform minimapRect;
     private List<GameObject> indicators = new List<GameObject>();
 
@@ -91,6 +92,13 @@ public class MinimapCamera : MonoBehaviour
                 float angle = Mathf.Atan2(dir2D.y, dir2D.x) * Mathf.Rad2Deg;
                 indicatorRT.rotation = Quaternion.Euler(0, 0, angle);
 
+                indicators.Add(indicator);
+            }
+            else if (viewportPos.x > 0 || viewportPos.x < 1 || viewportPos.y > 0 || viewportPos.y < 1)
+            {
+                GameObject indicator = Instantiate(enemyIndicatorPrefab, minimapRect);
+                RectTransform indicatorRT = indicator.GetComponent<RectTransform>();
+                indicatorRT.anchoredPosition = new Vector2((viewportPos.x - 0.5f) * minimapRect.sizeDelta.x, (viewportPos.y - 0.5f) * minimapRect.sizeDelta.y);
                 indicators.Add(indicator);
             }
         }

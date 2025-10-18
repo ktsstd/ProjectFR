@@ -1,11 +1,13 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
-using Photon.Realtime;
+using UnityEngine.UI;
 
 public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -23,6 +25,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public float CurHp; // 체력
     public float damage; // 공격력
+    public float MaxHp; // HP바 때문에 넣은거
     public float attackRange; // 사거리
     public float attackCooldown; // 공속
     public float attackDelay; // 공격 딜레이
@@ -37,6 +40,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public float monsterSlowCurTime; // 구속 현재 시간
     public float targetSearchTime = 4f; // 인지 재탐색 시간
     public float targetSearchTimer; // 인지 타이머
+
+    public GameObject HpBarObj;
+    public Slider HpBar;
 
     public List<(float slowtime, float slowmoveSpeed)> slowEffects = new List<(float, float)>();
 
@@ -92,6 +98,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         recognizedistance = monsterInfo.redistance;
         targetSearchTimer = targetSearchTime;
         agent.speed = monsterInfo.speed;
+        MaxHp = CurHp;
+
+        HpBarObj.SetActive(false);
+
+        //HpUpdate();
 
         isMoving = false;
     }
@@ -408,24 +419,40 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public virtual void OnMonsterHit(float damage)
     {
-        if (CurHp > 0 && currentState != States.Die)
+        if (currentState == States.Die) return;
+        if (CurHp > 0)
         {
             CurHp -= damage;
-        }        
-        else if (CurHp <= 0)
-        {
-            currentState = States.Die;
-            if (agent != null)
+            if (CurHp <= 0)
             {
-                agent.ResetPath();
-                agent.enabled = false;
+                currentState = States.Die;
+                if (agent != null)
+                {
+                    agent.ResetPath();
+                    agent.enabled = false;
+                }
+                currentState = States.Die;
+                animator.Rebind();
+                // 공격 취소
+                animator.SetTrigger("Die");
+                currentState = States.Die;
+                Invoke("DestroyMonster", 1.5f);
             }
-            currentState = States.Die;
-            // 공격 취소
-            animator.SetTrigger("Die");
-            currentState = States.Die;
-            Invoke("DestroyMonster", 1.5f);
-        }   
+        }
+        HpUpdate();
+    }
+    public void HpUpdate()
+    {
+        if (HpBarObj.activeSelf == false)
+        {
+            HpBarObj.SetActive(true);
+        }
+        else
+        {
+            BarInv HpBarS = HpBarObj.GetComponent<BarInv>();
+            HpBarS.ResetTimer();
+        }
+        HpBar.value = CurHp / MaxHp;
     }
     public virtual void DestroyMonster()
     {
