@@ -204,16 +204,53 @@ public class PlayerUi : MonoBehaviour
             }
         }
     }
-
+    string[,] tooltipTexts;
     public string TooltipTextSetting(int _code, int skillnum)
     {
-        string[,] tooltipTexts = new string[4, 3] {
-        { "전방에 파도를 내보내 적중한 적의 이동 속도를 감소시키고 피해를 입힙니다", "주변 아군과 자신에게 보호막을 부여하고 지속시간 종료 시 보호막의 남은 잔량만큼 플레이어를 회복시킵니다", " 지정한 위치의 중심으로 적을 끌어당기며 피해를 입히는 강력한 소용돌이를 소환합니다" },
-        { "단검을 휘둘러 근처의 적에게 피해를 입힙니다", "전방으로 빠르게 돌진하며 지나간 자리에 있는 적에게 피해를 입힙니다", "플레이어가 잠시 무적 상태가 되어 범위 내의 적들을 연속으로 타격합니다" },
-        { "망치로 전방의 지면을 내리쳐 적에게 피해를 주고 밀쳐냅니다", "자신과 수호자에게 일정 시간 유지되는 보호막을 부여합니다", "지정한 위치에 수호자를 소환해 내리찍어 피해를 입히고 기절시킵니다. 이후 수호자는 가까운 적을 추격해 공격합니다." },
-        { "캐릭터의 전방에 불을 뿜어 공격합니다. \n 해당 스킬을 사용중일시 다른 스킬을 사용할수 없습니다", "지정한 위치에 수류탄을 던져 지속적으로 적에게 피해를 입힙니다.", "적을 추적하며 공격하는 강력한 화염 폭풍을 소환합니다 " } 
-        };
-
+        SaveManager SM = GameObject.Find("SaveManager").GetComponent<SaveManager>();
+        if (PlayerPrefs.GetInt("Language") == 0)
+        {
+            string[,] tooltipTexts = new string[4, 3] {
+            { "전방에 파도를 내보내 적중한 적의 이동 속도를 감소시키고 피해를 입힙니다", 
+              "주변 아군과 자신에게 보호막을 부여하고 지속시간 종료 시 보호막의 남은 잔량만큼 플레이어를 회복시킵니다", 
+              "지정한 위치의 중심으로 적을 끌어당기며 피해를 입히는 강력한 소용돌이를 소환합니다" 
+            },
+            { "단검을 휘둘러 근처의 적에게 피해를 입힙니다", 
+              "전방으로 빠르게 돌진하며 지나간 자리에 있는 적에게 피해를 입힙니다", 
+              "플레이어가 잠시 무적 상태가 되어 범위 내의 적들을 연속으로 타격합니다" },
+            { "망치로 전방의 지면을 내리쳐 적에게 피해를 주고 밀쳐냅니다", 
+              "자신과 수호자에게 일정 시간 유지되는 보호막을 부여합니다", 
+              "지정한 위치에 수호자를 소환해 내리찍어 피해를 입히고 기절시킵니다. 이후 수호자는 가까운 적을 추격해 공격합니다." },
+            { "캐릭터의 전방에 불을 뿜어 공격합니다. \n 해당 스킬을 사용중일시 다른 스킬을 사용할수 없습니다", 
+              "지정한 위치에 수류탄을 던져 지속적으로 적에게 피해를 입힙니다.", 
+              "적을 추적하며 공격하는 강력한 화염 폭풍을 소환합니다 " }
+            };
+        }
+        else if (PlayerPrefs.GetInt("Language") == 1)
+        {
+            string[,] tooltipTexts = new string[4, 3] {
+            {
+                "Unleashes a wave forward, dealing damage and slowing enemies it hits.",
+                "Grants a shield to nearby allies and yourself. When the shield expires, heals for the remaining shield amount.",
+                "Summons a powerful vortex at the target location, pulling in enemies and dealing damage."
+            },
+            {
+                "Swings a dagger to damage nearby enemies.",
+                "Dashes forward, damaging enemies in your path.",
+                "Becomes invincible briefly and strikes enemies within range multiple times."
+            },
+            {
+                "Slams the ground with a hammer, dealing damage and knocking enemies back.",
+                "Applies a temporary shield to yourself and your guardian.",
+                "Summons a guardian at the target location to slam the ground, dealing damage and stunning enemies. The guardian then pursues and attacks nearby enemies."
+            },
+            {
+                "Breathes fire in front of the character. \nCannot use other skills while this skill is active.",
+                "Throws a grenade at the target location, dealing continuous damage over time.",
+                "Summons a powerful firestorm that tracks and attacks enemies."
+            }
+            };
+        }
         return tooltipTexts[_code, skillnum];
     }
 }

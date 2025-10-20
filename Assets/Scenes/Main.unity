@@ -16502,8 +16502,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 882375794}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.47996408}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.5200359}
   m_AnchoredPosition: {x: 0.17000079, y: -0.2649994}
   m_SizeDelta: {x: 15.340001, y: 13.87}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -17843,7 +17843,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5, y: -9}
+  m_AnchoredPosition: {x: 0, y: -9}
   m_SizeDelta: {x: 267.4533, y: 75.5665}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &663020598
@@ -17932,7 +17932,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -23.599716, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -31056,7 +31056,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -20.139648, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -34657,7 +34657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 125.960526}
   m_SizeDelta: {x: 0, y: 262.4374}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1178726362
@@ -37357,7 +37357,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1250292328
 Transform:
@@ -37386,6 +37386,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e79cde7845a4244088a39a48d370805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LText:
+  - {fileID: 473491198}
+  - {fileID: 145856251}
+  - {fileID: 1169430187}
+  - {fileID: 907836446}
+  - {fileID: 1403785668}
+  - {fileID: 991486455}
+  - {fileID: 210877721}
+  - {fileID: 863859796}
+  - {fileID: 1728825599}
+  - {fileID: 381887432}
+  - {fileID: 496175301}
+  - {fileID: 1973194990}
+  - {fileID: 2146329676}
+  - {fileID: 1700053341}
+  - {fileID: 925805590}
+  - {fileID: 585383653}
+  - {fileID: 16933709}
+  - {fileID: 1063988874}
+  - {fileID: 38253339}
+  - {fileID: 1420124750}
+  - {fileID: 1509250565}
+  - {fileID: 1272284480}
+  - {fileID: 347091763}
+  - {fileID: 1285560999}
+  - {fileID: 1420026474}
+  - {fileID: 663020598}
+  - {fileID: 908202301}
+  - {fileID: 2091242886}
+  - {fileID: 1044934157}
+  - {fileID: 1853563349}
+  - {fileID: 146668088}
+  - {fileID: 2023483925}
+  - {fileID: 177931253}
+  - {fileID: 2128641644}
+  - {fileID: 1784118612}
+  - {fileID: 1201999260}
+  - {fileID: 1703521077}
+  - {fileID: 1955350767}
+  - {fileID: 202935930}
+  - {fileID: 1002149719}
+  - {fileID: 68088408}
+  - {fileID: 1905555873}
+  - {fileID: 1199647965}
+  - {fileID: 0}
   WarningText: {fileID: 0}
   BgmText: {fileID: 565823352}
   SfxText: {fileID: 1991345984}
@@ -37397,6 +37442,7 @@ MonoBehaviour:
   BgmSlider: {fileID: 854330872}
   SfxSlider: {fileID: 1820341955}
   SfxMonsterSlider: {fileID: 592754914}
+  LanguageIndex: 0
   canUseEsc: 1
 --- !u!1 &1250515659
 GameObject:
@@ -41787,7 +41833,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -29.92006, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -51146,7 +51192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.64705884}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.92941177}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -53756,7 +53802,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 611813011}
   m_HandleRect: {fileID: 611813010}
   m_Direction: 2
-  m_Value: 1
+  m_Value: -0.00000012113944
   m_Size: 0.5200359
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -55108,7 +55154,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -16.638062, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
