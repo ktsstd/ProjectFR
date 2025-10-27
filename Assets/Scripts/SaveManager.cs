@@ -17,7 +17,8 @@ public class SaveManager : MonoBehaviour
     [SerializeField] TMP_InputField userIF;
     [SerializeField] TextMeshProUGUI userName;
     [SerializeField] TextMeshProUGUI roomNameIF;
-    
+    [SerializeField] TextMeshProUGUI LangaugeText;
+
     public Slider BgmSlider;
     public Slider SfxSlider;
     public Slider SfxMonsterSlider;
@@ -26,7 +27,7 @@ public class SaveManager : MonoBehaviour
 
     public bool canUseEsc = true;
 
-    private void Start()
+    private void Awake()
     {
         if (PlayerPrefs.HasKey("BgmVolume"))
         {
@@ -87,6 +88,11 @@ public class SaveManager : MonoBehaviour
             userIF.text = PhotonNetwork.NickName;
         if (userName != null)
             userName.text = PhotonNetwork.NickName;
+        UpdateLanguage();
+    }
+
+    public void UpdateLanguage()
+    {
         if (SceneManagerHelper.ActiveSceneName == "Main")
         {
             if (PlayerPrefs.GetInt("Language") == 0)
@@ -119,7 +125,7 @@ public class SaveManager : MonoBehaviour
 
                 LText[22].text = "적용";
                 LText[23].text = "초기화";
-                
+
                 LText[24].text = "모든 설정이 초기화됩니다";
                 LText[25].text = "초기화한 설정은 되돌릴 수 없습니다.";
                 LText[26].text = "예";
@@ -337,7 +343,7 @@ public class SaveManager : MonoBehaviour
 
                 LText[16].text = "한글12자 영어 24자 입력 가능합니다";
                 LText[17].text = "닉네임을 입력하세요";
-                
+
                 LText[18].text = "적용";
                 LText[19].text = "초기화";
 
@@ -399,6 +405,17 @@ public class SaveManager : MonoBehaviour
             }
         }
     }
+    private void Start()
+    {
+        if (PlayerPrefs.GetInt("Language") == 0)
+        {
+            LangaugeText.text = "한국어";
+        }
+        else if (PlayerPrefs.GetInt("Language") == 1)
+        {
+            LangaugeText.text = "Language";
+        }
+    }
 
     private void Update()
     {
@@ -407,6 +424,22 @@ public class SaveManager : MonoBehaviour
             SettingUI.SetActive(!SettingUI.activeSelf);
             SoundManager.Instance.PlayUISfxShot(0);
         }
+    }
+
+    public void LangaugeUpdate()
+    {
+        if (PlayerPrefs.GetInt("Language") == 0)
+        {
+            LanguageIndex = 1;
+            LangaugeText.text = "Language";
+        }
+        else if (PlayerPrefs.GetInt("Language") == 1)
+        {
+            LanguageIndex = 0;
+            LangaugeText.text = "한국어";
+        }
+        PlayerPrefs.SetInt("Language", LanguageIndex);
+        UpdateLanguage();
     }
     public void OnClickUISfx()
     {
