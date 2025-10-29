@@ -210,7 +210,7 @@ public class PlayerUi : MonoBehaviour
         SaveManager SM = GameObject.Find("SaveManager").GetComponent<SaveManager>();
         if (PlayerPrefs.GetInt("Language") == 0)
         {
-            string[,] tooltipTexts = new string[4, 3] {
+            tooltipTexts = new string[4, 3] {
             { "전방에 파도를 내보내 적중한 적의 이동 속도를 감소시키고 피해를 입힙니다", 
               "주변 아군과 자신에게 보호막을 부여하고 지속시간 종료 시 보호막의 남은 잔량만큼 플레이어를 회복시킵니다", 
               "지정한 위치의 중심으로 적을 끌어당기며 피해를 입히는 강력한 소용돌이를 소환합니다" 
@@ -228,7 +228,7 @@ public class PlayerUi : MonoBehaviour
         }
         else if (PlayerPrefs.GetInt("Language") == 1)
         {
-            string[,] tooltipTexts = new string[4, 3] {
+            tooltipTexts = new string[4, 3] {
             {
                 "Unleashes a wave forward, dealing damage and slowing enemies it hits.",
                 "Grants a shield to nearby allies and yourself. When the shield expires, heals for the remaining shield amount.",
