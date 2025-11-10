@@ -2,20 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FinalTest : MonoBehaviour
+public class FinalTest : PlayerSkill
 {
     public float damage;
 
     List<GameObject> monsterInRange = new List<GameObject>();
-    MonsterAI[] monsters;
+    public GameObject[] monsters;
     float damageDelay = 0f;
 
-    MonsterAI targetMonster;
-
-    public GameObject fireHitEF;
+    public GameObject targetMonster;
     private void Start()
     {
-        monsters = FindObjectsOfType<MonsterAI>();
+        monsters = GameObject.FindGameObjectsWithTag("Enemy");
 
         Invoke("SelfDestroy", 8f);
     }
@@ -25,9 +23,14 @@ public class FinalTest : MonoBehaviour
         if (damageDelay >= 0)
             damageDelay -= Time.deltaTime;
 
+        if (targetMonster != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetMonster.transform.position, 5 * Time.deltaTime);
+        }
+
         if (damageDelay <= 0)
         {
-            if (targetMonster == null)
+            if (targetMonster == null || targetMonster.activeSelf == false)
             {
                 targetMonster = GetMinDistanceMonster();
             }
@@ -37,21 +40,10 @@ public class FinalTest : MonoBehaviour
                 if (monsters == null)
                     monsterInRange.Remove(monsters);
 
-                monsters.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
-
-                GameObject damageText = PoolManager.Instance.text_Pools.Get();
-                damageText.transform.position = monsters.transform.position;
-                damageText.GetComponent<DamageText>().damage = 100f + (damage * 0.2f);
-
-                Instantiate(fireHitEF, monsters.transform);
+                HitOther(monsters, 100f + (damage * 0.2f));
             }
 
             damageDelay = 0.5f;
-        }
-
-        if (targetMonster != null)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetMonster.transform.position, 5 * Time.deltaTime);
         }
     }
 
@@ -71,14 +63,16 @@ public class FinalTest : MonoBehaviour
         }
     }
 
-    MonsterAI GetMinDistanceMonster()
+    GameObject GetMinDistanceMonster()
     {
-        MonsterAI closeMonster = null;
+        GameObject closeMonster = null;
 
         float min = 99;
 
-        foreach (MonsterAI monster in monsters)
+        foreach (GameObject monster in monsters)
         {
+            if (monster == null)
+                continue;
             float distance = Vector3.Distance(transform.position, monster.transform.position);
             if (distance < min)
             {
@@ -87,10 +81,5 @@ public class FinalTest : MonoBehaviour
             }
         }
         return closeMonster;
-    }
-
-    void SelfDestroy()
-    {
-        Destroy(gameObject);
     }
 }

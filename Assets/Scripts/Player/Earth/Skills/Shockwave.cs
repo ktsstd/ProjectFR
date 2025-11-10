@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class Shockwave : MonoBehaviour
+public class Shockwave : PlayerSkill
 {
 
     public PlayableDirector playableDirector;
     public float damage;
-    public GameObject EarthHitEF;
 
     void Start()
     {
@@ -21,20 +20,10 @@ public class Shockwave : MonoBehaviour
         if (other.tag == "Enemy")
         {
             MonsterAI monsterAI = other.GetComponent<MonsterAI>();
-            monsterAI.MonsterDmged(100f + (damage * 0.2f));
-
-            GameObject damageText = PoolManager.Instance.text_Pools.Get();
-            damageText.transform.position = monsterAI.transform.position;
-            damageText.GetComponent<DamageText>().damage = 100f + (damage * 0.2f);
+            HitOther(other.gameObject, 100f + (damage * 0.2f));
 
             //if (!monsterAI.monsterInfo.isBoss)
-            monsterAI.OnMonsterKnockBack(transform);          
-            Instantiate(EarthHitEF, other.transform);
+            monsterAI.OnMonsterKnockBack(transform);
         }
-    }
-
-    void SelfDestroy()
-    {
-        Destroy(gameObject);
     }
 }

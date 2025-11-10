@@ -9950,6 +9950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10edf94c810bbec41a91343e7d25d147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillEffect: {fileID: 2971749003199258193, guid: 0527f7195d330234b877a65a5cc4ef7b, type: 3}
   damage: 0
   lightningHitEF: {fileID: 2971749003199258193, guid: 0527f7195d330234b877a65a5cc4ef7b, type: 3}
 --- !u!1 &5597606064909767010

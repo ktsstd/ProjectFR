@@ -21,6 +21,8 @@ public class Golem : SummonAI
 
     public override void AttackAnimation()
     {
+        if (targetMonster != null)
+            transform.rotation = Quaternion.LookRotation(targetMonster.transform.position - transform.position);
         SoundManager.Instance.PlayPlayerSfx(21, transform.position);
         GameObject skill = Instantiate(attackEF, attackPos.position, attackEF.transform.rotation);
         skill.GetComponent<Shockwave>().damage = atk;

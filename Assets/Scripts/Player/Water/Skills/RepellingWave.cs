@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepellingWave : MonoBehaviour
+public class RepellingWave : PlayerSkill
 {
     public Vector3 targetPos;
     public float damage;
 
     public GameObject waterEF;
-    public GameObject waterHitEF;
 
 
     void Start()
@@ -37,13 +36,8 @@ public class RepellingWave : MonoBehaviour
         if (other.tag == "Enemy")
         {
             MonsterAI monster = other.GetComponent<MonsterAI>();
-            monster.MonsterDmged(120f + (damage * 0.25f));
+            HitOther(other.gameObject, 120f + (damage * 0.25f));
 
-            GameObject damageText = PoolManager.Instance.text_Pools.Get();
-            damageText.transform.position = monster.transform.position;
-            damageText.GetComponent<DamageText>().damage = 120f + (damage * 0.25f);
-
-            Instantiate(waterHitEF, other.transform);
             monster.OnMonsterSpeedDown(2f, 3f);
         }
     }

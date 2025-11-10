@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SumonDamage : MonoBehaviour
+public class SumonDamage : PlayerSkill
 {
     public float damage;
     float attackTime = 1;
@@ -20,11 +20,7 @@ public class SumonDamage : MonoBehaviour
             if (other.tag == "Enemy")
             {
                 MonsterAI monster = other.gameObject.GetComponent<MonsterAI>();
-                monster.MonsterDmged(150f + damage * 0.2f);
-
-                GameObject damageText = PoolManager.Instance.text_Pools.Get();
-                damageText.transform.position = monster.transform.position;
-                damageText.GetComponent<DamageText>().damage = 150f + damage * 0.2f;
+                HitOther(other.gameObject, 150f + damage * 0.2f);
 
                 monster.OnMonsterStun(1f);
             }

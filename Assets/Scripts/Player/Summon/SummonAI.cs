@@ -18,6 +18,7 @@ public class SummonAI : MonoBehaviourPunCallbacks
     Coroutine summonCoroutine;
 
     NavMeshAgent agent;
+    Rigidbody rigid;
     public Animator animator;
     public PhotonView pv;
 
@@ -27,6 +28,7 @@ public class SummonAI : MonoBehaviourPunCallbacks
         agent = GetComponent<NavMeshAgent>();
         pv = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
 
         agent.speed = speed;
         isDie = false;
@@ -116,7 +118,7 @@ public class SummonAI : MonoBehaviourPunCallbacks
 
     public virtual void AttackAnimation() { }
 
-    GameObject targetMonster = null;
+    public GameObject targetMonster = null;
     public Vector3 GetTargetPos(float _attackRange)
     {
         GameObject closeMonster = null;

@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlameSprayTest : MonoBehaviour
+public class FlameSprayTest : PlayerSkill
 {
     public float damage;
 
     List<GameObject> monsterInRange = new List<GameObject>();
-
-    public GameObject fireHitEF;
 
     float damageDelay = 0f;
     void Update()
@@ -23,13 +21,7 @@ public class FlameSprayTest : MonoBehaviour
                 if (monsters == null)
                     monsterInRange.Remove(monsters);
 
-                monsters.GetComponent<MonsterAI>().MonsterDmged(80f + (damage * 0.1f));
-
-                GameObject damageText = PoolManager.Instance.text_Pools.Get();
-                damageText.transform.position = monsters.transform.position;
-                damageText.GetComponent<DamageText>().damage = 80f + (damage * 0.1f);
-
-                Instantiate(fireHitEF, monsters.transform);
+                HitOther(monsters, 80f + (damage * 0.1f));
             }
             damageDelay = 0.5f;
         }

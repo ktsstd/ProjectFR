@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThunderTempo : MonoBehaviour
+public class ThunderTempo : PlayerSkill
 {
     public float damage;
 
     float damageDelay = 0f;
     List<GameObject> monsterInRange = new List<GameObject>();
-
-    public GameObject lightningHitEF;
 
     int count = 0;
 
@@ -32,13 +30,7 @@ public class ThunderTempo : MonoBehaviour
                     if (monsters == null)
                         monsterInRange.Remove(monsters);
 
-                    monsters.GetComponent<MonsterAI>().MonsterDmged(180f + damage * 0.1f);
-
-                    GameObject damageText = PoolManager.Instance.text_Pools.Get();
-                    damageText.transform.position = monsters.transform.position;
-                    damageText.GetComponent<DamageText>().damage = 180f + damage * 0.1f;
-
-                    Instantiate(lightningHitEF, monsters.transform);
+                    HitOther(monsters, 180f + damage * 0.1f);
                 }
                 damageDelay = 0.15f;
                 count++;
@@ -60,10 +52,5 @@ public class ThunderTempo : MonoBehaviour
         {
             monsterInRange.Remove(other.gameObject);
         }
-    }
-
-    void SelfDestroy()
-    {
-        Destroy(gameObject);
     }
 }

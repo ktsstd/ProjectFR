@@ -1411,9 +1411,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3917443208820035527}
   serializedVersion: 4
-  m_Mass: 50
-  m_Drag: 50
-  m_AngularDrag: 50
+  m_Mass: 20
+  m_Drag: 20
+  m_AngularDrag: 20
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1523,6 +1523,7 @@ MonoBehaviour:
   summonTime: 25
   animator: {fileID: 0}
   pv: {fileID: 0}
+  targetMonster: {fileID: 0}
   attackPos: {fileID: 911872166930841168}
   attackEF: {fileID: 5494163618266672174, guid: f59fb6ac59c9e944fbcb728d5b6aad99, type: 3}
   summonEF: {fileID: 8840957093601076963, guid: b4ec71828725f4245a6785d78d15b0c2, type: 3}

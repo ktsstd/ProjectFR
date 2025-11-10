@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class FlameGrenadeTest : MonoBehaviour
+public class FlameGrenadeTest : PlayerSkill
 {
     public PlayableDirector playableDirector;
     public float damage;
@@ -11,7 +11,6 @@ public class FlameGrenadeTest : MonoBehaviour
     float boomDamage = 1f;
     List<GameObject> monsterInRange = new List<GameObject>();
 
-    public GameObject fireHitEF;
     void Start()
     {
         playableDirector.Play();
@@ -35,15 +34,8 @@ public class FlameGrenadeTest : MonoBehaviour
                     if (monsters == null)
                         monsterInRange.Remove(monsters);
 
-                    MonsterAI monster = monsters.GetComponent<MonsterAI>();
-                    monster.MonsterDmged(60f + (damage * 0.2f));
-
-                    GameObject damageText = PoolManager.Instance.text_Pools.Get();
-                    damageText.transform.position = monster.transform.position;
-                    damageText.GetComponent<DamageText>().damage = 60f + (damage * 0.2f);
-
-                    Instantiate(fireHitEF, monsters.transform);
-                    monster.OnMonsterSpeedDown(4f, 3f);
+                    HitOther(monsters, 60f + (damage * 0.2f));
+                    // monster.OnMonsterSpeedDown(4f, 3f);
                 }
                 damageDelay = 0.5f;
             }
@@ -54,15 +46,11 @@ public class FlameGrenadeTest : MonoBehaviour
     {
         if (boomDamage >= 0)
         {
-            if (other.tag == "Enemy")
-            {
-                other.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
-                Instantiate(fireHitEF, other.transform);
-            }
+            HitOther(other.gameObject, 100f + (damage * 0.2f));
         }
         if (other.tag == "Enemy")
         {
-            monsterInRange.Add(other.gameObject);
+            monsterInRange.Add(other.gameObject); 
         }
     }
 
@@ -72,10 +60,5 @@ public class FlameGrenadeTest : MonoBehaviour
         {
             monsterInRange.Remove(other.gameObject);
         }
-    }
-
-    void SelfDestroy()
-    {
-        Destroy(gameObject);
     }
 }

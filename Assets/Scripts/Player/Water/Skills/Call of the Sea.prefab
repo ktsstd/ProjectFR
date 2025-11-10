@@ -29283,7 +29283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9117a3de74a4b9240af1d1538a58eada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flameGrenadeTest: {fileID: 0}
+  SkillEffect: {fileID: 2005856625639563914, guid: 1b2c11c075057b044a9be93f809a43d4, type: 3}
   damage: 0
   waterHitEF: {fileID: 2005856625639563914, guid: 1b2c11c075057b044a9be93f809a43d4, type: 3}
 --- !u!54 &-8958338705344526021

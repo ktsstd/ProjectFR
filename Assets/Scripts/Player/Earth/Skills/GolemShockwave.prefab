@@ -29521,9 +29521,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e20ba11de2f955498edd20013481621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillEffect: {fileID: 818771661286024962, guid: df08ec5f08118894fa51bc009f11b95c, type: 3}
   playableDirector: {fileID: 4726411937422785314}
   damage: 0
-  EarthHitEF: {fileID: 818771661286024962, guid: df08ec5f08118894fa51bc009f11b95c, type: 3}
 --- !u!199 &6168806511991910722
 ParticleSystemRenderer:
   serializedVersion: 6

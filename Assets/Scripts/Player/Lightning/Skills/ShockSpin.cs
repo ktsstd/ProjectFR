@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class ShockSpin : MonoBehaviour
+public class ShockSpin : PlayerSkill
 {
     public float damage;
-    public GameObject lightningHitEF;
 
     void Start()
     {
@@ -17,18 +16,7 @@ public class ShockSpin : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            other.GetComponent<MonsterAI>().MonsterDmged(100f + (damage * 0.2f));
-
-            GameObject damageText = PoolManager.Instance.text_Pools.Get();
-            damageText.transform.position = other.transform.position;
-            damageText.GetComponent<DamageText>().damage = 100f + (damage * 0.2f);
-
-            Instantiate(lightningHitEF, other.transform);
+            HitOther(other.gameObject, 100f + (damage * 0.2f));
         }
-    }
-
-    void SelfDestroy()
-    {
-        Destroy(gameObject);
     }
 }
