@@ -5,15 +5,14 @@ using Photon.Pun;
 
 public class Mugolin : MonsterAI
 {
-    //private bool InSafeZone;
     [SerializeField] private GameObject MugolinEffect;
     [SerializeField] private AudioSource audioS;
-    //[SerializeField] private GameObject RunEffect;
     private bool IsRolling;
 
     private float defaultspeed;
     private float Increasespeed;
     private float IncreasePerspeed;
+
     public override void Awake()
     {
         base.Awake();
@@ -36,15 +35,9 @@ public class Mugolin : MonsterAI
         }
         else if (!IsRolling && isMoving)
         {
-            //StartCoroutine(RunEffectStart());
             audioS.Stop();
         }
     }
-
-    //IEnumerator RunEffectStart()
-    //{
-    //    yield return new WaitForSeconds(0.5f);
-    //}
 
     public override void AttackEvent()
     {
@@ -66,7 +59,7 @@ public class Mugolin : MonsterAI
         }        
     }
 
-    private IEnumerator StartMove() // todo -> speedup, rolling animationStart, speedup -> damageup
+    private IEnumerator StartMove() 
     {
         IsRolling = true;
         for (int i = 0; i < 5; i++)
@@ -79,7 +72,7 @@ public class Mugolin : MonsterAI
 
     private IEnumerator StopMove()
     {
-        StopCoroutine(StartMove()); // todo -> stun Effect
+        StopCoroutine(StartMove()); 
         currentState = States.Stun;
         animator.SetTrigger("Stun");        
         IsRolling = false;
@@ -93,7 +86,7 @@ public class Mugolin : MonsterAI
         {
             agent.speed = defaultspeed;
         }
-        yield return new WaitForSeconds(1.333f); // todo stun duration
+        yield return new WaitForSeconds(1.333f);
         currentState = States.Idle;
         StartCoroutine(StartMove());
     }

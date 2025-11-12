@@ -357,7 +357,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     //[PunRPC]
     public void RecognizePlayer()
     {
-        targetSearchTimer = targetSearchTime;
         float closestDistance = recognizedistance;
         Transform tempClosestTarget = null;
 
@@ -409,6 +408,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public void Settarget(string targetname)
     {
         target = GameObject.Find(targetname).transform;
+        targetSearchTimer = targetSearchTime;
     }
 
     public virtual void MonsterDmged(float damage)
