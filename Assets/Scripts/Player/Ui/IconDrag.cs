@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class IconDrag : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHandler
 {
     public static GameObject beingDraggedIcon;
+    public static GameObject swapDraggedIcon;
 
     Vector3 startPos;
 

@@ -21,5 +21,9 @@ public class ItemSlot : MonoBehaviour, IDropHandler
             IconDrag.beingDraggedIcon.transform.SetParent(transform);
             IconDrag.beingDraggedIcon.transform.position = transform.position;
         }
+        else
+        {
+
+        }
     }
 }
