@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private int WaveAllMonster;
     private int WaveCount = 0;
+    public int WaveLoopCount = 0;
     public bool isSpawn = false;
 
     private static GameManager _instance;
@@ -73,7 +74,18 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (SceneManagerHelper.ActiveSceneName == "Stage1")
         {
-            StartCoroutine(WaveStart());
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
+                if ((int)selectedMode == 0)
+                {
+                    StartCoroutine(WaveStart());
+                }
+                else if ((int)selectedMode == 1)
+                {
+                    //
+                }
+            }            
             StartCoroutine(CheckMonsterC());
             WaveCount += 1;
         }
@@ -144,6 +156,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             WaveCount += 1;
             HealPlayer();
         }
+        else if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn)
+        {
+            StartCoroutine(InfiniteWaveStart());
+            isSpawn = true;
+            WaveCount += 1;
+            HealPlayer();
+        }
     }
 
     public void CheckPlayer()
@@ -206,7 +225,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
             { "isReady", null },
-            { "selectedCharacter", -1 }
+            { "selectedCharacter", -1 },
+            { "selectedMode", 0 }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
         //SaveManager saveS = GameObject.Find("SaveManager").GetComponent<SaveManager>();
@@ -259,38 +279,55 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 SoundManager.Instance.PlayBgm(Boss);
                 isSpawn = false;
             }
+        }
+    }
 
-            //if (WaveCount == 1)
-            //{
-            //    StartCoroutine(InstantiateMonsters(Mugolin, 15));
-            //}
-            //else if (WaveCount == 2)
-            //{
-            //    StartCoroutine(InstantiateMonsters(Mugolin, 15));
-            //    StartCoroutine(InstantiateMonsters(Sleebam, 10));
-            //}
-            //else if (WaveCount == 3)
-            //{
-            //    StartCoroutine(InstantiateMonsters(Mugolin, 20));
-            //    StartCoroutine(InstantiateMonsters(Sleebam, 10));
-            //    StartCoroutine(InstantiateMonsters(Grave, 3));
-            //}
-            //else if (WaveCount == 4)
-            //{
-            //    StartCoroutine(InstantiateMonsters(Mugolin, 25));
-            //    StartCoroutine(InstantiateMonsters(Sleebam, 15));
-            //    StartCoroutine(InstantiateMonsters(Grave, 6));
-            //}
-            //else if (WaveCount == 5)
-            //{
-            //    Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-            //    PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
-            //    isSpawn = false;
-            //}
+    IEnumerator InfiniteWaveStart()
+    {
+        isSpawn = true;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // 상점 활성화
+            yield return new WaitForSeconds(60);
+            // 상점 비활성화
+            string Sleebam = "Monster/Stage1/Sleebam";
+            string Mugolin = "Monster/Stage1/Mugolin";
+            string Grave = "Monster/Stage1/Grave";
+            string Boss = "Boss/Stage1/Boss";
 
-            else if (WaveCount == 8)
+            int a = Random.Range(1, 4);
+            int b = Random.Range(1, 5);
+            Transform[] spawnPositions = GetSpawnPositions(a, b);
+
+            if (WaveCount == 1)
             {
-                StartCoroutine(InstantiateMonsters("Monster/Stage1/SwampSlime", 1));
+                StartCoroutine(InstantiateMonsters(Mugolin, 10));
+            }
+            else if (WaveCount == 2)
+            {
+                StartCoroutine(InstantiateMonsters(Mugolin, 10));
+                StartCoroutine(InstantiateMonsters(Sleebam, 15));
+            }
+            else if (WaveCount == 3)
+            {
+                StartCoroutine(InstantiateMonsters(Mugolin, 10));
+                StartCoroutine(InstantiateMonsters(Sleebam, 10));
+                StartCoroutine(InstantiateMonsters(Grave, 4));
+            }
+            else if (WaveCount == 4)
+            {
+                Transform randomSpawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
+                PhotonNetwork.Instantiate(Boss, randomSpawnPos.position, Quaternion.identity);
+                SoundManager.Instance.PlayBgm(Boss);
+                isSpawn = false;
+            }
+            else if (WaveCount == 5)
+            {
+                WaveCount = 1;
+                WaveLoopCount += 1;
+                StartCoroutine(InfiniteWaveStart());
+                isSpawn = true;
+                HealPlayer();
             }
         }
     }

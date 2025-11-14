@@ -1,30 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
+using System.Collections.Generic;
+using System.Net.Sockets;
 using TMPro;
-using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public TMP_Text roomNameText;
     public TMP_Text[] playerTexts;
+    public TMP_Text modeText;
+
     private List<Player> playerList = new List<Player>();
-    public GameObject[] ReadyObj;
-    public GameObject StartObj;
-    private bool isReady;
-    public int CharacterIndex;
+   
     int localPlayerIndex;
     //public GameObject[] CharacterImg;
+    private GameObject CharacterObj;
     public GameObject CharacterImgParent;
+    public GameObject[] ReadyObj;
+    public GameObject StartObj;
+
     public Transform[] CharacterPos;
     public Transform[] CharacterUIPos;
     public TextMeshProUGUI WarningText;
+
     string playerPrefab = "";
 
-    private GameObject CharacterObj;
+    private bool isReady;
+
+    public int CharacterIndex;
+    public int selectedMode = 0; // 0 기본모드 1 무한모드
 
     private void Start()
     {
@@ -247,6 +255,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (!Starting)
         {
             Starting = true;
+            ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+            {
+                { "selectedMode", selectedMode }
+            };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(properties);
             PhotonNetwork.LoadLevel("Stage1");
         }
     }
@@ -345,5 +358,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             playerTexts[i].text = playerList[i].NickName;
         }
+    }
+    public void OnClickModeChange(int mode) // 0 기본 1 무한
+    {
+        selectedMode = mode;
+        modeText.text = selectedMode == 0 ? "기본모드: 선택됨" : "무한모드: 선택됨";
     }
 }

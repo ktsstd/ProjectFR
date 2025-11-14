@@ -89,6 +89,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             skillRange[i] = monsterInfo.skillRange[i];
             //skillDelay[i] = monsterInfo.skillDelay[i];
         }
+
+        CurHp += CurHp * (0.2f * GameManager.Instance.WaveLoopCount);
+        damage += damage * (0.2f * GameManager.Instance.WaveLoopCount);
+
         Array.Sort(skillRange);
         attackRange = monsterInfo.attackRange;
         attackCooldown = monsterInfo.attackCooldown;

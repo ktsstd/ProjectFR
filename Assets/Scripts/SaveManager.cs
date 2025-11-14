@@ -409,7 +409,7 @@ public class SaveManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("Language") == 0)
         {
-            LangaugeText.text = "한국어";
+            LangaugeText.text = "언어";
         }
         else if (PlayerPrefs.GetInt("Language") == 1)
         {
@@ -436,7 +436,7 @@ public class SaveManager : MonoBehaviour
         else if (PlayerPrefs.GetInt("Language") == 1)
         {
             LanguageIndex = 0;
-            LangaugeText.text = "한국어";
+            LangaugeText.text = "언어";
         }
         PlayerPrefs.SetInt("Language", LanguageIndex);
         UpdateLanguage();
