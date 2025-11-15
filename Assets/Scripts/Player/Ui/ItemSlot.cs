@@ -18,8 +18,8 @@ public class ItemSlot : MonoBehaviour, IDropHandler
     {
         if (Icon() == null)
         {
-            IconDrag.beingDraggedIcon.transform.SetParent(transform);
-            IconDrag.beingDraggedIcon.transform.position = transform.position;
+            PlayerItem.beingDraggedIcon.transform.SetParent(transform);
+            PlayerItem.beingDraggedIcon.transform.position = transform.position;
         }
         else
         {
