@@ -74,20 +74,23 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (SceneManagerHelper.ActiveSceneName == "Stage1")
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
-                if ((int)selectedMode == 0)
-                {
-                    StartCoroutine(WaveStart());
-                }
-                else if ((int)selectedMode == 1)
-                {
-                    //
-                }
-            }            
+            StartCoroutine(WaveStart());
             StartCoroutine(CheckMonsterC());
             WaveCount += 1;
+            //if (PhotonNetwork.IsMasterClient)
+            //{
+            //    PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
+            //    if ((int)selectedMode == 0)
+            //    {
+            //        StartCoroutine(WaveStart());
+            //    }
+            //    else if ((int)selectedMode == 1)
+            //    {
+            //        //
+            //    }
+            //}            
+            //StartCoroutine(CheckMonsterC());
+            //WaveCount += 1;
         }
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")
         {
@@ -156,13 +159,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             WaveCount += 1;
             HealPlayer();
         }
-        else if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn)
-        {
-            StartCoroutine(InfiniteWaveStart());
-            isSpawn = true;
-            WaveCount += 1;
-            HealPlayer();
-        }
+        //else if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn)
+        //{
+        //    StartCoroutine(InfiniteWaveStart());
+        //    isSpawn = true;
+        //    WaveCount += 1;
+        //    HealPlayer();
+        //}
     }
 
     public void CheckPlayer()
@@ -321,14 +324,14 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 SoundManager.Instance.PlayBgm(Boss);
                 isSpawn = false;
             }
-            else if (WaveCount == 5)
-            {
-                WaveCount = 1;
-                WaveLoopCount += 1;
-                StartCoroutine(InfiniteWaveStart());
-                isSpawn = true;
-                HealPlayer();
-            }
+            //else if (WaveCount == 5)
+            //{
+            //    WaveCount = 1;
+            //    WaveLoopCount += 1;
+            //    StartCoroutine(InfiniteWaveStart());
+            //    isSpawn = true;
+            //    HealPlayer();
+            //}
         }
     }
 
