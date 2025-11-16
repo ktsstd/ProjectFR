@@ -52,27 +52,19 @@ public class PlayerItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     // 0 = itemcode, 1 = itemcount
     public int[] iteminfo;
 
-    void Start()
+    public virtual void UseItem(int _player)
     {
-        iteminfo = new int[2] {1, 1};
-    }
-
-    public void UseItem()
-    {
-        if (iteminfo[1] > 0)
+        if (iteminfo[1] > 1)
         {
             iteminfo[1]--;
-            ItemEffect();
+            ItemEffect(_player);
         }
         else
         {
-            ItemEffect();
+            ItemEffect(_player);
             Destroy(gameObject);
         }
     }
 
-    public virtual void ItemEffect()
-    {
-
-    }
+    public virtual void ItemEffect(int _player) { }
 }

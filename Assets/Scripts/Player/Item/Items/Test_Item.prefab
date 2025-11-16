@@ -103,3 +103,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onDragParent: {fileID: 0}
   startParent: {fileID: 0}
+  iteminfo: 0100000001000000

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,5 +55,52 @@ public class ItemUi : MonoBehaviour
                 return;
             }
         }
+    }
+
+    int atkUpStack = 1;
+    int hpUpStack = 1;
+    int ctUpStack = 1;
+
+    public void BuyState(int _num)
+    {
+        PlayerController player = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
+        switch (_num)
+        {
+            case 0:
+                // 공증 / 돈내기 추가하기
+                if (atkUpStack >= 1 && atkUpStack <= 10)
+                {
+                    player.playerAtk += 10;
+                    atkUpStack++;
+                }
+                else if (atkUpStack >= 11 && atkUpStack <= 20)
+                {
+                    player.playerAtk += 15;
+                    atkUpStack++;
+                }
+                else if (atkUpStack >= 21 && atkUpStack <= 30)
+                {
+                    player.playerAtk += 25;
+                    atkUpStack++;
+                }
+                else
+                {
+                    player.playerAtk += 30;
+                    atkUpStack++;
+                }
+                break;
+            case 1:
+                // 채증
+                break;
+            case 2:
+                // 쿨감
+                break;
+        }
+    }
+
+    public void UseItem(int _player,int _num)
+    {
+        if (ItemSlotObject[_num].transform.childCount != 0)
+            ItemSlotObject[_num].transform.GetChild(0).GetComponent<PlayerItem>().UseItem(_player);
     }
 }

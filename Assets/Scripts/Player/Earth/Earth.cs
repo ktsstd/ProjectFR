@@ -97,6 +97,7 @@ public class Earth : PlayerController
                 }
             }
             ElementalSetting();
+            UseItem();
         }
     }
 

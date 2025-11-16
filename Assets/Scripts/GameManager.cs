@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public int WaveLoopCount = 0;
     public int selectedMode = 0;
     public bool isSpawn = false;
+    public GameObject localPlayerCharacter;
 
     private static GameManager _instance;
     public static GameManager Instance
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         else if ((int)character == 3)
             prefabName = "Fire";
 
-        PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);
+        localPlayerCharacter = PhotonNetwork.Instantiate(prefabName, SpawnPos.position, Quaternion.identity);
 
         if (SceneManagerHelper.ActiveSceneName == "Stage1")
         {

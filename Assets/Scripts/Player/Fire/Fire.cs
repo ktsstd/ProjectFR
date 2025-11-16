@@ -10,6 +10,7 @@ public class Fire : PlayerController
 
     public ParticleSystem fireParticle;
     public GameObject flameSpray;
+    FlameSprayTest flameSprayTest;
 
     public GameObject grenade;
     public GameObject grenadeBundle;
@@ -25,6 +26,7 @@ public class Fire : PlayerController
     {
         base.StartStatSet();
         audioSource = GetComponent<AudioSource>();
+        flameSprayTest = flameSpray.GetComponent<FlameSprayTest>();
     }
 
     public override void OnTriggerEnter(Collider collision)
@@ -106,7 +108,9 @@ public class Fire : PlayerController
                     }
                 }
             }
+            flameSprayTest.damage = playerAtk;
             ElementalSetting();
+            UseItem();
         }
     }
 
@@ -143,7 +147,6 @@ public class Fire : PlayerController
             fireParticle.Play();
             flameSpray.SetActive(true);
             audioSource.Play();
-            flameSpray.GetComponent<FlameSprayTest>().damage = playerAtk;
             playerSpeed -= 1;
         }
         else

@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject[] skillRanges;
     public Vector3[] skillsPos = new Vector3[3];
     public FusionSkill fusion;
+    public ItemUi item;
 
     public virtual void StartStatSet()
     {
@@ -87,6 +88,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
         fusion = FindAnyObjectByType<FusionSkill>();
+        item = FindAnyObjectByType<ItemUi>();
         playerUi = GameObject.Find("PlayerUi").GetComponent<PlayerUi>();
 
         screenWidth = Screen.width;
@@ -298,6 +300,25 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Attack() { }
 
+    public void UseItem()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            item.UseItem(elementalCode ,0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            item.UseItem(elementalCode,1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            item.UseItem(elementalCode, 2);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            item.UseItem(elementalCode, 3);
+        }
+    }
 
     float fusionHoldTime = 2f;
     public void ElementalSetting()
@@ -510,8 +531,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         playerInRange.Clear();
     }
 
-    private Coroutine stunCoroutine;
+    public IEnumerator PlayerAttackBuff(float _time, float _atk)
+    {
+        float atk = (playerAtk * _atk) - playerAtk;
+        playerAtk += atk;
+        yield return new WaitForSeconds(_time);
+        playerAtk -= atk;
+    }
 
+    private Coroutine stunCoroutine;
     [PunRPC]
     public void OnPlayerStun(float _time)
     {

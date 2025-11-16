@@ -35,7 +35,8 @@ public class FlameGrenadeTest : PlayerSkill
                         monsterInRange.Remove(monsters);
 
                     HitOther(monsters, 60f + (damage * 0.2f));
-                    // monster.OnMonsterSpeedDown(4f, 3f);
+                    MonsterAI monster = monsters.GetComponent<MonsterAI>();
+                    monster.OnMonsterSpeedDown(4f, 3f);
                 }
                 damageDelay = 0.5f;
             }

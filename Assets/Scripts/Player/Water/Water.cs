@@ -102,6 +102,7 @@ public class Water : PlayerController
                 }
             }
             ElementalSetting();
+            UseItem();
         }
     }
 

@@ -139,6 +139,7 @@ public class Lightning : PlayerController
                 }
             }
             ElementalSetting();
+            UseItem();
         }
     }
 
