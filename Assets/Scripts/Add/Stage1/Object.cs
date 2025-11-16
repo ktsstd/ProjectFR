@@ -26,19 +26,19 @@ public class Object : MonoBehaviourPunCallbacks
         MonsterCount = Monster.Length;
         ObjectHp.value = health / MaxHp;
 
-        foreach (GameObject monster in Monster)
-        {
-            float distance = Vector3.Distance(transform.position, monster.transform.position);
+        //foreach (GameObject monster in Monster)
+        //{
+        //    float distance = Vector3.Distance(transform.position, monster.transform.position);
 
-            if (distance <= detectRadius)
-            {
-                Mugolin mugolin = monster.GetComponent<Mugolin>();
-                if (mugolin != null)
-                {
-                    mugolin.StandUp();
-                }
-            }
-        }
+        //    if (distance <= detectRadius)
+        //    {
+        //        Mugolin mugolin = monster.GetComponent<Mugolin>();
+        //        if (mugolin != null)
+        //        {
+        //            mugolin.StandUp();
+        //        }
+        //    }
+        //}
     }
     public void Damaged(float damage)
     {

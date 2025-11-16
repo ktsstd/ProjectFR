@@ -188,7 +188,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
             { "isReady", isReady },
-            { "selectedCharacter", CharacterIndex }
+            { "selectedCharacter", CharacterIndex },
+            { "selectedMode", selectedMode }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
@@ -255,11 +256,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (!Starting)
         {
             Starting = true;
-            ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
-            {
-                { "selectedMode", selectedMode }
-            };
-            PhotonNetwork.CurrentRoom.SetCustomProperties(properties);
             PhotonNetwork.LoadLevel("Stage1");
         }
     }
@@ -363,5 +359,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         selectedMode = mode;
         modeText.text = selectedMode == 0 ? "기본모드: 선택됨" : "무한모드: 선택됨";
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        {
+           { "selectedMode", selectedMode }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 }

@@ -5,6 +5,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private int WaveAllMonster;
     private int WaveCount = 0;
     public int WaveLoopCount = 0;
+    public int selectedMode = 0;
     public bool isSpawn = false;
 
     private static GameManager _instance;
@@ -74,28 +76,27 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (SceneManagerHelper.ActiveSceneName == "Stage1")
         {
-            StartCoroutine(WaveStart());
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
+                this.selectedMode = (int)selectedMode;
+                if (this.selectedMode == 0)
+                {
+                    StartCoroutine(WaveStart());
+                }
+                else if (this.selectedMode == 1)
+                {
+                    StartCoroutine(InfiniteWaveStart());
+                }
+            }            
             StartCoroutine(CheckMonsterC());
             WaveCount += 1;
-            //if (PhotonNetwork.IsMasterClient)
-            //{
-            //    PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
-            //    if ((int)selectedMode == 0)
-            //    {
-            //        StartCoroutine(WaveStart());
-            //    }
-            //    else if ((int)selectedMode == 1)
-            //    {
-            //        //
-            //    }
-            //}            
-            //StartCoroutine(CheckMonsterC());
-            //WaveCount += 1;
         }
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")
         {
             cartS.currentState = CartMove.States.Move; // 나중에 연출로 바꾸기
         }
+        Debug.Log($"selectedMode 설정됨: {this.selectedMode}");
     }
 
     void Update()
@@ -106,6 +107,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (WaveCount != 4)
             {
+                WaveBar.SetActive(true);
+                BossHpBar.SetActive(false);
                 WaveText.text = ("Wave " + WaveCount + "/4");
             }
             else
@@ -152,20 +155,22 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void CheckMonster()
     {
-        if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn)
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 0)
         {
             StartCoroutine(WaveStart());
             isSpawn = true;
             WaveCount += 1;
             HealPlayer();
         }
-        //else if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn)
-        //{
-        //    StartCoroutine(InfiniteWaveStart());
-        //    isSpawn = true;
-        //    WaveCount += 1;
-        //    HealPlayer();
-        //}
+        else if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 1)
+        {
+            StartCoroutine(InfiniteWaveStart());
+            isSpawn = true;
+            WaveCount += 1;
+            HealPlayer();
+        }
     }
 
     public void CheckPlayer()
@@ -324,14 +329,14 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 SoundManager.Instance.PlayBgm(Boss);
                 isSpawn = false;
             }
-            //else if (WaveCount == 5)
-            //{
-            //    WaveCount = 1;
-            //    WaveLoopCount += 1;
-            //    StartCoroutine(InfiniteWaveStart());
-            //    isSpawn = true;
-            //    HealPlayer();
-            //}
+            else if (WaveCount == 5)
+            {
+                WaveCount = 1;
+                WaveLoopCount += 1;
+                StartCoroutine(InfiniteWaveStart());
+                isSpawn = true;
+                HealPlayer();
+            }
         }
     }
 

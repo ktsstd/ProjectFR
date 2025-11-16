@@ -264,9 +264,12 @@ public class Drog : MonsterAI
                 {
                     currentState = States.Die;
                     animator.SetTrigger("Die");
-                    PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-                    playerS.photonView.RPC("LookAtTarget", RpcTarget.All, gameObject.name, 55555f);
-                    Invoke("GameEnd", 6f);
+                    if (GameManager.Instance.selectedMode == 0)
+                    {
+                        PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+                        playerS.photonView.RPC("LookAtTarget", RpcTarget.All, gameObject.name, 55555f);
+                        Invoke("GameEnd", 6f);
+                    }                    
                 }
             }
         }

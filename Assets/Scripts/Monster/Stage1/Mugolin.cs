@@ -19,7 +19,6 @@ public class Mugolin : MonsterAI
         defaultspeed = agent.speed;
         Increasespeed = defaultspeed * 2;
         IncreasePerspeed = (Increasespeed - defaultspeed) / 5;
-       
         StartCoroutine(StartMove());
     }
     public override void Update()
@@ -39,44 +38,106 @@ public class Mugolin : MonsterAI
         }
     }
 
-    public override void AttackEvent()
+    public override void Move()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
-        photonView.RPC("AttackEventRPC", RpcTarget.All);
-    }
-
-    [PunRPC]
-    public void AttackEventRPC()
-    {
-        GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
-        Object ObjectS = ObjectObj.GetComponent<Object>();
-        SoundManager.Instance.PlayMonsterSfx(0, transform.position); // Edit
-        ObjectS.Damaged(damage);
-        if (currentState == States.Attack)
+        if (target == null) return;
+        isMoving = true;
+        targetCollider = target.GetComponent<CapsuleCollider>();
+        Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
+        float distance = Vector3.Distance(transform.position, targetPos);
+        if (currentState == States.Idle)
         {
-            attackTimer = attackCooldown;
-            currentState = States.Idle;
-        }        
+            Vector3 directionToTarget = target.position - transform.position;
+            if (directionToTarget != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 6f);
+            }
+        }
+        for (int i = 0; i < skillRange.Length; i++)
+        {
+            if (distance <= skillRange[i] && skillTimer[i] <= 0f && currentState == States.Idle && thinkTimer <= 0f && !IsRolling)
+            {
+                agent.ResetPath();
+                agent.velocity = Vector3.zero;
+                animator.SetBool("Run", false);
+                agent.velocity = Vector3.zero;
+                currentState = States.Attack;
+                isMoving = false;
+                int randomSkill = GetRandomSkill(skillRange[i]);
+                if (randomSkill != -1)
+                {
+                    SkillAttack(randomSkill);
+                }
+                break;
+            }
+            else if (distance > skillRange[i] && skillTimer[i] <= 0f && currentState == States.Idle && thinkTimer <= 0f)
+            {
+                agent.SetDestination(targetPos);
+                animator.SetBool("Run", true);
+            }
+        }
+        if (distance <= attackRange && currentState != States.Attack && !IsRolling)
+        {
+            agent.ResetPath();
+            animator.SetBool("Run", false);
+            if (attackTimer <= 0 && currentState != States.Die)
+            {
+                currentState = States.Attack;
+                isMoving = false;
+                AttackStart();
+            }
+        }
+        else if (distance > attackRange && currentState != States.Attack)
+        {
+            agent.SetDestination(targetPos);
+            animator.SetBool("Run", true);
+        }
     }
 
-    private IEnumerator StartMove() 
+    private IEnumerator StartMove()
     {
         IsRolling = true;
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             agent.speed += IncreasePerspeed;
             yield return new WaitForSeconds(1f);
         }
+        IsRolling = false;
+        SpeedReset();
         yield break;
     }
 
-    private IEnumerator StopMove()
+    public void OnCollisionEnter(Collision other)
     {
-        StopCoroutine(StartMove()); 
-        currentState = States.Stun;
-        animator.SetTrigger("Stun");        
-        IsRolling = false;
-        agent.velocity = Vector3.zero;        
+        if(other.gameObject.tag == "Player" && IsRolling)
+        {
+            agent.ResetPath();
+            IsRolling = false;
+            currentState = States.Stun;
+            animator.SetTrigger("Stun");
+            agent.velocity = Vector3.zero;
+            PlayerController playerctrl = other.gameObject.GetComponent<PlayerController>();
+            playerctrl.photonView.RPC("OnPlayerStun", RpcTarget.All, 1f);
+            playerctrl.photonView.RPC("OnPlayerHit", RpcTarget.All, 150 + (0.8f * damage));
+            agent.velocity = Vector3.zero;
+            StartCoroutine(SpeedReset());
+        }
+        else if (other.gameObject.tag == "Object" && IsRolling)
+        {
+            agent.ResetPath();
+            IsRolling = false;
+            currentState = States.Stun;
+            agent.velocity = Vector3.zero;
+            animator.SetTrigger("Stun");
+            Object objectS = other.gameObject.GetComponent<Object>();
+            objectS.Damaged((150 + (0.8f * damage)) + (120 + (0.8f * damage)));
+            StartCoroutine(SpeedReset());
+        }
+    }
+
+    IEnumerator SpeedReset()
+    {
         if (monsterSlowCurTime > 0)
         {
             float slowSpeed = Increasespeed - agent.speed;
@@ -88,38 +149,17 @@ public class Mugolin : MonsterAI
         }
         yield return new WaitForSeconds(1.333f);
         currentState = States.Idle;
-        StartCoroutine(StartMove());
     }
-
-    private void OnCollisionEnter(Collision other)
+    public override void AttackEvent()
     {
-        if (other.gameObject.tag == "Player" && IsRolling)
+        if (currentState == States.Attack)
         {
-            StopCoroutine(StartMove());
-            StartCoroutine(StopMove());
-            PlayerController playerctrl = other.gameObject.GetComponent<PlayerController>();
-            playerctrl.photonView.RPC("OnPlayerStun", RpcTarget.All, 1f);
-            agent.velocity = Vector3.zero;
-        }
-    }
-
-    public void StandUp()
-    {
-        if (!IsRolling) return;
-        IsRolling = false;
-        currentState = States.Stop;
-        animator.SetTrigger("isUp");
-        agent.velocity = Vector3.zero;
-        currentState = States.Idle;
-        attackTimer = attackCooldown;
-        if (monsterSlowCurTime > 0)
-        {
-            float slowSpeed = Increasespeed - agent.speed;
-            agent.speed = defaultspeed - slowSpeed;
-        }
-        else
-        {
-            agent.speed = defaultspeed;
+            GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
+            Object ObjectS = ObjectObj.GetComponent<Object>();
+            SoundManager.Instance.PlayMonsterSfx(0, transform.position);
+            ObjectS.Damaged(damage);
+            attackTimer = attackCooldown;
+            currentState = States.Idle;
         }
     }
 }
