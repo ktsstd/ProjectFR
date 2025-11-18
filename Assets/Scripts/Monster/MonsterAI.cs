@@ -425,10 +425,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     {
         latestAttackPlayer = playercode;
         if (!PhotonNetwork.IsMasterClient) return;
-        photonView.RPC("OnMonsterHit", RpcTarget.All, damage, playercode);
+        photonView.RPC("OnMonsterHit", RpcTarget.All, damage);
     }
     [PunRPC]
-    public virtual void OnMonsterHit(float damage, int playercode)
+    public virtual void OnMonsterHit(float damage)
     {
         if (currentState == States.Die) return;
         if (CurHp > 0)

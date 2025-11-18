@@ -296,7 +296,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             // 상점 활성화
-            yield return new WaitForSeconds(60);
+            yield return new WaitForSeconds(15);
             // 상점 비활성화
             string Sleebam = "Monster/Stage1/Sleebam";
             string Mugolin = "Monster/Stage1/Mugolin";
