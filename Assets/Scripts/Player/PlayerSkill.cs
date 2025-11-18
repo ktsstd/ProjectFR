@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerSkill : MonoBehaviour
 {
     public GameObject SkillEffect;
-    int playerCode;
+    public int playerCode;
 
     void Start()
     {
