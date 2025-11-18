@@ -135,7 +135,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
         if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient)
         {
-            //photonView.RPC("RecognizePlayer", RpcTarget.AllBuffered);
+            //photonView.
+            //
+            //
+            //("RecognizePlayer", RpcTarget.AllBuffered);
             RecognizePlayer();
         }
         targetSearchTimer -= Time.deltaTime;
@@ -465,7 +468,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
         HpBar.value = CurHp / MaxHp;
     }
-    public virtual void DestroyMonster()
+    [PunRPC]
+    public virtual void GiveMoney()
     {
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         if (GameManager.Instance.selectedMode == 1 && latestAttackPlayer == (int)character)
@@ -484,6 +488,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 playerCtrl.money += 10;
             }
         }
+    }
+    public virtual void DestroyMonster()
+    {
+        photonView.RPC("GiveMoney", RpcTarget.AllBuffered);
         PhotonNetwork.Destroy(gameObject);
         if (SceneManagerHelper.ActiveSceneName == "Tutorial")
         {
