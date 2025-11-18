@@ -470,6 +470,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         if (GameManager.Instance.selectedMode == 1 && latestAttackPlayer == (int)character)
         {
+            Debug.Log("add");
+            Debug.Log(latestAttackPlayer);
+            Debug.Log((int)character);
             PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
             if (monsterInfo.isBoss)
             {
@@ -501,11 +504,13 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(latestAttackPlayer);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
+            latestAttackPlayer = (int)stream.ReceiveNext();
         }
     }
 }
