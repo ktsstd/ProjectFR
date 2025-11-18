@@ -18,7 +18,7 @@ public class Solborn : MonsterAI
         yield return new WaitForSeconds(1.1f);
         currentState = States.Idle;
     }
-    public override void AttackEvent()
+    public override void AttackEvent() 
     {
         atkboundary.EnterPlayer();
         SolbornEffect.Play();
@@ -27,5 +27,19 @@ public class Solborn : MonsterAI
     public override void ShowAttackBoundary()
     {
         atkboundary.ShowBoundary();
+    }
+
+    public override void DestroyMonster()
+    {
+        PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
+        PhotonNetwork.Destroy(gameObject);
+        if (SceneManagerHelper.ActiveSceneName == "Tutorial")
+        {
+            TutorialManagement.Instance.CheckMonster();
+        }
+        else
+        {
+            GameManager.Instance.CheckMonster();
+        }
     }
 }

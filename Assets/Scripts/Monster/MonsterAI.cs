@@ -466,18 +466,28 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
     public virtual void DestroyMonster()
     {
-        PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
-        if (monsterInfo.isBoss)
+        if (GameManager.Instance.selectedMode == 1)
         {
-            playerCtrl.money += 100;
-        }
-        else if (monsterInfo.isElite)
-        {
-            playerCtrl.money += 30;
+            //latestAttackPlayer
+            PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
+            if (latestAttackPlayer != (int)character) return;
+            PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
+            if (monsterInfo.isBoss)
+            {
+                playerCtrl.money += 100;
+            }
+            else if (monsterInfo.isElite)
+            {
+                playerCtrl.money += 30;
+            }
+            else
+            {
+                playerCtrl.money += 10;
+            }
         }
         else
         {
-            playerCtrl.money += 10;
+
         }
         PhotonNetwork.Destroy(gameObject);
         if (SceneManagerHelper.ActiveSceneName == "Tutorial")
