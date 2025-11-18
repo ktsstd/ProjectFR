@@ -280,6 +280,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (masterClient.CustomProperties.TryGetValue("selectedMode", out object modeState))
         {
             selectedMode = (int)modeState;
+            ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+            {
+                { "selectedMode", selectedMode }
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
             UpdateModeUI();
         }
     }
@@ -381,5 +386,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void UpdateModeUI()
     {
         modeText.text = selectedMode == 0 ? "기본모드: 선택됨" : "무한모드: 선택됨";
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        {
+            { "selectedMode", selectedMode }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 }
