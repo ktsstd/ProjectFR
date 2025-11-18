@@ -77,10 +77,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (SceneManagerHelper.ActiveSceneName == "Stage1")
         {
+            PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
+            this.selectedMode = (int)selectedMode;
             if (PhotonNetwork.IsMasterClient)
             {
-                PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
-                this.selectedMode = (int)selectedMode;
                 if (this.selectedMode == 0)
                 {
                     StartCoroutine(WaveStart());
@@ -97,7 +97,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             cartS.currentState = CartMove.States.Move; // 나중에 연출로 바꾸기
         }
-        Debug.Log($"selectedMode 설정됨: {this.selectedMode}");
     }
 
     void Update()

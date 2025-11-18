@@ -19,5 +19,6 @@ public class MonsterInfo : ScriptableObject
     public string[] priTarget;
 
     public bool isBoss;
+    public bool isElite;
     public float redistance;
 }

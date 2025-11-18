@@ -244,11 +244,12 @@ public class Drog : MonsterAI
         }            
     }
     [PunRPC]
-    public override void OnMonsterHit(float damage)
+    public override void OnMonsterHit(float damage, int playercode)
     {
         if (PatternHealth <= 0)
         {
             CurHp -= damage;
+            latestAttackPlayer = playercode;
             if (CurHp <= 0 && currentState == States.Idle)
             {
                 if (BossPhase < 2)

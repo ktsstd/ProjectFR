@@ -48,7 +48,7 @@ public class husoofather : MonsterAI
     {
         
     }
-    public override void MonsterDmged(float damage)
+    public override void MonsterDmged(float damage, int playercode)
     {
         damaged = true;
         //StopCoroutine(resettimer());

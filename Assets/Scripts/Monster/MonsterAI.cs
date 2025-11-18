@@ -41,6 +41,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public float targetSearchTime = 4f; // 인지 재탐색 시간
     public float targetSearchTimer; // 인지 타이머
 
+    public float latestAttackPlayer = -1;
+
     public GameObject HpBarObj;
     public Slider HpBar;
 
@@ -64,6 +66,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         rigid = GetComponent<Rigidbody>();
 
         currentState = States.Idle;
+        latestAttackPlayer = -1;
         if (PhotonNetwork.PlayerList.Length > 2)
         {
             CurHp = monsterInfo.health;
@@ -417,18 +420,19 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         targetSearchTimer = targetSearchTime;
     }
 
-    public virtual void MonsterDmged(float damage)
+    public virtual void MonsterDmged(float damage, int playercode)
     {
         if (!PhotonNetwork.IsMasterClient) return;
         photonView.RPC("OnMonsterHit", RpcTarget.All, damage);
     }
     [PunRPC]
-    public virtual void OnMonsterHit(float damage)
+    public virtual void OnMonsterHit(float damage, int playercode)
     {
         if (currentState == States.Die) return;
         if (CurHp > 0)
         {
             CurHp -= damage;
+            latestAttackPlayer = playercode;
             if (CurHp <= 0)
             {
                 currentState = States.Die;
@@ -462,6 +466,19 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
     public virtual void DestroyMonster()
     {
+        PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
+        if (monsterInfo.isBoss)
+        {
+            playerCtrl.money += 100;
+        }
+        else if (monsterInfo.isElite)
+        {
+            playerCtrl.money += 30;
+        }
+        else
+        {
+            playerCtrl.money += 10;
+        }
         PhotonNetwork.Destroy(gameObject);
         if (SceneManagerHelper.ActiveSceneName == "Tutorial")
         {
@@ -472,6 +489,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             GameManager.Instance.CheckMonster();
         }
     }
+
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)

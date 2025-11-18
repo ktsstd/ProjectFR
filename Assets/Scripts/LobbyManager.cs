@@ -358,6 +358,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnClickModeChange(int mode) // 0 기본 1 무한
     {
         selectedMode = mode;
+        photonView.RPC("ChangeSeletedMode", RpcTarget.All, selectedMode);
+    }
+
+    [PunRPC]
+    public void ChangeSeletedMode(int mode)
+    {
         modeText.text = selectedMode == 0 ? "기본모드: 선택됨" : "무한모드: 선택됨";
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
