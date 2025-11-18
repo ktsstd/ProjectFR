@@ -10865,6 +10865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f758cf90d32bae34da55312b6243bc5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moneyText: {fileID: 948663795}
   storeObject: {fileID: 197200865}
   ItemSlotObject:
   - {fileID: 99864940}
