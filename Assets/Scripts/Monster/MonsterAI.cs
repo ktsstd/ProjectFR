@@ -504,11 +504,13 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(latestAttackPlayer);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
+            latestAttackPlayer = (int)stream.ReceiveNext();
         }
     }
 }
