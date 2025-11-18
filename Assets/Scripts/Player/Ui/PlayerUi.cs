@@ -8,6 +8,8 @@ using TMPro;
 
 public class PlayerUi : MonoBehaviour
 {
+    public GameObject playeritemUi;
+
     public Slider playerHpSlider;
     public Image playerHpImage;
     public Slider playerDashSlider;
@@ -56,6 +58,8 @@ public class PlayerUi : MonoBehaviour
 
     void Start()
     {
+        if (GameManager.Instance.selectedMode == 1)
+            playeritemUi.SetActive(true);
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         playerHp = 1;
         playerMaxHp = 1;

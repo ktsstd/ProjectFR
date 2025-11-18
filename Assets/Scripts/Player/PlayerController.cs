@@ -302,21 +302,24 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public void UseItem()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (GameManager.Instance.selectedMode == 1)
         {
-            item.UseItem(elementalCode ,0);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            item.UseItem(elementalCode,1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            item.UseItem(elementalCode, 2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            item.UseItem(elementalCode, 3);
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                item.UseItem(elementalCode, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                item.UseItem(elementalCode, 1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                item.UseItem(elementalCode, 2);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                item.UseItem(elementalCode, 3);
+            }
         }
     }
 

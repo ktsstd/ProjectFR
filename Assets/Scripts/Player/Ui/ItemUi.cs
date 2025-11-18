@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class ItemUi : MonoBehaviour
 {
+    public GameObject storeObject;
     public GameObject[] ItemSlotObject;
     public GameObject[] Items;
+    public GameObject cooltimeButton;
 
     public GameObject[] HaveItem()
     {
@@ -60,6 +62,7 @@ public class ItemUi : MonoBehaviour
     int atkUpStack = 1;
     int hpUpStack = 1;
     int ctUpStack = 1;
+    float[] cooltimesave = new float[3] { 0, 0, 0 };
 
     public void BuyState(int _num)
     {
@@ -67,7 +70,7 @@ public class ItemUi : MonoBehaviour
         switch (_num)
         {
             case 0:
-                // 공증 / 돈내기 추가하기
+                // 공증 / 돈내기 추가하기 / 텍스트 수정하기
                 if (atkUpStack >= 1 && atkUpStack <= 10)
                 {
                     player.playerAtk += 10;
@@ -91,9 +94,58 @@ public class ItemUi : MonoBehaviour
                 break;
             case 1:
                 // 채증
+                if (hpUpStack >= 1 && hpUpStack <= 10)
+                {
+                    player.playerHp += 75;
+                    player.playerMaxHp += 75;
+                    hpUpStack++;
+                }
+                else if (hpUpStack >= 11 && hpUpStack <= 20)
+                {
+                    player.playerHp += 100;
+                    player.playerMaxHp += 100;
+                    hpUpStack++;
+                }
+                else if (hpUpStack >= 21 && hpUpStack <= 30)
+                {
+                    player.playerHp += 150;
+                    player.playerMaxHp += 150;
+                    hpUpStack++;
+                }
+                else
+                {
+                    player.playerHp += 175;
+                    player.playerMaxHp += 175;
+                    hpUpStack++;
+                }
                 break;
             case 2:
                 // 쿨감
+                if (ctUpStack == 1)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        cooltimesave[i] = player.skillsCoolTime[i] * 0.1f;
+                        player.skillsCoolTime[i] = player.skillsCoolTime[i] - (player.skillsCoolTime[i] * 0.1f);
+                    }
+                    ctUpStack++;
+                }
+                else if (ctUpStack == 2)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        player.skillsCoolTime[i] -= cooltimesave[i];
+                    }
+                    ctUpStack++;
+                }
+                else if (ctUpStack == 3)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        player.skillsCoolTime[i] -= cooltimesave[i];
+                    }
+                    cooltimeButton.SetActive(false);
+                }
                 break;
         }
     }
@@ -102,5 +154,13 @@ public class ItemUi : MonoBehaviour
     {
         if (ItemSlotObject[_num].transform.childCount != 0)
             ItemSlotObject[_num].transform.GetChild(0).GetComponent<PlayerItem>().UseItem(_player);
+    }
+
+    public void ShowStore()
+    {
+        if (storeObject.activeSelf)
+            storeObject.SetActive(false);
+        else
+            storeObject.SetActive(true);
     }
 }
