@@ -42,7 +42,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public float targetSearchTime = 4f; // 인지 재탐색 시간
     public float targetSearchTimer; // 인지 타이머
 
-    public float latestAttackPlayer = -1;
+    public int latestAttackPlayer = -1;
 
     public GameObject HpBarObj;
     public Slider HpBar;
@@ -426,7 +426,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void MonsterDmged(float damage, int playercode)
     {
-        latestAttackPlayer = playercode;
+        photonView.RPC("SetLatestAttacker", RpcTarget.AllBuffered, playercode);
         if (!PhotonNetwork.IsMasterClient) return;
         photonView.RPC("OnMonsterHit", RpcTarget.All, damage);
     }
@@ -454,6 +454,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
         HpUpdate();
+    }
+    [PunRPC]
+    public void SetLatestAttacker(int attacker)
+    {
+        latestAttackPlayer = attacker;
     }
     public void HpUpdate()
     {
