@@ -273,6 +273,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         UpdatePlayerListUI();
     }
+
+    public override void OnJoinedRoom()
+    {
+        Player masterClient = PhotonNetwork.MasterClient;
+        if (masterClient.CustomProperties.TryGetValue("selectedMode", out object modeState))
+        {
+            selectedMode = (int)modeState;
+        }
+    }
     public void OnClickLeaveRoom()
     {
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
