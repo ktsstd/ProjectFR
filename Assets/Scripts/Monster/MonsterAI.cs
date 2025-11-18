@@ -423,6 +423,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void MonsterDmged(float damage, int playercode)
     {
+        latestAttackPlayer = playercode;
         if (!PhotonNetwork.IsMasterClient) return;
         photonView.RPC("OnMonsterHit", RpcTarget.All, damage, playercode);
     }
@@ -433,7 +434,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         if (CurHp > 0)
         {
             CurHp -= damage;
-            latestAttackPlayer = playercode;
             if (CurHp <= 0)
             {
                 currentState = States.Die;
@@ -470,9 +470,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         if (GameManager.Instance.selectedMode == 1 && latestAttackPlayer == (int)character)
         {
-            Debug.Log("add");
-            Debug.Log(latestAttackPlayer);
-            Debug.Log((int)character);
             PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
             if (monsterInfo.isBoss)
             {
@@ -504,13 +501,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(latestAttackPlayer);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
-            latestAttackPlayer = (int)stream.ReceiveNext();
         }
     }
 }
