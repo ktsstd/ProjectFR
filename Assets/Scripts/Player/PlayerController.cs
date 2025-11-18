@@ -89,8 +89,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
         fusion = FindAnyObjectByType<FusionSkill>();
-        item = FindAnyObjectByType<ItemUi>();
         playerUi = GameObject.Find("PlayerUi").GetComponent<PlayerUi>();
+        item = playerUi.transform.GetChild(0).gameObject.GetComponent<ItemUi>();
 
         screenWidth = Screen.width;
         screenHeight = Screen.height;

@@ -2,13 +2,28 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ItemUi : MonoBehaviour
 {
+    public TextMeshProUGUI moneyText;
+
     public GameObject storeObject;
     public GameObject[] ItemSlotObject;
     public GameObject[] Items;
     public GameObject cooltimeButton;
+
+    PlayerController localplayer;
+
+    private void Start()
+    {
+        localplayer = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
+    }
+
+    private void Update()
+    {
+        moneyText.text = localplayer.money.ToString();
+    }
 
     public GameObject[] HaveItem()
     {
