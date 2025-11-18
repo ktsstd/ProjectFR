@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FusionLightning : MonoBehaviour
+public class FusionLightning : PlayerSkill
 {
     void Start()
     {
@@ -11,14 +11,6 @@ public class FusionLightning : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
-        {
-            other.GetComponent<MonsterAI>().MonsterDmged(100);
-        }
-    }
-
-    void SelfDestroy()
-    {
-        Destroy(gameObject);
+        HitOther(other.gameObject, 100);
     }
 }

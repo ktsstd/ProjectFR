@@ -5,6 +5,12 @@ using UnityEngine;
 public class PlayerSkill : MonoBehaviour
 {
     public GameObject SkillEffect;
+    int playerCode;
+
+    void Start()
+    {
+        playerCode = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>().elementalCode;
+    }
 
     public void SelfDestroy()
     {
@@ -15,7 +21,7 @@ public class PlayerSkill : MonoBehaviour
     {
         if (_other.tag == "Enemy")
         {
-            _other.GetComponent<MonsterAI>().MonsterDmged(_damage);
+            _other.GetComponent<MonsterAI>().MonsterDmged(_damage, playerCode);
             Instantiate(SkillEffect, _other.transform);
 
             GameObject damageText = PoolManager.Instance.text_Pools.Get();

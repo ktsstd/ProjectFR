@@ -40,6 +40,8 @@ public class PlayerUi : MonoBehaviour
     public Image[] otherPlayerIcon;
     List<GameObject> otherPlayerList = new List<GameObject>();
 
+    int playerMoney; 
+
     float playerHp;
     float playerMaxHp;
 
@@ -151,6 +153,11 @@ public class PlayerUi : MonoBehaviour
         {
             otherPlayerUi[i].SetActive(true);
         }
+    }
+
+    public void InputMoneyData(int _money)
+    {
+        playerMoney = _money;
     }
 
     public void InputHpData(float _playerHp, float _playerMaxHp)

@@ -143,6 +143,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             CameraMove();
             playerUi.InputDashData(currentDashCoolTime, dashCoolTime);
             playerUi.InputSkillData(currentSkillsCoolTime, skillsCoolTime);
+            playerUi.InputMoneyData(money);
+
             if (currentStates != States.Idle)
             {
                 skillRanges[0].SetActive(false);

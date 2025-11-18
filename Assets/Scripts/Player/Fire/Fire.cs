@@ -36,7 +36,7 @@ public class Fire : PlayerController
         {
             if (collision.gameObject.tag == "Enemy")
             {
-                collision.gameObject.GetComponent<MonsterAI>().MonsterDmged(5f + playerAtk * 0.1f);
+                collision.gameObject.GetComponent<MonsterAI>().MonsterDmged(5f + playerAtk * 0.1f, elementalCode);
             }
         }
     }

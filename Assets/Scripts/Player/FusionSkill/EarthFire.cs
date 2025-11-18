@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EarthFire : MonoBehaviour
+public class EarthFire : PlayerSkill
 {
     float damageDelay = 0f;
     List<GameObject> monsterInRange = new List<GameObject>();
@@ -24,7 +24,7 @@ public class EarthFire : MonoBehaviour
                 if (monsters == null)
                     monsterInRange.Remove(monsters);
 
-                monsters.GetComponent<MonsterAI>().MonsterDmged(125f);
+                HitOther(monsters, 125f);
             }
             damageDelay = 1f;
         }
@@ -44,10 +44,5 @@ public class EarthFire : MonoBehaviour
         {
             monsterInRange.Remove(other.gameObject);
         }
-    }
-
-    void SelfDestroy()
-    {
-        Destroy(gameObject);
     }
 }

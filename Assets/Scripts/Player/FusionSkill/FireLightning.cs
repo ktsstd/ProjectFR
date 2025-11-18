@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireLightning : MonoBehaviour
+public class FireLightning : PlayerSkill
 {
     float damageTime = 1f;
 
@@ -22,15 +22,7 @@ public class FireLightning : MonoBehaviour
     {
         if (damageTime >= 0)
         {
-            if (other.tag == "Enemy")
-            {
-                other.GetComponent<MonsterAI>().MonsterDmged(700f);
-            }
+            HitOther(other.gameObject, 700f);
         }
-    }
-
-    void SelfDestroy()
-    {
-        Destroy(gameObject);
     }
 }
