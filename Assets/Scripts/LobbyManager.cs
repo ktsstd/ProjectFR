@@ -280,6 +280,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (masterClient.CustomProperties.TryGetValue("selectedMode", out object modeState))
         {
             selectedMode = (int)modeState;
+            UpdateModeUI();
         }
     }
     public void OnClickLeaveRoom()
@@ -366,6 +367,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void OnClickModeChange(int mode) // 0 기본 1 무한
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         selectedMode = mode;
         photonView.RPC("ChangeSeletedMode", RpcTarget.All, selectedMode);
     }
@@ -373,11 +375,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ChangeSeletedMode(int mode)
     {
+        selectedMode = mode;
+        UpdateModeUI();
+    }
+    private void UpdateModeUI()
+    {
         modeText.text = selectedMode == 0 ? "기본모드: 선택됨" : "무한모드: 선택됨";
-        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
-        {
-           { "selectedMode", selectedMode }
-        };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 }
