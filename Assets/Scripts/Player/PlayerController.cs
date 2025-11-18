@@ -789,6 +789,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(skillsPos);
             stream.SendNext(elementalCode);
             stream.SendNext(respawnCoolTime);
+            stream.SendNext(playerAtk);
+            stream.SendNext(playerMaxHp);
         }
         else
         {
@@ -800,6 +802,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             skillsPos = (Vector3[])stream.ReceiveNext();
             elementalCode = (int)stream.ReceiveNext();
             respawnCoolTime = (float)stream.ReceiveNext();
+            playerAtk = (float)stream.ReceiveNext();
+            playerMaxHp = (float)stream.ReceiveNext();
         }
     }
 
