@@ -470,6 +470,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         if (GameManager.Instance.selectedMode == 1 && latestAttackPlayer == (int)character)
         {
+            Debug.Log("add");
+            Debug.Log(latestAttackPlayer);
+            Debug.Log((int)character);
             PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
             if (monsterInfo.isBoss)
             {
