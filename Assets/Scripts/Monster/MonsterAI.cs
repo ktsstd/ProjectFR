@@ -7,6 +7,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
@@ -466,11 +467,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
     public virtual void DestroyMonster()
     {
-        if (GameManager.Instance.selectedMode == 1)
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
+        if (GameManager.Instance.selectedMode == 1 && latestAttackPlayer == (int)character)
         {
-            //latestAttackPlayer
-            PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
-            if (latestAttackPlayer != (int)character) return;
             PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
             if (monsterInfo.isBoss)
             {
@@ -484,10 +483,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             {
                 playerCtrl.money += 10;
             }
-        }
-        else
-        {
-
         }
         PhotonNetwork.Destroy(gameObject);
         if (SceneManagerHelper.ActiveSceneName == "Tutorial")
