@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 receivePos;
     private Quaternion receiveRot;
 
+    public int money = 0;
     public float playerHp;
     public float playerMaxHp;
     public float playerAtk;
