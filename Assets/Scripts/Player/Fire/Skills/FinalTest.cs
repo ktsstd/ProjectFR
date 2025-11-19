@@ -11,8 +11,9 @@ public class FinalTest : PlayerSkill
     float damageDelay = 0f;
 
     public GameObject targetMonster;
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         monsters = GameObject.FindGameObjectsWithTag("Enemy");
 
         Invoke("SelfDestroy", 8f);

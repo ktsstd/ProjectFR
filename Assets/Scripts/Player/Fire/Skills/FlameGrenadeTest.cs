@@ -11,8 +11,9 @@ public class FlameGrenadeTest : PlayerSkill
     float boomDamage = 1f;
     List<GameObject> monsterInRange = new List<GameObject>();
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         playableDirector.Play();
         Invoke("SelfDestroy", 4f);
     }

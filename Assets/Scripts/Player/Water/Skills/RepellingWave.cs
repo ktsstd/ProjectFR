@@ -10,8 +10,9 @@ public class RepellingWave : PlayerSkill
     public GameObject waterEF;
 
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         Invoke("WaterEF", 0.8f);
     }
 

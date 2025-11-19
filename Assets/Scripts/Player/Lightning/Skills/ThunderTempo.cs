@@ -11,8 +11,9 @@ public class ThunderTempo : PlayerSkill
 
     int count = 0;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         Invoke("SelfDestroy", 2f);
     }
 

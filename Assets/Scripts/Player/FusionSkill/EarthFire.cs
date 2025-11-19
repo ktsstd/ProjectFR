@@ -7,8 +7,9 @@ public class EarthFire : PlayerSkill
     float damageDelay = 0f;
     List<GameObject> monsterInRange = new List<GameObject>();
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         Invoke("SelfDestroy", 8f);
     }
 

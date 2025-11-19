@@ -6,8 +6,9 @@ public class FireLightning : PlayerSkill
 {
     float damageTime = 1f;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         SoundManager.Instance.PlayPlayerSfx(22, transform.position);
         Invoke("SelfDestroy", 2f);
     }

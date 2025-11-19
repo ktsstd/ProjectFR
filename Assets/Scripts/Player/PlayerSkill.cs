@@ -7,10 +7,10 @@ public class PlayerSkill : MonoBehaviour
     public GameObject SkillEffect;
     public int playerCode;
 
-    void Start()
+    public virtual void Start()
     {
-        //playerCode = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>().elementalCode;
-        playerCode = GetComponentInParent<PlayerController>().elementalCode;
+        playerCode = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>().elementalCode;
+        Debug.Log(playerCode);
     }
 
     public void SelfDestroy()

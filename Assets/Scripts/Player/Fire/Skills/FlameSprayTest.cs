@@ -9,6 +9,12 @@ public class FlameSprayTest : PlayerSkill
     List<GameObject> monsterInRange = new List<GameObject>();
 
     float damageDelay = 0f;
+
+    public override void Start()
+    {
+        base.Start();
+    }
+
     void Update()
     {
         if (damageDelay >= 0)

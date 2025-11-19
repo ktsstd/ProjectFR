@@ -7,6 +7,11 @@ public class SumonDamage : PlayerSkill
     public float damage;
     float attackTime = 1;
 
+    public override void Start()
+    {
+        base.Start();
+    }
+
     public void Update()
     {
         if (attackTime >= 0)

@@ -6,8 +6,9 @@ public class ThunderRush : PlayerSkill
 {
     public float damage;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         Invoke("SelfDestroy", 1f);
     }
 

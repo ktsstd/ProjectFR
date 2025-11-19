@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class FusionLightning : PlayerSkill
 {
-    void Start()
+    public override void Start()
     {
+        base.Start();
         Invoke("SelfDestroy", 1f);
     }
 

@@ -139,6 +139,8 @@ MonoBehaviour:
   - EnableQuit
   - WaveStartRPC
   - ChangeSeletedMode
+  - GiveMoney
+  - SetLatestAttacker
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

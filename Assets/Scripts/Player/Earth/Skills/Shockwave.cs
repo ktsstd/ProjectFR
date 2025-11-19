@@ -9,8 +9,9 @@ public class Shockwave : PlayerSkill
     public PlayableDirector playableDirector;
     public float damage;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         playableDirector.Play();
         Invoke("SelfDestroy", 1f);
     }
