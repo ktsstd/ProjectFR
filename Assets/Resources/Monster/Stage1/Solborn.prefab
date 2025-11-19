@@ -1330,6 +1330,7 @@ MonoBehaviour:
   monsterSlowCurTime: 0
   targetSearchTime: 0.5
   targetSearchTimer: 0
+  latestAttackPlayer: -1
   HpBarObj: {fileID: 7651651504235438660}
   HpBar: {fileID: 8817284977810563376}
   currentState: 0

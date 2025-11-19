@@ -187,6 +187,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 pv.RPC("OnPlayerPoison", RpcTarget.All, 5);
             }
+            if (Input.GetKeyDown(KeyCode.Keypad9))
+            {
+                money += 5000;
+            }
 
         }
         else
