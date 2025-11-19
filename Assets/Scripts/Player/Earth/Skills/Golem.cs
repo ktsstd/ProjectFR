@@ -25,6 +25,7 @@ public class Golem : SummonAI
             transform.rotation = Quaternion.LookRotation(targetMonster.transform.position - transform.position);
         SoundManager.Instance.PlayPlayerSfx(21, transform.position);
         GameObject skill = Instantiate(attackEF, attackPos.position, attackEF.transform.rotation);
+        skill.GetComponent<PlayerSkill>().playerCode = 2;
         skill.GetComponent<Shockwave>().damage = atk;
     }
 
@@ -49,6 +50,7 @@ public class Golem : SummonAI
     {
         SoundManager.Instance.PlayPlayerSfx(20, transform.position);
         GameObject skill = Instantiate(summonEF, transform.position, summonEF.transform.rotation);
+        skill.GetComponent<PlayerSkill>().playerCode = 2;
         skill.GetComponent<SumonDamage>().damage = atk;
     }
     public override float Shield(float _damage)

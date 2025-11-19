@@ -136,6 +136,7 @@ public class Water : PlayerController
         repellingWavePlayerEF.SetActive(true);
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 180));
         GameObject skill = Instantiate(repellingWave, transform.position, fireRot);
+        skill.GetComponent<PlayerSkill>().playerCode = elementalCode;
         skill.GetComponent<RepellingWave>().targetPos = _targetPos;
         skill.GetComponent<RepellingWave>().damage = playerAtk;
         SoundManager.Instance.PlayPlayerSfx(0, transform.position);
@@ -159,6 +160,7 @@ public class Water : PlayerController
     {
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(callOfTheSea, _targetPos, fireRot);
+        skill.GetComponent<PlayerSkill>().playerCode = elementalCode;
         skill.GetComponent<CallOfTheSea>().damage = playerAtk;
         SoundManager.Instance.PlayPlayerSfx(3, _targetPos);
     }

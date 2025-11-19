@@ -7,6 +7,7 @@ public class FusionLightning : PlayerSkill
     public override void Start()
     {
         base.Start();
+        playerCode = 4;
         Invoke("SelfDestroy", 1f);
     }
 

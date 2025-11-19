@@ -133,6 +133,7 @@ public class Earth : PlayerController
     {
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(shockwave, _targetPos, fireRot);
+        skill.GetComponent<PlayerSkill>().playerCode = elementalCode;
         skill.GetComponent<Shockwave>().damage = playerAtk;
         SoundManager.Instance.PlayPlayerSfx(18, transform.position);
     }

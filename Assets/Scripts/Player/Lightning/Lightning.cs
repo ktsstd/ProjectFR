@@ -200,6 +200,7 @@ public class Lightning : PlayerController
     {
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(90, 0, -20));
         GameObject skill = Instantiate(shockSpin, transform.position, fireRot);
+        skill.GetComponent<PlayerSkill>().playerCode = elementalCode;
         skill.GetComponent<ShockSpin>().damage = playerAtk;
         SoundManager.Instance.PlayPlayerSfx(4, transform.position);
     }
@@ -210,6 +211,7 @@ public class Lightning : PlayerController
         Instantiate(thunderRushEF, transform);
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(90, 90, 0));
         GameObject skill = Instantiate(thunderRush, _targetPos, fireRot);
+        skill.GetComponent<PlayerSkill>().playerCode = elementalCode;
         skill.GetComponent<ThunderRush>().damage = playerAtk;
         SoundManager.Instance.PlayPlayerSfx(5, transform.position);
     }
@@ -223,6 +225,7 @@ public class Lightning : PlayerController
             playerSkin.SetActive(false);
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(thunderTempo, transform.position + (Vector3.up * 0.5f), fireRot);
+        skill.GetComponent<PlayerSkill>().playerCode = elementalCode;
         skill.GetComponent<ThunderTempo>().damage = playerAtk;
         SoundManager.Instance.PlayPlayerSfx(6, transform.position);
         Invoke("StateReset", 1.5f);

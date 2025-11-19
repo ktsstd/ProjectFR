@@ -9,8 +9,7 @@ public class PlayerSkill : MonoBehaviour
 
     public virtual void Start()
     {
-        playerCode = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>().elementalCode;
-        Debug.Log(playerCode);
+        // playerCode = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>().elementalCode;
     }
 
     public void SelfDestroy()

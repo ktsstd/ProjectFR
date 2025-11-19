@@ -39901,6 +39901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillEffect: {fileID: 0}
+  playerCode: 0
   damage: 0
 --- !u!1001 &4818727820489972744
 PrefabInstance:

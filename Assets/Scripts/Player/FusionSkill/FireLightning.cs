@@ -9,6 +9,7 @@ public class FireLightning : PlayerSkill
     public override void Start()
     {
         base.Start();
+        playerCode = 4;
         SoundManager.Instance.PlayPlayerSfx(22, transform.position);
         Invoke("SelfDestroy", 2f);
     }

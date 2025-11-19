@@ -10,6 +10,7 @@ public class EarthFire : PlayerSkill
     public override void Start()
     {
         base.Start();
+        playerCode = 4;
         Invoke("SelfDestroy", 8f);
     }
 

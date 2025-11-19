@@ -37350,6 +37350,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+  money: 0
   playerHp: 0
   playerMaxHp: 0
   playerAtk: 0
@@ -37375,6 +37376,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   fusion: {fileID: 0}
+  item: {fileID: 0}
   currentStates: 0
   isMoving: 0
   respawnCoolTime: 10

@@ -13,6 +13,7 @@ public class FlameSprayTest : PlayerSkill
     public override void Start()
     {
         base.Start();
+        playerCode = 3;
     }
 
     void Update()

@@ -176,6 +176,7 @@ public class Fire : PlayerController
         SoundManager.Instance.PlayPlayerSfx(15, _targetPos);
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(flameGrenadeTest, _targetPos, fireRot);
+        skill.GetComponent<PlayerSkill>().playerCode = elementalCode;
         skill.GetComponent<FlameGrenadeTest>().damage = playerAtk;
     }
 
@@ -185,6 +186,7 @@ public class Fire : PlayerController
         SoundManager.Instance.PlayPlayerSfx(16, _targetPos);
         Quaternion fireRot = transform.rotation * Quaternion.Euler(new Vector3(-90, 0, 0));
         GameObject skill = Instantiate(finalTest, _targetPos, fireRot);
+        skill.GetComponent<PlayerSkill>().playerCode = elementalCode;
         skill.GetComponent<FinalTest>().damage = playerAtk;
     }
 
