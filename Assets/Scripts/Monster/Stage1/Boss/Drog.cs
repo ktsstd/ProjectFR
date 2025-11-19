@@ -269,7 +269,11 @@ public class Drog : MonsterAI
                         PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
                         playerS.photonView.RPC("LookAtTarget", RpcTarget.All, gameObject.name, 55555f);
                         Invoke("GameEnd", 6f);
-                    }                    
+                    }
+                    else if (GameManager.Instance.selectedMode == 1)
+                    {
+                        GameManager.Instance.photonView.RPC("GiveAllPlayerGold", RpcTarget.All, 100);
+                    }
                 }
             }
         }

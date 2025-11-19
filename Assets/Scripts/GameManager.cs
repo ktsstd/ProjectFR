@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     StartCoroutine(InfiniteWaveStart());
                 }
-            }            
+            }
             StartCoroutine(CheckMonsterC());
             WaveCount += 1;
         }
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")
         {
-            
+
         }
     }
 
@@ -333,11 +333,19 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 WaveCount = 1;
                 WaveLoopCount += 1;
+                photonView.RPC("GiveAllPlayerGold", RpcTarget.All, 200);
                 StartCoroutine(InfiniteWaveStart());
                 isSpawn = true;
                 HealPlayer();
             }
         }
+    }
+
+    [PunRPC]
+    public void GiveAllPlayerGold(int gold)
+    {
+        PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
+        playerCtrl.money += gold;
     }
 
     IEnumerator InstantiateMonsters(string monsterType, int count)
