@@ -93,7 +93,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             skillRange[i] = monsterInfo.skillRange[i];
             //skillDelay[i] = monsterInfo.skillDelay[i];
         }
-        if (GameManager.Instance.selectedMode == 1)
+        if (GameManager.Instance.selectedMode == 1 && SceneManagerHelper.ActiveSceneName != "Tutorial")
         {
             CurHp += CurHp * (0.2f * GameManager.Instance.WaveLoopCount);
             damage += damage * (0.2f * GameManager.Instance.WaveLoopCount);
@@ -477,7 +477,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public virtual void GiveMoney()
     {
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
-        if (GameManager.Instance.selectedMode == 1 && latestAttackPlayer == (int)character)
+        if (GameManager.Instance.selectedMode == 1 && latestAttackPlayer == (int)character && SceneManagerHelper.ActiveSceneName != "Tutorial")
         {
             PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
             if (monsterInfo.isBoss)
