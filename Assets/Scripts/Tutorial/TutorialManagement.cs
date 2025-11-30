@@ -40,7 +40,7 @@ public class TutorialManagement : MonoBehaviourPunCallbacks
     {
         //PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         SM = GameObject.Find("SaveManager").GetComponent<SaveManager>();
-        PhotonNetwork.Instantiate("Fire", SpawnPos.position, Quaternion.identity);
+        GameManager.Instance.localPlayerCharacter = PhotonNetwork.Instantiate("Fire", SpawnPos.position, Quaternion.identity);
     }
     // Start is called before the first frame update
     void Start()

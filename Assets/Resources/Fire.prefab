@@ -6606,6 +6606,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+  money: 0
   playerHp: 0
   playerMaxHp: 0
   playerAtk: 0
@@ -40175,6 +40176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillEffect: {fileID: 400510289285981004, guid: 1d755c7f39221ec4d8d9fd794543e3c6, type: 3}
+  playerCode: 0
   damage: 0
 --- !u!1001 &4818727820489972744
 PrefabInstance:

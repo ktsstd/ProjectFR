@@ -7,7 +7,7 @@ public class Code : MonoBehaviour
 {
     [SerializeField] PlayerController playerS;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         playerS.elementalCode = 1;
     }

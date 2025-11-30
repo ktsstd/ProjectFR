@@ -156,21 +156,23 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public void CheckMonster()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-
-        if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 0)
+        if (SceneManagerHelper.ActiveSceneName == "Stage1")
         {
-            StartCoroutine(WaveStart());
-            isSpawn = true;
-            WaveCount += 1;
-            HealPlayer();
-        }
-        else if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 1)
-        {
-            StartCoroutine(InfiniteWaveStart());
-            isSpawn = true;
-            WaveCount += 1;
-            HealPlayer();
-        }
+            if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 0)
+            {
+                StartCoroutine(WaveStart());
+                isSpawn = true;
+                WaveCount += 1;
+                HealPlayer();
+            }
+            else if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 1)
+            {
+                StartCoroutine(InfiniteWaveStart());
+                isSpawn = true;
+                WaveCount += 1;
+                HealPlayer();
+            }
+        }        
     }
 
     public void CheckPlayer()
