@@ -28,11 +28,15 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private Material SkyBoxMat;
     [SerializeField] private Material WLSkyBoxMat;
     [SerializeField] private Light DLight;
+
     [SerializeField] private TextMeshProUGUI WaveText;
     [SerializeField] private TextMeshProUGUI WaveAllMonsterCountText;
+    [SerializeField] private TextMeshProUGUI LastTime;
+
     [SerializeField] private PlayerUi playerUi;
     [SerializeField] GameObject WaveBar;
     [SerializeField] GameObject BossHpBar;
+    [SerializeField] GameObject Timer;
     [SerializeField] Object objectS;
 
     [SerializeField] CartMove cartS;
@@ -41,7 +45,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private int WaveCount = 0;
     public int WaveLoopCount = 0;
     public int selectedMode = 0;
+    public float LastWaveTime = 0;
     public bool isSpawn = false;
+    public bool Gaming = false;
     public GameObject localPlayerCharacter;
 
     private static GameManager _instance;
@@ -83,15 +89,18 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (this.selectedMode == 0)
                 {
+                    LastWaveTime = 5f;
                     StartCoroutine(WaveStart());
                 }
                 else if (this.selectedMode == 1)
                 {
+                    LastWaveTime = 15f;
                     StartCoroutine(InfiniteWaveStart());
                 }
             }
             StartCoroutine(CheckMonsterC());
             WaveCount += 1;
+            Gaming = false;
         }
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")
         {
@@ -105,18 +114,27 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             WaveAllMonsterCountText.text = (GameObject.FindGameObjectsWithTag("Enemy").Length + "/" + WaveAllMonster);
 
-            if (WaveCount != 4)
+            if (WaveCount <= 4 && Gaming)
             {
                 WaveBar.SetActive(true);
                 BossHpBar.SetActive(false);
+                Timer.SetActive(false);
                 WaveText.text = ("Wave " + WaveCount + "/4");
             }
-            else
+            else if (WaveCount == 5 && Gaming)
             {
                 WaveBar.SetActive(false);
                 BossHpBar.SetActive(true);
+                Timer.SetActive(false);
             }
 
+            if (!Gaming)
+            {
+                WaveBar.SetActive(false);
+                BossHpBar.SetActive(false);
+                Timer.SetActive(true);
+                LastTime.text = "00:" + Mathf.Ceil(LastWaveTime);
+            }
             if (WaveCount == 1)
                 WaveAllMonster = 10;
             else if (WaveCount == 2)
@@ -132,6 +150,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")
         {
 
+        }
+        if (LastWaveTime > 0)
+        {
+            LastWaveTime -= Time.deltaTime;
         }
     }
 
@@ -160,19 +182,24 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 0)
             {
+                LastWaveTime = 5f;
                 StartCoroutine(WaveStart());
                 isSpawn = true;
+                Gaming = false;
                 WaveCount += 1;
                 HealPlayer();
             }
             else if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 1)
             {
+                LastWaveTime = 15f;
                 StartCoroutine(InfiniteWaveStart());
                 isSpawn = true;
+                Gaming = false;
                 WaveCount += 1;
                 HealPlayer();
             }
-        }        
+        }
+        
     }
 
     public void CheckPlayer()
@@ -253,9 +280,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         isSpawn = true;
         if (PhotonNetwork.IsMasterClient)
-        {
-            yield return new WaitForSeconds(5);
-
+        { 
+            yield return new WaitForSeconds(LastWaveTime);
+            Gaming = true;
             //string Firemonster = "TEMPMONSTER/Spirit of Fire";
             string Sleebam = "Monster/Stage1/Sleebam";
             string Mugolin = "Monster/Stage1/Mugolin";
@@ -298,7 +325,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             // 상점 활성화
-            yield return new WaitForSeconds(15);
+            yield return new WaitForSeconds(LastWaveTime);
+            Gaming = true;
             // 상점 비활성화
             string Sleebam = "Monster/Stage1/Sleebam";
             string Mugolin = "Monster/Stage1/Mugolin";
