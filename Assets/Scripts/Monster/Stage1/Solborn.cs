@@ -20,12 +20,14 @@ public class Solborn : MonsterAI
     }
     public override void AttackEvent() 
     {
+        if (currentState != States.Attack) return;
         atkboundary.EnterPlayer();
         SolbornEffect.Play();
         SoundManager.Instance.PlayMonsterSfx(1, transform.position);
     }
     public override void ShowAttackBoundary()
     {
+        if (currentState != States.Attack) return;
         atkboundary.ShowBoundary();
     }
 

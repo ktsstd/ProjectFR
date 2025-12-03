@@ -218,6 +218,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void Attack() 
     {
+        if (currentState != States.Attack) return;
         animator.SetTrigger("StartAttack");
     }
 
@@ -478,6 +479,22 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         if (GameManager.Instance.selectedMode == 1 && latestAttackPlayer == (int)character && SceneManagerHelper.ActiveSceneName != "Tutorial")
+        {
+            PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
+            if (monsterInfo.isBoss)
+            {
+                playerCtrl.money += 100;
+            }
+            else if (monsterInfo.isElite)
+            {
+                playerCtrl.money += 30;
+            }
+            else
+            {
+                playerCtrl.money += 10;
+            }
+        }
+        else if (GameManager.Instance.selectedMode == 1 && latestAttackPlayer == 4)
         {
             PlayerController playerCtrl = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
             if (monsterInfo.isBoss)

@@ -10,16 +10,19 @@ public class Sleebam : MonsterAI
 
     public override void ShowAttackBoundary() 
     {
+        if (currentState != States.Attack) return;
         atkboundary.ShowBoundary();
     }
     public override void AttackEvent()
     {
+        if (currentState != States.Attack) return;
         atkboundary.EnterPlayer();
         ParticleSystem AttackE = SleebamAttackEffect.GetComponent<ParticleSystem>();
         AttackE.Play();
     }
     public override void AttackSound()
     {
+        if (currentState != States.Attack) return;
         SoundManager.Instance.PlayMonsterSfx(2, transform.position);
     }
 }

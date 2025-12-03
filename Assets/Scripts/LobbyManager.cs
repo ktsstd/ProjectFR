@@ -34,6 +34,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public int CharacterIndex;
     public int selectedMode = 0; // 0 기본모드 1 무한모드
 
+    private void Awake()
+    {
+        selectedMode = 0;
+    }
     private void Start()
     {
         CharacterIndex = -1;
