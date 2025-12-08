@@ -5,7 +5,7 @@ using UnityEngine;
 public class SlowScroll : PlayerItem
 {
     public GameObject[] monsters;
-    public override void ItemEffect(int _player)
+    public override void ItemEffect(int _player, Vector3 _usePos)
     {
         monsters = GameObject.FindGameObjectsWithTag("Enemy");
 

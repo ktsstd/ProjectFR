@@ -6,7 +6,7 @@ public class AtkUpScroll : PlayerItem
 {
     public GameObject[] players;
 
-    public override void ItemEffect(int _player)
+    public override void ItemEffect(int _player, Vector3 _usePos)
     {
         players = GameObject.FindGameObjectsWithTag("Player");
 

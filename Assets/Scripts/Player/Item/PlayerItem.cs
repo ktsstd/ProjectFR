@@ -1,9 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class PlayerItem : MonoBehaviourPunCallbacks, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     #region Icon Drag
     public static GameObject beingDraggedIcon;
@@ -52,19 +53,19 @@ public class PlayerItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     // 0 = itemcode, 1 = itemcount
     public int[] iteminfo;
 
-    public virtual void UseItem(int _player)
+    public virtual void UseItem(int _player, Vector3 _usePos)
     {
         if (iteminfo[1] > 1)
         {
             iteminfo[1]--;
-            ItemEffect(_player);
+            ItemEffect(_player, _usePos);
         }
         else
         {
-            ItemEffect(_player);
+            ItemEffect(_player, _usePos);
             Destroy(gameObject);
         }
     }
 
-    public virtual void ItemEffect(int _player) { }
+    public virtual void ItemEffect(int _player, Vector3 _usePos) { }
 }

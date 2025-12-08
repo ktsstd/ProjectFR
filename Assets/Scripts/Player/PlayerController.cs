@@ -313,19 +313,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                item.UseItem(elementalCode, 0);
+                item.UseItem(elementalCode, 0, GetMousePosition());
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                item.UseItem(elementalCode, 1);
+                item.UseItem(elementalCode, 1, GetMousePosition());
             }
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                item.UseItem(elementalCode, 2);
+                item.UseItem(elementalCode, 2, GetMousePosition());
             }
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                item.UseItem(elementalCode, 3);
+                item.UseItem(elementalCode, 3, GetMousePosition());
             }
         }
     }

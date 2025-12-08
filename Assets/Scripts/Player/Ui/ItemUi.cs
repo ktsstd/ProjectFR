@@ -330,10 +330,10 @@ public class ItemUi : MonoBehaviour
 
     }
 
-    public void UseItem(int _player,int _num)
+    public void UseItem(int _player,int _num, Vector3 _usePos)
     {
         if (ItemSlotObject[_num].transform.childCount != 0)
-            ItemSlotObject[_num].transform.GetChild(0).GetComponent<PlayerItem>().UseItem(_player);
+            ItemSlotObject[_num].transform.GetChild(0).GetComponent<PlayerItem>().UseItem(_player, _usePos);
     }
 
     public void ShowStore()
