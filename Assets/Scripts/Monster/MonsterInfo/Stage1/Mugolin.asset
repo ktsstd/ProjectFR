@@ -28,4 +28,4 @@ MonoBehaviour:
   - Obstacle
   isBoss: 0
   isElite: 0
-  redistance: 1000
+  redistance: 10
