@@ -7,7 +7,7 @@ public class Fence : Obstacle
 {
     public override void Start()
     {
-        StartSetting(3000f, 30f);
+        StartSetting(3000f, 60f);
         base.Start();
     }
 }

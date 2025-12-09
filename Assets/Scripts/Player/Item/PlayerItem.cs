@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class PlayerItem : MonoBehaviourPunCallbacks, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -52,12 +53,22 @@ public class PlayerItem : MonoBehaviourPunCallbacks, IBeginDragHandler, IDragHan
 
     // 0 = itemcode, 1 = itemcount
     public int[] iteminfo;
+    public TextMeshProUGUI useItemText;
+
+    public virtual void Start()
+    {
+        ShowUseItem();
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        rectTransform.sizeDelta = Vector2.zero;
+        rectTransform.localScale = Vector3.one;
+    }
 
     public virtual void UseItem(int _player, Vector3 _usePos)
     {
         if (iteminfo[1] > 1)
         {
             iteminfo[1]--;
+            ShowUseItem();
             ItemEffect(_player, _usePos);
         }
         else
@@ -65,6 +76,11 @@ public class PlayerItem : MonoBehaviourPunCallbacks, IBeginDragHandler, IDragHan
             ItemEffect(_player, _usePos);
             Destroy(gameObject);
         }
+    }
+
+    public void ShowUseItem()
+    {
+        useItemText.text = iteminfo[1].ToString();
     }
 
     public virtual void ItemEffect(int _player, Vector3 _usePos) { }

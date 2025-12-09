@@ -34,6 +34,7 @@ public class PlayerUi : MonoBehaviour
     public Sprite[] fusionSkillIcon;
     public Sprite[] fusionSkillGlassSprite;
     public Slider FusionHoldSlider;
+    public Image FusionLockImage;
 
     public GameObject[] otherPlayerUi;
     public Slider[] otherPlayerHp;

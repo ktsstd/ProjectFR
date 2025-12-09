@@ -6,6 +6,10 @@ using UnityEngine;
 public class FenceScroll : PlayerItem
 {
     GameObject[] players;
+    public override void Start()
+    {
+        base.Start();
+    }
 
     public override void ItemEffect(int _player, Vector3 _usePos)
     {

@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Start()
     {
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
+        this.selectedMode = (int)selectedMode;
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
 
@@ -83,8 +85,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (SceneManagerHelper.ActiveSceneName == "Stage1")
         {
-            PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
-            this.selectedMode = (int)selectedMode;
             if (PhotonNetwork.IsMasterClient)
             {
                 if (this.selectedMode == 0)

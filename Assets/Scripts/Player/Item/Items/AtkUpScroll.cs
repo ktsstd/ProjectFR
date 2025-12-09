@@ -5,6 +5,10 @@ using UnityEngine;
 public class AtkUpScroll : PlayerItem
 {
     public GameObject[] players;
+    public override void Start()
+    {
+        base.Start();
+    }
 
     public override void ItemEffect(int _player, Vector3 _usePos)
     {

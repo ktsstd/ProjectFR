@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public float[] currentSkillsCoolTime;
     public float[] skillsCoolTime;
     public int elementalCode = 0;
+    public bool elementalkey = true;
 
     public float recoveryShield;
 
@@ -100,6 +101,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
         elementalCode = (int)character;
+
+
+        if (GameManager.Instance.selectedMode == 1)
+        {
+            elementalkey = false;
+        }
 
         if (pv.IsMine)
         {
@@ -333,47 +340,50 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     float fusionHoldTime = 2f;
     public void ElementalSetting()
     {
-        if (!skillRanges[0].activeSelf && !skillRanges[1].activeSelf && !skillRanges[2].activeSelf)
+        if (elementalkey)
         {
-            if (Input.GetKey(KeyCode.R))
+            if (!skillRanges[0].activeSelf && !skillRanges[1].activeSelf && !skillRanges[2].activeSelf)
             {
-                if (fusion.RetrunFusionSkillReady(elementalCode) != 10)
+                if (Input.GetKey(KeyCode.R))
                 {
-                    fusionHoldTime -= Time.deltaTime;
-                    playerUi.FusionHoldTime = fusionHoldTime;
-                    if (fusionHoldTime <= 0)
+                    if (fusion.RetrunFusionSkillReady(elementalCode) != 10)
                     {
-                        fusion.FusionSkillSetting(GetSkillRange(10f));
+                        fusionHoldTime -= Time.deltaTime;
+                        playerUi.FusionHoldTime = fusionHoldTime;
+                        if (fusionHoldTime <= 0)
+                        {
+                            fusion.FusionSkillSetting(GetSkillRange(10f));
+                        }
                     }
                 }
-            }
-            if (Input.GetKeyUp(KeyCode.R))
-            {
-                fusion.FusionSkillRangeOff();
-                if (fusion.RetrunFusionSkillReady(elementalCode) != 10)
+                if (Input.GetKeyUp(KeyCode.R))
                 {
-                    if (fusionHoldTime <= 0)
+                    fusion.FusionSkillRangeOff();
+                    if (fusion.RetrunFusionSkillReady(elementalCode) != 10)
                     {
-                        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-                        foreach (GameObject player in players)
+                        if (fusionHoldTime <= 0)
                         {
-                            if (player.GetComponent<PlayerController>().elementalCode == fusion.RetrunFusionSkillReady(elementalCode))
+                            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+                            foreach (GameObject player in players)
                             {
-                                if (Vector3.Distance(gameObject.transform.position, player.transform.position) < 3f && player.GetComponent<PlayerController>().currentStates != States.Die)
+                                if (player.GetComponent<PlayerController>().elementalCode == fusion.RetrunFusionSkillReady(elementalCode))
                                 {
-                                    fusion.UseFusionSkill(GetSkillRange(10f));
+                                    if (Vector3.Distance(gameObject.transform.position, player.transform.position) < 3f && player.GetComponent<PlayerController>().currentStates != States.Die)
+                                    {
+                                        fusion.UseFusionSkill(GetSkillRange(10f));
+                                    }
                                 }
                             }
                         }
+                        fusionHoldTime = 2f;
+                        playerUi.FusionHoldTime = fusionHoldTime;
                     }
-                    fusionHoldTime = 2f;
-                    playerUi.FusionHoldTime = fusionHoldTime;
-                }
-                else
-                {
-                    if (fusion.FusionSkillCoolTimeCheck())
-                        fusion.pv.RPC("ElementalSettingMaster", RpcTarget.MasterClient, elementalCode);
+                    else
+                    {
+                        if (fusion.FusionSkillCoolTimeCheck())
+                            fusion.pv.RPC("ElementalSettingMaster", RpcTarget.MasterClient, elementalCode);
+                    }
                 }
             }
         }

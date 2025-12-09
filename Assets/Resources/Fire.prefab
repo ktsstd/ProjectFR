@@ -6622,6 +6622,7 @@ MonoBehaviour:
   - 0
   - 0
   elementalCode: 0
+  elementalkey: 1
   recoveryShield: 0
   skillRanges:
   - {fileID: 2381493193179363036}

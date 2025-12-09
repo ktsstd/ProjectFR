@@ -2,10 +2,13 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class ItemUi : MonoBehaviour
 {
+    int[] itemPrice = new int[6] { 500, 200, 600, 800, 1200, 1000 };
+
     public TextMeshProUGUI moneyText;
     public TextMeshProUGUI[] statText;
     public TextMeshProUGUI[] statButtonText;
@@ -14,12 +17,21 @@ public class ItemUi : MonoBehaviour
     public GameObject[] ItemSlotObject;
     public GameObject[] Items;
     public GameObject cooltimeButton;
+    public TextMeshProUGUI[] ItemInfoTexts; // 0 : name, 1 : price, 2 : info
+    public Image ItemImage;
+    public Sprite[] ItemIcon;
+
+    public Image FusionLockImage;
+    public GameObject FusionLockButton;
 
     PlayerController localplayer;
 
     private void Start()
     {
         localplayer = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
+
+        if (GameManager.Instance.selectedMode == 1)
+            FusionLockImage.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -28,6 +40,10 @@ public class ItemUi : MonoBehaviour
         {
             moneyText.text = localplayer.money.ToString();
             StateTextUpdate();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ShowStore();
         }
     }
 
@@ -45,38 +61,104 @@ public class ItemUi : MonoBehaviour
         return items;
     }
 
-    public void AddItem(int _num)
+    int setItem = 99;
+    public void ShowItemInfo(int _num)
     {
-        // n원 소비, 없으면 리턴 추가하기
-        if (_num == 1)
+        setItem = _num;
+        switch (setItem) // item info text
         {
-            GameObject[] items = HaveItem();
-            foreach (GameObject item in items)
-            {
-                Debug.Log(item);
-                if (item == null)
-                    continue;
+            case 0:
+                ItemImage.sprite = ItemIcon[setItem];
+                if (PlayerPrefs.GetInt("Language") == 0)
+                {
+                    ItemInfoTexts[0].text = "둔화 스크롤";
+                    ItemInfoTexts[1].text = "500";
+                    ItemInfoTexts[2].text = "5초동안 모든 몬스터의 이동속도를 감소시킵니다.";
+                }
+                else if (PlayerPrefs.GetInt("Language") == 1)
+                {
+                    ItemInfoTexts[0].text = "SlowScroll";
+                    ItemInfoTexts[1].text = "500";
+                    ItemInfoTexts[2].text = "Reduces the movement speed of all monsters for 5 seconds.";
+                }
+                break;
+            case 1:
+                ItemImage.sprite = ItemIcon[setItem];
+                if (PlayerPrefs.GetInt("Language") == 0)
+                {
+                    ItemInfoTexts[0].text = "목책 소환";
+                    ItemInfoTexts[1].text = "200";
+                    ItemInfoTexts[2].text = "1분동안 유지되는 적의 이동 경로를 막는 구조물을 소환합니다. 3개까지 보유 가능합니다";
+                }
+                else if (PlayerPrefs.GetInt("Language") == 1)
+                {
+                    ItemInfoTexts[0].text = "Summon Fence";
+                    ItemInfoTexts[1].text = "200";
+                    ItemInfoTexts[2].text = "Summons a structure that blocks enemy movement for 1 minute. You can have up to 3 of these.";
+                }
+                break;
+            case 2:
+                ItemImage.sprite = ItemIcon[setItem];
+                if (PlayerPrefs.GetInt("Language") == 0)
+                {
+                    ItemInfoTexts[0].text = "강화 스크롤";
+                    ItemInfoTexts[1].text = "600";
+                    ItemInfoTexts[2].text = "5초동안 사용자의 공격력을 35%증가시킵니다.";
+                }
+                else if (PlayerPrefs.GetInt("Language") == 1)
+                {
+                    ItemInfoTexts[0].text = "Atk Up Scroll";
+                    ItemInfoTexts[1].text = "600";
+                    ItemInfoTexts[2].text = "Increases the user's attack power by 35% for 5 seconds.";
+                }
+                break;
+            case 3:
+                break;
+        }
+    }
 
-                PlayerItem iteminfo = item.GetComponent<PlayerItem>();
-                if (iteminfo.iteminfo[0] == 1)
-                    if (iteminfo.iteminfo[1] < 3)
-                    {
-                        iteminfo.iteminfo[1]++;
-                        return;
-                    }
+    public void AddItem()
+    {
+        if (setItem == 99) return;
+
+        if (localplayer.money >= itemPrice[setItem])
+        {
+            localplayer.money -= itemPrice[setItem];
+
+            if (setItem == 1) // 목책일경우 아이템 확인 후+1 아니면 넘어가기
+            {
+                GameObject[] items = HaveItem();
+                foreach (GameObject item in items)
+                {
+                    if (item == null)
+                        continue;
+
+                    PlayerItem iteminfo = item.GetComponent<PlayerItem>();
+                    if (iteminfo.iteminfo[0] == 1)
+                        if (iteminfo.iteminfo[1] < 3)
+                        {
+                            iteminfo.iteminfo[1]++;
+                            iteminfo.ShowUseItem();
+                            return;
+                        }
+                }
+            }
+
+            for (int i = 0; i < ItemSlotObject.Length; i++) // 실질적 아이템 추가
+            {
+                if (ItemSlotObject[i].transform.childCount == 0)
+                {
+                    GameObject itme = Instantiate(Items[setItem]);
+                    itme.transform.parent = ItemSlotObject[i].transform;
+                    itme.transform.position = ItemSlotObject[i].transform.position;
+                    itme.GetComponent<PlayerItem>().SetOnDragParent();
+                    return;
+                }
             }
         }
-
-        for (int i = 0; i < ItemSlotObject.Length; i++)
+        else
         {
-            if (ItemSlotObject[i].transform.childCount == 0)
-            {
-                GameObject itme = Instantiate(Items[_num]);
-                itme.transform.parent = ItemSlotObject[i].transform;
-                itme.transform.position = ItemSlotObject[i].transform.position;
-                itme.GetComponent<PlayerItem>().SetOnDragParent();
-                return;
-            }
+            // 돈부족 알림 띄우기
         }
     }
 
@@ -243,6 +325,17 @@ public class ItemUi : MonoBehaviour
                     }
                 }
                 break; // 쿨감
+        }
+    }
+
+    public void BuyFusionSkill()
+    {
+        if (localplayer.money >= 1000)
+        {
+            localplayer.money -= 1000;
+            localplayer.elementalkey = true;
+            FusionLockImage.gameObject.SetActive(false);
+            FusionLockButton.SetActive(false);
         }
     }
 
