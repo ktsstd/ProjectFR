@@ -424,14 +424,33 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         target = tempClosestTarget;
-        photonView.RPC("Settarget", RpcTarget.AllBuffered, target.name);
-        //targetSearchTimer = targetSearchTime;
-
+        photonView.RPC("Settarget", RpcTarget.AllBuffered, target.name, target.position);
     }
     [PunRPC]
-    public void Settarget(string targetname)
+    public void Settarget(string targetname, string targetTag, Vector3 targetPosition)
     {
-        target = GameObject.Find(targetname).transform;
+        GameObject[] taggedObjects = GameObject.FindGameObjectsWithTag(targetTag);
+        GameObject closestMatch = null;
+        float closestDistance = 0.1f;
+
+        foreach (GameObject obj in taggedObjects)
+        {
+            if (obj.name == targetname)
+            {
+                float distance = Vector3.Distance(obj.transform.position, targetPosition);
+                if (distance < closestDistance)
+                {
+                    closestMatch = obj;
+                    break;
+                }
+            }
+        }
+
+        if (closestMatch != null)
+        {
+            target = closestMatch.transform;
+        }
+
         targetSearchTimer = targetSearchTime;
     }
 
