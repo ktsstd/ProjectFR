@@ -7,36 +7,7 @@ public class Attackboundary : MonoBehaviour
 {
     [SerializeField] MonsterAI monsterAIScript;
     [SerializeField] Collider thiscollider;
-    //[SerializeField] GameObject Effect;
-    //[SerializeField] Animator animator;
     HashSet<GameObject> damagedTargets = new HashSet<GameObject>();
-
-    //public void Awake()
-    //{
-    //    AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-    //}
-    //public void Starting(float onTime, float delayTime)
-    //{
-    //    damagedTargets.Clear();
-    //    thiscollider.enabled = false;
-    //    StartCoroutine(ShowAttackBoundary(onTime, delayTime));
-    //}
-
-    //IEnumerator ShowAttackBoundary(float onTime, float delayTime)
-    //{
-    //    yield return new WaitForSeconds(onTime);
-    //    monsterAIScript.AttackAnimation();
-
-    //    yield return new WaitForSeconds(delayTime);
-    //    monsterAIScript.AttackEffect();
-
-    //    thiscollider.enabled = true;
-    //    yield return new WaitForSeconds(0.1f);
-
-    //    thiscollider.enabled = false;
-    //    monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
-    //    gameObject.SetActive(false);
-    //}
 
     private void Start()
     {
@@ -91,6 +62,13 @@ public class Attackboundary : MonoBehaviour
             damagedTargets.Add(other.gameObject);
             SummonAI summonS = other.GetComponent<SummonAI>();
             summonS.photonView.RPC("OnSummonHit", RpcTarget.All, monsterAIScript.damage);
+        }
+
+        else if (other.CompareTag("Obstacle"))
+        {
+            damagedTargets.Add(other.gameObject);
+            Obstacle obstacleS = other.GetComponent<Obstacle>();
+            obstacleS.photonView.RPC("OnObstacleHit", RpcTarget.All, monsterAIScript.damage);
         }
     }
 

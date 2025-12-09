@@ -1,7 +1,8 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
-using Photon.Pun;
 
 public class Mugolin : MonsterAI
 {
@@ -42,7 +43,7 @@ public class Mugolin : MonsterAI
     {
         if (target == null) return;
         isMoving = true;
-        targetCollider = target.GetComponent<CapsuleCollider>();
+        targetCollider = target.GetComponent<Collider>();
         Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
         float distance = Vector3.Distance(transform.position, targetPos);
         if (currentState == States.Idle)
@@ -134,6 +135,28 @@ public class Mugolin : MonsterAI
             objectS.Damaged((150 + (0.8f * damage)) + (120 + (0.8f * damage)));
             StartCoroutine(SpeedReset());
         }
+        else if (other.gameObject.tag == "Summon" && IsRolling)
+        {
+            agent.ResetPath();
+            IsRolling = false;
+            currentState = States.Stun;
+            agent.velocity = Vector3.zero;
+            animator.SetTrigger("Stun");
+            SummonAI summonS = other.gameObject.GetComponent<SummonAI>();
+            summonS.photonView.RPC("OnSummonHit", RpcTarget.All, 150 + (0.8f * damage));
+            StartCoroutine(SpeedReset());
+        }
+        else if (other.gameObject.tag == "Obstacle" && IsRolling)
+        {
+            agent.ResetPath();
+            IsRolling = false;
+            currentState = States.Stun;
+            agent.velocity = Vector3.zero;
+            animator.SetTrigger("Stun");
+            Obstacle obstacleS = other.gameObject.GetComponent<Obstacle>();
+            obstacleS.photonView.RPC("OnObstacleHit", RpcTarget.All, (150 + (0.8f * damage)) + (120 + (0.8f * damage)));
+            StartCoroutine(SpeedReset());
+        }
     }
 
     IEnumerator SpeedReset()
@@ -149,17 +172,37 @@ public class Mugolin : MonsterAI
         }
         yield return new WaitForSeconds(1.333f);
         currentState = States.Idle;
+        attackTimer = attackCooldown;
     }
     public override void AttackEvent()
     {
         if (currentState == States.Attack)
         {
-            GameObject ObjectObj = GameObject.FindGameObjectWithTag("Object");
-            Object ObjectS = ObjectObj.GetComponent<Object>();
-            SoundManager.Instance.PlayMonsterSfx(0, transform.position);
-            ObjectS.Damaged(damage);
-            attackTimer = attackCooldown;
-            currentState = States.Idle;
+            if (target.tag == "Object")
+            {
+                Object ObjectS = target.GetComponent<Object>();
+                SoundManager.Instance.PlayMonsterSfx(0, transform.position);
+                ObjectS.Damaged(damage);
+                attackTimer = attackCooldown;
+                currentState = States.Idle;
+            }
+            else if (target.tag == "Obstacle")
+            {
+                Obstacle obstacleS = target.GetComponent<Obstacle>();
+                SoundManager.Instance.PlayMonsterSfx(0, transform.position);
+                obstacleS.photonView.RPC("OnObstacleHit", RpcTarget.All, damage);
+                attackTimer = attackCooldown;
+                currentState = States.Idle;
+            }
+            else if (target.tag == null)
+            {
+                attackTimer = attackCooldown;
+                currentState = States.Idle;
+            }
+        }
+        else
+        {
+            return;
         }
     }
 }

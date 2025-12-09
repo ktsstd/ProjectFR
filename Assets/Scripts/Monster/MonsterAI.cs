@@ -17,7 +17,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public Rigidbody rigid;
     public Transform target;
     public NavMeshAgent agent;
-    public CapsuleCollider targetCollider;
+    public Collider targetCollider;
 
     public GameObject StunningEffect;
     public GameObject sloweffect;
@@ -133,7 +133,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             case States.Stun:
                 break;
         }
-        if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient)
+        if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient && currentState == States.Idle)
         {
             //photonView.
             //
@@ -158,7 +158,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (target == null) return;
         isMoving = true;
-        targetCollider = target.GetComponent<CapsuleCollider>();
+        targetCollider = target.GetComponent<Collider>();
         Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
         float distance = Vector3.Distance(transform.position, targetPos);
         if (currentState == States.Idle)
@@ -393,6 +393,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     SummonAI summonAIS = possibleTarget.GetComponent<SummonAI>();
                     if (summonAIS != null && summonAIS.currentHp <= 0)
+                        continue;
+                }
+                else if (possibleTarget.CompareTag("Obstacle"))
+                {
+                    Obstacle obstacleS = possibleTarget.GetComponent<Obstacle>();
+                    if (obstacleS != null && obstacleS.currentHp <= 0)
                         continue;
                 }
 
