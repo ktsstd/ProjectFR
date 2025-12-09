@@ -114,14 +114,14 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             WaveAllMonsterCountText.text = (GameObject.FindGameObjectsWithTag("Enemy").Length + "/" + WaveAllMonster);
 
-            if (WaveCount <= 4 && Gaming)
+            if (WaveCount <= 3 && Gaming)
             {
                 WaveBar.SetActive(true);
                 BossHpBar.SetActive(false);
                 Timer.SetActive(false);
                 WaveText.text = ("Wave " + WaveCount + "/4");
             }
-            else if (WaveCount == 5 && Gaming)
+            else if (WaveCount == 4 && Gaming)
             {
                 WaveBar.SetActive(false);
                 BossHpBar.SetActive(true);

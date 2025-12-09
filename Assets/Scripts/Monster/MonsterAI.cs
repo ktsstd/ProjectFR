@@ -118,6 +118,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
     public virtual void Update()
     {
+        //if (Input.GetKey(KeyCode.K))
+        //{
+        //    photonView.RPC("OnMonsterHit", RpcTarget.All, 300f);
+        //}
         //if (!PhotonNetwork.IsMasterClient) return;
         switch (currentState)
         {
@@ -133,7 +137,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             case States.Stun:
                 break;
         }
-        if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient && currentState == States.Idle)
+        if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient)
         {
             //photonView.
             //

@@ -272,7 +272,7 @@ public class Drog : MonsterAI
                     }
                     else if (GameManager.Instance.selectedMode == 1)
                     {
-                        GameManager.Instance.photonView.RPC("GiveAllPlayerGold", RpcTarget.All, 100);
+                        Invoke("DestroyMonster", 1.5f);
                     }
                 }
             }
