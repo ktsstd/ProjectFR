@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] CartMove cartS;
 
     private int WaveAllMonster;
-    private int WaveCount = 3;
+    private int WaveCount = 0;
     public int WaveLoopCount = 0;
     public int selectedMode = 0;
     public float LastWaveTime = 0;
