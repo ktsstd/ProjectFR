@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private Material SkyBoxMat;
     [SerializeField] private Material WLSkyBoxMat;
     private Material FSkyBoxMat;
-    private Light FLight;
     [SerializeField] private Light DLight;
 
     [SerializeField] private TextMeshProUGUI WaveText;
@@ -44,7 +43,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] CartMove cartS;
 
     private int WaveAllMonster;
-    private int WaveCount = 0;
+    private int WaveCount = 3;
     public int WaveLoopCount = 0;
     public int selectedMode = 0;
     public float LastWaveTime = 0;
@@ -71,7 +70,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         this.selectedMode = (int)selectedMode;
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
-        // FLight.color = DLight.color;
         FSkyBoxMat = RenderSettings.skybox;
 
         string prefabName = "";
@@ -159,7 +157,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             if (WaveCount !=4)
             {
                 RenderSettings.skybox = FSkyBoxMat;
-                // DLight.color = FLight.color;
+                DLight.color = new Color(1f, 1f, 1f, 1f);
             }
         }
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")

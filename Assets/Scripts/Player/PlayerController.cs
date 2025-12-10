@@ -641,6 +641,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             
             rigidbody.useGravity = true;
             collider.isTrigger = false;
+            collider.enabled = true;
             eatEffeck.SetActive(false);
 
             if (currentStates != States.Die)

@@ -10128,6 +10128,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+  money: 0
   playerHp: 0
   playerMaxHp: 0
   playerAtk: 0
@@ -10143,6 +10144,7 @@ MonoBehaviour:
   - 0
   - 0
   elementalCode: 0
+  elementalkey: 1
   recoveryShield: 0
   skillRanges:
   - {fileID: 7424938497500823162}
@@ -10153,6 +10155,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   fusion: {fileID: 0}
+  item: {fileID: 0}
   currentStates: 0
   isMoving: 0
   respawnCoolTime: 6

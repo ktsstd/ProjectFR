@@ -36,6 +36,7 @@ public class Drog : MonsterAI
         attackRange = 8f;
         attackCooldown = 9999999999f;
         attackTimer = attackCooldown;
+        thinkTimer = thinkTime;
         PatternbreakupHealth = 3000f;
         BossPhase2Hp = 39000f;
         animator = GetComponentInChildren<Animator>();
@@ -133,6 +134,8 @@ public class Drog : MonsterAI
     [PunRPC]
     public IEnumerator PunAttack(int randomskill)
     {
+        currentState = States.Attack;
+        thinkTimer = 99999999f;
         switch (randomskill)
         {
             case 0:
@@ -215,7 +218,7 @@ public class Drog : MonsterAI
         {
             currentState = States.Idle;
             skillTimer[2] = skillCooldown[2];
-            attackTimer = attackCooldown;
+            thinkTimer = thinkTime;
         }            
     }
     bool isSkill3 = false;
@@ -245,7 +248,7 @@ public class Drog : MonsterAI
         {
             currentState = States.Idle;
             skillTimer[2] = skillCooldown[2];
-            attackTimer = attackCooldown;
+            thinkTimer = thinkTime;
         }            
     }
     [PunRPC]

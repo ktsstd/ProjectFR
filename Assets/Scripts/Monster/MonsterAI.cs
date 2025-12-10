@@ -119,10 +119,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
     public virtual void Update()
     {
-        //if (Input.GetKey(KeyCode.K))
-        //{
-        //    photonView.RPC("OnMonsterHit", RpcTarget.All, 300f);
-        //}
+        if (Input.GetKey(KeyCode.K))
+        {
+            photonView.RPC("OnMonsterHit", RpcTarget.All, 300f);
+        }
         //if (!PhotonNetwork.IsMasterClient) return;
         switch (currentState)
         {
@@ -433,7 +433,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     {
         GameObject[] taggedObjects = GameObject.FindGameObjectsWithTag(targetTag);
         GameObject closestMatch = null;
-        float closestDistance = 0.1f;
+        float closestDistance = 2f;
 
         foreach (GameObject obj in taggedObjects)
         {

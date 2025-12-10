@@ -1308,6 +1308,7 @@ MonoBehaviour:
   animator: {fileID: 7708302683834024324}
   rigid: {fileID: 0}
   target: {fileID: 0}
+  tempClosestTarget: {fileID: 0}
   agent: {fileID: 0}
   targetCollider: {fileID: 0}
   StunningEffect: {fileID: 0}
