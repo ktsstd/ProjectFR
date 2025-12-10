@@ -196,7 +196,10 @@ public class Drog : MonsterAI
     }
     IEnumerator Skill3PatternStart()
     {
+        isSkill3 = true;
         yield return new WaitForSeconds(15f);
+        if (!isSkill3) yield break;
+        isSkill3 = false;
         foreach (GameObject playerObj in swallowedTarget)
         {
             PlayerController playerS = playerObj.GetComponent<PlayerController>();
@@ -215,11 +218,13 @@ public class Drog : MonsterAI
             attackTimer = attackCooldown;
         }            
     }
+    bool isSkill3 = false;
     [PunRPC]
     public void Spititout()
     {
         StopCoroutine(skill3Coroutine);
         StartCoroutine(SpititoutC());
+        isSkill3 = false;
     }
     IEnumerator SpititoutC()
     {        

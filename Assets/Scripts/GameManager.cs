@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private GameObject Quit;
     [SerializeField] private Material SkyBoxMat;
     [SerializeField] private Material WLSkyBoxMat;
+    private Material FSkyBoxMat;
+    private Light FLight;
     [SerializeField] private Light DLight;
 
     [SerializeField] private TextMeshProUGUI WaveText;
@@ -69,6 +71,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         this.selectedMode = (int)selectedMode;
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+        FLight.color = DLight.color;
+        FSkyBoxMat = RenderSettings.skybox;
 
         string prefabName = "";
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedCharacter", out object character);
@@ -151,6 +155,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 RenderSettings.skybox = SkyBoxMat;
                 DLight.color = new Color(1f, 0.3216f, 0f, 1f);
+            }
+            if (WaveCount !=4)
+            {
+                RenderSettings.skybox = FSkyBoxMat;
+                DLight.color = FLight.color;
             }
         }
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")
