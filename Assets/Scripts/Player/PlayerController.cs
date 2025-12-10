@@ -595,16 +595,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void OnPlayerSuppressed(float _time)
     {
-        if (pv.IsMine)
-        {
-            if (suppressedCoroutine != null)
-                StopCoroutine(suppressedCoroutine);
+        if (suppressedCoroutine != null)
+            StopCoroutine(suppressedCoroutine);
 
-            suppressedCoroutine = StartCoroutine("PlayerSuppressed", _time);
-        }
+        suppressedCoroutine = StartCoroutine("PlayerSuppressed", _time);
+
         OffSkills();
         PlayTriggerAnimation("reset");
-
     }
 
     public virtual void OffSkills() { }
@@ -615,10 +612,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         animator.SetBool("isDash", false);
         collider.isTrigger = true;
         rigidbody.useGravity = false;
+        collider.enabled = false;
         eatEffeck.SetActive(true);
         yield return new WaitForSeconds(_time);
         collider.isTrigger = false;
         rigidbody.useGravity = true;
+        collider.enabled = true;
         eatEffeck.SetActive(false);
         if (currentStates != States.Die)
             currentStates = States.Idle;

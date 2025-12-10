@@ -14,6 +14,8 @@ public class AtkSkillScroll : PlayerItem
 
     public override void ItemEffect(int _player, Vector3 _usePos)
     {
+        SoundManager.Instance.PlayItemSfx(0, GameManager.Instance.localPlayerCharacter.transform.position);
+
         Instantiate(attackSkillOBJ);
     }
 }

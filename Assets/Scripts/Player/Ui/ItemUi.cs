@@ -478,5 +478,6 @@ public class ItemUi : MonoBehaviour
     public void SkillEffect(Vector3 _pos)
     {
         Instantiate(meteorOBJ, _pos, meteorOBJ.transform.rotation);
+        SoundManager.Instance.PlayItemSfx(3, _pos);
     }
 }
