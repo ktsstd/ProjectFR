@@ -1,12 +1,15 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class AttackSkillItem : PlayerSkill
 {
     GameObject[] monsters;
     ItemUi itemUi;
+
+    public GameObject attackSkillEffectOBJ;
+
     public override void Start()
     {
         base.Start();
@@ -14,6 +17,7 @@ public class AttackSkillItem : PlayerSkill
         playerCode = 4;
         monsters = GameObject.FindGameObjectsWithTag("Enemy");
         itemUi = FindObjectOfType<ItemUi>();
+
         StartCoroutine("Skill");
     }
 
@@ -21,10 +25,15 @@ public class AttackSkillItem : PlayerSkill
     {
         foreach (GameObject monster in monsters)
         {
+            if (monster == null) continue;
+
             MonsterAI monsterAI = monster.GetComponent<MonsterAI>();
 
-            itemUi.pv.RPC("AttackSkillEffect", Photon.Pun.RpcTarget.All, monster.transform.position);
+            itemUi.pv.RPC("SkillEffect",RpcTarget.All, monster.transform.position);
+
             yield return new WaitForSeconds(0.1f);
+
+            if (monster == null) continue;
 
             if (monsterAI.monsterInfo.isBoss)
                 HitOther(monster, monsterAI.MaxHp * 0.1f);
@@ -32,6 +41,6 @@ public class AttackSkillItem : PlayerSkill
                 HitOther(monster, monsterAI.MaxHp * 0.5f);
         }
 
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 }

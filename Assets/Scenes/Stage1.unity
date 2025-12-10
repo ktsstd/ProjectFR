@@ -11619,8 +11619,8 @@ MonoBehaviour:
   - {fileID: 0}
   FusionLockImage: {fileID: 8167737}
   FusionLockButton: {fileID: 1061109023}
-  attackSkillEffectOBJ: {fileID: 8189085205612981877, guid: b12571d10983b7740ba7648c7542f959, type: 3}
   pv: {fileID: 0}
+  meteorOBJ: {fileID: 8189085205612981877, guid: b12571d10983b7740ba7648c7542f959, type: 3}
 --- !u!114 &775144457
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,7 +2,6 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,10 +24,10 @@ public class ItemUi : MonoBehaviour
     public Image FusionLockImage;
     public GameObject FusionLockButton;
 
-    public GameObject attackSkillEffectOBJ;
+    public PhotonView pv;
+    public GameObject meteorOBJ;
 
     PlayerController localplayer;
-    public PhotonView pv;
 
     private void Start()
     {
@@ -471,8 +470,8 @@ public class ItemUi : MonoBehaviour
     }
 
     [PunRPC]
-    public void AttackSkillEffect(Vector3 _usePos)
+    public void SkillEffect(Vector3 _pos)
     {
-        GameObject skill = Instantiate(attackSkillEffectOBJ, _usePos, attackSkillEffectOBJ.transform.rotation);
+        Instantiate(meteorOBJ, _pos, meteorOBJ.transform.rotation);
     }
 }

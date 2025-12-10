@@ -151,6 +151,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             playerUi.InputDashData(currentDashCoolTime, dashCoolTime);
             playerUi.InputSkillData(currentSkillsCoolTime, skillsCoolTime);
             playerUi.InputMoneyData(money);
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
             if (currentStates != States.Idle)
             {

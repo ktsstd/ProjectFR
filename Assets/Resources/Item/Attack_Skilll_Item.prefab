@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillEffect: {fileID: 400510289285981004, guid: 1d755c7f39221ec4d8d9fd794543e3c6, type: 3}
-  playerCode: 0
+  playerCode: 4
+  attackSkillEffectOBJ: {fileID: 8189085205612981877, guid: b12571d10983b7740ba7648c7542f959, type: 3}

@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         this.selectedMode = (int)selectedMode;
         pv = GetComponent<PhotonView>();
         virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
-        FLight.color = DLight.color;
+        // FLight.color = DLight.color;
         FSkyBoxMat = RenderSettings.skybox;
 
         string prefabName = "";
@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             if (WaveCount !=4)
             {
                 RenderSettings.skybox = FSkyBoxMat;
-                DLight.color = FLight.color;
+                // DLight.color = FLight.color;
             }
         }
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")
