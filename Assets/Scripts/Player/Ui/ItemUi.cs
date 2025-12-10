@@ -1,9 +1,10 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class ItemUi : MonoBehaviour
 {
@@ -24,11 +25,15 @@ public class ItemUi : MonoBehaviour
     public Image FusionLockImage;
     public GameObject FusionLockButton;
 
+    public GameObject attackSkillEffectOBJ;
+
     PlayerController localplayer;
+    public PhotonView pv;
 
     private void Start()
     {
         localplayer = GameManager.Instance.localPlayerCharacter.GetComponent<PlayerController>();
+        pv = GetComponent<PhotonView>();
 
         if (GameManager.Instance.selectedMode == 1)
             FusionLockImage.gameObject.SetActive(true);
@@ -113,6 +118,34 @@ public class ItemUi : MonoBehaviour
                 }
                 break;
             case 3:
+                ItemImage.sprite = ItemIcon[setItem];
+                if (PlayerPrefs.GetInt("Language") == 0)
+                {
+                    ItemInfoTexts[0].text = "시간정지 스크롤";
+                    ItemInfoTexts[1].text = "800";
+                    ItemInfoTexts[2].text = "2초동안 행동 불가 상태가 되지만 피해를 받지 않습니다";
+                }
+                else if (PlayerPrefs.GetInt("Language") == 1)
+                {
+                    ItemInfoTexts[0].text = "Atk Up Scroll";
+                    ItemInfoTexts[1].text = "800";
+                    ItemInfoTexts[2].text = "Increases the user's attack power by 35% for 5 seconds.";
+                }
+                break;
+            case 4:
+                ItemImage.sprite = ItemIcon[setItem];
+                if (PlayerPrefs.GetInt("Language") == 0)
+                {
+                    ItemInfoTexts[0].text = "화력 지원 스크롤";
+                    ItemInfoTexts[1].text = "1200";
+                    ItemInfoTexts[2].text = "모든 몬스터에게 최대 체력의 50%의 피해를 입힙니다(보스10%)";
+                }
+                else if (PlayerPrefs.GetInt("Language") == 1)
+                {
+                    ItemInfoTexts[0].text = "Atk Up Scroll";
+                    ItemInfoTexts[1].text = "1200";
+                    ItemInfoTexts[2].text = "Increases the user's attack power by 35% for 5 seconds.";
+                }
                 break;
         }
     }
@@ -435,5 +468,11 @@ public class ItemUi : MonoBehaviour
             storeObject.SetActive(false);
         else
             storeObject.SetActive(true);
+    }
+
+    [PunRPC]
+    public void AttackSkillEffect(Vector3 _usePos)
+    {
+        GameObject skill = Instantiate(attackSkillEffectOBJ, _usePos, attackSkillEffectOBJ.transform.rotation);
     }
 }

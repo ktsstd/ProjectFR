@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 499a8de9dad17784d97ba881ebf1b211
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  userData: 
+  assetBundleName: builtin_builtin_shader.unity3d
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 313712
+  packageName: Game VFX - Six Elements VFX Mega Pack(Built-In)
+  packageVersion: 1.0
+  assetPath: Assets/Six Elements VFX Mega Pack/FX_FireSkill/Shaders/Standard.shader
+  uploadId: 739817
