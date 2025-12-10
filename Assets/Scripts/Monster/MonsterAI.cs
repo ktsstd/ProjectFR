@@ -16,6 +16,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public Animator animator;
     public Rigidbody rigid;
     public Transform target;
+    public Transform tempClosestTarget;
     public NavMeshAgent agent;
     public Collider targetCollider;
 
@@ -376,7 +377,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public void RecognizePlayer()
     {
         float closestDistance = recognizedistance;
-        Transform tempClosestTarget = null;
+        tempClosestTarget = null;
 
         foreach (string targetTag in monsterInfo.priTarget)
         {
@@ -424,10 +425,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         target = tempClosestTarget;
-        photonView.RPC("Settarget", RpcTarget.AllBuffered, target.name, target.position);
+        photonView.RPC("Settarget", RpcTarget.AllBuffered, target.name, target.position, target.tag);
     }
+
     [PunRPC]
-    public void Settarget(string targetname, string targetTag, Vector3 targetPosition)
+    public void Settarget(string targetname, Vector3 targetPosition, string targetTag)
     {
         GameObject[] taggedObjects = GameObject.FindGameObjectsWithTag(targetTag);
         GameObject closestMatch = null;

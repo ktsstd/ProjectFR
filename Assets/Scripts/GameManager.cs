@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    void Start()
+    void Awake()
     {
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("selectedMode", out object selectedMode);
         this.selectedMode = (int)selectedMode;
@@ -89,12 +89,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (this.selectedMode == 0)
                 {
-                    LastWaveTime = 5f;
+                    pv.RPC("SetWaveTimer", RpcTarget.All, 5f);
                     StartCoroutine(WaveStart());
                 }
                 else if (this.selectedMode == 1)
                 {
-                    LastWaveTime = 15f;
+                    pv.RPC("SetWaveTimer", RpcTarget.All, 15f);
                     StartCoroutine(InfiniteWaveStart());
                 }
             }
@@ -106,6 +106,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             cartS.currentState = CartMove.States.Move; // 나중에 연출로 바꾸기
         }
+    }
+    [PunRPC]
+    public void SetWaveTimer(float TimerF)
+    {
+        LastWaveTime = TimerF;
+        Gaming = false;
     }
 
     void Update()
@@ -182,24 +188,21 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 0)
             {
-                LastWaveTime = 5f;
+                pv.RPC("SetWaveTimer", RpcTarget.All, 5f);
                 StartCoroutine(WaveStart());
                 isSpawn = true;
-                Gaming = false;
                 WaveCount += 1;
                 HealPlayer();
             }
             else if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0 && !isSpawn && selectedMode == 1)
             {
-                LastWaveTime = 15f;
+                pv.RPC("SetWaveTimer", RpcTarget.All, 15f);
                 StartCoroutine(InfiniteWaveStart());
                 isSpawn = true;
-                Gaming = false;
                 WaveCount += 1;
                 HealPlayer();
             }
         }
-        
     }
 
     public void CheckPlayer()
@@ -275,6 +278,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         SceneManager.LoadScene("Main");
     }
+    [PunRPC]
+    public void Gmingtrue()
+    {
+        Gaming = true;
+    }
 
     IEnumerator WaveStart()
     {
@@ -282,7 +290,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         { 
             yield return new WaitForSeconds(LastWaveTime);
-            Gaming = true;
+            pv.RPC("Gmingtrue", RpcTarget.All);
             //string Firemonster = "TEMPMONSTER/Spirit of Fire";
             string Sleebam = "Monster/Stage1/Sleebam";
             string Mugolin = "Monster/Stage1/Mugolin";
@@ -326,7 +334,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             // 상점 활성화
             yield return new WaitForSeconds(LastWaveTime);
-            Gaming = true;
+            pv.RPC("Gmingtrue", RpcTarget.All);
             // 상점 비활성화
             string Sleebam = "Monster/Stage1/Sleebam";
             string Mugolin = "Monster/Stage1/Mugolin";
@@ -557,11 +565,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(isSpawn);
             stream.SendNext(WaveCount);
+            stream.SendNext(LastWaveTime);
         }
         else
         {
             isSpawn = (bool)stream.ReceiveNext();
             WaveCount = (int)stream.ReceiveNext();
+            LastWaveTime = (float)stream.ReceiveNext();
         }
     }
     public void OnClickUISfx()
