@@ -36,9 +36,15 @@ public class AttackSkillItem : PlayerSkill
             if (monster == null) continue;
 
             if (monsterAI.monsterInfo.isBoss)
-                HitOther(monster, monsterAI.MaxHp * 0.1f);
+            {
+                monsterAI.photonView.RPC("SetLatestAttacker", RpcTarget.AllBuffered, 4);
+                monsterAI.photonView.RPC("OnMonsterHit", RpcTarget.All, monsterAI.MaxHp * 0.1f);
+            }
             else
-                HitOther(monster, monsterAI.MaxHp * 0.5f);
+            {
+                monsterAI.photonView.RPC("SetLatestAttacker", RpcTarget.AllBuffered, 4);
+                monsterAI.photonView.RPC("OnMonsterHit", RpcTarget.All, monsterAI.MaxHp * 0.5f);
+            }
         }
 
         PhotonNetwork.Destroy(gameObject);

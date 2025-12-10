@@ -153,6 +153,11 @@ public class ItemUi : MonoBehaviour
     {
         if (setItem == 99) return;
 
+        if (ItemSlotObject[0].transform.childCount == 1 &&
+            ItemSlotObject[1].transform.childCount == 1 &&
+            ItemSlotObject[2].transform.childCount == 1 &&
+            ItemSlotObject[3].transform.childCount == 1) return;
+
         if (localplayer.money >= itemPrice[setItem])
         {
             localplayer.money -= itemPrice[setItem];
