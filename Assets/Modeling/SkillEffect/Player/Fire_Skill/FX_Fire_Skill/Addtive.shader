@@ -9,6 +9,7 @@ Shader "amplifyShader/Skill/FX_Add"
 		_Main_Power("Main_Power", Float) = 1
 		[Toggle(_USE_DEPTH_FADE_ON)] _USE_Depth_Fade("USE_Depth_Fade", Float) = 0
 		_Depth_Fade("Depth_Fade", Float) = 0
+		_Main_Ins("Main_Ins", Float) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
@@ -36,6 +37,7 @@ Shader "amplifyShader/Skill/FX_Add"
 		uniform sampler2D _MainTex;
 		uniform float4 _MainTex_ST;
 		uniform float _Main_Power;
+		uniform float _Main_Ins;
 		UNITY_DECLARE_DEPTH_TEXTURE( _CameraDepthTexture );
 		uniform float4 _CameraDepthTexture_TexelSize;
 		uniform float _Depth_Fade;
@@ -49,7 +51,7 @@ Shader "amplifyShader/Skill/FX_Add"
 		{
 			float2 uv0_MainTex = i.uv_texcoord * _MainTex_ST.xy + _MainTex_ST.zw;
 			float4 temp_cast_0 = (_Main_Power).xxxx;
-			o.Emission = ( _Main_Color * pow( tex2D( _MainTex, uv0_MainTex ) , temp_cast_0 ) * i.vertexColor ).rgb;
+			o.Emission = ( _Main_Color * ( pow( tex2D( _MainTex, uv0_MainTex ) , temp_cast_0 ) * _Main_Ins ) * i.vertexColor ).rgb;
 			float4 ase_screenPos = float4( i.screenPos.xyz , i.screenPos.w + 0.00000000001 );
 			float4 ase_screenPosNorm = ase_screenPos / ase_screenPos.w;
 			ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
@@ -69,17 +71,19 @@ Shader "amplifyShader/Skill/FX_Add"
 }
 /*ASEBEGIN
 Version=16700
-492.6667;714;1077;638;1029.284;370.7292;1.475738;True;False
+0;21;1221;687;803.6487;300.0031;1.175738;True;False
 Node;AmplifyShaderEditor.RangedFloatNode;25;-637.9563,542.4286;Float;False;Property;_Depth_Fade;Depth_Fade;5;0;Create;True;0;0;False;0;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;10;-853.7767,-11.77667;Float;True;0;8;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.DepthFade;24;-465.3849,515.123;Float;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;8;-585.5,-37.5;Float;True;Property;_MainTex;MainTex;1;0;Create;True;0;0;False;0;8d21b35fab1359d4aa689ddf302e1b01;f38c1841d7ffa7240ba7ae5c416b4ade;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;8;-585.5,-37.5;Float;True;Property;_MainTex;MainTex;1;0;Create;True;0;0;False;0;8d21b35fab1359d4aa689ddf302e1b01;77bcc5b5d8b20234c9c4c560cc9346b0;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;12;-410.5,-148.5;Float;False;Property;_Main_Power;Main_Power;3;0;Create;True;0;0;False;0;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.VertexColorNode;21;-130.7,228.9287;Float;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SaturateNode;26;-178.1302,520.5841;Float;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.PowerNode;11;-213.5,-33.5;Float;True;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;28;-102.7283,-144.203;Float;False;Property;_Main_Ins;Main_Ins;6;0;Create;True;0;0;False;0;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;22;16.03765,504.3931;Float;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;14;45.57467,-267.6478;Float;False;Property;_Main_Color;Main_Color;2;1;[HDR];Create;True;0;0;False;0;1,1,1,0;4,4,4,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;14;45.57467,-267.6478;Float;False;Property;_Main_Color;Main_Color;2;1;[HDR];Create;True;0;0;False;0;1,1,1,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;27;85.27167,-6.203033;Float;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;23;163.4877,325.2684;Float;False;Property;_USE_Depth_Fade;USE_Depth_Fade;4;0;Create;True;0;0;False;0;0;0;0;True;;Toggle;2;Key0;Key1;Create;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;296.2947,-62.67667;Float;True;3;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;2;551.6545,143.3657;Float;False;True;2;Float;ASEMaterialInspector;0;0;Unlit;amplifyShader/Skill/FX_Add;False;False;False;False;True;True;True;True;True;True;True;True;False;False;False;False;False;False;False;False;False;Off;2;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0.5;True;False;0;True;Custom;;Transparent;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;False;8;5;False;-1;1;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;0;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
@@ -90,12 +94,14 @@ WireConnection;11;0;8;0
 WireConnection;11;1;12;0
 WireConnection;22;0;21;4
 WireConnection;22;1;26;0
+WireConnection;27;0;11;0
+WireConnection;27;1;28;0
 WireConnection;23;1;21;4
 WireConnection;23;0;22;0
 WireConnection;13;0;14;0
-WireConnection;13;1;11;0
+WireConnection;13;1;27;0
 WireConnection;13;2;21;0
 WireConnection;2;2;13;0
 WireConnection;2;9;23;0
 ASEEND*/
-//CHKSM=045C8A328F92C1E53BFD79EFAAE09F082BC0AFAB
+//CHKSM=D6FCE5C9F2DA4D482018A205249DCA2643D47ED1

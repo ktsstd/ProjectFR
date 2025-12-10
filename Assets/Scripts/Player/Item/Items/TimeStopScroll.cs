@@ -24,6 +24,7 @@ public class TimeStopScroll : PlayerItem
             if (playerinfo.elementalCode == _player)
             {
                 playerinfo.pv.RPC("OnPlayerSuppressed", Photon.Pun.RpcTarget.All, 2f);
+                SoundManager.Instance.PlayItemSfx(2, GameManager.Instance.localPlayerCharacter.transform.position);
                 GameObject ZONYA = Instantiate(zonYa);
                 ZONYA.transform.parent = playerinfo.transform;
                 ZONYA.transform.localPosition = Vector3.up;

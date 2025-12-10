@@ -75,4 +75,12 @@ public class Object : MonoBehaviourPunCallbacks
             health = (float)stream.ReceiveNext();
         }
     }
+
+    [PunRPC]
+    public void HealthRecovery(float _num) // 회복할 배율 입력
+    {
+        health += MaxHp * _num;
+        if (health > MaxHp)
+            health = MaxHp;
+    }
 }

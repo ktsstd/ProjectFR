@@ -150,6 +150,7 @@ MonoBehaviour:
   - AttackStart
   - OhterEffect
   - SkillEffect
+  - HealthRecovery
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

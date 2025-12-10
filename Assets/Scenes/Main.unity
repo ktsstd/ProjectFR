@@ -17255,7 +17255,7 @@ MonoBehaviour:
   SfxItemAudio:
   - {fileID: 8300000, guid: 5063e263f3480c047bccc32b2aba4b2d, type: 3}
   - {fileID: 8300000, guid: 3c254cf10d3ca45409e5b4b45dbe50d0, type: 3}
-  - {fileID: 8300000, guid: 4ceab0b3c61764e489d79a935d3f9a63, type: 3}
+  - {fileID: 8300000, guid: cc57da7d98e0fba4e8f9dcbbeb192655, type: 3}
   - {fileID: 8300000, guid: 4ceab0b3c61764e489d79a935d3f9a63, type: 3}
   - {fileID: 0}
   SfxMonsterAudio:

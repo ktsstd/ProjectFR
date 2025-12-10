@@ -128,7 +128,7 @@ public class ItemUi : MonoBehaviour
                 {
                     ItemInfoTexts[0].text = "Atk Up Scroll";
                     ItemInfoTexts[1].text = "800";
-                    ItemInfoTexts[2].text = "Increases the user's attack power by 35% for 5 seconds.";
+                    ItemInfoTexts[2].text = "You will be incapacitated for 2 seconds, but will not take damage.";
                 }
                 break;
             case 4:
@@ -143,7 +143,22 @@ public class ItemUi : MonoBehaviour
                 {
                     ItemInfoTexts[0].text = "Atk Up Scroll";
                     ItemInfoTexts[1].text = "1200";
-                    ItemInfoTexts[2].text = "Increases the user's attack power by 35% for 5 seconds.";
+                    ItemInfoTexts[2].text = "Deals 50% of maximum health to all monsters (10% to bosses)";
+                }
+                break;
+            case 5:
+                ItemImage.sprite = ItemIcon[setItem];
+                if (PlayerPrefs.GetInt("Language") == 0)
+                {
+                    ItemInfoTexts[0].text = "길드의 비호";
+                    ItemInfoTexts[1].text = "1000";
+                    ItemInfoTexts[2].text = "중앙 오브젝트의 HP를 10% 회복시킵니다.";
+                }
+                else if (PlayerPrefs.GetInt("Language") == 1)
+                {
+                    ItemInfoTexts[0].text = "Guild protection";
+                    ItemInfoTexts[1].text = "1000";
+                    ItemInfoTexts[2].text = "Restores 10% of the central object's HP";
                 }
                 break;
         }

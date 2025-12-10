@@ -9516,7 +9516,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2ac670139409d1948821022691d67bcd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2444e3a07ed6b37478d094d6d7287445, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11605,7 +11605,7 @@ MonoBehaviour:
   - {fileID: 1456071962118901253, guid: 36c09ecf448d32d44b7680557efe8922, type: 3}
   - {fileID: 5547791943664162743, guid: d40d475f47aaf0345b94afeaf0dc36c1, type: 3}
   - {fileID: 5547791943664162743, guid: 04075f87ce90fe8459f3711dcc7762dc, type: 3}
-  - {fileID: 5547791943664162743, guid: 04075f87ce90fe8459f3711dcc7762dc, type: 3}
+  - {fileID: 5547791943664162743, guid: c7a3dc1061d6e0a47923efac6be3eb72, type: 3}
   cooltimeButton: {fileID: 2083686828}
   ItemInfoTexts:
   - {fileID: 94387638}
@@ -11618,7 +11618,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2ac670139409d1948821022691d67bcd, type: 3}
   - {fileID: 21300000, guid: 267ea73647e839849b47e3e4115db765, type: 3}
   - {fileID: 21300000, guid: ebb8356d3da224646bf66743b600e500, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 2444e3a07ed6b37478d094d6d7287445, type: 3}
   FusionLockImage: {fileID: 8167737}
   FusionLockButton: {fileID: 1061109023}
   pv: {fileID: 0}
@@ -26382,7 +26382,7 @@ GameObject:
   - component: {fileID: 1573044930}
   - component: {fileID: 1573044929}
   m_Layer: 5
-  m_Name: AtkUpScroll_Button
+  m_Name: GuildScroll_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
