@@ -108,8 +108,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")
         {
-            cartS.currentState = CartMove.States.Move;
-            pv.RPC("SetWaveTimer", RpcTarget.All, 0f);
+            //cartS.currentState = CartMove.States.Move;
+            pv.RPC("SetWaveTimer", RpcTarget.All, 3f);
         }
     }
     [PunRPC]
@@ -357,6 +357,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void Stage2WaveStart()
     {
+        StartCoroutine(CIBAL());
+        //PhotonNetwork.Instantiate("Monster/Stage2/GrayWolf", FirstWaveSpawnPos.position, Quaternion.identity);
+    }
+    IEnumerator CIBAL()
+    {
+        yield return new WaitForSeconds(3f);
         PhotonNetwork.Instantiate("Monster/Stage2/GrayWolf", FirstWaveSpawnPos.position, Quaternion.identity);
     }
 

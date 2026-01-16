@@ -224,7 +224,8 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void SkillStart(int random)
     {
-        Invoke("SkillAttack", skillDelay[random]);
+        SkillAttack(random);
+        //Invoke("SkillAttack", skillDelay[random], skillCode[random]);
     }
 
     public virtual void Attack() 

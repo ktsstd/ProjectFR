@@ -29,6 +29,13 @@ public class Attackboundary : MonoBehaviour
         //Effect.SetActive(true);
         Invoke("OffCollider", 0.1f);    
     }
+
+    public void SkillEnterPlayer()
+    {
+        HideBoundary();
+        thiscollider.enabled = true;
+        Invoke("OffSkillCollider", 0.1f);
+    }
     private void OffCollider()
     {
         thiscollider.enabled = false;
@@ -39,6 +46,17 @@ public class Attackboundary : MonoBehaviour
             monsterAIScript.currentState = MonsterAI.States.Idle;
         } 
         monsterAIScript.attackTimer = monsterAIScript.attackCooldown;
+    }
+    private void OffSkillCollider()
+    {
+        thiscollider.enabled = false;
+        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
+        damagedTargets.Clear();
+        if (monsterAIScript.currentState != MonsterAI.States.Die)
+        {
+            monsterAIScript.currentState = MonsterAI.States.Idle;
+        }
+        monsterAIScript.skillTimer[0] = monsterAIScript.skillCooldown[0];
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -843,7 +843,7 @@ MonoBehaviour:
   HpBar: {fileID: 6432446183410667519}
   currentState: 0
   atkboundary: {fileID: 6178740961337408137}
-  skillboundary: {fileID: 0}
+  skillboundary: {fileID: 6484854958638799235}
 --- !u!95 &2097422061491981776
 Animator:
   serializedVersion: 7

@@ -21,7 +21,7 @@ public class CartMove : MonoBehaviourPun
         Move,
         Destroy
     }
-    void Awake()
+    void Start()
     {
         //currentState = States.Idle;
         currentState = States.Move;

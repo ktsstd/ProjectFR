@@ -59224,7 +59224,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1835308680829547224, guid: e72a8673a680069408488f68a8a9d146, type: 3}
       propertyPath: m_Layer
-      value: 31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1835308680829547224, guid: e72a8673a680069408488f68a8a9d146, type: 3}
       propertyPath: m_IsActive
@@ -59232,7 +59232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1835330961549340934, guid: e72a8673a680069408488f68a8a9d146, type: 3}
       propertyPath: m_Layer
-      value: 31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1835330961549340934, guid: e72a8673a680069408488f68a8a9d146, type: 3}
       propertyPath: m_IsActive
@@ -59240,11 +59240,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1836172350652216374, guid: e72a8673a680069408488f68a8a9d146, type: 3}
       propertyPath: m_Layer
-      value: 31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1836218520885227964, guid: e72a8673a680069408488f68a8a9d146, type: 3}
       propertyPath: m_Layer
-      value: 31
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836218520885227964, guid: e72a8673a680069408488f68a8a9d146, type: 3}
+      propertyPath: m_TagString
+      value: Object
       objectReference: {fileID: 0}
     - target: {fileID: 5424288092721631546, guid: e72a8673a680069408488f68a8a9d146, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59367,6 +59371,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1836218520885227964, guid: e72a8673a680069408488f68a8a9d146, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1568549792}
+    - targetCorrespondingSourceObject: {fileID: 1836218520885227964, guid: e72a8673a680069408488f68a8a9d146, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1630908091}
+    - targetCorrespondingSourceObject: {fileID: 1836218520885227964, guid: e72a8673a680069408488f68a8a9d146, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1630908092}
     - targetCorrespondingSourceObject: {fileID: 8858271924110771807, guid: e72a8673a680069408488f68a8a9d146, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1568549799}
@@ -61210,6 +61220,49 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4136781774218990, guid: b68302d21e7061f4fb52903649a610f4, type: 3}
   m_PrefabInstance: {fileID: 1628823460}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1630908091
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568549791}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.48, y: 9.16, z: 4.95}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1630908092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568549791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &1631016283
 PrefabInstance:
   m_ObjectHideFlags: 0

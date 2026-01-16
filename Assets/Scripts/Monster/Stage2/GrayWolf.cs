@@ -21,8 +21,6 @@ public class GrayWolf : MonsterAI
             default:
                 break;
         }
-        //skillTimer[skillIndex] = skillCooldown[skillIndex];
-        //currentState = States.Idle;
     }
     public void GrayWolfDash()
     {
@@ -45,11 +43,11 @@ public class GrayWolf : MonsterAI
     public override void ShowSkillBoundary()
     {
         if (currentState != States.Attack) return;
-        skillboundary.EnterPlayer();
+        skillboundary.SkillEnterPlayer();
     }
     public override void SkillEvent()
     {
         if (currentState != States.Attack) return;
-        atkboundary.EnterPlayer();
+        atkboundary.SkillEnterPlayer();
     }
 }
