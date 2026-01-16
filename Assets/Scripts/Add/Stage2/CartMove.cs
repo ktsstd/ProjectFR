@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using Photon.Pun.Demo.Cockpit;
 
 public class CartMove : MonoBehaviourPun
 {
@@ -11,6 +12,7 @@ public class CartMove : MonoBehaviourPun
     float MaxHp = 15000f;
     bool GameOver = false;
     [SerializeField] ParticleSystem DefeatEffect;
+    [SerializeField] GameManager Gms;
     [SerializeField] Slider ObjectHp;
  
     public enum States
@@ -21,7 +23,9 @@ public class CartMove : MonoBehaviourPun
     }
     void Awake()
     {
-        currentState = States.Idle;
+        //currentState = States.Idle;
+        currentState = States.Move;
+        Gms.Stage2WaveStart();
     }
 
     void Update()
@@ -67,6 +71,29 @@ public class CartMove : MonoBehaviourPun
         GameManager.Instance.GoToMain();
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "FirstWavePoint")
+        {
+            Gms.Stage2WaveStart();
+        }
+        else if (other.gameObject.name == "SecondWavePoint")
+        {
 
-    // 어느 지점에 부딫히면 Idle로 바꾸고 뭐 어쩌고 저쩌고 이런거 넣기
+        }
+    }
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Stop")
+        {
+            currentState = States.Idle;
+        }
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Stop")
+        {
+            currentState = States.Move;
+        }
+    }
 }

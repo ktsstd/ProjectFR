@@ -13,6 +13,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public TMP_Text roomNameText;
     public TMP_Text[] playerTexts;
     public TMP_Text modeText;
+    public TMP_Text stageText;
 
     private List<Player> playerList = new List<Player>();
    
@@ -33,10 +34,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public int CharacterIndex;
     public int selectedMode = 0; // 0 기본모드 1 무한모드
+    public int selectedStage = 0; // 0 스테이지1 1 스테이지2
 
     private void Awake()
     {
         selectedMode = 0;
+        selectedStage = 0;
     }
     private void Start()
     {
@@ -193,7 +196,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             { "isReady", isReady },
             { "selectedCharacter", CharacterIndex },
-            { "selectedMode", selectedMode }
+            { "selectedMode", selectedMode },
+            { "selectedStage", selectedStage }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
@@ -257,10 +261,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     bool Starting = false;
     public void OnClickGameStart()
     {
-        if (!Starting)
+        if (!Starting && selectedStage == 0)
         {
             Starting = true;
             PhotonNetwork.LoadLevel("Stage1");
+        }
+        else if (!Starting && selectedStage == 1)
+        {
+            Starting = true;
+            PhotonNetwork.LoadLevel("Stage2");
         }
     }
 
@@ -290,6 +299,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
             UpdateModeUI();
+        }
+        if (masterClient.CustomProperties.TryGetValue("selectedStage", out object stageState))
+        {
+            selectedStage = (int)stageState;
+            ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+            {
+                { "selectedStage", selectedStage }
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
         }
     }
     public void OnClickLeaveRoom()
@@ -381,10 +399,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         photonView.RPC("ChangeSeletedMode", RpcTarget.All, selectedMode);
     }
 
+    public void OnClickStageChange(int stage)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        selectedStage = stage;
+        photonView.RPC("ChangeSeletedStage", RpcTarget.All, selectedStage);
+    }
+
     [PunRPC]
     public void ChangeSeletedMode(int mode)
     {
         selectedMode = mode;
+        UpdateModeUI();
+    }
+    [PunRPC]
+    public void ChangeSeletedStage(int stage)
+    {
+        selectedStage = stage;
         UpdateModeUI();
     }
     private void UpdateModeUI()
@@ -395,5 +426,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             { "selectedMode", selectedMode }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+        stageText.text = selectedStage == 0 ? "스테이지1: 선택됨" : "스테이지2: 선택됨";
+        ExitGames.Client.Photon.Hashtable stageProperties = new ExitGames.Client.Photon.Hashtable
+        {
+            { "selectedStage", selectedStage }
+        };
     }
 }

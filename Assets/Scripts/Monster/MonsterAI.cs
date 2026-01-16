@@ -87,12 +87,13 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         skillCooldown = new float[monsterInfo.skillCooldown.Length];
         skillTimer = new float[monsterInfo.skillCooldown.Length];
         skillRange = new float[monsterInfo.skillCooldown.Length];
+        skillDelay = new float[monsterInfo.skillCooldown.Length];
         for (int i = 0; i < monsterInfo.skillCooldown.Length; i++)
         {
             skillCooldown[i] = monsterInfo.skillCooldown[i];
             skillTimer[i] = skillCooldown[i];
             skillRange[i] = monsterInfo.skillRange[i];
-            //skillDelay[i] = monsterInfo.skillDelay[i];
+            skillDelay[i] = monsterInfo.skillDelay[i];
         }
         if (GameManager.Instance.selectedMode == 1 && SceneManagerHelper.ActiveSceneName != "Tutorial")
         {
@@ -188,7 +189,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 int randomSkill = GetRandomSkill(skillRange[i]);
                 if (randomSkill != -1)
                 {
-                    SkillAttack(randomSkill);
+                    SkillStart(randomSkill);
                 }
                 break;
             }
@@ -219,6 +220,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public virtual void AttackStart()
     {
         Invoke("Attack", attackDelay);
+    }
+
+    public virtual void SkillStart(int random)
+    {
+        Invoke("SkillAttack", skillDelay[random]);
     }
 
     public virtual void Attack() 
@@ -260,8 +266,10 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     public virtual void AttackEvent() { }
+    public virtual void SkillEvent() { }
 
     public virtual void ShowAttackBoundary() { }
+    public virtual void ShowSkillBoundary() { }
 
     public virtual void AttackEffect() { }
 

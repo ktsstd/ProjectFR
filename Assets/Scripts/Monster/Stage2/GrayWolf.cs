@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class GrayWolf : MonsterAI
 {
-    public override void AttackEvent()
-    {
-
-    }
+    //[SerializeField] GameObject AttackEffect;
+    [SerializeField] Attackboundary atkboundary;
+    [SerializeField] Attackboundary skillboundary;
+    //if (currentState == States.Die) return;
+    //    skillTimer[skillIndex] = skillCooldown[skillIndex];
+    //    thinkTimer = thinkTime;
+    //    currentState = States.Idle;
     public override void SkillAttack(int skillIndex)
     {
         switch (skillIndex)
@@ -23,6 +26,30 @@ public class GrayWolf : MonsterAI
     }
     public void GrayWolfDash()
     {
-        // 대충 애니메이션 0.5초 대기시간 하고 쭈우욱 돌진 플레이어한테 닿기전까지 모든 오브젝트 무시 이후 정지 
+        if (currentState != States.Attack) return;
+        animator.SetTrigger("StartSkill");
+        ShowSkillBoundary();
+    }
+    public override void ShowAttackBoundary()
+    {
+        if (currentState != States.Attack) return;
+        atkboundary.ShowBoundary();
+    }
+    public override void AttackEvent()
+    {
+        if (currentState != States.Attack) return;
+        atkboundary.EnterPlayer();
+        //ParticleSystem AttackE = SleebamAttackEffect.GetComponent<ParticleSystem>();
+        //AttackE.Play();
+    }
+    public override void ShowSkillBoundary()
+    {
+        if (currentState != States.Attack) return;
+        skillboundary.EnterPlayer();
+    }
+    public override void SkillEvent()
+    {
+        if (currentState != States.Attack) return;
+        atkboundary.EnterPlayer();
     }
 }
