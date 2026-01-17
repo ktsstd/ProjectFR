@@ -216,6 +216,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             WarningText.text = "캐릭터를 선택해주세요.";
         else if (ErrorCode == 3)
             WarningText.text = "이미 준비 완료 상태입니다.";
+        else if (ErrorCode == 4)
+            WarningText.text = "2스테이지의 무한모드는 준비 중입니다!"; 
         else
             WarningText.text = "알 수 없는 오류입니다.";
 
@@ -298,7 +300,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 { "selectedMode", selectedMode }
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
-            UpdateModeUI();
         }
         if (masterClient.CustomProperties.TryGetValue("selectedStage", out object stageState))
         {
@@ -309,6 +310,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
         }
+        UpdateModeUI();
     }
     public void OnClickLeaveRoom()
     {
@@ -395,15 +397,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnClickModeChange(int mode) // 0 기본 1 무한
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        selectedMode = mode;
-        photonView.RPC("ChangeSeletedMode", RpcTarget.All, selectedMode);
+        if (selectedStage == 1)
+        {
+            WarningTexts(4);
+            return;
+        }
+        else
+        {
+            selectedMode = mode;
+            photonView.RPC("ChangeSeletedMode", RpcTarget.All, selectedMode);
+        }            
     }
 
-    public void OnClickStageChange(int stage)
+    public void OnClickStageChange(int stage) // 0 스테이지1 1 스테이지2
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        selectedStage = stage;
-        photonView.RPC("ChangeSeletedStage", RpcTarget.All, selectedStage);
+        if (selectedMode == 1)
+        {
+            WarningTexts(4);
+            return;
+        }
+        else
+        {
+            selectedStage = stage;
+            photonView.RPC("ChangeSeletedStage", RpcTarget.All, selectedStage);
+        }            
     }
 
     [PunRPC]

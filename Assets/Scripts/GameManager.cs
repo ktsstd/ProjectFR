@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private Light DLight;
     private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private Transform SpawnPos;
-    [Header("Stage1")]    
+    [Header("Stage1")]
     [SerializeField] private Transform WaveEastFirstPos;
     [SerializeField] private Transform WaveWestFirstPos;
     [SerializeField] private Transform WaveSouthFirstPos;
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 RenderSettings.skybox = SkyBoxMat;
                 DLight.color = new Color(1f, 0.3216f, 0f, 1f);
             }
-            if (WaveCount !=4)
+            if (WaveCount != 4)
             {
                 RenderSettings.skybox = FSkyBoxMat;
                 DLight.color = new Color(1f, 1f, 1f, 1f);
@@ -357,7 +357,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void Stage2WaveStart()
     {
-        StartCoroutine(CIBAL());
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(CIBAL());
         //PhotonNetwork.Instantiate("Monster/Stage2/GrayWolf", FirstWaveSpawnPos.position, Quaternion.identity);
     }
     IEnumerator CIBAL()

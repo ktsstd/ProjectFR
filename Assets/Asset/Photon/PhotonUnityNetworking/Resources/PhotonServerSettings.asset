@@ -152,6 +152,11 @@ MonoBehaviour:
   - SkillEffect
   - HealthRecovery
   - ChangeSeletedStage
+  - SyncAnimator
+  - SyncAttackStart
+  - SyncAttackTrigger
+  - SyncKnockBack
+  - SyncSkillStart
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

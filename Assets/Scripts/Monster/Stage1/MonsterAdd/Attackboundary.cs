@@ -8,6 +8,8 @@ public class Attackboundary : MonoBehaviour
     [SerializeField] MonsterAI monsterAIScript;
     [SerializeField] Collider thiscollider;
     HashSet<GameObject> damagedTargets = new HashSet<GameObject>();
+    float damage;
+    int useskillindex = -1;
 
     private void Start()
     {
@@ -17,6 +19,7 @@ public class Attackboundary : MonoBehaviour
     {
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0.8f);
     }
+
     public void HideBoundary()
     {
         gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0);
@@ -25,15 +28,18 @@ public class Attackboundary : MonoBehaviour
     {
         HideBoundary();
         thiscollider.enabled = true;
+        damage = monsterAIScript.damage;
         //monsterAIScript.photonView.RPC("AfterAttack", RpcTarget.All);
         //Effect.SetActive(true);
         Invoke("OffCollider", 0.1f);    
     }
 
-    public void SkillEnterPlayer()
+    public void SkillEnterPlayer(float skilldamage, int skillIndex)
     {
         HideBoundary();
+        useskillindex = skillIndex;
         thiscollider.enabled = true;
+        damage = skilldamage;
         Invoke("OffSkillCollider", 0.1f);
     }
     private void OffCollider()
@@ -46,6 +52,7 @@ public class Attackboundary : MonoBehaviour
             monsterAIScript.currentState = MonsterAI.States.Idle;
         } 
         monsterAIScript.attackTimer = monsterAIScript.attackCooldown;
+        monsterAIScript.thinkTimer = monsterAIScript.thinkTime;
     }
     private void OffSkillCollider()
     {
@@ -56,7 +63,8 @@ public class Attackboundary : MonoBehaviour
         {
             monsterAIScript.currentState = MonsterAI.States.Idle;
         }
-        monsterAIScript.skillTimer[0] = monsterAIScript.skillCooldown[0];
+        monsterAIScript.skillTimer[useskillindex] = monsterAIScript.skillCooldown[useskillindex];
+        monsterAIScript.thinkTimer = monsterAIScript.thinkTime;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -66,27 +74,27 @@ public class Attackboundary : MonoBehaviour
         {
             damagedTargets.Add(other.gameObject);
             PlayerController playerS = other.GetComponent<PlayerController>();
-            playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, monsterAIScript.damage);
+            playerS.photonView.RPC("OnPlayerHit", RpcTarget.All, damage);
         }
         else if (other.CompareTag("Object"))
         {
             damagedTargets.Add(other.gameObject);
             Object objectS = other.GetComponent<Object>();
-            objectS.Damaged(monsterAIScript.damage);
+            objectS.Damaged(damage);
         }
 
         else if (other.CompareTag("Summon"))
         {
             damagedTargets.Add(other.gameObject);
             SummonAI summonS = other.GetComponent<SummonAI>();
-            summonS.photonView.RPC("OnSummonHit", RpcTarget.All, monsterAIScript.damage);
+            summonS.photonView.RPC("OnSummonHit", RpcTarget.All, damage);
         }
 
         else if (other.CompareTag("Obstacle"))
         {
             damagedTargets.Add(other.gameObject);
             Obstacle obstacleS = other.GetComponent<Obstacle>();
-            obstacleS.photonView.RPC("OnObstacleHit", RpcTarget.All, monsterAIScript.damage);
+            obstacleS.photonView.RPC("OnObstacleHit", RpcTarget.All, damage);
         }
     }
 

@@ -774,7 +774,7 @@ GameObject:
   - component: {fileID: 8461540084467358386}
   m_Layer: 0
   m_Name: GrayWolf
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1007,8 +1007,8 @@ Transform:
   m_GameObject: {fileID: 4264371740083265171}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.396}
-  m_LocalScale: {x: 0.075, y: 0.83, z: 0.3}
+  m_LocalPosition: {x: 0, y: -0, z: 0.6326}
+  m_LocalScale: {x: 0.075, y: 0.83, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7948508388698491242}
@@ -1115,7 +1115,7 @@ GameObject:
   - component: {fileID: 8950116797713391403}
   - component: {fileID: 6484854958638799235}
   m_Layer: 0
-  m_Name: PlaneBoundary (1)
+  m_Name: SkillBoundary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1130,8 +1130,8 @@ Transform:
   m_GameObject: {fileID: 4569273034136570177}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.832}
-  m_LocalScale: {x: 0.075, y: 0.83, z: 0.10158401}
+  m_LocalPosition: {x: 0, y: -0, z: 1.066}
+  m_LocalScale: {x: 0.075, y: 0.83, z: 0.16}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7948508388698491242}

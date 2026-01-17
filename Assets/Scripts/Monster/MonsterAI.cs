@@ -40,7 +40,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public float attackTimer; // 공속 타이머
     public float recognizedistance; // 인지 범위
     public float monsterSlowCurTime; // 구속 현재 시간
-    public float targetSearchTime = 4f; // 인지 재탐색 시간
+    public float targetSearchTime = 3f; // 인지 재탐색 시간
     public float targetSearchTimer; // 인지 타이머
 
     public int latestAttackPlayer = -1;
@@ -61,6 +61,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         Stun,
         Die
     }
+
     public virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -69,6 +70,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
         currentState = States.Idle;
         latestAttackPlayer = -1;
+
         if (PhotonNetwork.PlayerList.Length > 2)
         {
             CurHp = monsterInfo.health;
@@ -84,10 +86,12 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             CurHp = monsterInfo.health * 0.5f;
             damage = monsterInfo.damage * 0.5f;
         }
+
         skillCooldown = new float[monsterInfo.skillCooldown.Length];
         skillTimer = new float[monsterInfo.skillCooldown.Length];
         skillRange = new float[monsterInfo.skillCooldown.Length];
         skillDelay = new float[monsterInfo.skillCooldown.Length];
+
         for (int i = 0; i < monsterInfo.skillCooldown.Length; i++)
         {
             skillCooldown[i] = monsterInfo.skillCooldown[i];
@@ -95,36 +99,37 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             skillRange[i] = monsterInfo.skillRange[i];
             skillDelay[i] = monsterInfo.skillDelay[i];
         }
+
         if (GameManager.Instance.selectedMode == 1 && SceneManagerHelper.ActiveSceneName != "Tutorial")
         {
             CurHp += CurHp * (0.2f * GameManager.Instance.WaveLoopCount);
             damage += damage * (0.2f * GameManager.Instance.WaveLoopCount);
-        }           
+        }
 
-        Array.Sort(skillRange);
+        // 배열 정렬 제거 (인덱스 불일치 방지)
+        // Array.Sort(skillRange); 
+
         attackRange = monsterInfo.attackRange;
         attackCooldown = monsterInfo.attackCooldown;
         attackTimer = attackCooldown;
         attackDelay = monsterInfo.attackdDelay;
         thinkTimer = thinkTime;
         recognizedistance = monsterInfo.redistance;
-        targetSearchTimer = targetSearchTime;
         agent.speed = monsterInfo.speed;
         MaxHp = CurHp;
 
         HpBarObj.SetActive(false);
 
-        //HpUpdate();
-
         isMoving = false;
     }
+
     public virtual void Update()
     {
         if (Input.GetKey(KeyCode.K))
         {
             photonView.RPC("OnMonsterHit", RpcTarget.All, 300f);
         }
-        //if (!PhotonNetwork.IsMasterClient) return;
+
         switch (currentState)
         {
             case States.Idle:
@@ -139,17 +144,18 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             case States.Stun:
                 break;
         }
-        if (targetSearchTimer <= 0f && PhotonNetwork.IsMasterClient)
+        if (targetSearchTimer <= 0f)
         {
-            //photonView.
-            //
-            //
-            //("RecognizePlayer", RpcTarget.AllBuffered);
             RecognizePlayer();
+            targetSearchTimer = targetSearchTime; 
         }
         targetSearchTimer -= Time.deltaTime;
-        attackTimer -= Time.deltaTime;
-        thinkTimer -= Time.deltaTime;
+
+        if (attackTimer > 0f)
+            attackTimer -= Time.deltaTime;
+        if (thinkTimer > 0f)
+            thinkTimer -= Time.deltaTime;
+
         for (int i = 0; i < skillTimer.Length; i++)
         {
             if (skillTimer[i] > 0f)
@@ -159,14 +165,17 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    //[PunRPC]
     public virtual void Move()
     {
         if (target == null) return;
+
         isMoving = true;
         targetCollider = target.GetComponent<Collider>();
+        if (targetCollider == null) return;
+
         Vector3 targetPos = targetCollider.ClosestPoint(transform.position);
         float distance = Vector3.Distance(transform.position, targetPos);
+
         if (currentState == States.Idle)
         {
             Vector3 directionToTarget = target.position - transform.position;
@@ -176,41 +185,45 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 6f);
             }
         }
+
+        int availableSkillIndex = -1;
+        float closestSkillRange = float.MaxValue;
+
         for (int i = 0; i < skillRange.Length; i++)
         {
-            if (distance <= skillRange[i] && skillTimer[i] <= 0f && currentState == States.Idle && thinkTimer <= 0f)
+            if (skillTimer[i] <= 0f && distance <= skillRange[i] && skillRange[i] < closestSkillRange)
             {
-                agent.ResetPath();
-                agent.velocity = Vector3.zero;
-                animator.SetBool("Run", false);
-                agent.velocity = Vector3.zero;
-                currentState = States.Attack;
-                isMoving = false;
-                int randomSkill = GetRandomSkill(skillRange[i]);
-                if (randomSkill != -1)
-                {
-                    SkillStart(randomSkill);
-                }
-                break;
-            }
-            else if (distance > skillRange[i] && skillTimer[i] <= 0f && currentState == States.Idle && thinkTimer <= 0f)
-            {
-                agent.SetDestination(targetPos);
-                animator.SetBool("Run", true);
+                availableSkillIndex = i;
+                closestSkillRange = skillRange[i];
             }
         }
+
+        if (availableSkillIndex != -1 && currentState != States.Attack && thinkTimer <= 0f)
+        {
+            if (agent.hasPath) agent.ResetPath();
+            agent.velocity = Vector3.zero;
+            animator.SetBool("Run", false);
+            currentState = States.Attack;
+            isMoving = false;
+            SkillStart(availableSkillIndex);
+            return;
+        }
+
         if (distance <= attackRange && currentState != States.Attack)
         {
-            agent.ResetPath();
+            if (agent.hasPath) agent.ResetPath();
             animator.SetBool("Run", false);
-            if (attackTimer <= 0 && currentState != States.Die)
+
+            if (attackTimer <= 0 && currentState != States.Die && thinkTimer <= 0f)
             {
                 currentState = States.Attack;
-                isMoving = false;                
+                isMoving = false;
                 AttackStart();
             }
+            return;
         }
-        else if (distance > attackRange && currentState != States.Attack)
+
+        if (currentState == States.Idle)
         {
             agent.SetDestination(targetPos);
             animator.SetBool("Run", true);
@@ -225,10 +238,9 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public virtual void SkillStart(int random)
     {
         SkillAttack(random);
-        //Invoke("SkillAttack", skillDelay[random], skillCode[random]);
     }
 
-    public virtual void Attack() 
+    public virtual void Attack()
     {
         if (currentState != States.Attack) return;
         animator.SetTrigger("StartAttack");
@@ -277,7 +289,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     public virtual void AttackSound() { }
     public virtual void AttackAnimation() { }
 
-    public virtual void OnMonsterKnockBack(Transform _transform) 
+    public virtual void OnMonsterKnockBack(Transform _transform)
     {
         agent.ResetPath();
         agent.enabled = false;
@@ -285,13 +297,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         Vector3 knockbackDirection = (transform.position - _transform.position).normalized;
         rigid.AddForce(knockbackDirection * 8f, ForceMode.Impulse);
         Invoke("ResetState", 0.6f);
-    } 
+    }
+
     public void ResetState()
     {
         if (currentState != States.Die && CurHp > 0)
         {
             agent.enabled = true;
-            currentState = States.Idle;            
+            currentState = States.Idle;
         }
     }
 
@@ -303,11 +316,14 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         isMoving = false;
         Invoke("StopStunEffect", _time);
     }
+
     public void StopStunEffect()
     {
         StunningEffect.SetActive(false);
     }
+
     private Coroutine stunCoroutine;
+
     public virtual void OnMonsterStun(float _time)
     {
         if (stunCoroutine != null)
@@ -325,7 +341,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         if (currentState != States.Die)
         {
             currentState = States.Idle;
-        }        
+        }
     }
 
     public virtual void OnMonsterSpeedDown(float _time, float _moveSpeed)
@@ -342,6 +358,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     private Coroutine speedCoroutine;
+
     public void OnMonsterSpeedDownStart(float _time, float _moveSpeed)
     {
         if (speedCoroutine != null)
@@ -355,18 +372,28 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         agent.speed -= _moveSpeed;
         sloweffect.SetActive(true);
         monsterSlowCurTime = _time;
+
         while (monsterSlowCurTime > 0)
         {
             yield return null;
             monsterSlowCurTime -= Time.deltaTime;
 
-            for (int i = 0; i < slowEffects.Count; i++)
+            for (int i = slowEffects.Count - 1; i >= 0; i--)
             {
-                var remaineffect = slowEffects[i];
-                slowEffects[i] = (remaineffect.slowtime - Time.deltaTime, remaineffect.slowmoveSpeed);
+                var effect = slowEffects[i];
+                float newTime = effect.slowtime - Time.deltaTime;
+
+                if (newTime <= 0)
+                {
+                    slowEffects.RemoveAt(i);
+                }
+                else
+                {
+                    slowEffects[i] = (newTime, effect.slowmoveSpeed);
+                }
             }
         }
-        // yield return new WaitForSeconds(_time);
+
         if (slowEffects.Count > 0)
         {
             var nextSlowEffect = slowEffects[0];
@@ -382,7 +409,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    //[PunRPC]
     public void RecognizePlayer()
     {
         float closestDistance = recognizedistance;
@@ -390,7 +416,6 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
         foreach (string targetTag in monsterInfo.priTarget)
         {
-
             GameObject[] possibleTargets = GameObject.FindGameObjectsWithTag(targetTag);
             if (possibleTargets == null || possibleTargets.Length == 0)
                 continue;
@@ -433,8 +458,11 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
                 tempClosestTarget = objectTarget.transform;
         }
 
-        target = tempClosestTarget;
-        photonView.RPC("Settarget", RpcTarget.AllBuffered, target.name, target.position, target.tag);
+        if (tempClosestTarget != null)
+        {
+            target = tempClosestTarget;
+            photonView.RPC("Settarget", RpcTarget.AllBuffered, target.name, target.position, target.tag);
+        }
     }
 
     [PunRPC]
@@ -471,36 +499,38 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         photonView.RPC("SetLatestAttacker", RpcTarget.AllBuffered, playercode);
         photonView.RPC("OnMonsterHit", RpcTarget.All, damage);
     }
+
     [PunRPC]
     public virtual void OnMonsterHit(float damage)
     {
         if (currentState == States.Die) return;
-        if (CurHp > 0)
+
+        CurHp -= damage;
+
+        if (CurHp <= 0)
         {
-            CurHp -= damage;
-            if (CurHp <= 0)
+            currentState = States.Die;
+
+            if (agent != null)
             {
-                currentState = States.Die;
-                if (agent != null)
-                {
-                    agent.ResetPath();
-                    agent.enabled = false;
-                }
-                currentState = States.Die;
-                animator.Rebind();
-                // 공격 취소
-                animator.SetTrigger("Die");
-                currentState = States.Die;
-                Invoke("DestroyMonster", 1.5f);
+                agent.ResetPath();
+                agent.enabled = false;
             }
+
+            animator.Rebind();
+            animator.SetTrigger("Die");
+            Invoke("DestroyMonster", 1.5f);
         }
+
         HpUpdate();
     }
+
     [PunRPC]
     public void SetLatestAttacker(int attacker)
     {
         latestAttackPlayer = attacker;
     }
+
     public void HpUpdate()
     {
         if (HpBarObj.activeSelf == false)
@@ -514,6 +544,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
         }
         HpBar.value = CurHp / MaxHp;
     }
+
     [PunRPC]
     public virtual void GiveMoney()
     {
@@ -551,6 +582,7 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
     }
+
     public virtual void DestroyMonster()
     {
         photonView.RPC("GiveMoney", RpcTarget.AllBuffered);

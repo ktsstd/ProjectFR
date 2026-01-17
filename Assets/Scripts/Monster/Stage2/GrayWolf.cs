@@ -7,12 +7,14 @@ public class GrayWolf : MonsterAI
     //[SerializeField] GameObject AttackEffect;
     [SerializeField] Attackboundary atkboundary;
     [SerializeField] Attackboundary skillboundary;
+    int useskillindex = -1;
     //if (currentState == States.Die) return;
     //    skillTimer[skillIndex] = skillCooldown[skillIndex];
     //    thinkTimer = thinkTime;
     //    currentState = States.Idle;
     public override void SkillAttack(int skillIndex)
     {
+        useskillindex = skillIndex;
         switch (skillIndex)
         {
             case 0:
@@ -43,11 +45,11 @@ public class GrayWolf : MonsterAI
     public override void ShowSkillBoundary()
     {
         if (currentState != States.Attack) return;
-        skillboundary.SkillEnterPlayer();
+        skillboundary.ShowBoundary();
     }
     public override void SkillEvent()
     {
         if (currentState != States.Attack) return;
-        atkboundary.SkillEnterPlayer();
+        skillboundary.SkillEnterPlayer(50 + (damage * 1.2f), useskillindex);
     }
 }

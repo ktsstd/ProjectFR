@@ -15,11 +15,11 @@ MonoBehaviour:
   speed: 5
   damage: 70
   health: 550
-  attackRange: 0.4
+  attackRange: 3.4
   attackCooldown: 1.5
   attackdDelay: 0
   skillRange:
-  - 2
+  - 5
   skillCooldown:
   - 5
   skillDelay:
