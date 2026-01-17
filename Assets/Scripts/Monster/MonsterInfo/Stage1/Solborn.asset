@@ -22,7 +22,8 @@ MonoBehaviour:
   - 0
   skillCooldown:
   - 0
-  skillDelay: []
+  skillDelay:
+  - 0
   priTarget:
   - Player
   - Summon

@@ -96,6 +96,12 @@ public class Attackboundary : MonoBehaviour
             Obstacle obstacleS = other.GetComponent<Obstacle>();
             obstacleS.photonView.RPC("OnObstacleHit", RpcTarget.All, damage);
         }
+        else if (other.CompareTag("Stage2Object"))
+        {
+            damagedTargets.Add(other.gameObject);
+            CartMove cartMove = other.GetComponent<CartMove>();
+            cartMove.Damaged(damage);
+        }
     }
 
 }

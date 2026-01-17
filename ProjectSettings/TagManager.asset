@@ -12,6 +12,10 @@ TagManager:
   - Summon
   - BackGroundObj
   - Obstacle
+  - Stop
+  - WavePoint
+  - Stage2Obstacle
+  - Stage2Object
   layers:
   - Default
   - TransparentFX

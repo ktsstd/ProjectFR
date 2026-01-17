@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private Transform WaveThirdPos3;
     [SerializeField] private Transform WaveThirdPos4;
     [Header("Stage2")]
-    [SerializeField] private Transform FirstWaveSpawnPos;
+    [SerializeField] private Transform[] WaveSpawnPos;
     [Header("UI")]
     [SerializeField] private GameObject Quit;
     [SerializeField] private TextMeshProUGUI WaveText;
@@ -337,34 +338,87 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                     isSpawn = false;
                 }
             }
-            else if (SceneManagerHelper.ActiveSceneName == "Stage2")
-            {
-                PhotonNetwork.Instantiate("GrayWolf", FirstWaveSpawnPos.position, Quaternion.identity);
-                //string Sleebam = "Monster/Stage1/Sleebam";
-                //string Mugolin = "Monster/Stage1/Mugolin";
-                //string Grave = "Monster/Stage1/Grave";
-                //string Boss = "Boss/Stage1/Boss";
-
-                //int a = Random.Range(1, 4);
-                //int b = Random.Range(1, 5);
-                //Transform[] spawnPositions = GetSpawnPositions(a, b);
-                //if (WaveCount == 1)
-                //{
-                //    StartCoroutine(InstantiateMonsters(Mugolin, 10));
-                //}
-            }
         }
     }
-    public void Stage2WaveStart()
+    public void Stage2Wave()
     {
         if (PhotonNetwork.IsMasterClient)
-            StartCoroutine(CIBAL());
-        //PhotonNetwork.Instantiate("Monster/Stage2/GrayWolf", FirstWaveSpawnPos.position, Quaternion.identity);
+        {
+            StartCoroutine(Stage2WaveSpawn());
+        }
     }
-    IEnumerator CIBAL()
+    public void Stage2ObstacleWave()
     {
-        yield return new WaitForSeconds(3f);
-        PhotonNetwork.Instantiate("Monster/Stage2/GrayWolf", FirstWaveSpawnPos.position, Quaternion.identity);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(Stage2ObstacleWaveSpawn());
+        }
+    }
+    Transform RandomSpawnPos()
+    {
+        int random = Random.Range(0, WaveSpawnPos.Length);
+        return WaveSpawnPos[random];
+    }
+
+    IEnumerator Stage2WaveSpawn()
+    {
+        string GrayWolf = "Monster/Stage2/GrayWolf";
+        string Rat = "Monster/Stage2/Rat";
+        string Spider = "Monster/Stage2/Spider";
+        StartCoroutine(InstantiateMonsters(Rat, 5));
+        StartCoroutine(InstantiateMonsters(Spider, 8));
+        StartCoroutine(InstantiateMonsters(GrayWolf, 6));
+        //StartCoroutine(InstantiateMonsters(Rat, 2));
+        //yield return new WaitForSeconds(19f);
+        //StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        //StartCoroutine(InstantiateMonsters(Spider, 8));
+        //StartCoroutine(InstantiateMonsters(Rat, 4));
+        //yield return new WaitForSeconds(19f);
+        //StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        //StartCoroutine(InstantiateMonsters(Spider, 8));
+        //StartCoroutine(InstantiateMonsters(Rat, 4));
+        //yield return new WaitForSeconds(19f);
+        //StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        //StartCoroutine(InstantiateMonsters(Spider, 8));
+        //StartCoroutine(InstantiateMonsters(Rat, 4));
+        //yield return new WaitForSeconds(19f);
+        //StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        //StartCoroutine(InstantiateMonsters(Spider, 8));
+        //StartCoroutine(InstantiateMonsters(Rat, 4));
+        //yield return new WaitForSeconds(19f);
+        //StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        //StartCoroutine(InstantiateMonsters(Spider, 8));
+        //StartCoroutine(InstantiateMonsters(Rat, 4));
+        yield break;
+    }
+
+    IEnumerator Stage2ObstacleWaveSpawn()
+    {
+        string GrayWolf = "Monster/Stage2/GrayWolf";
+        string Rat = "Monster/Stage2/Rat";
+        string Spider = "Monster/Stage2/Spider";
+        StartCoroutine(InstantiateMonsters(Rat, 2));
+        yield return new WaitForSeconds(19f);
+        StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        StartCoroutine(InstantiateMonsters(Spider, 8));
+        StartCoroutine(InstantiateMonsters(Rat, 4));
+        yield return new WaitForSeconds(19f);
+        StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        StartCoroutine(InstantiateMonsters(Spider, 8));
+        StartCoroutine(InstantiateMonsters(Rat, 4));
+        yield return new WaitForSeconds(19f);
+        StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        StartCoroutine(InstantiateMonsters(Spider, 8));
+        StartCoroutine(InstantiateMonsters(Rat, 4));
+        yield return new WaitForSeconds(19f);
+        StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        StartCoroutine(InstantiateMonsters(Spider, 8));
+        StartCoroutine(InstantiateMonsters(Rat, 4));
+        yield return new WaitForSeconds(19f);
+        StartCoroutine(InstantiateMonsters(GrayWolf, 4));
+        StartCoroutine(InstantiateMonsters(Spider, 8));
+        StartCoroutine(InstantiateMonsters(Rat, 4));
+        yield break;
     }
 
     IEnumerator InfiniteWaveStart()
@@ -518,14 +572,18 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                     }
                 }
             }
-            isSpawn = false;
+                isSpawn = false;
             GameObject[] MonsterCount = GameObject.FindGameObjectsWithTag("Enemy");
-            Debug.Log(MonsterCount.Length);
         }
-        //if (SceneManagerHelper.ActiveSceneName == "Stage2")
-        //{
-            
-        //}
+        else if (SceneManagerHelper.ActiveSceneName == "Stage2")
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Transform WaveSpawnPos = RandomSpawnPos();
+                PhotonNetwork.Instantiate(monsterType, WaveSpawnPos.position, Quaternion.identity);
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
     }
     Transform[] GetSpawnPositions(int a, int b)
     {

@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class GrayWolf : MonsterAI
 {
-    //[SerializeField] GameObject AttackEffect;
     [SerializeField] Attackboundary atkboundary;
     [SerializeField] Attackboundary skillboundary;
     int useskillindex = -1;
-    //if (currentState == States.Die) return;
-    //    skillTimer[skillIndex] = skillCooldown[skillIndex];
-    //    thinkTimer = thinkTime;
-    //    currentState = States.Idle;
+
     public override void SkillAttack(int skillIndex)
     {
         useskillindex = skillIndex;

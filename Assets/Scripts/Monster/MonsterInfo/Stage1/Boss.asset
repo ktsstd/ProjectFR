@@ -17,6 +17,7 @@ MonoBehaviour:
   health: 13000
   attackRange: 8
   attackCooldown: 5
+  attackdDelay: 0
   skillRange:
   - 8
   - 8
@@ -27,8 +28,14 @@ MonoBehaviour:
   - 10
   - 10
   - 10
+  skillDelay:
+  - 0
+  - 0
+  - 0
+  - 0
   priTarget:
   - Player
   - Summon
   isBoss: 1
+  isElite: 0
   redistance: 1000

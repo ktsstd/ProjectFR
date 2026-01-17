@@ -15,12 +15,15 @@ MonoBehaviour:
   speed: 4.5
   damage: 35
   health: 300
-  attackRange: 0.4
+  attackRange: 1.4
   attackCooldown: 1.5
+  attackdDelay: 0
   skillRange: []
   skillCooldown: []
+  skillDelay: []
   priTarget:
   - Player
   - Summon
   isBoss: 0
+  isElite: 0
   redistance: 10

@@ -278,8 +278,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 RaycastHit dashRayHit;
                 if (Physics.Raycast(transform.position + Vector3.up - transform.forward * 0.5f, transform.forward, out dashRayHit, 1.5f))
                 {
-                    if (dashRayHit.transform.tag == "BackGroundObj" || dashRayHit.transform.tag == "Object")
+                    if (dashRayHit.transform.tag == "BackGroundObj" || dashRayHit.transform.tag == "Object" 
+                        || dashRayHit.transform.gameObject.layer == LayerMask.NameToLayer("Object"))
                     {
+                        Debug.Log("Ãæµ¹ °¨ÁöµÊ!");
                         dashPos = transform.position;
                         animator.SetBool("isDash", false);
                         currentStates = States.Idle;

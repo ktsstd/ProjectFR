@@ -14,7 +14,7 @@ public class CartMove : MonoBehaviourPun
     [SerializeField] ParticleSystem DefeatEffect;
     [SerializeField] GameManager Gms;
     [SerializeField] Slider ObjectHp;
- 
+
     public enum States
     {
         Idle,
@@ -23,9 +23,8 @@ public class CartMove : MonoBehaviourPun
     }
     void Start()
     {
-        //currentState = States.Idle;
+        health = MaxHp;
         currentState = States.Move;
-        Gms.Stage2WaveStart();
     }
 
     void Update()
@@ -40,11 +39,12 @@ public class CartMove : MonoBehaviourPun
             case States.Destroy:
                 break;
         }
+        ObjectHp.value = health / MaxHp;
     }
 
     void Move()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * 0.1f);
+        transform.Translate(Vector3.forward * Time.deltaTime * 1f);
     }
 
     public void Damaged(float damage)
@@ -73,13 +73,13 @@ public class CartMove : MonoBehaviourPun
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "FirstWavePoint")
+        if (other.gameObject.tag == "WavePoint")
         {
-            Gms.Stage2WaveStart();
+            Gms.Stage2Wave();
         }
-        else if (other.gameObject.name == "SecondWavePoint")
+        else if (other.gameObject.tag == "Stop")
         {
-
+            Gms.Stage2ObstacleWave();
         }
     }
     public void OnTriggerStay(Collider other)

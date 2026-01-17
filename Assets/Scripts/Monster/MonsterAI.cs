@@ -453,9 +453,18 @@ public class MonsterAI : MonoBehaviourPunCallbacks, IPunObservable
 
         if (tempClosestTarget == null && !monsterInfo.isBoss)
         {
-            GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
-            if (objectTarget != null)
-                tempClosestTarget = objectTarget.transform;
+            if (SceneManagerHelper.ActiveSceneName == "Stage1")
+            {
+                GameObject objectTarget = GameObject.FindGameObjectWithTag("Object");
+                if (objectTarget != null)
+                    tempClosestTarget = objectTarget.transform;
+            }
+            else if (SceneManagerHelper.ActiveSceneName == "Stage2")
+            {
+                GameObject objectTarget = GameObject.FindGameObjectWithTag("Stage2Object");
+                if (objectTarget != null)
+                    tempClosestTarget = objectTarget.transform;
+            }
         }
 
         if (tempClosestTarget != null)

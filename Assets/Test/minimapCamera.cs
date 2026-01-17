@@ -32,19 +32,27 @@ public class MinimapCamera : MonoBehaviour
     {
         if (playerObj != null)
         {
-            Vector3 newPosition = playerObj.transform.position;
-            newPosition.y = transform.position.y;
-
-            Vector3 offset = new Vector3(newPosition.x - center.x, 0, newPosition.z - center.z);
-            if (offset.magnitude > radius)
+            if (SceneManagerHelper.ActiveSceneName == "Stage1")
             {
-                offset = offset.normalized * radius;
-                newPosition = center + offset;
+                Vector3 newPosition = playerObj.transform.position;
                 newPosition.y = transform.position.y;
+
+                Vector3 offset = new Vector3(newPosition.x - center.x, 0, newPosition.z - center.z);
+                if (offset.magnitude > radius)
+                {
+                    offset = offset.normalized * radius;
+                    newPosition = center + offset;
+                    newPosition.y = transform.position.y;
+                }
+
+                transform.position = newPosition;
             }
-
-            transform.position = newPosition;
-
+            else if (SceneManagerHelper.ActiveSceneName == "Stage2")
+            {
+                Vector3 newPosition = playerObj.transform.position;
+                newPosition.y = transform.position.y;
+                transform.position = newPosition;
+            }
             UpdateEnemyIndicators();
         }
     }
@@ -74,6 +82,10 @@ public class MinimapCamera : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
+            if (enemy.name.Contains("Stop"))
+            {
+                continue;
+            }
             Camera minimapCamera = GetComponent<Camera>();
             Vector3 viewportPos = minimapCamera.WorldToViewportPoint(enemy.transform.position);
 

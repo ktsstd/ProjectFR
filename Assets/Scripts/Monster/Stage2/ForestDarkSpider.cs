@@ -1,28 +1,58 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ForestDarkSpider : MonsterAI
 {
+    [SerializeField] SkinnedMeshRenderer skinnedMeshRenderer;
+    [SerializeField] Attackboundary atkboundary;
+    [SerializeField] ParticleSystem DieEffect;
+    public void Start()
+    {
+        skinnedMeshRenderer.material.color = new Color(1f, 1f, 1f, 0.35f);
+        currentState = States.Idle;
+    }
+    
+    public override void ShowAttackBoundary()
+    {
+        if (currentState != States.Attack) return;
+        atkboundary.ShowBoundary();
+    }
     public override void AttackEvent()
     {
+        if (currentState != States.Attack) return;
+        atkboundary.EnterPlayer();
+    }
+    public override void MonsterDmged(float damage, int playercode)
+    {
+        skinnedMeshRenderer.material.color = new Color(1f, 1f, 1f, 1f);
+        if (!PhotonNetwork.IsMasterClient) return;
+        photonView.RPC("SetLatestAttacker", RpcTarget.AllBuffered, playercode);
+        photonView.RPC("OnMonsterHit", RpcTarget.All, damage);
+    }
+    [PunRPC]
+    public override void OnMonsterHit(float damage)
+    {
+        if (currentState == States.Die) return;
 
-    }
-    public override void SkillAttack(int skillIndex)
-    {
-        switch (skillIndex)
+        CurHp -= damage;
+
+        if (CurHp <= 0)
         {
-            case 0:
-                Hide();
-                break;
-            default:
-                break;
+            currentState = States.Die;
+
+            if (agent != null)
+            {
+                agent.ResetPath();
+                agent.enabled = false;
+            }
+
+            animator.Rebind();
+            animator.SetTrigger("Die");
+            Invoke("DestroyMonster", 1.5f);
         }
-        //skillTimer[skillIndex] = skillCooldown[skillIndex];
-        //currentState = States.Idle;
-    }
-    public void Hide()
-    {
-        // 시작하자마자 65% 투명해지고 데미지 받으면 해제
+
+        HpUpdate();
     }
 }

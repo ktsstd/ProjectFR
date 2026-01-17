@@ -25,20 +25,6 @@ public class Object : MonoBehaviourPunCallbacks
         Monster = GameObject.FindGameObjectsWithTag("Enemy");
         MonsterCount = Monster.Length;
         ObjectHp.value = health / MaxHp;
-
-        //foreach (GameObject monster in Monster)
-        //{
-        //    float distance = Vector3.Distance(transform.position, monster.transform.position);
-
-        //    if (distance <= detectRadius)
-        //    {
-        //        Mugolin mugolin = monster.GetComponent<Mugolin>();
-        //        if (mugolin != null)
-        //        {
-        //            mugolin.StandUp();
-        //        }
-        //    }
-        //}
     }
     public void Damaged(float damage)
     {
@@ -49,7 +35,6 @@ public class Object : MonoBehaviourPunCallbacks
     public void ObjDmged(float damage)
     {
         health -= damage;
-        // Debug.Log("남은 체력:" + health);
         if (health <= 0)
         {
             PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
