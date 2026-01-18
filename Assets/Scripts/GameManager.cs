@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
@@ -166,7 +165,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else if (SceneManagerHelper.ActiveSceneName == "Stage2")
         {
-
+            WaveAllMonsterCountText.text = "" + GameObject.FindGameObjectsWithTag("Enemy").Length;
         }
         if (LastWaveTime > 0)
         {

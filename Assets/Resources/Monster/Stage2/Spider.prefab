@@ -788,6 +788,7 @@ GameObject:
   - component: {fileID: 1366968815851836902}
   - component: {fileID: 2204046357894229769}
   - component: {fileID: 8609015992927889602}
+  - component: {fileID: 8452819046416432366}
   m_Layer: 8
   m_Name: SpiderDieEff
   m_TagString: Untagged
@@ -5643,6 +5644,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 9
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8452819046416432366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4031063276118057614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61db6e2faee3aba4fb4f2b6e309dc248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4199931786944444552
 GameObject:
   m_ObjectHideFlags: 0
@@ -6110,7 +6123,8 @@ MonoBehaviour:
   currentState: 0
   skinnedMeshRenderer: {fileID: 3869309335800745356}
   atkboundary: {fileID: 6963315791744797397}
-  DieEffect: {fileID: 0}
+  DieObj: {fileID: 0}
+  DieEffect: {fileID: 1366968815851836902}
 --- !u!95 &60284455660848180
 Animator:
   serializedVersion: 7

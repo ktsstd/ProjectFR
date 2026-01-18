@@ -32,6 +32,7 @@ public class ForestMotherRat : MonsterAI
     }
     public override void SkillEvent()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         PhotonNetwork.Instantiate("Monster/Stage2/Rat_baby", mob1.position, mob1.rotation);
         PhotonNetwork.Instantiate("Monster/Stage2/Rat_baby", mob2.position, mob2.rotation);
         PhotonNetwork.Instantiate("Monster/Stage2/Rat_baby", mob3.position, mob3.rotation);

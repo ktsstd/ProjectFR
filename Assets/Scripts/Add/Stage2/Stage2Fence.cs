@@ -8,6 +8,7 @@ public class Stage2Fence : MonsterAI
 {
     public float currentHp;
     public float maxHp;
+    [SerializeField] CartMove cartMove;
 
     public override void Awake()
     {
@@ -34,6 +35,7 @@ public class Stage2Fence : MonsterAI
         if (currentHp <= 0)
         {
             PhotonNetwork.Destroy(gameObject);
+            cartMove.currentState = CartMove.States.Move;
         }
         FenceHpUpdate();
     }

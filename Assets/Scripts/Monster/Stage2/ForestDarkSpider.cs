@@ -7,6 +7,7 @@ public class ForestDarkSpider : MonsterAI
 {
     [SerializeField] SkinnedMeshRenderer skinnedMeshRenderer;
     [SerializeField] Attackboundary atkboundary;
+    [SerializeField] GameObject DieObj;
     [SerializeField] ParticleSystem DieEffect;
     public void Start()
     {
@@ -51,6 +52,8 @@ public class ForestDarkSpider : MonsterAI
             animator.Rebind();
             animator.SetTrigger("Die");
             Invoke("DestroyMonster", 1.5f);
+            DieObj.SetActive(true);
+            DieEffect.Play();
         }
 
         HpUpdate();

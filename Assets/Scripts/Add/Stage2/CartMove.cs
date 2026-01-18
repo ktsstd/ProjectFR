@@ -81,19 +81,18 @@ public class CartMove : MonoBehaviourPun
         {
             Gms.Stage2ObstacleWave();
         }
+        else if (other.gameObject.tag == "Finish")
+        {
+            PlayerController playerS = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            playerS.photonView.RPC("LookAtTarget", RpcTarget.All, gameObject.name, 55555f);
+            Invoke("GameEnd", 6f);
+        }
     }
     public void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Stop")
         {
             currentState = States.Idle;
-        }
-    }
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Stop")
-        {
-            currentState = States.Move;
         }
     }
 }
